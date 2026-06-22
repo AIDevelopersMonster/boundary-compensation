@@ -1,0 +1,35 @@
+Title:
+Finite-Resolution Certification of Non-Identifiability in Reduced Open Quantum System Models: Boundary Compensation Gateway I
+
+Creator:
+A. A. Malachevsky
+ORCID: https://orcid.org/0009-0008-6009-3196
+Affiliation: Independent researcher
+
+Version:
+v0.1.0 manuscript
+
+Publication date:
+2026-06-22
+
+Resource type:
+Preprint / Manuscript
+
+Related software repository:
+https://github.com/AIDevelopersMonster/boundary-compensation
+
+Keywords:
+Boundary Compensation; open quantum systems; reduced channels; Choi matrix; finite-resolution certification; non-identifiability; threshold rank; Kraus support; deterministic tolerance; certificate reset; pure dephasing; mathematical physics; quantum information
+
+Abstract:
+Reduced descriptions of open quantum systems are intrinsically non-identifying: many different bath Hamiltonians, initial bath states, dilations, and microscopic couplings may generate the same reduced channel on the accessible system. This paper introduces a finite-dimensional certification protocol for this non-identifiability using the normalized Choi response object of a reduced channel. For a family of completely positive trace-preserving maps Phi_t, we set B(t)=J(Phi_t)/d_S and study the thresholded Choi-support layer determined by P_tau(B), its effective rank r_tau(B), and the threshold margin g_tau(B). A deterministic tolerance eta defines the certification rule: if g_tau(B)>eta, the threshold-rank layer is stable under operator-norm perturbations of radius eta; if g_tau(B)<=eta, the continuation status is MARGIN_LOW, and a pathwise continuation of the previous support certificate must record CERTIFICATE_RESET before proceeding. The protocol is demonstrated on an exactly solvable two-spin central-spin dephasing model. In the selected parameter regime, the coarse Markovian envelope distance is nearly zero at the very time when the Choi threshold-support certificate fails. Thus small coarse model discrepancy does not imply stable thresholded support certification. The construction does not reconstruct the physical bath, identify a true hidden environment, or interpret certificate reset as a physical event. It provides a deterministic finite-dimensional diagnostic for reduced-channel data under declared thresholds and tolerances.
+
+Controlled claims:
+This manuscript claims a finite-dimensional certification protocol for thresholded Choi-support layers under declared thresholds and deterministic operator-norm tolerances. It shows, in an exactly solvable dephasing demonstrator, that small coarse model discrepancy does not imply stable thresholded support certification.
+
+Non-claims:
+The manuscript does not reconstruct physical baths, identify true hidden environments, equate Choi rank with physical bath dimension, introduce a stochastic noise model, prove an operational channel-distance theorem, or claim that CERTIFICATE_RESET is a physical event.
+
+License suggestion:
+Text: CC BY 4.0
+Code/reproducibility package: MIT License
