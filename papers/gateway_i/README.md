@@ -1,17 +1,23 @@
 # BC-Gateway I
 
-This directory is reserved for the paper package:
+This directory contains manuscript-support material for the paper package:
 
 **Finite-Resolution Certification of Non-Identifiability in Reduced Open Quantum System Models**  
 Boundary Compensation Gateway I  
 A. A. Malachevsky, ORCID: 0009-0008-6009-3196  
-Version: v0.1.0 manuscript, June 22, 2026
+Version: v0.1.0 manuscript, June 22, 2026  
+DOI: https://doi.org/10.5281/zenodo.20801748
+
+Zenodo record:
+
+https://doi.org/10.5281/zenodo.20801748
 
 Status:
 
 - LaTeX manuscript assembled.
 - PDF compiled and render-checked locally.
 - Source package assembled locally.
+- Zenodo publication completed.
 - The paper uses the repository's Gateway I code as the reproducibility layer.
 
 Main numerical reference values:
