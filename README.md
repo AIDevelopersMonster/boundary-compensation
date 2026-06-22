@@ -4,6 +4,15 @@ Public reproducibility layer for the Boundary Compensation finite-resolution cer
 
 This repository provides minimal Python utilities and scripts for reproducible finite-dimensional certification experiments. Its first external demonstrator is **BC-Gateway I**: finite-resolution certification of non-identifiability in reduced open quantum system models.
 
+## Gateway I publication
+
+**Finite-Resolution Certification of Non-Identifiability in Reduced Open Quantum System Models: Boundary Compensation Gateway I**  
+A. A. Malachevsky  
+Version: v0.1.0 manuscript  
+DOI: https://doi.org/10.5281/zenodo.20801748
+
+Manuscript-support material is stored in `papers/gateway_i/`.
+
 ## Gateway I demonstrator
 
 The initial demonstrator uses an exactly solvable two-spin pure-dephasing model. The reproducibility script computes
