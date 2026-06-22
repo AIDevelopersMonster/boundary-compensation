@@ -1,6 +1,9 @@
 Title:
 Finite-Resolution Certification of Non-Identifiability in Reduced Open Quantum System Models: Boundary Compensation Gateway I
 
+DOI:
+https://doi.org/10.5281/zenodo.20801748
+
 Creator:
 A. A. Malachevsky
 ORCID: https://orcid.org/0009-0008-6009-3196
