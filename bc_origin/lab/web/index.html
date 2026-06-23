@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>BC-Origin Shadow Lab</title>
+  <style>
+    :root { --bg:#090b10; --panel:#121722; --ink:#eef4ff; --muted:#9aa8bd; --grid:#283244; --a:#ff6b81; --b:#ffd166; --ok:#6ee7a8; --warn:#ffb86b; --bad:#ff5c7a; }
+    *{box-sizing:border-box} body{margin:0;background:radial-gradient(circle at top,#111827,#06070a 60%);color:var(--ink);font:15px/1.4 system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif}
+    header{padding:24px 28px 8px;display:flex;gap:16px;align-items:flex-end;justify-content:space-between} h1{margin:0;font-size:28px;letter-spacing:.2px}.sub{color:var(--muted);font-size:13px}
+    main{display:grid;grid-template-columns:minmax(360px,1.2fr) minmax(320px,.8fr);gap:18px;padding:16px 28px 28px}.card{background:rgba(18,23,34,.86);border:1px solid #253044;border-radius:18px;padding:18px;box-shadow:0 18px 60px rgba(0,0,0,.35)}
+    .grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}.stat{background:#0d111a;border:1px solid #20293a;border-radius:14px;padding:12px}.label{color:var(--muted);font-size:12px;text-transform:uppercase;letter-spacing:.08em}.value{font-size:21px;font-weight:700;margin-top:3px}.ok{color:var(--ok)}.bad{color:var(--bad)}.warn{color:var(--warn)}
+    canvas{width:100%;height:320px;background:#0a0d13;border:1px solid #222b3b;border-radius:14px}.controls{display:grid;gap:14px}.ctrl{display:grid;grid-template-columns:86px 1fr 58px;gap:10px;align-items:center}.ctrl input[type=range]{width:100%}.box{background:#0b0f17;border:1px solid #273144;border-radius:12px;padding:8px 10px;text-align:right;font-variant-numeric:tabular-nums}.note{color:var(--muted);font-size:13px}.matrix{font-family:ui-monospace,SFMono-Regular,Consolas,monospace;background:#0b0f17;border:1px solid #273144;border-radius:14px;padding:14px;white-space:pre;overflow:auto}.pill{display:inline-block;border:1px solid #2b3850;border-radius:99px;padding:5px 9px;color:#cdd7e8;background:#0b0f17;margin-right:6px}.footer{padding:0 28px 26px;color:var(--muted);font-size:12px}@media(max-width:900px){main{grid-template-columns:1fr}canvas{height:280px}}
+  </style>
+</head>
+<body>
+<header>
+  <div><h1>BC-Origin Shadow Lab</h1><div class="sub">Resonant shadows, oriented winding sign, and signed spectral displacement</div></div>
+  <div><span class="pill">BC-Origin I</span><span class="pill">interactive toy model</span></div>
+</header>
+<main>
+  <section class="card">
+    <canvas id="plot" width="980" height="420"></canvas>
+    <div class="grid" style="margin-top:14px">
+      <div class="stat"><div class="label">orientation product s</div><div id="sVal" class="value"></div></div>
+      <div class="stat"><div class="label">admissibility</div><div id="admVal" class="value"></div></div>
+      <div class="stat"><div class="label">lambda minus</div><div id="lamMinus" class="value"></div></div>
+      <div class="stat"><div class="label">lambda plus</div><div id="lamPlus" class="value"></div></div>
+      <div class="stat"><div class="label">scale minus ell/L</div><div id="scaleMinus" class="value"></div></div>
+      <div class="stat"><div class="label">scale plus ell/L</div><div id="scalePlus" class="value"></div></div>
+    </div>
+  </section>
+  <aside class="card">
+    <div class="controls" id="controls"></div>
+    <h3>Signed operator</h3>
+    <div id="matrix" class="matrix"></div>
+    <p class="note"><b>Interpretation:</b> same orientation raises inverse-scale denominators and compresses shadows. Opposite orientation lowers denominators and may push a branch to the admissibility horizon.</p>
+  </aside>
+</main>
+<div class="footer">Model: D = [[d1 + gamma*s, kappa], [kappa, d2 + gamma*s]], s = sign(n1*n2). Localized shadow requires lambda &gt; 0.</div>
+<script>
+const params={n1:1,n2:1,gamma:1.0,kappa:1.0,d1:3.0,d2:5.0,mu:1.0};
+const spec={n1:[-5,5,1],n2:[-5,5,1],gamma:[0,6,.1],kappa:[0,4,.1],d1:[.2,10,.1],d2:[.2,10,.1],mu:[.1,5,.1]};
+function sign(x){return x>0?1:x<0?-1:0} function fmt(x){return Number.isFinite(x)?x.toFixed(3):'∞'}
+function calc(p=params){const s=sign(p.n1*p.n2);const base=(p.d1+p.d2)/2+p.gamma*s;const r=Math.sqrt(((p.d1-p.d2)/2)**2+p.kappa**2);return {s,base,r,lm:base-r,lp:base+r,sm:(base-r)>0?p.mu/(base-r):Infinity,sp:(base+r)>0?p.mu/(base+r):Infinity}}
+function makeControls(){const root=document.getElementById('controls');root.innerHTML='';for(const k of Object.keys(spec)){const [min,max,step]=spec[k];const row=document.createElement('div');row.className='ctrl';row.innerHTML=`<label>${k}</label><input id="${k}" type="range" min="${min}" max="${max}" step="${step}" value="${params[k]}"><div class="box" id="${k}Box">${params[k]}</div>`;root.appendChild(row);row.querySelector('input').addEventListener('input',e=>{params[k]=Number(e.target.value);document.getElementById(k+'Box').textContent=params[k];update()})}}
+function draw(){const c=document.getElementById('plot'),ctx=c.getContext('2d'),W=c.width,H=c.height;ctx.clearRect(0,0,W,H);ctx.fillStyle='#0a0d13';ctx.fillRect(0,0,W,H);const m={l:70,r:40,t:40,b:70};const xmin=-8,xmax=14,y=H/2;function x(v){return m.l+(v-xmin)/(xmax-xmin)*(W-m.l-m.r)}ctx.strokeStyle='#273144';ctx.lineWidth=1;for(let t=xmin;t<=xmax;t+=2){ctx.beginPath();ctx.moveTo(x(t),m.t);ctx.lineTo(x(t),H-m.b);ctx.stroke();ctx.fillStyle='#9aa8bd';ctx.font='13px system-ui';ctx.textAlign='center';ctx.fillText(t,x(t),H-m.b+24)}ctx.strokeStyle='#526176';ctx.beginPath();ctx.moveTo(x(0),m.t);ctx.lineTo(x(0),H-m.b);ctx.stroke();const z=calc();ctx.fillStyle='rgba(113,151,207,.20)';ctx.fillRect(x(0),m.t,x(Math.max(z.lm,0))-x(0),H-m.b-m.t);function marker(v,col,lab){const xx=x(v);ctx.strokeStyle=col;ctx.lineWidth=4;ctx.beginPath();ctx.moveTo(xx,m.t);ctx.lineTo(xx,H-m.b);ctx.stroke();ctx.fillStyle=col;ctx.beginPath();ctx.arc(xx,y,8,0,Math.PI*2);ctx.fill();ctx.fillStyle='#eef4ff';ctx.font='bold 14px system-ui';ctx.textAlign='center';ctx.fillText(lab,xx,m.t-12)}marker(z.lm,'#ff6b81','λ−');marker(z.lp,'#ffd166','λ+');ctx.fillStyle='#eef4ff';ctx.font='17px system-ui';ctx.textAlign='left';ctx.fillText('Observable inverse-scale spectrum',m.l,m.t-18);ctx.fillStyle='#c9d5e8';ctx.font='13px system-ui';ctx.fillText('positive localized-shadow region',x(.25),H-m.b-14)}
+function update(){const z=calc();document.getElementById('sVal').textContent=z.s;document.getElementById('sVal').className='value '+(z.s>0?'ok':z.s<0?'warn':'bad');document.getElementById('admVal').textContent=(z.lm>0&&z.lp>0)?'localized':'horizon crossed';document.getElementById('admVal').className='value '+((z.lm>0&&z.lp>0)?'ok':'bad');document.getElementById('lamMinus').textContent=fmt(z.lm);document.getElementById('lamPlus').textContent=fmt(z.lp);document.getElementById('scaleMinus').textContent=fmt(z.sm);document.getElementById('scalePlus').textContent=fmt(z.sp);document.getElementById('matrix').textContent=`s = sign(n1*n2) = ${z.s}\n\nD_signed = [ [${fmt(params.d1+params.gamma*z.s)}, ${fmt(params.kappa)}],\n             [${fmt(params.kappa)}, ${fmt(params.d2+params.gamma*z.s)}] ]\n\nλ± = ${(z.base).toFixed(3)} ± ${(z.r).toFixed(3)}`;draw()}
+makeControls();update();
+</script>
+</body>
+</html>
