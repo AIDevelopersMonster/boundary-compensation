@@ -27,31 +27,47 @@ BC-Origin: hidden residual generator -> observable shadow
 
 ## First practical target
 
-The first practical target is a minimal resonant-shadow model.
+The first practical target is a minimal resonant-shadow model with oriented winding.
 
-A hidden generator is represented by an index-cycle pair
+A hidden generator is represented by an index-winding pair
 
 ```text
-h = (q, c)
+h = (q, n)
 ```
 
-where `q` is an index-like residual charge and `c` is a cyclic closure number. The observable shadow is selected by a phase closure equation:
+where `q` is an index-like residual charge and `n` is an oriented winding number. The observable shadow separates the hidden winding into two channels:
 
 ```text
-(lambda_q(ell) * L) + theta(q) = 2*pi*c
+scale channel: |n|
+sign channel:  sign(n)
+```
+
+The one-generator closure equation is
+
+```text
+(lambda_q(ell) * L) + theta(q) = 2*pi*|n|
 lambda_q(ell) = mu_q / ell
 ```
 
 This gives the observable scale ratio
 
 ```text
-ell / L = mu_q / (2*pi*c - theta(q))
+ell / L = mu_q / (2*pi*|n| - theta(q))
 ```
 
-The first two experiments are:
+The two-generator signed-shadow model uses
 
-1. one hidden generator -> one observable scale-selected shadow;
-2. two hidden generators -> interacting shadows with index-dependent splitting.
+```text
+s = sign(n1*n2)
+D_signed = [[d1 + gamma*s, kappa],
+            [kappa,        d2 + gamma*s]]
+```
+
+with three core effects:
+
+1. orientation-controlled shadow localization;
+2. admissibility horizon;
+3. coupling-induced shadow gap.
 
 ## Repository layout
 
@@ -62,6 +78,15 @@ bc_origin/
     00_program_definition.md
     01_article_skeleton.md
     02_experiment_protocol.md
+    03_core_effects.md
+  lab/
+    README.md
+    web/
+      index.html
+    python/
+      bc_origin_visual_core.py
+      generate_visuals.py
+    streamlit_app.py
   prompts/
     README.md
     01_strong_theory_builder.md
@@ -69,6 +94,26 @@ bc_origin/
     03_formal_math_reviewer.md
     04_computational_experimenter.md
     05_publication_auditor.md
+```
+
+## Visual lab
+
+Standalone browser GUI:
+
+```text
+bc_origin/lab/web/index.html
+```
+
+Static visual generation:
+
+```bash
+python bc_origin/lab/python/generate_visuals.py --out bc_origin/lab/outputs
+```
+
+Optional Streamlit GUI:
+
+```bash
+streamlit run bc_origin/lab/streamlit_app.py
 ```
 
 ## Research posture
