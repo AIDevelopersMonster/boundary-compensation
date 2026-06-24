@@ -1,0 +1,24 @@
+BC-Origin III v0.1.0 clean package
+
+Manuscript:
+  manuscript/BC-Origin-III-v0.1.0-manuscript.pdf
+  manuscript/BC-Origin-III-v0.1.0-manuscript.tex
+
+Python software:
+  origin_iii/software/bc_origin_iii_holonomy_core.py
+  origin_iii/software/generate_bc_origin_iii_figures.py
+
+Generated figures:
+  origin_iii/figures/triangle_holonomy_spectra.png
+  origin_iii/figures/balanced_vs_frustrated_heatmaps.png
+  origin_iii/figures/cycle_holonomy_product.png
+  origin_iii/figures/flow_avoided_crossing_horizon.png
+
+Standalone Flow Lab GUI:
+  origin_flow/web/index.html
+
+Run from package root:
+  python origin_iii/software/generate_bc_origin_iii_figures.py --out origin_iii/figures
+
+Install dependencies if needed:
+  python -m pip install -r requirements.txt
