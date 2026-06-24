@@ -1,0 +1,482 @@
+\documentclass[11pt]{article}
+\usepackage[a4paper,margin=1in]{geometry}
+\usepackage{amsmath,amssymb,amsthm,mathtools}
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{hyperref}
+\usepackage{enumitem}
+\usepackage{microtype}
+\usepackage{xcolor}
+\graphicspath{{../software/origin_iii/figures/}}
+\hypersetup{colorlinks=true,linkcolor=blue,citecolor=blue,urlcolor=blue}
+
+\newtheorem{definition}{Definition}
+\newtheorem{proposition}{Proposition}
+\newtheorem{theorem}{Theorem}
+\newtheorem{lemma}{Lemma}
+\newtheorem{remark}{Remark}
+\newtheorem{example}{Example}
+
+\newcommand{\Ztwo}{\mathbb Z_2}
+\newcommand{\sgn}{\operatorname{sgn}}
+\newcommand{\spec}{\operatorname{spec}}
+\newcommand{\diag}{\operatorname{diag}}
+\newcommand{\lambdaMin}{\lambda_{\min}}
+
+\title{Boundary Compensation Origin III:\\
+Non-Factorizable Holonomy and Frustrated Multi-Shadow Spectral Geometry\\
+\large Edge Signs, Cycle Products, Gauge Classes and Horizon Diagnostics in Structural Shadow Operators}
+\author{A. A. Malachevsky\\
+Independent researcher\\
+Boundary Compensation Origin Program (BC-Origin / BC-O)}
+\date{Version v0.1.0-manuscript draft, June 2026}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+BC-Origin I introduced a minimal constructive toy model in which observable shadows arise from hidden oriented residual generators. In that model a hidden index-winding pair $h=(q,n)$ produces a scale channel $|n|$, an orientation channel $\sgn(n)$, a structural scale denominator, and a signed two-shadow spectral operator. BC-Origin II replaced the free pairwise coupling constant $\kappa$ by a structural kernel $K_{ij}=K(n_i,n_j)$ on hidden winding-index space. It also identified a limitation of the baseline sign rule: the signs $s_{ij}=\sgn(n_i n_j)$ are vertex-factorizable and therefore balanced on every cycle. Consequently, BC-Origin II does not produce genuine cycle-level frustration without additional non-factorizable edge data.
+
+The present paper develops the next finite-dimensional toy-model layer. We introduce a symmetric edge-holonomy field $\varepsilon_{ij}\in\{-1,+1\}$ on the coupling graph and distinguish vertex-factorizable signs from non-factorizable cycle data. Under vertex reorientation, $\varepsilon_{ij}\mapsto g_i\varepsilon_{ij}g_j$, while the cycle product
+\[
+\Omega_C=\prod_{(ij)\in C}\varepsilon_{ij}
+\]
+is invariant. A sign field is balanced precisely when all cycle products are $+1$; a cycle with $\Omega_C=-1$ carries a non-removable $\mathbb Z_2$ holonomy and is frustrated in the finite-dimensional graph sense used here.
+
+The baseline BC-Origin III operator is the holonomy-weighted off-diagonal multi-shadow operator
+\[
+(D^{\rm hol}_N)_{ii}=d_i,\qquad
+(D^{\rm hol}_N)_{ij}=\eta\,\chi_{ij}K_{ij},\quad i\ne j,
+\]
+where $\chi_{ij}=\sigma_i\varepsilon_{ij}\sigma_j$ and $\sigma_i=\sgn(n_i)$. This convention keeps the core spectral statements gauge-clean: vertex reorientation changes the matrix by orthogonal conjugation and hence preserves its spectrum. For an identical three-shadow complete graph with edge magnitude $k$, the balanced triangle has spectral type
+\[
+d+2\eta k,\quad d-\eta k,\quad d-\eta k,
+\]
+whereas a frustrated triangle has
+\[
+d+\eta k,
+\quad d+\eta k,
+\quad d-2\eta k.
+\]
+Thus non-factorizable holonomy changes the spectral class of the multi-shadow operator and changes the admissibility-horizon margins of the toy shadows.
+
+The construction is a finite-dimensional structural model. It is not a physical lattice gauge theory, not a spin-glass model of matter, not a derivation of particle physics, not a theory of physical time, and not an empirical claim. Its controlled contribution is to show how the structural-kernel shadow geometry of BC-Origin II acquires genuine cycle-level obstruction once non-factorizable edge holonomy is admitted.
+\end{abstract}
+
+\paragraph{Keywords.}
+Boundary Compensation; BC-Origin; structural kernels; edge holonomy; graph frustration; finite-dimensional spectral geometry; hidden winding index; admissibility horizon; toy model; gauge equivalence.
+
+\paragraph{Software repository.}
+The accompanying computational companion is intended for the public repository
+\url{https://github.com/AIDevelopersMonster/boundary-compensation}.
+
+\paragraph{Author responsibility note.}
+The author is the sole responsible scientific decision maker. AI-assisted tools may have been used for technical drafting, structuring, consistency checks, software scaffolding, and LaTeX preparation. AI-assisted tools are not authors or coauthors.
+
+\tableofcontents
+
+\section{Introduction}
+
+The BC-Origin branch asks whether observable elementary structures can be modeled as non-fundamental shadows of hidden residual generators. The first two modules established the minimal static architecture.
+
+BC-Origin I introduced the hidden generator
+\begin{equation}
+ h=(q,n),\qquad n\in\mathbb Z\setminus\{0\},
+\end{equation}
+with two observable channels:
+\begin{equation}
+ n\longmapsto (|n|,\sgn(n)).
+\end{equation}
+The scale channel enters a closure denominator
+\begin{equation}
+ d_i=2\pi |n_i|-\theta(|q_i|),
+\end{equation}
+and the orientation channel enters a signed two-shadow operator. In that minimal model, observable scale ratios are interpreted as
+\begin{equation}
+ S_a=\frac{\mu_{\rm eff}}{\lambda_a},\qquad \lambda_a>0,
+\end{equation}
+where $\lambda_a$ is an eigen-denominator. The admissibility horizon is the condition $\lambda_a=0$: as $\lambda_a\to0^+$ the scale ratio diverges and the branch no longer defines a localized shadow inside the toy model.
+
+BC-Origin II addressed the main weakness of the first model. The off-diagonal coupling $\kappa$ should not be chosen independently for every pair of shadows. The central replacement was
+\begin{equation}
+ \kappa\longrightarrow \kappa_{ij}=K(n_i,n_j),
+\end{equation}
+where $K$ is a declared structural kernel on hidden winding-index space. This replacement converts pairwise numerical fitting into a structural rule.
+
+However, BC-Origin II also revealed a new limitation. Its baseline sign rule
+\begin{equation}
+ s_{ij}=\sgn(n_i n_j)=\sigma_i\sigma_j,
+ \qquad \sigma_i:=\sgn(n_i),
+\end{equation}
+is vertex-factorizable. Every cycle product is $+1$. Therefore the baseline graph is balanced and cannot produce genuine cycle-level frustration. The present paper closes exactly this gap.
+
+The new object is an edge-holonomy field
+\begin{equation}
+ \varepsilon_{ij}=\varepsilon_{ji}\in\{-1,+1\},
+\end{equation}
+which is not assumed to be expressible as a product of vertex signs. This is the minimal additional structure needed to make the multi-shadow graph carry a non-removable cycle obstruction.
+
+\section{Scope and non-scope}
+
+The paper is deliberately narrow. It studies finite-dimensional real symmetric toy operators on a finite graph of shadows. Words such as ``holonomy'', ``gauge'', and ``frustration'' are used in their graph-theoretic and finite-dimensional toy-model sense.
+
+The paper does not claim:
+\begin{itemize}[leftmargin=2em]
+\item to construct physical gauge fields;
+\item to derive a real spin-glass material;
+\item to produce particle masses or Standard-Model data;
+\item to define physical time or dynamics;
+\item to validate the BC-Origin program empirically.
+\end{itemize}
+
+The positive claim is smaller and sharper: non-factorizable edge holonomy is the minimal graph-level extension of BC-Origin II required for genuine cycle obstruction in the structural multi-shadow operator.
+
+\section{Hidden winding labels, kernels and baseline signs}
+
+Let
+\begin{equation}
+ I_N=\{n_1,\ldots,n_N\}\subset \mathbb Z\setminus\{0\}
+\end{equation}
+be a finite set of hidden winding labels. A declared kernel gives a symmetric matrix
+\begin{equation}
+ K_{ij}=K(n_i,n_j),\qquad K_{ij}=K_{ji},\qquad K_{ii}=1.
+\end{equation}
+Examples include the index-space Lorentzian kernel
+\begin{equation}
+ K_{ij}=\frac{1}{1+(n_i-n_j)^2}
+\end{equation}
+and the exponential kernel
+\begin{equation}
+ K_{ij}=e^{-\alpha |n_i-n_j|}.
+\end{equation}
+These are declared index-space kernels unless an independent hidden geometry is supplied. In particular, the Lorentzian expression should not be confused with an off-diagonal Fourier matrix element of $(1-\Delta_{S^1})^{-1}$ between pure Fourier modes.
+
+The baseline orientation signs are
+\begin{equation}
+ \sigma_i=\sgn(n_i),\qquad s_{ij}=\sigma_i\sigma_j.
+\end{equation}
+For any cycle $C=(i_1i_2\cdots i_m i_1)$,
+\begin{equation}
+ \prod_{r=1}^{m}s_{i_r i_{r+1}}
+ =\prod_{r=1}^{m}\sigma_{i_r}\sigma_{i_{r+1}}
+ =\prod_{r=1}^{m}\sigma_{i_r}^{2}=+1.
+\end{equation}
+Thus the baseline BC-Origin II sign graph is always balanced.
+
+\section{Edge holonomy and vertex gauge}
+
+Let $G=(V,E)$ be an undirected finite graph whose vertices represent shadows. Edges represent declared structural couplings.
+
+\begin{definition}[Edge holonomy field]
+A $\mathbb Z_2$ edge-holonomy field on $G$ is a symmetric assignment
+\begin{equation}
+ \varepsilon_{ij}=\varepsilon_{ji}\in\{-1,+1\},\qquad (ij)\in E.
+\end{equation}
+\end{definition}
+
+A vertex reorientation is a choice
+\begin{equation}
+ g_i\in\{-1,+1\},\qquad i\in V.
+\end{equation}
+It acts on edge signs by
+\begin{equation}
+ \varepsilon_{ij}\longmapsto \varepsilon'_{ij}=g_i\varepsilon_{ij}g_j.
+\end{equation}
+This transformation is a finite graph analogue of a gauge change. It changes local edge representatives but not the cycle obstruction.
+
+\begin{definition}[Cycle product]
+For a cycle $C=(i_1i_2\cdots i_m i_1)$, define
+\begin{equation}
+ \Omega_C(\varepsilon)=\prod_{r=1}^{m}\varepsilon_{i_r i_{r+1}}.
+\end{equation}
+The cycle is balanced if $\Omega_C=+1$ and frustrated if $\Omega_C=-1$.
+\end{definition}
+
+\begin{proposition}[Gauge invariance of cycle products]
+For every vertex reorientation $g_i\in\{-1,+1\}$,
+\begin{equation}
+ \Omega_C(\varepsilon')=\Omega_C(\varepsilon).
+\end{equation}
+\end{proposition}
+
+\begin{proof}
+Substituting $\varepsilon'_{ij}=g_i\varepsilon_{ij}g_j$ gives
+\begin{equation}
+ \prod_{r=1}^{m}g_{i_r}\varepsilon_{i_r i_{r+1}}g_{i_{r+1}}
+ =\left(\prod_{r=1}^{m}\varepsilon_{i_r i_{r+1}}\right)
+  \left(\prod_{r=1}^{m}g_{i_r}^{2}\right)
+ =\Omega_C(\varepsilon),
+\end{equation}
+because $g_i^2=1$.
+\end{proof}
+
+\begin{theorem}[Balanced sign fields]
+A $\mathbb Z_2$ edge field on a connected graph is vertex-factorizable,
+\begin{equation}
+ \varepsilon_{ij}=h_i h_j
+\end{equation}
+for some vertex signs $h_i\in\{-1,+1\}$, if and only if all cycle products are $+1$.
+\end{theorem}
+
+\begin{proof}
+If $\varepsilon_{ij}=h_i h_j$, then the product around any cycle telescopes to $\prod_i h_i^2=1$.
+
+Conversely, choose a root vertex $r$ and set $h_r=1$. For any vertex $v$, define $h_v$ as the product of edge signs along any path from $r$ to $v$. The all-cycle-positive condition makes this path-independent: two different paths form a closed cycle after reversing one path, whose product is $+1$. Therefore $h_i h_j=\varepsilon_{ij}$ for every edge.
+\end{proof}
+
+This theorem is the formal reason BC-Origin II could not generate genuine frustration using only $s_{ij}=\sigma_i\sigma_j$.
+
+\section{Holonomy-weighted multi-shadow operator}
+
+The complete sign entering the holonomy-weighted operator is
+\begin{equation}
+ \chi_{ij}=\sigma_i\varepsilon_{ij}\sigma_j.
+\end{equation}
+Because the baseline $\sigma_i\sigma_j$ is itself vertex-factorizable, the non-removable cycle information is carried entirely by $\varepsilon$.
+
+The preferred BC-Origin III baseline is the gauge-clean off-diagonal operator
+\begin{equation}
+ (D^{\rm hol}_N)_{ii}=d_i,
+\end{equation}
+\begin{equation}
+ (D^{\rm hol}_N)_{ij}=\eta\,\chi_{ij}K_{ij},\qquad i\ne j.
+\end{equation}
+The adjective ``gauge-clean'' means the following. If vertex signs are changed by $g_i$, define the diagonal orthogonal matrix
+\begin{equation}
+ G=\diag(g_1,\ldots,g_N).
+\end{equation}
+Then the transformed operator is
+\begin{equation}
+ D' = G D G.
+\end{equation}
+Therefore
+\begin{equation}
+ \spec(D')=\spec(D).
+\end{equation}
+Only gauge-invariant cycle data can affect the spectral class.
+
+\begin{remark}[Diagonal signed-shift variant]
+One can also study a convention-dependent diagonal-shift variant
+\begin{equation}
+ (D^{\rm diag}_N)_{ii}=d_i+\gamma\sum_{j\ne i}\chi_{ij}K_{ij}.
+\end{equation}
+This variant is useful as a diagnostic model, but row sums of edge signs are not gauge-invariant. The baseline spectral theorems in this paper therefore use the off-diagonal holonomy operator.
+\end{remark}
+
+\section{Minimal triangle example}
+
+The smallest graph with possible frustration is a triangle. Take three identical shadows:
+\begin{equation}
+ d_1=d_2=d_3=d,
+\end{equation}
+and equal edge magnitude
+\begin{equation}
+ K_{ij}=k,\\qquad i\ne j.
+\end{equation}
+Absorb $\eta k$ into a single coupling scale.
+
+\subsection{Balanced triangle}
+
+For the balanced representative $\varepsilon_{12}=\varepsilon_{23}=\varepsilon_{13}=+1$, the operator is
+\begin{equation}
+ D_{\rm bal}=dI+\eta k
+ \begin{pmatrix}
+ 0&1&1\\
+ 1&0&1\\
+ 1&1&0
+ \end{pmatrix}.
+\end{equation}
+Its spectrum is
+\begin{equation}
+ \spec(D_{\rm bal})=\{d+2\eta k,\ d-\eta k,\ d-\eta k\}.
+\end{equation}
+
+\subsection{Frustrated triangle}
+
+For a frustrated representative, choose
+\begin{equation}
+ \varepsilon_{12}=+1,\qquad \varepsilon_{23}=+1,\qquad \varepsilon_{13}=-1.
+\end{equation}
+Then
+\begin{equation}
+ \Omega_{123}=\varepsilon_{12}\varepsilon_{23}\varepsilon_{13}=-1.
+\end{equation}
+The operator is
+\begin{equation}
+ D_{\rm fr}=dI+\eta k
+ \begin{pmatrix}
+ 0&1&-1\\
+ 1&0&1\\
+ -1&1&0
+ \end{pmatrix}.
+\end{equation}
+Its spectrum is
+\begin{equation}
+ \spec(D_{\rm fr})=\{d+\eta k,\ d+\eta k,\ d-2\eta k\}.
+\end{equation}
+Thus the frustrated cycle changes the spectral type. It is not just a relabeling of local signs.
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=.92\linewidth]{triangle_holonomy_spectra.png}
+\caption{Balanced and frustrated triangle spectral types as the edge scale $\eta k$ is varied. The frustrated class has a different horizon margin: its lowest denominator is $d-2\eta k$ rather than $d-\eta k$.}
+\end{figure}
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=.88\linewidth]{balanced_vs_frustrated_heatmaps.png}
+\caption{Minimal triangle operators. The frustrated class cannot be converted to the balanced class by vertex reorientation because the cycle product is $-1$.}
+\end{figure}
+
+\section{Admissibility horizon and localization price}
+
+BC-Origin I interpreted positive eigen-denominators through observable scale ratios
+\begin{equation}
+ S_a=\frac{\mu_{\rm eff}}{\lambda_a},\qquad \lambda_a>0.
+\end{equation}
+Therefore spectral splitting is not merely a drawing of lines on a graph. It changes the localization scale of observable shadows.
+
+The structural gap between eigen-denominators can be read as a finite-dimensional localization price: hidden coupling prevents exact degeneracy, separates the spectral branches, and thereby compresses one branch while pushing another toward the horizon.
+
+For the minimal two-shadow model
+\begin{equation}
+ D(t)=
+ \begin{pmatrix}
+ d_1(t)&\kappa\\
+ \kappa&d_2(t)
+ \end{pmatrix},
+\end{equation}
+the eigen-denominators are
+\begin{equation}
+ \lambda_\pm(t)=\frac{d_1(t)+d_2(t)}{2}
+ \pm \sqrt{\left(\frac{d_1(t)-d_2(t)}{2}\right)^2+\kappa^2}.
+\end{equation}
+If $\kappa\ne0$, the branches avoid crossing. This is Landau-Zener-type avoided-crossing geometry in a finite-dimensional toy operator. It is not, by itself, a Landau-Zener transition-probability model and it is not a physical time-evolution law.
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=.88\linewidth]{flow_avoided_crossing_horizon.png}
+\caption{Companion flow-lab intuition. A nonzero structural coupling creates avoided-crossing geometry. The lower branch may approach the admissibility horizon $\lambda=0$; this is a toy-model horizon event, not a claim of physical annihilation.}
+\end{figure}
+
+In BC-Origin III this observation is used only as interpretation. The main theorem-level content remains the graph-holonomy classification and its spectral consequences.
+
+\section{Relation to the Flow Lab}
+
+The software companion contains two layers.
+
+The first layer is the BC-Origin III holonomy calculation package. It generates the triangle spectra, cycle-product diagnostics and heatmaps used in this manuscript.
+
+The second layer is an optional BC-Origin Flow Lab. It visualizes a two-shadow parameter-flow toy model with avoided crossing and horizon crossing. This Flow Lab is a preview direction for a later BC-Origin IV article. The flow parameter should be read as a controlled deformation parameter, not automatically as physical time.
+
+This separation prevents the present paper from mixing two claims:
+\begin{enumerate}[leftmargin=2em]
+\item BC-Origin III: non-factorizable edge holonomy creates genuine cycle obstruction.
+\item BC-Origin Flow/IV: parameter-dependent shadow operators can show avoided crossings and horizon events.
+\end{enumerate}
+The first claim is the article's formal contribution. The second is a visual and conceptual companion.
+
+\section{Controlled claims}
+
+The paper claims:
+\begin{enumerate}[leftmargin=2em]
+\item The baseline BC-Origin II sign rule is balanced because it is vertex-factorizable.
+\item A non-factorizable edge-holonomy field $\varepsilon_{ij}$ is the minimal $\mathbb Z_2$ graph extension required for frustrated cycle products.
+\item Cycle products $\Omega_C$ are invariant under vertex reorientation.
+\item A connected graph sign field is vertex-factorizable if and only if every cycle product is $+1$.
+\item The holonomy-weighted off-diagonal shadow operator has gauge-invariant spectral classes under vertex sign changes.
+\item The minimal triangle has different balanced and frustrated spectral types.
+\item These spectral differences change toy-model admissibility-horizon margins.
+\end{enumerate}
+
+\section{Non-claims and limitations}
+
+The paper does not claim:
+\begin{enumerate}[leftmargin=2em]
+\item that $\varepsilon_{ij}$ is a real physical gauge field;
+\item that the model is a lattice gauge theory;
+\item that it derives real spin-glass physics;
+\item that spectral gaps are particle masses;
+\item that horizon crossing is physical annihilation;
+\item that the Flow Lab defines physical time;
+\item that the model has empirical validation;
+\item that it reconstructs a true hidden sector.
+\end{enumerate}
+
+The entire construction remains a finite-dimensional structural-existence model.
+
+\section{Software appendix}
+
+The accompanying software package has the following suggested structure:
+\begin{verbatim}
+bc_origin/origin_iii/
+  README.md
+  software/
+    bc_origin_iii_holonomy_core.py
+    generate_bc_origin_iii_figures.py
+  figures/
+    triangle_holonomy_spectra.png
+    balanced_vs_frustrated_heatmaps.png
+    cycle_holonomy_product.png
+    flow_avoided_crossing_horizon.png
+
+bc_origin/origin_flow/
+  README.md
+  web/
+    index.html
+\end{verbatim}
+
+The holonomy figures are generated by
+\begin{verbatim}
+python software/generate_bc_origin_iii_figures.py --out figures
+\end{verbatim}
+from the $\texttt{bc\_origin/origin\_iii}$ folder.
+
+The Flow Lab is a standalone browser file and can be opened directly:
+\begin{verbatim}
+bc_origin/origin_flow/web/index.html
+\end{verbatim}
+
+\section{Conclusion}
+
+BC-Origin I showed that a hidden oriented residual generator can produce a toy observable shadow with scale, sign and local admissibility. BC-Origin II replaced pairwise fitted coupling by structural kernels on hidden winding-index space. BC-Origin III adds the next minimal layer: non-factorizable edge holonomy.
+
+The main result is conceptual and finite-dimensional. If all signs are products of vertex labels, the graph is balanced and frustration is absent. If an edge-holonomy field has a negative cycle product, no vertex reorientation can remove it. This non-removable cycle data changes the spectral class of the multi-shadow operator and therefore changes the localization margins of the observable toy shadows.
+
+The programmatic role of BC-Origin III is to open a controlled path from structural kernels to frustrated spectral geometry, while keeping the stronger dynamical interpretation for the separate Flow Lab and a later BC-Origin IV module.
+
+\begin{thebibliography}{9}
+
+\bibitem{BCOriginI}
+A. A. Malachevsky,
+\emph{Boundary Compensation Origin I: Oriented Winding Shadows, Structural Scale Selection, and Signed Spectral Localization},
+BC-Origin Program preprint, 2026.
+
+\bibitem{BCOriginII}
+A. A. Malachevsky,
+\emph{Boundary Compensation Origin II: Structural Coupling Kernels and Multi-Shadow Spectral Geometry},
+BC-Origin Program preprint, 2026.
+
+\bibitem{BCVIII}
+A. A. Malachevsky,
+\emph{Boundary Compensation VIII: Parameter Flow of Induced Gap Spectra and Sector-Weight Transport},
+Boundary Compensation research programme, 2026.
+
+\bibitem{Bollobas}
+B. Bollobas,
+\emph{Modern Graph Theory},
+Springer, 1998.
+
+\bibitem{Zaslavsky}
+T. Zaslavsky,
+Signed graphs,
+\emph{Discrete Applied Mathematics} 4 (1982), 47--74.
+
+\bibitem{Kato}
+T. Kato,
+\emph{Perturbation Theory for Linear Operators},
+Springer, 1995.
+
+\end{thebibliography}
+
+\end{document}

@@ -1,0 +1,317 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>BC-Origin Flow Lab: Динамика Теней</title>
+  <style>
+    :root {
+      --bg: #090b10;
+      --panel: #121722;
+      --ink: #eef4ff;
+      --muted: #9aa8bd;
+      --grid: #283244;
+      --ok: #6ee7a8;
+      --warn: #ffb86b;
+      --bad: #ff5c7a;
+      --blue: #3b82f6;
+      --curve1: #ffd166;
+      --curve2: #ff6b81;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      background: radial-gradient(circle at top, #111827, #06070a 60%);
+      color: var(--ink);
+      font: 15px/1.4 system-ui, -apple-system, sans-serif;
+      min-height: 100vh;
+    }
+    header {
+      padding: 20px 28px;
+      display: flex;
+      gap: 16px;
+      align-items: flex-end;
+      justify-content: space-between;
+      border-bottom: 1px solid var(--grid);
+      background: rgba(18,23,34,0.5);
+    }
+    h1 { margin: 0; font-size: 24px; letter-spacing: 0.2px; }
+    .sub { color: var(--muted); font-size: 13px; margin-top: 4px; }
+    .pill {
+      border: 1px solid #2b3850; border-radius: 99px;
+      padding: 4px 10px; color: #cdd7e8; background: #0b0f17; font-size: 12px;
+    }
+    
+    main {
+      display: grid;
+      grid-template-columns: 340px 1fr;
+      gap: 20px;
+      padding: 24px 28px;
+    }
+    .card {
+      background: rgba(18,23,34,0.86);
+      border: 1px solid #253044;
+      border-radius: 16px;
+      padding: 20px;
+      box-shadow: 0 12px 40px rgba(0,0,0,0.3);
+    }
+    h3 { margin: 0 0 16px 0; font-size: 16px; border-bottom: 1px solid #273144; padding-bottom: 8px;}
+    
+    .ctrl-group { margin-bottom: 14px; }
+    .ctrl-group label { display: flex; justify-content: space-between; font-size: 13px; color: var(--muted); margin-bottom: 6px; }
+    .slider-row { display: flex; align-items: center; gap: 10px; }
+    .slider-row input[type="range"] { flex: 1; }
+    .val-box { 
+      background: #0b0f17; border: 1px solid #273144; border-radius: 6px; 
+      width: 48px; text-align: center; font-family: monospace; font-size: 13px; padding: 4px 0;
+    }
+    
+    .status-panel { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 16px; }
+    .stat { background: #0b0f17; border: 1px solid #273144; border-radius: 8px; padding: 12px; text-align: center; }
+    .stat .val { font-size: 18px; font-weight: bold; margin-top: 4px; font-family: monospace; }
+    .ok { color: var(--ok); } .bad { color: var(--bad); } .warn { color: var(--warn); }
+
+    .matrix-box {
+      font-family: monospace; background: #0b0f17; border: 1px solid #273144; 
+      border-radius: 8px; padding: 12px; white-space: pre; font-size: 14px; margin-top: 10px;
+    }
+
+    .canvas-container { position: relative; width: 100%; height: 450px; background: #0a0d13; border: 1px solid #222b3b; border-radius: 12px; }
+    canvas { width: 100%; height: 100%; display: block; }
+    
+    .time-scrubber { margin-top: 20px; }
+    .time-scrubber input { width: 100%; cursor: ew-resize; accent-color: var(--blue); }
+
+    .note { font-size: 12px; color: var(--muted); line-height: 1.5; margin-top: 10px; }
+
+    @media(max-width: 900px) { main { grid-template-columns: 1fr; } }
+  </style>
+</head>
+<body>
+
+<header>
+  <div>
+    <h1>BC-Origin Flow Lab</h1>
+    <div class="sub">Параметрическое течение, Avoided Crossings и События Горизонта</div>
+  </div>
+  <div>
+    <span class="pill">BC-Origin IV Preview</span>
+  </div>
+</header>
+
+<main>
+  <aside class="card">
+    <h3>Параметры Деформации</h3>
+    
+    <!-- Скорость фазы 1 -->
+    <div class="ctrl-group">
+      <label><span>Скорость тени 1 (v₁)</span></label>
+      <div class="slider-row">
+        <input type="range" id="v1" min="-2" max="2" step="0.1" value="1.0">
+        <div class="val-box" id="v1_val">1.0</div>
+      </div>
+    </div>
+
+    <!-- Скорость фазы 2 -->
+    <div class="ctrl-group">
+      <label><span>Скорость тени 2 (v₂)</span></label>
+      <div class="slider-row">
+        <input type="range" id="v2" min="-2" max="2" step="0.1" value="-0.5">
+        <div class="val-box" id="v2_val">-0.5</div>
+      </div>
+    </div>
+
+    <!-- Ядро связи Kappa -->
+    <div class="ctrl-group">
+      <label><span>Структурное ядро (κ)</span></label>
+      <div class="slider-row">
+        <input type="range" id="kappa" min="0" max="3" step="0.1" value="0.8">
+        <div class="val-box" id="kappa_val">0.8</div>
+      </div>
+    </div>
+
+    <!-- Базовые сдвиги -->
+    <div class="ctrl-group">
+      <label><span>Стартовый масштаб (d₀)</span></label>
+      <div class="slider-row">
+        <input type="range" id="d0" min="0" max="10" step="0.5" value="5.0">
+        <div class="val-box" id="d0_val">5.0</div>
+      </div>
+    </div>
+
+    <h3>Текущее состояние D(t)</h3>
+    <div class="matrix-box" id="matrix_disp"></div>
+
+    <div class="status-panel">
+      <div class="stat">
+        <div style="font-size:11px;color:var(--muted)">Статус горизонта</div>
+        <div class="val" id="horizon_stat">ЛОКАЛИЗОВАН</div>
+      </div>
+      <div class="stat">
+        <div style="font-size:11px;color:var(--muted)">Разрыв (Gap)</div>
+        <div class="val ok" id="gap_stat">0.00</div>
+      </div>
+    </div>
+    <div class="note">
+      Матрица: D(t) = diag(d₀ - v_i*t) + κ_off.<br>
+      Если κ > 0, уровни отталкиваются (Avoided Crossing). При λ < 0 тень пересекает горизонт.
+    </div>
+  </aside>
+
+  <section class="card">
+    <h3>Спектральная Эволюция λ_a(t)</h3>
+    <div class="canvas-container">
+      <canvas id="plot"></canvas>
+    </div>
+    
+    <div class="time-scrubber">
+      <div style="display:flex; justify-content:space-between; font-size:12px; color:var(--muted); margin-bottom:5px;">
+        <span>t = -10 (Прошлое)</span>
+        <span style="color:var(--ink); font-weight:bold;">Параметр течения (Time/Flow) t = <span id="t_val">0.0</span></span>
+        <span>t = +10 (Будущее)</span>
+      </div>
+      <input type="range" id="time_t" min="-10" max="10" step="0.1" value="0">
+    </div>
+  </section>
+</main>
+
+<script>
+  // Элементы UI
+  const els = {
+    v1: document.getElementById('v1'), v1_val: document.getElementById('v1_val'),
+    v2: document.getElementById('v2'), v2_val: document.getElementById('v2_val'),
+    kappa: document.getElementById('kappa'), kappa_val: document.getElementById('kappa_val'),
+    d0: document.getElementById('d0'), d0_val: document.getElementById('d0_val'),
+    time_t: document.getElementById('time_t'), t_val: document.getElementById('t_val'),
+    canvas: document.getElementById('plot'),
+    matrix_disp: document.getElementById('matrix_disp'),
+    horizon_stat: document.getElementById('horizon_stat'),
+    gap_stat: document.getElementById('gap_stat')
+  };
+
+  const ctx = els.canvas.getContext('2d');
+  
+  // Ресайз канваса
+  function resize() {
+    els.canvas.width = els.canvas.parentElement.clientWidth;
+    els.canvas.height = els.canvas.parentElement.clientHeight;
+    draw();
+  }
+  window.addEventListener('resize', resize);
+
+  // Вычисление собственных значений 2x2
+  function calcEig(d1, d2, k) {
+    const tr = d1 + d2;
+    const r = Math.sqrt(((d1 - d2) / 2) ** 2 + k ** 2);
+    return { lp: tr / 2 + r, lm: tr / 2 - r, gap: 2 * r };
+  }
+
+  // Отрисовка графика
+  function draw() {
+    const W = els.canvas.width;
+    const H = els.canvas.height;
+    ctx.clearRect(0, 0, W, H);
+
+    const v1 = parseFloat(els.v1.value);
+    const v2 = parseFloat(els.v2.value);
+    const k = parseFloat(els.kappa.value);
+    const d0 = parseFloat(els.d0.value);
+    const current_t = parseFloat(els.time_t.value);
+
+    // Границы осей
+    const t_min = -10, t_max = 10;
+    const l_min = -5, l_max = 15;
+
+    const padX = 40, padY = 30;
+    const plotW = W - padX * 2;
+    const plotH = H - padY * 2;
+
+    const mapX = (t) => padX + ((t - t_min) / (t_max - t_min)) * plotW;
+    const mapY = (l) => H - padY - ((l - l_min) / (l_max - l_min)) * plotH;
+
+    // Сетка и горизонт
+    ctx.strokeStyle = '#273144'; ctx.lineWidth = 1;
+    ctx.beginPath();
+    // Горизонтальные линии
+    for(let l = l_min; l <= l_max; l += 2) {
+      const y = mapY(l);
+      ctx.moveTo(padX, y); ctx.lineTo(W - padX, y);
+      ctx.fillStyle = '#9aa8bd'; ctx.font = '11px sans-serif'; ctx.textAlign = 'right';
+      ctx.fillText(l, padX - 8, y + 4);
+    }
+    ctx.stroke();
+
+    // Горизонт (λ = 0)
+    const zeroY = mapY(0);
+    ctx.fillStyle = 'rgba(255, 92, 122, 0.1)';
+    ctx.fillRect(padX, zeroY, plotW, H - padY - zeroY);
+    ctx.strokeStyle = '#ff5c7a'; ctx.lineWidth = 2;
+    ctx.beginPath(); ctx.moveTo(padX, zeroY); ctx.lineTo(W - padX, zeroY); ctx.stroke();
+
+    // Линии спектра (Траектории)
+    ctx.lineWidth = 3;
+    const points = 200;
+    ctx.beginPath(); ctx.strokeStyle = 'var(--curve1)';
+    for(let i = 0; i <= points; i++) {
+      const t = t_min + (t_max - t_min) * (i / points);
+      const res = calcEig(d0 - v1*t, d0 - v2*t, k);
+      ctx[i===0?'moveTo':'lineTo'](mapX(t), mapY(res.lp));
+    }
+    ctx.stroke();
+
+    ctx.beginPath(); ctx.strokeStyle = 'var(--curve2)';
+    for(let i = 0; i <= points; i++) {
+      const t = t_min + (t_max - t_min) * (i / points);
+      const res = calcEig(d0 - v1*t, d0 - v2*t, k);
+      ctx[i===0?'moveTo':'lineTo'](mapX(t), mapY(res.lm));
+    }
+    ctx.stroke();
+
+    // Маркер текущего времени t
+    const curX = mapX(current_t);
+    const curRes = calcEig(d0 - v1*current_t, d0 - v2*current_t, k);
+    
+    ctx.strokeStyle = '#eef4ff'; ctx.lineWidth = 1; ctx.setLineDash([5, 5]);
+    ctx.beginPath(); ctx.moveTo(curX, padY); ctx.lineTo(curX, H - padY); ctx.stroke();
+    ctx.setLineDash([]);
+
+    // Точки на графике
+    ctx.fillStyle = 'var(--curve1)';
+    ctx.beginPath(); ctx.arc(curX, mapY(curRes.lp), 6, 0, Math.PI*2); ctx.fill();
+    ctx.fillStyle = 'var(--curve2)';
+    ctx.beginPath(); ctx.arc(curX, mapY(curRes.lm), 6, 0, Math.PI*2); ctx.fill();
+
+    // Обновление текстовых панелей
+    const d1_t = d0 - v1*current_t;
+    const d2_t = d0 - v2*current_t;
+    
+    els.matrix_disp.innerHTML = `D(t) = [ <span style="color:var(--curve1)">${d1_t.toFixed(2).padStart(6)}</span>,  ${k.toFixed(2)} ]\n       [   ${k.toFixed(2)}, <span style="color:var(--curve2)">${d2_t.toFixed(2).padStart(6)}</span> ]`;
+    
+    els.gap_stat.textContent = curRes.gap.toFixed(3);
+    
+    if (curRes.lm > 0) {
+      els.horizon_stat.textContent = "ЛОКАЛИЗОВАН";
+      els.horizon_stat.className = "val ok";
+    } else {
+      els.horizon_stat.textContent = "ПЕРЕСЕЧЕН (λ<0)";
+      els.horizon_stat.className = "val bad";
+    }
+  }
+
+  // Привязка событий
+  function update() {
+    els.v1_val.textContent = els.v1.value;
+    els.v2_val.textContent = els.v2.value;
+    els.kappa_val.textContent = els.kappa.value;
+    els.d0_val.textContent = els.d0.value;
+    els.t_val.textContent = els.time_t.value;
+    draw();
+  }
+
+  [els.v1, els.v2, els.kappa, els.d0, els.time_t].forEach(el => el.addEventListener('input', update));
+
+  // Инициализация
+  setTimeout(() => { resize(); update(); }, 100);
+</script>
+</body>
+</html>
