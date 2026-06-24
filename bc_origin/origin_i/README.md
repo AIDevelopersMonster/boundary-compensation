@@ -1,63 +1,72 @@
-# BC-Origin I software companion
+# BC-Origin Visual Lab
 
-This folder is the canonical software location for the published BC-Origin I module:
+This folder contains visualization and interactive scripts for **BC-Origin I**.
 
-**Boundary Compensation Origin I: Oriented Winding Shadows, Structural Scale Selection, and Signed Spectral Localization**
+The goal is to inspect the three core effects of the signed-shadow model:
 
-DOI: https://doi.org/10.5281/zenodo.20822186
+1. **Orientation-controlled shadow localization**: same-oriented winding products shift inverse-scale denominators upward and compress observable shadows.
+2. **Admissibility horizon**: a branch with denominator near zero loses localized observability because `ell/L -> infinity`.
+3. **Coupling-induced shadow gap**: off-diagonal coupling separates the two observable branches.
 
-## Purpose
+## Standalone GUI
 
-The programs reproduce the computational and visual companion to BC-Origin I. They inspect the signed two-shadow model and its three core effects:
-
-1. orientation-controlled shadow localization;
-2. admissibility-horizon crossing;
-3. coupling-induced branch separation.
-
-## Standalone browser GUI
-
-Open directly in a browser:
+Open this file directly in a browser:
 
 ```text
-bc_origin/origin_i/web/index.html
+bc_origin/lab/web/index.html
 ```
+
+It has sliders for `n1`, `n2`, `gamma`, `kappa`, `d1`, and `d2`, plus live plots for eigen-denominators, scale ratios, and the admissibility horizon.
 
 No Python server is required.
 
-## Python static figures
+## Python static visuals
 
-Run from the repository root:
-
-```bash
-python bc_origin/origin_i/python/generate_visuals.py --out bc_origin/origin_i/outputs
-```
-
-Expected outputs:
-
-```text
-spectrum_signed_shift.png
-admissibility_horizon.png
-phase_map.png
-model_scheme.png
-```
-
-## Optional Streamlit GUI
+Run:
 
 ```bash
-python -m pip install -r bc_origin/origin_i/requirements.txt
-streamlit run bc_origin/origin_i/streamlit_app.py
+python bc_origin/lab/python/generate_visuals.py --out bc_origin/lab/outputs
 ```
 
-## Legacy path
-
-The earlier path
+This creates publication-style PNG diagrams:
 
 ```text
-bc_origin/lab/
+bc_origin/lab/outputs/spectrum_signed_shift.png
+bc_origin/lab/outputs/admissibility_horizon.png
+bc_origin/lab/outputs/phase_map.png
+bc_origin/lab/outputs/model_scheme.png
 ```
 
-is kept temporarily for compatibility with early BC-Origin I repository descriptions and external users. The canonical location is now `bc_origin/origin_i/`.
+## Optional Streamlit app
 
-## Software status
+If Streamlit is installed:
 
-This is a lightweight reproducible demonstration scaffold for the BC-Origin I toy model. It is not a general-purpose physics simulator and does not claim empirical validation.
+```bash
+pip install streamlit numpy matplotlib
+streamlit run bc_origin/lab/streamlit_app.py
+```
+
+## Mathematical core
+
+The signed common-shift model is
+
+```text
+D_signed = [[d1 + gamma*s, kappa],
+            [kappa,        d2 + gamma*s]]
+
+s = sign(n1*n2)
+```
+
+Eigen-denominators:
+
+```text
+lambda_pm = (d1+d2)/2 + gamma*s +/- sqrt(((d1-d2)/2)^2 + kappa^2)
+```
+
+Observable scale ratios:
+
+```text
+S_pm = mu_eff / lambda_pm
+```
+
+The branch is localized only if `lambda_pm > 0`.

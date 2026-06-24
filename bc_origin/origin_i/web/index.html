@@ -1,0 +1,250 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>BC-Origin Shadow Lab</title>
+  <style>
+    :root {
+      --bg:#090b10;
+      --panel:#121722;
+      --ink:#eef4ff;
+      --muted:#9aa8bd;
+      --grid:#283244;
+      --a:#ff6b81;
+      --b:#ffd166;
+      --ok:#6ee7a8;
+      --warn:#ffb86b;
+      --bad:#ff5c7a;
+      --blue:#3b82f6;
+    }
+    *{box-sizing:border-box}
+    body{margin:0;background:radial-gradient(circle at top,#111827,#06070a 60%);color:var(--ink);font:15px/1.4 system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif}
+    header{padding:24px 28px 8px;display:flex;gap:16px;align-items:flex-end;justify-content:space-between}
+    h1{margin:0;font-size:28px;letter-spacing:.2px}
+    .sub{color:var(--muted);font-size:13px}
+    main{display:grid;grid-template-columns:minmax(360px,1.2fr) minmax(320px,.8fr);gap:18px;padding:16px 28px 28px}
+    .card{background:rgba(18,23,34,.86);border:1px solid #253044;border-radius:18px;padding:18px;box-shadow:0 18px 60px rgba(0,0,0,.35)}
+    .grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+    .stat{background:#0d111a;border:1px solid #20293a;border-radius:14px;padding:12px}
+    .label{color:var(--muted);font-size:12px;text-transform:uppercase;letter-spacing:.08em}
+    .value{font-size:21px;font-weight:700;margin-top:3px}
+    .ok{color:var(--ok)}.bad{color:var(--bad)}.warn{color:var(--warn)}
+    canvas{width:100%;height:320px;background:#0a0d13;border:1px solid #222b3b;border-radius:14px}
+    .controls{display:grid;gap:14px}
+    .ctrl{display:grid;grid-template-columns:86px 1fr 58px;gap:10px;align-items:center}
+    .ctrl input[type=range]{width:100%}
+    .box{background:#0b0f17;border:1px solid #273144;border-radius:12px;padding:8px 10px;text-align:right;font-variant-numeric:tabular-nums}
+    .note{color:var(--muted);font-size:13px}
+    .matrix{font-family:ui-monospace,SFMono-Regular,Consolas,monospace;background:#0b0f17;border:1px solid #273144;border-radius:14px;padding:14px;white-space:pre;overflow:auto}
+    .pill{display:inline-block;border:1px solid #2b3850;border-radius:99px;padding:5px 9px;color:#cdd7e8;background:#0b0f17;margin-right:6px}
+    .footer{padding:0 28px 26px;color:var(--muted);font-size:12px}
+    .top-actions{display:flex;gap:6px;align-items:center;justify-content:flex-end;flex-wrap:wrap}
+    .lang-btn{background:#0b0f17;color:#cdd7e8;border:1px solid #2b3850;border-radius:99px;padding:5px 9px;cursor:pointer;font:12px system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif}
+    .lang-btn.active{background:#132033;color:#eef4ff;border-color:var(--blue)}
+    .help-tabs{margin-top:18px;border-top:1px solid #273144;padding-top:14px}
+    .tab-row{display:flex;gap:8px;margin-bottom:12px;flex-wrap:wrap}
+    .tab-btn{background:#0b0f17;color:#cdd7e8;border:1px solid #2b3850;border-radius:99px;padding:7px 11px;cursor:pointer;font:13px system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif}
+    .tab-btn.active{background:#132033;color:#eef4ff;border-color:var(--blue)}
+    .tab-panel{display:none;color:#c9d5e8;font-size:13px}
+    .tab-panel.active{display:block}
+    .tab-panel h3{margin:8px 0 8px;font-size:15px;color:#eef4ff}
+    .tab-panel p{margin:8px 0}
+    .tab-panel ul{margin:8px 0 0 18px;padding:0}
+    .tab-panel li{margin:6px 0}
+    .preset-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;margin-top:10px}
+    .preset-grid button{background:#0d111a;color:#eef4ff;border:1px solid #273144;border-radius:10px;padding:9px 10px;cursor:pointer;text-align:left;font:13px system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif}
+    .preset-grid button:hover{border-color:var(--blue);background:#111827}
+    @media(max-width:900px){main{grid-template-columns:1fr}canvas{height:280px}header{align-items:flex-start;flex-direction:column}.top-actions{justify-content:flex-start}}
+  </style>
+</head>
+<body>
+<header>
+  <div>
+    <h1 data-i18n="title">BC-Origin Shadow Lab</h1>
+    <div class="sub" data-i18n="subtitle">Resonant shadows, oriented winding signs, and signed spectral displacement</div>
+  </div>
+  <div class="top-actions">
+    <button class="lang-btn active" data-lang="en">EN</button>
+    <button class="lang-btn" data-lang="ru">RU</button>
+    <span class="pill" data-i18n="pillOrigin">BC-Origin I</span>
+    <span class="pill" data-i18n="pillModel">interactive toy model</span>
+  </div>
+</header>
+<main>
+  <section class="card">
+    <canvas id="plot" width="980" height="420"></canvas>
+    <div class="grid" style="margin-top:14px">
+      <div class="stat"><div class="label" data-i18n="orientationProduct">orientation product s</div><div id="sVal" class="value"></div></div>
+      <div class="stat"><div class="label" data-i18n="admissibility">admissibility</div><div id="admVal" class="value"></div></div>
+      <div class="stat"><div class="label" data-i18n="lambdaMinus">lambda minus</div><div id="lamMinus" class="value"></div></div>
+      <div class="stat"><div class="label" data-i18n="lambdaPlus">lambda plus</div><div id="lamPlus" class="value"></div></div>
+      <div class="stat"><div class="label" data-i18n="scaleMinus">scale minus ell/L</div><div id="scaleMinus" class="value"></div></div>
+      <div class="stat"><div class="label" data-i18n="scalePlus">scale plus ell/L</div><div id="scalePlus" class="value"></div></div>
+    </div>
+  </section>
+  <aside class="card">
+    <div class="controls" id="controls"></div>
+    <h3 data-i18n="signedOperator">Signed operator</h3>
+    <div id="matrix" class="matrix"></div>
+    <p class="note" data-i18n="interpretation">Interpretation: same orientation raises inverse-scale denominators and compresses shadows. Opposite orientation lowers denominators and may push a branch to the admissibility horizon.</p>
+    <section class="help-tabs">
+      <div class="tab-row">
+        <button class="tab-btn active" data-tab="faq" data-i18n="tabFaq">FAQ</button>
+        <button class="tab-btn" data-tab="symbols" data-i18n="tabSymbols">Symbols</button>
+        <button class="tab-btn" data-tab="presets" data-i18n="tabPresets">Characteristic points</button>
+      </div>
+      <div id="tab-faq" class="tab-panel active">
+        <h3 data-i18n="faqTitle">What the program demonstrates</h3>
+        <p data-i18n="faqP1">This lab visualizes the BC-Origin I toy model. Hidden oriented winding labels determine an interaction sign, and the signed spectral operator shows localization, delocalization, and admissibility-horizon crossing.</p>
+        <p data-i18n="faqP2">The program is not a physical simulator, does not extract real constants, and does not prove a physical hidden-sector model. It makes the algebraic mechanism of the article inspectable.</p>
+        <p data-i18n="faqP3">A localized shadow requires positive eigen-denominators. When the lower branch crosses zero, the scale ratio diverges and the branch leaves the localized interpretation of the toy model.</p>
+      </div>
+      <div id="tab-symbols" class="tab-panel">
+        <h3 data-i18n="symbolsTitle">Symbols and sliders</h3>
+        <ul>
+          <li data-i18n="symN">n1, n2: hidden oriented winding labels.</li>
+          <li data-i18n="symS">s = sign(n1*n2): orientation product.</li>
+          <li data-i18n="symGamma">gamma: strength of the signed diagonal shift.</li>
+          <li data-i18n="symKappa">kappa: off-diagonal coupling that separates the two spectral branches.</li>
+          <li data-i18n="symD">d1, d2: baseline inverse-scale denominators.</li>
+          <li data-i18n="symMu">mu: effective scale multiplier for ell/L.</li>
+          <li data-i18n="symLambda">lambda minus / lambda plus: eigen-denominators of D_signed.</li>
+          <li data-i18n="symScale">ell/L: observable scale ratio, defined only for positive lambda.</li>
+        </ul>
+      </div>
+      <div id="tab-presets" class="tab-panel">
+        <h3 data-i18n="presetsTitle">Characteristic parameter points</h3>
+        <div class="preset-grid">
+          <button class="preset-btn" data-preset="sameLocalized" data-i18n="presetSame">Same orientation</button>
+          <button class="preset-btn" data-preset="oppositeNearHorizon" data-i18n="presetNear">Near horizon</button>
+          <button class="preset-btn" data-preset="oppositeCrossed" data-i18n="presetCrossed">Horizon crossed</button>
+          <button class="preset-btn" data-preset="strongGap" data-i18n="presetGap">Strong spectral gap</button>
+          <button class="preset-btn" data-preset="weakCoupling" data-i18n="presetWeak">Weak coupling</button>
+          <button class="preset-btn" data-preset="asymmetric" data-i18n="presetAsym">Asymmetric d1/d2</button>
+        </div>
+        <p class="note" data-i18n="presetNote">These buttons do not add new claims. They only place the toy model in regimes where its basic effects are easy to inspect.</p>
+      </div>
+    </section>
+  </aside>
+</main>
+<div class="footer" data-i18n="footerText">Model: D = [[d1 + gamma*s, kappa], [kappa, d2 + gamma*s]], s = sign(n1*n2). Localized shadow requires lambda &gt; 0.</div>
+<script>
+const params={n1:1,n2:1,gamma:1.0,kappa:1.0,d1:3.0,d2:5.0,mu:1.0};
+const spec={n1:[-5,5,1],n2:[-5,5,1],gamma:[0,6,.1],kappa:[0,4,.1],d1:[.2,10,.1],d2:[.2,10,.1],mu:[.1,5,.1]};
+const I18N={
+  en:{
+    title:"BC-Origin Shadow Lab",
+    subtitle:"Resonant shadows, oriented winding signs, and signed spectral displacement",
+    pillOrigin:"BC-Origin I",
+    pillModel:"interactive toy model",
+    orientationProduct:"orientation product s",
+    admissibility:"admissibility",
+    lambdaMinus:"lambda minus",
+    lambdaPlus:"lambda plus",
+    scaleMinus:"scale minus ell/L",
+    scalePlus:"scale plus ell/L",
+    signedOperator:"Signed operator",
+    interpretation:"Interpretation: same orientation raises inverse-scale denominators and compresses shadows. Opposite orientation lowers denominators and may push a branch to the admissibility horizon.",
+    tabFaq:"FAQ",
+    tabSymbols:"Symbols",
+    tabPresets:"Characteristic points",
+    faqTitle:"What the program demonstrates",
+    faqP1:"This lab visualizes the BC-Origin I toy model. Hidden oriented winding labels determine an interaction sign, and the signed spectral operator shows localization, delocalization, and admissibility-horizon crossing.",
+    faqP2:"The program is not a physical simulator, does not extract real constants, and does not prove a physical hidden-sector model. It makes the algebraic mechanism of the article inspectable.",
+    faqP3:"A localized shadow requires positive eigen-denominators. When the lower branch crosses zero, the scale ratio diverges and the branch leaves the localized interpretation of the toy model.",
+    symbolsTitle:"Symbols and sliders",
+    symN:"n1, n2: hidden oriented winding labels.",
+    symS:"s = sign(n1*n2): orientation product.",
+    symGamma:"gamma: strength of the signed diagonal shift.",
+    symKappa:"kappa: off-diagonal coupling that separates the two spectral branches.",
+    symD:"d1, d2: baseline inverse-scale denominators.",
+    symMu:"mu: effective scale multiplier for ell/L.",
+    symLambda:"lambda minus / lambda plus: eigen-denominators of D_signed.",
+    symScale:"ell/L: observable scale ratio, defined only for positive lambda.",
+    presetsTitle:"Characteristic parameter points",
+    presetSame:"Same orientation",
+    presetNear:"Near horizon",
+    presetCrossed:"Horizon crossed",
+    presetGap:"Strong spectral gap",
+    presetWeak:"Weak coupling",
+    presetAsym:"Asymmetric d1/d2",
+    presetNote:"These buttons do not add new claims. They only place the toy model in regimes where its basic effects are easy to inspect.",
+    footerText:"Model: D = [[d1 + gamma*s, kappa], [kappa, d2 + gamma*s]], s = sign(n1*n2). Localized shadow requires lambda > 0.",
+    localized:"localized",
+    horizonCrossed:"horizon crossed",
+    positiveRegion:"positive localized-shadow region",
+    plotTitle:"Observable inverse-scale spectrum"
+  },
+  ru:{
+    title:"BC-Origin: лаборатория теней",
+    subtitle:"Резонансные тени, ориентированные winding-знаки и signed spectral displacement",
+    pillOrigin:"BC-Origin I",
+    pillModel:"интерактивная toy model",
+    orientationProduct:"orientation product s",
+    admissibility:"допустимость",
+    lambdaMinus:"lambda minus",
+    lambdaPlus:"lambda plus",
+    scaleMinus:"scale minus ell/L",
+    scalePlus:"scale plus ell/L",
+    signedOperator:"Signed operator",
+    interpretation:"Интерпретация: одинаковая ориентация увеличивает inverse-scale denominators и сжимает тени. Противоположная ориентация уменьшает denominators и может вывести ветвь к admissibility horizon.",
+    tabFaq:"FAQ",
+    tabSymbols:"Обозначения",
+    tabPresets:"Характерные точки",
+    faqTitle:"Что демонстрирует программа",
+    faqP1:"Эта лаборатория визуализирует toy model из BC-Origin I. Скрытые ориентированные winding-индексы задают знак взаимодействия, а signed spectral operator показывает локализацию, делокализацию и пересечение admissibility horizon.",
+    faqP2:"Программа не является физическим симулятором, не извлекает реальные константы и не доказывает физическую hidden-sector model. Она делает алгебраический механизм статьи визуально проверяемым.",
+    faqP3:"Локализованная тень требует положительных eigen-denominators. Когда нижняя ветвь проходит через ноль, scale ratio расходится, и ветвь выходит за предел локализованной интерпретации toy model.",
+    symbolsTitle:"Обозначения и ползунки",
+    symN:"n1, n2: скрытые ориентированные winding-индексы.",
+    symS:"s = sign(n1*n2): ориентационный продукт.",
+    symGamma:"gamma: сила signed diagonal shift.",
+    symKappa:"kappa: off-diagonal coupling, разделяющий две спектральные ветви.",
+    symD:"d1, d2: базовые inverse-scale denominators.",
+    symMu:"mu: эффективный масштабный множитель для ell/L.",
+    symLambda:"lambda minus / lambda plus: eigen-denominators оператора D_signed.",
+    symScale:"ell/L: observable scale ratio, определённый только при положительном lambda.",
+    presetsTitle:"Характерные точки параметров",
+    presetSame:"Одинаковая ориентация",
+    presetNear:"Почти горизонт",
+    presetCrossed:"Пересечение горизонта",
+    presetGap:"Сильный spectral gap",
+    presetWeak:"Слабая связь",
+    presetAsym:"Асимметрия d1/d2",
+    presetNote:"Эти кнопки не добавляют новых утверждений. Они только ставят toy model в режимы, где основные эффекты легче увидеть.",
+    footerText:"Модель: D = [[d1 + gamma*s, kappa], [kappa, d2 + gamma*s]], s = sign(n1*n2). Для локализованной тени требуется lambda > 0.",
+    localized:"локализованный",
+    horizonCrossed:"horizon crossed",
+    positiveRegion:"positive localized-shadow region",
+    plotTitle:"Observable inverse-scale spectrum"
+  }
+};
+let currentLang=localStorage.getItem("bc_origin_lang")||"en";
+const presets={
+  sameLocalized:{n1:1,n2:1,gamma:1.0,kappa:1.0,d1:3.0,d2:5.0,mu:1.0},
+  oppositeNearHorizon:{n1:1,n2:-1,gamma:3.45,kappa:0.8,d1:4.0,d2:5.0,mu:1.0},
+  oppositeCrossed:{n1:1,n2:-1,gamma:4.2,kappa:0.8,d1:4.0,d2:5.0,mu:1.0},
+  strongGap:{n1:1,n2:1,gamma:1.0,kappa:3.0,d1:4.0,d2:4.2,mu:1.0},
+  weakCoupling:{n1:1,n2:-1,gamma:1.0,kappa:0.1,d1:4.0,d2:5.0,mu:1.0},
+  asymmetric:{n1:2,n2:-3,gamma:2.0,kappa:1.0,d1:2.0,d2:9.0,mu:1.0}
+};
+function t(key){return (I18N[currentLang]&&I18N[currentLang][key])||I18N.en[key]||key}
+function sign(x){return x>0?1:x<0?-1:0}
+function fmt(x){return Number.isFinite(x)?x.toFixed(3):'∞'}
+function calc(p=params){const s=sign(p.n1*p.n2);const base=(p.d1+p.d2)/2+p.gamma*s;const r=Math.sqrt(((p.d1-p.d2)/2)**2+p.kappa**2);return {s,base,r,lm:base-r,lp:base+r,sm:(base-r)>0?p.mu/(base-r):Infinity,sp:(base+r)>0?p.mu/(base+r):Infinity}}
+function makeControls(){const root=document.getElementById('controls');root.innerHTML='';for(const k of Object.keys(spec)){const [min,max,step]=spec[k];const row=document.createElement('div');row.className='ctrl';row.innerHTML=`<label>${k}</label><input id="${k}" type="range" min="${min}" max="${max}" step="${step}" value="${params[k]}"><div class="box" id="${k}Box">${params[k]}</div>`;root.appendChild(row);row.querySelector('input').addEventListener('input',e=>{params[k]=Number(e.target.value);document.getElementById(k+'Box').textContent=params[k];update()})}}
+function draw(){const c=document.getElementById('plot'),ctx=c.getContext('2d'),W=c.width,H=c.height;ctx.clearRect(0,0,W,H);ctx.fillStyle='#0a0d13';ctx.fillRect(0,0,W,H);const m={l:70,r:40,t:40,b:70};const xmin=-8,xmax=14,y=H/2;function x(v){return m.l+(v-xmin)/(xmax-xmin)*(W-m.l-m.r)}ctx.strokeStyle='#273144';ctx.lineWidth=1;for(let tick=xmin;tick<=xmax;tick+=2){ctx.beginPath();ctx.moveTo(x(tick),m.t);ctx.lineTo(x(tick),H-m.b);ctx.stroke();ctx.fillStyle='#9aa8bd';ctx.font='13px system-ui';ctx.textAlign='center';ctx.fillText(tick,x(tick),H-m.b+24)}ctx.strokeStyle='#526176';ctx.beginPath();ctx.moveTo(x(0),m.t);ctx.lineTo(x(0),H-m.b);ctx.stroke();const z=calc();ctx.fillStyle='rgba(113,151,207,.20)';ctx.fillRect(x(0),m.t,x(Math.max(z.lm,0))-x(0),H-m.b-m.t);function marker(v,col,lab){const xx=x(v);ctx.strokeStyle=col;ctx.lineWidth=4;ctx.beginPath();ctx.moveTo(xx,m.t);ctx.lineTo(xx,H-m.b);ctx.stroke();ctx.fillStyle=col;ctx.beginPath();ctx.arc(xx,y,8,0,Math.PI*2);ctx.fill();ctx.fillStyle='#eef4ff';ctx.font='bold 14px system-ui';ctx.textAlign='center';ctx.fillText(lab,xx,m.t-12)}marker(z.lm,'#ff6b81','λ−');marker(z.lp,'#ffd166','λ+');ctx.fillStyle='#eef4ff';ctx.font='17px system-ui';ctx.textAlign='left';ctx.fillText(t('plotTitle'),m.l,m.t-18);ctx.fillStyle='#c9d5e8';ctx.font='13px system-ui';ctx.fillText(t('positiveRegion'),x(.25),H-m.b-14)}
+function update(){const z=calc();document.getElementById('sVal').textContent=z.s;document.getElementById('sVal').className='value '+(z.s>0?'ok':z.s<0?'warn':'bad');document.getElementById('admVal').textContent=(z.lm>0&&z.lp>0)?t('localized'):t('horizonCrossed');document.getElementById('admVal').className='value '+((z.lm>0&&z.lp>0)?'ok':'bad');document.getElementById('lamMinus').textContent=fmt(z.lm);document.getElementById('lamPlus').textContent=fmt(z.lp);document.getElementById('scaleMinus').textContent=fmt(z.sm);document.getElementById('scalePlus').textContent=fmt(z.sp);document.getElementById('matrix').textContent=`s = sign(n1*n2) = ${z.s}\n\nD_signed = [ [${fmt(params.d1+params.gamma*z.s)}, ${fmt(params.kappa)}],\n             [${fmt(params.kappa)}, ${fmt(params.d2+params.gamma*z.s)}] ]\n\nλ± = ${(z.base).toFixed(3)} ± ${(z.r).toFixed(3)}`;draw()}
+function setLanguage(lang){currentLang=lang;localStorage.setItem('bc_origin_lang',lang);document.documentElement.lang=lang;document.querySelectorAll('[data-i18n]').forEach(el=>{el.textContent=t(el.dataset.i18n)});document.querySelectorAll('.lang-btn').forEach(btn=>{btn.classList.toggle('active',btn.dataset.lang===lang)});update()}
+function setupLanguageSwitcher(){document.querySelectorAll('.lang-btn').forEach(btn=>btn.addEventListener('click',()=>setLanguage(btn.dataset.lang)));setLanguage(currentLang)}
+function setupTabs(){const buttons=document.querySelectorAll('.tab-btn');const panels={faq:document.getElementById('tab-faq'),symbols:document.getElementById('tab-symbols'),presets:document.getElementById('tab-presets')};buttons.forEach(btn=>{btn.addEventListener('click',()=>{const tab=btn.dataset.tab;buttons.forEach(b=>b.classList.remove('active'));btn.classList.add('active');Object.values(panels).forEach(p=>p.classList.remove('active'));panels[tab].classList.add('active')})})}
+function applyPreset(name){const p=presets[name];if(!p)return;for(const key of Object.keys(p)){params[key]=p[key];const slider=document.getElementById(key);const box=document.getElementById(key+'Box');if(slider)slider.value=p[key];if(box)box.textContent=p[key]}update()}
+function setupPresets(){document.querySelectorAll('.preset-btn').forEach(btn=>btn.addEventListener('click',()=>applyPreset(btn.dataset.preset)))}
+makeControls();
+setupTabs();
+setupPresets();
+setupLanguageSwitcher();
+</script>
+</body>
+</html>
