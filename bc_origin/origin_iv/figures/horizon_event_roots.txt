@@ -1,0 +1,4 @@
+BC-Origin IV v0.1.1 horizon-event estimates
+lambda_min roots: 0.77454866
+det(D2) roots: 0.77454945
+For a 2x2 self-adjoint operator, det(D2)=0 marks a zero eigenvalue.
