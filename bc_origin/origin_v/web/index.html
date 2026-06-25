@@ -1,0 +1,95 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>BC-Origin V v0.1.3: Simplicial Z2 Shadow-Gauge Lab</title>
+<style>
+:root{
+  --bg:#090b10; --panel:#121722; --panel2:#0d111a; --ink:#eef4ff; --muted:#9aa8bd;
+  --grid:#273144; --ok:#6ee7a8; --bad:#ff6b81; --warn:#ffd166; --blue:#7db2ff;
+}
+*{box-sizing:border-box} body{margin:0;background:radial-gradient(circle at top,#152033,#06070a 70%);color:var(--ink);font:15px/1.45 system-ui,-apple-system,Segoe UI,sans-serif;min-height:100vh}
+header{padding:20px 28px;display:flex;justify-content:space-between;gap:18px;align-items:flex-end;border-bottom:1px solid var(--grid);background:rgba(18,23,34,.78)}
+h1{margin:0;font-size:25px}.sub{color:var(--muted);font-size:13px;margin-top:5px}.pill{border:1px solid #2d3a52;border-radius:999px;padding:5px 11px;background:#0b0f17;color:#cdd7e8;font-size:12px;white-space:nowrap}
+main{display:grid;grid-template-columns:360px 1fr;gap:20px;padding:24px 28px}.card{background:rgba(18,23,34,.88);border:1px solid #253044;border-radius:16px;padding:18px;box-shadow:0 14px 42px rgba(0,0,0,.32)}
+h3{margin:0 0 13px 0;font-size:16px;border-bottom:1px solid #273144;padding-bottom:7px}.ctrl{margin:12px 0}.ctrl label{display:flex;justify-content:space-between;color:var(--muted);font-size:13px;margin-bottom:6px}input[type=range]{width:100%;accent-color:var(--blue)}select,button{background:#0b0f17;color:var(--ink);border:1px solid #2a354b;border-radius:8px;padding:8px 10px}button{cursor:pointer}button:hover{border-color:#58739e}.value{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;color:var(--ink)}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:10px}.stat{background:#0b0f17;border:1px solid #273144;border-radius:10px;padding:10px;text-align:center}.stat .v{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:18px;font-weight:700;margin-top:3px}.note{color:var(--muted);font-size:12px;margin-top:12px;line-height:1.5}.warn{color:var(--warn)}.ok{color:var(--ok)}.bad{color:var(--bad)}
+.canvasWrap{position:relative;background:#0a0d13;border:1px solid #222b3b;border-radius:12px;height:420px;overflow:hidden}canvas{width:100%;height:100%;display:block}.row{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-top:20px}.formula{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;background:#0b0f17;border:1px solid #273144;border-radius:10px;padding:12px;white-space:pre-wrap;color:#dbe7ff;overflow:auto}.edgeButtons{display:grid;grid-template-columns:1fr 1fr;gap:8px}.edgeButtons button.neg{color:var(--bad);border-color:#7a3344}.edgeButtons button.pos{color:var(--ok);border-color:#2b7651}
+@media(max-width:980px){main{grid-template-columns:1fr}.row{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<header>
+  <div><h1>BC-Origin V v0.1.3: Simplicial Z2 Shadow-Gauge Lab</h1><div class="sub">Finite simplicial statistical bridge: trace functional, Wilson-like structural weights, and shadow admissibility diagnostics</div></div>
+  <span class="pill">finite graph / simplicial ensemble - not physical QFT</span>
+</header>
+<main>
+<aside class="card">
+  <h3>Controls</h3>
+  <div class="ctrl"><label><span>Graph</span></label><select id="graphSel"><option value="triangle">single triangle</option><option value="two">two triangles sharing edge</option></select></div>
+  <div class="ctrl"><label><span>Trace-weight parameter γ</span><span class="value" id="gammaVal">1.50</span></label><input id="gamma" type="range" min="0" max="5" step="0.05" value="1.5"></div>
+  <div class="ctrl"><label><span>Global kernel normalization η</span><span class="value" id="etaVal">1.60</span></label><input id="eta" type="range" min="0.1" max="3" step="0.05" value="1.6"></div>
+  <div class="ctrl"><label><span>Shadow denominator d</span><span class="value" id="dVal">1.15</span></label><input id="d" type="range" min="0.1" max="3" step="0.05" value="1.15"></div>
+  <h3>Edge holonomies ε<sub>ij</sub></h3>
+  <div class="edgeButtons" id="edgeButtons"></div>
+  <div class="note">Click an edge sign to flip one Z2 holonomy. Triangle colors show Ω△ = product of edge signs. The ensemble quantities below are exact enumeration for the selected small graph. The trace is a gauge-invariant functional of one fixed holonomy configuration; the ensemble begins only after summing over edge holonomies.</div>
+</aside>
+<section>
+  <div class="card">
+    <h3>Hidden-index graph and current holonomy configuration</h3>
+    <div class="canvasWrap"><canvas id="graphCanvas"></canvas></div>
+  </div>
+  <div class="row">
+    <div class="card">
+      <h3>Exact ensemble diagnostics</h3>
+      <div class="grid2">
+        <div class="stat"><div>Tr(A³)</div><div class="v" id="tr3">0</div></div>
+        <div class="stat"><div>Triangle formula</div><div class="v" id="triFormula">0</div></div>
+        <div class="stat"><div>Z(γ)</div><div class="v" id="Zval">0</div></div>
+        <div class="stat"><div>mean Ω△</div><div class="v" id="meanOmega">0</div></div>
+        <div class="stat"><div>P_adm</div><div class="v" id="Padm">0</div></div>
+        <div class="stat"><div>λ_min(current)</div><div class="v" id="lamMin">0</div></div>
+      </div>
+      <div class="note"><span class="warn">Claim boundary:</span> finite graph diagnostics only. No continuum confinement theorem, no QCD simulation, no empirical spin-glass model. Strong-coupling and area-law language here means finite-graph diagnostics only.</div>
+    </div>
+    <div class="card">
+      <h3>Trace-cycle identity</h3>
+      <div class="formula" id="formulaBox"></div>
+    </div>
+  </div>
+</section>
+</main>
+<script>
+const graphs = {
+ triangle: { vertices:[0,1,2], labels:[1,2,4], edges:[[0,1],[0,2],[1,2]], triangles:[[0,1,2]], pos:[[0.5,0.14],[0.18,0.78],[0.82,0.78]] },
+ two: { vertices:[0,1,2,3], labels:[1,2,4,5], edges:[[0,1],[0,2],[1,2],[1,3],[2,3]], triangles:[[0,1,2],[1,2,3]], pos:[[0.2,0.18],[0.18,0.78],[0.82,0.78],[0.8,0.18]] }
+};
+let eps = {};
+const els = {graphSel:document.getElementById('graphSel'), gamma:document.getElementById('gamma'), eta:document.getElementById('eta'), d:document.getElementById('d'), gammaVal:document.getElementById('gammaVal'), etaVal:document.getElementById('etaVal'), dVal:document.getElementById('dVal'), edgeButtons:document.getElementById('edgeButtons'), canvas:document.getElementById('graphCanvas'), tr3:document.getElementById('tr3'), triFormula:document.getElementById('triFormula'), Zval:document.getElementById('Zval'), meanOmega:document.getElementById('meanOmega'), Padm:document.getElementById('Padm'), lamMin:document.getElementById('lamMin'), formulaBox:document.getElementById('formulaBox')};
+function ekey(e){return e[0]+'-'+e[1]}
+function kernel(ni,nj,eta){const d=Math.abs(ni-nj); return eta/(1+d*d)}
+function initEps(){eps={}; graphs[els.graphSel.value].edges.forEach(e=>eps[ekey(e)]=1); buildButtons();}
+function buildButtons(){els.edgeButtons.innerHTML=''; const g=graphs[els.graphSel.value]; g.edges.forEach(e=>{const b=document.createElement('button'); const key=ekey(e); b.textContent=`ε${key} = ${eps[key]>0?'+1':'-1'}`; b.className=eps[key]>0?'pos':'neg'; b.onclick=()=>{eps[key]*=-1; update();}; els.edgeButtons.appendChild(b);});}
+function buildA(g,eta){const n=g.vertices.length; const A=Array.from({length:n},()=>Array(n).fill(0)); g.edges.forEach(e=>{const k=kernel(g.labels[e[0]],g.labels[e[1]],eta)*eps[ekey(e)]; A[e[0]][e[1]]=k; A[e[1]][e[0]]=k;}); return A;}
+function matMul(X,Y){const n=X.length; const Z=Array.from({length:n},()=>Array(n).fill(0)); for(let i=0;i<n;i++)for(let j=0;j<n;j++)for(let k=0;k<n;k++)Z[i][j]+=X[i][k]*Y[k][j]; return Z}
+function tr(A){let s=0; for(let i=0;i<A.length;i++)s+=A[i][i]; return s}
+function triOmega(t){return eps[ekey([Math.min(t[0],t[1]),Math.max(t[0],t[1])])] * eps[ekey([Math.min(t[1],t[2]),Math.max(t[1],t[2])])] * eps[ekey([Math.min(t[0],t[2]),Math.max(t[0],t[2])])]}
+function triK(t,g,eta){return kernel(g.labels[t[0]],g.labels[t[1]],eta)*kernel(g.labels[t[1]],g.labels[t[2]],eta)*kernel(g.labels[t[0]],g.labels[t[2]],eta)}
+function triFormula(g,eta,epsLocal=null){let s=0; g.triangles.forEach(t=>{let om;if(epsLocal){om = epsLocal[ekey([Math.min(t[0],t[1]),Math.max(t[0],t[1])])] * epsLocal[ekey([Math.min(t[1],t[2]),Math.max(t[1],t[2])])] * epsLocal[ekey([Math.min(t[0],t[2]),Math.max(t[0],t[2])])];} else {om=triOmega(t);} s+=om*triK(t,g,eta);}); return 6*s;}
+function enumerate(g){const keys=g.edges.map(ekey); const arr=[]; const m=keys.length; for(let mask=0; mask<Math.pow(2,m); mask++){const conf={}; keys.forEach((k,i)=>conf[k]=((mask>>i)&1)?1:-1); arr.push(conf);} return arr;}
+function ensemble(g,eta,gamma,d){let Z=0, mean=0, Padm=0; const configs=enumerate(g); configs.forEach(conf=>{const tf=triFormula(g,eta,conf); const w=Math.exp(gamma*tf); Z+=w; let om=0; g.triangles.forEach(t=>{om += conf[ekey([Math.min(t[0],t[1]),Math.max(t[0],t[1])])] * conf[ekey([Math.min(t[1],t[2]),Math.max(t[1],t[2])])] * conf[ekey([Math.min(t[0],t[2]),Math.max(t[0],t[2])])];}); om/=g.triangles.length; mean += om*w; // crude admissibility for small matrices with Jacobi/eig2/eig3 fallback
+ const old=eps; eps=conf; const A=buildA(g,eta); eps=old; const lm=minEigSym(addDiag(A,d)); Padm += (lm>0?1:0)*w;}); return {Z,mean:mean/Z,Padm:Padm/Z};}
+function addDiag(A,d){return A.map((row,i)=>row.map((v,j)=>v+(i===j?d:0)))}
+function minEigSym(M){ // Jacobi for n<=4
+ const n=M.length; let A=M.map(r=>r.slice()); for(let iter=0; iter<80; iter++){let p=0,q=1,max=0; for(let i=0;i<n;i++)for(let j=i+1;j<n;j++){const v=Math.abs(A[i][j]); if(v>max){max=v;p=i;q=j;}} if(max<1e-10)break; const phi=0.5*Math.atan2(2*A[p][q],A[q][q]-A[p][p]); const c=Math.cos(phi),s=Math.sin(phi); const app=c*c*A[p][p]-2*s*c*A[p][q]+s*s*A[q][q]; const aqq=s*s*A[p][p]+2*s*c*A[p][q]+c*c*A[q][q]; A[p][q]=A[q][p]=0; A[p][p]=app; A[q][q]=aqq; for(let k=0;k<n;k++){if(k!==p&&k!==q){const akp=c*A[k][p]-s*A[k][q]; const akq=s*A[k][p]+c*A[k][q]; A[k][p]=A[p][k]=akp; A[k][q]=A[q][k]=akq;}} } return Math.min(...A.map((r,i)=>r[i]));}
+function draw(){const g=graphs[els.graphSel.value]; const eta=parseFloat(els.eta.value); const cvs=els.canvas, ctx=cvs.getContext('2d'); const rect=cvs.getBoundingClientRect(); cvs.width=rect.width*devicePixelRatio; cvs.height=rect.height*devicePixelRatio; ctx.scale(devicePixelRatio,devicePixelRatio); const W=rect.width,H=rect.height; ctx.clearRect(0,0,W,H); // triangles
+ g.triangles.forEach(t=>{const om=triOmega(t); ctx.beginPath(); t.forEach((v,idx)=>{const p=g.pos[v]; const x=p[0]*W,y=p[1]*H; if(idx===0)ctx.moveTo(x,y); else ctx.lineTo(x,y);}); ctx.closePath(); ctx.fillStyle=om>0?'rgba(110,231,168,.16)':'rgba(255,107,129,.18)'; ctx.fill(); ctx.strokeStyle=om>0?'rgba(110,231,168,.45)':'rgba(255,107,129,.55)'; ctx.stroke();});
+ g.edges.forEach(e=>{const p1=g.pos[e[0]],p2=g.pos[e[1]]; const x1=p1[0]*W,y1=p1[1]*H,x2=p2[0]*W,y2=p2[1]*H; const key=ekey(e); ctx.strokeStyle=eps[key]>0?'#6ee7a8':'#ff6b81'; ctx.lineWidth=3; ctx.beginPath();ctx.moveTo(x1,y1);ctx.lineTo(x2,y2);ctx.stroke(); const mx=(x1+x2)/2,my=(y1+y2)/2; ctx.fillStyle='#eef4ff'; ctx.font='12px monospace'; ctx.fillText(`ε=${eps[key]>0?'+':'-'} K=${kernel(g.labels[e[0]],g.labels[e[1]],eta).toFixed(2)}`,mx+5,my-5);});
+ g.vertices.forEach(v=>{const p=g.pos[v]; const x=p[0]*W,y=p[1]*H; ctx.fillStyle='#111827';ctx.strokeStyle='#7db2ff';ctx.lineWidth=2;ctx.beginPath();ctx.arc(x,y,19,0,2*Math.PI);ctx.fill();ctx.stroke();ctx.fillStyle='#eef4ff';ctx.textAlign='center';ctx.font='13px sans-serif';ctx.fillText(`n=${g.labels[v]}`,x,y+5);ctx.textAlign='left';});
+}
+function update(){els.gammaVal.textContent=parseFloat(els.gamma.value).toFixed(2);els.etaVal.textContent=parseFloat(els.eta.value).toFixed(2);els.dVal.textContent=parseFloat(els.d.value).toFixed(2); buildButtons(); const g=graphs[els.graphSel.value]; const gamma=parseFloat(els.gamma.value),eta=parseFloat(els.eta.value),d=parseFloat(els.d.value); const A=buildA(g,eta); const A3=matMul(matMul(A,A),A); const tr3=tr(A3); const tf=triFormula(g,eta); const ens=ensemble(g,eta,gamma,d); const lm=minEigSym(addDiag(A,d)); els.tr3.textContent=tr3.toFixed(4); els.triFormula.textContent=tf.toFixed(4); els.Zval.textContent=ens.Z.toExponential(3); els.meanOmega.textContent=ens.mean.toFixed(4); els.Padm.textContent=ens.Padm.toFixed(4); els.lamMin.textContent=lm.toFixed(4); els.lamMin.className='v '+(lm>0?'ok':'bad'); els.formulaBox.textContent=`A_ii = 0\nA_ij = ε_ij K(n_i,n_j)\n\nTr(A^3) = 6 Σ_△ Ω_△ K_△\nΩ_△ = ε_ij ε_jk ε_ki\nK_△ = K_ij K_jk K_ki\n\nZ(γ) = Σ_{ε} exp(γ Tr(A_ε^3))\nβ_△ = 6γK_△\nu_△ = tanh(β_△)\n\nFor a single triangle:\nZ = 8 cosh(6γK_△)\n<Ω_△> = tanh(6γK_△)`; draw();}
+[els.graphSel,els.gamma,els.eta,els.d].forEach(el=>el.addEventListener('input',()=>{if(el===els.graphSel)initEps(); else update();})); window.addEventListener('resize',draw); initEps(); update();
+</script>
+</body>
+</html>

@@ -1,16 +1,30 @@
-# BC-Origin IV v0.1.1 software patch
+# BC-Origin V v0.1.3 review package
 
-This package patches the Python software companion for:
+Boundary Compensation Origin V: Simplicial Z2 Shadow-Gauge Ensembles.
 
-**Boundary Compensation Origin IV: Lifted Phase Flow, Spectral Pumping and Horizon Events in Shadow Geometry**
+This package contains the v0.1.3 review manuscript, LaTeX source, Python reproducibility layer, figures, and interactive HTML lab.
 
-It replaces risky terminology and ambiguous variable names from the reviewer draft:
+## v0.1.3 structural patch
 
-- `Topological Spectral Pumping` -> `Lifted Phase Reindexing`;
-- `w1`, `w2` -> phase-lift deformation coefficients;
-- `kappa` as pairwise-looking constant -> structural overlap / global kernel normalization;
-- rough grid zero-crossing -> linear interpolated horizon estimates;
-- adds nonzero winding validation.
+- Replaces random-bond terminology with deterministic inhomogeneous-bond terminology.
+- Moves triangular 2-cells F2 into the base object: K=(V,E,F2,n,K).
+- Clarifies gamma as a trace-weighting / ensemble-control parameter, not physical time, temperature, or fundamental gauge coupling.
+- Keeps the trace/action separation: Tr(A_epsilon^3) is a trace functional; Z(gamma) is the finite ensemble.
+- Keeps the full shadow operator D_epsilon = Delta + eta A_epsilon only for horizon/admissibility diagnostics.
 
-The code remains a deterministic finite-dimensional toy-model visualization layer. It does not
-claim physical time, physical transition probabilities, real particle creation, or empirical topological pumping.
+## Main files
+
+- manuscript/BC-Origin-V-v0.1.3-review-manuscript.pdf
+- manuscript/BC-Origin-V-v0.1.3-review-manuscript.tex
+- manuscript/reviewer_prompt_BC-Origin-V-v0.1.3.md
+- origin_v/software/bc_origin_v_gauge_ensemble_core.py
+- origin_v/software/generate_bc_origin_v_figures.py
+- origin_v/web/index.html
+
+## Command
+
+python origin_v/software/generate_bc_origin_v_figures.py --out origin_v/figures
+
+## Claim boundary
+
+This is a finite simplicial Z2 shadow-gauge ensemble and software lab. It is not a physical lattice-QFT simulator, not a QCD confinement simulator, and not an empirical spin-glass model.
