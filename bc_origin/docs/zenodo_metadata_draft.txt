@@ -1,0 +1,24 @@
+Title:
+Boundary Compensation Origin VI: Spectral Admissibility Collapse and Projection Failure in Frustrated Shadow-Gauge Ensembles
+
+Subtitle:
+Gershgorin Safety Bounds, Horizon-Crossing Statistics, and Finite-Resolution Readout Failure
+
+Creator:
+Malachevsky, A. A.
+ORCID: 0009-0008-6009-3196
+
+Version:
+v0.1.2 review package
+
+Description:
+This record contains the sixth technical manuscript in the Boundary Compensation Origin program. The paper studies spectral admissibility collapse in finite frustrated shadow-gauge ensembles. Building on BC-Origin V, holonomy configurations are sampled from a finite simplicial Z2 shadow-gauge ensemble rather than from an externally imposed random-sign ratio. For each holonomy configuration, the shadow-readout operator is constructed and its lowest spectral margin is compared with a finite-resolution threshold. Projection failure is defined as loss of local readout admissibility, not as physical particle annihilation or empirical vacuum dynamics. The package includes the manuscript, LaTeX source, Python software, generated figures, a browser-based HTML lab, bibliographic files, and descriptions without formulas.
+
+Keywords:
+Boundary Compensation; BC-Origin; spectral admissibility; projection failure; Z2 gauge ensemble; finite-dimensional operator; Gershgorin theorem; Rayleigh quotient; finite-resolution readout; shadow-gauge ensemble
+
+Software repository:
+https://github.com/AIDevelopersMonster/boundary-compensation
+
+License suggestion:
+CC BY 4.0 for manuscript and documentation; MIT or BSD-3-Clause for software, if consistent with the repository policy.

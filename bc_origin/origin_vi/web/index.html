@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>BC-Origin VI: Ensemble Projection-Failure Lab</title>
+<style>
+body{font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;margin:0;background:#111827;color:#e5e7eb;}
+header{padding:18px 24px;background:#0f172a;border-bottom:1px solid #374151;}
+h1{margin:0;font-size:24px}.sub{color:#9ca3af;margin-top:5px}.wrap{display:grid;grid-template-columns:360px 1fr;gap:18px;padding:18px;}.panel{background:#1f2937;border:1px solid #374151;border-radius:12px;padding:16px;}.control{margin:14px 0}.control label{display:flex;justify-content:space-between;font-size:14px;color:#d1d5db;margin-bottom:5px}input[type=range]{width:100%}select{width:100%;padding:8px;background:#111827;color:#e5e7eb;border:1px solid #4b5563;border-radius:8px}.metrics{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:18px}.metric{background:#111827;border:1px solid #374151;border-radius:10px;padding:12px}.metric .k{font-size:12px;color:#9ca3af}.metric .v{font-size:22px;font-weight:700;margin-top:4px}.ok{color:#22c55e}.warn{color:#f59e0b}.bad{color:#ef4444}canvas{background:#0b1020;border:1px solid #374151;border-radius:12px;width:100%;height:360px}.cols{display:grid;grid-template-columns:1fr 1fr;gap:18px}.note{font-size:13px;color:#cbd5e1;line-height:1.45}.formula{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;background:#0b1020;border-radius:8px;padding:10px;color:#bfdbfe;overflow:auto}.footer{padding:12px 18px;color:#9ca3af;font-size:12px}.btn{background:#2563eb;color:#fff;border:0;border-radius:8px;padding:8px 10px;cursor:pointer}.btn:hover{background:#1d4ed8}</style>
+</head>
+<body>
+<header><h1>BC-Origin VI: Ensemble Projection-Failure Lab</h1><div class="sub">Holonomies are weighted by the BC-Origin V Z(gamma) ensemble. Frustration is measured, not imposed.</div></header>
+<div class="wrap">
+  <section class="panel">
+    <h2>Controls</h2>
+    <div class="control"><label>gamma <span id="gammaV"></span></label><input id="gamma" type="range" min="0" max="2.4" step="0.05" value="0.80"></div>
+    <div class="control"><label>eta <span id="etaV"></span></label><input id="eta" type="range" min="0" max="2.5" step="0.05" value="1.25"></div>
+    <div class="control"><label>d0 <span id="d0V"></span></label><input id="d0" type="range" min="0.2" max="3.0" step="0.05" value="1.50"></div>
+    <div class="control"><label>delta <span id="deltaV"></span></label><input id="delta" type="range" min="0" max="1.0" step="0.02" value="0.00"></div>
+    <div class="control"><label>kernel scale <span id="k0V"></span></label><input id="k0" type="range" min="0.2" max="3.5" step="0.05" value="2.00"></div>
+    <div class="control"><label>complex</label><select id="complex"><option value="disk">triangulated disk</option><option value="two">two triangles</option><option value="tri">single triangle</option></select></div>
+    <button class="btn" onclick="recompute()">Recompute exact ensemble</button>
+    <p class="note">This lab performs exact enumeration on small complexes. The package software also contains an MCMC sampler for larger complexes.</p>
+  </section>
+  <main>
+    <div class="metrics">
+      <div class="metric"><div class="k">P_fail</div><div class="v" id="pfail"></div></div>
+      <div class="metric"><div class="k">mean frustration</div><div class="v" id="phi"></div></div>
+      <div class="metric"><div class="k">mean lambda_min</div><div class="v" id="lmean"></div></div>
+      <div class="metric"><div class="k">Gershgorin min margin</div><div class="v" id="gmarg"></div></div>
+    </div>
+    <div class="cols">
+      <section class="panel"><h3>P_fail and frustration vs gamma</h3><canvas id="curve" width="720" height="360"></canvas></section>
+      <section class="panel"><h3>Frustration vs lambda_min</h3><canvas id="scatter" width="720" height="360"></canvas></section>
+    </div>
+    <section class="panel" style="margin-top:18px"><h3>Model statement</h3>
+      <div class="formula">Z(gamma)=sum_epsilon exp(sum_triangle beta_triangle(gamma) Omega_triangle).<br>For each sampled epsilon: D_epsilon=Delta+eta A_epsilon. Projection failure occurs when lambda_min(D_epsilon) <= delta.</div>
+      <p class="note">This is a finite-dimensional BC-Origin projection-failure laboratory. It does not simulate physical particle annihilation, quantum measurement collapse, empirical vacuum dynamics, or continuum QFT.</p>
+    </section>
+  </main>
+</div>
+<div class="footer">Software repository pointer: https://github.com/AIDevelopersMonster/boundary-compensation</div>
+<script>
+function complexes(name){
+ if(name==='tri') return {V:[0,1,2], E:[[0,1],[1,2],[0,2]], F:[[0,1,2]], n:{0:1,1:2,2:4}};
+ if(name==='two') return {V:[0,1,2,3], E:[[0,1],[1,2],[0,2],[1,3],[2,3]], F:[[0,1,2],[1,3,2]], n:{0:1,1:2,2:4,3:5}};
+ return {V:[0,1,2,3,4,5,6], E:[[0,1],[0,2],[0,3],[0,4],[0,5],[0,6],[1,2],[2,3],[3,4],[4,5],[5,6],[1,6]], F:[[0,1,2],[0,2,3],[0,3,4],[0,4,5],[0,5,6],[0,6,1]], n:{0:1,1:2,2:3,3:5,4:7,5:8,6:11}};
+}
+function edgeKey(a,b){return a<b?`${a},${b}`:`${b},${a}`}
+function K(c,a,b,k0){let d=Math.abs(c.n[a]-c.n[b]); return k0/(1+d*d)}
+function omega(face,eps){return eps[edgeKey(face[0],face[1])]*eps[edgeKey(face[1],face[2])]*eps[edgeKey(face[2],face[0])]}
+function allConfigs(E){let m=E.length, out=[]; for(let mask=0; mask<(1<<m); mask++){let eps={}; for(let i=0;i<m;i++) eps[edgeKey(E[i][0],E[i][1])] = (mask>>i)&1 ? 1 : -1; out.push(eps)} return out}
+function jacobiEigenMin(A){let n=A.length, M=A.map(r=>r.slice()); for(let it=0;it<80;it++){let p=0,q=1,max=0; for(let i=0;i<n;i++)for(let j=i+1;j<n;j++){if(Math.abs(M[i][j])>max){max=Math.abs(M[i][j]);p=i;q=j}} if(max<1e-10) break; let phi=0.5*Math.atan2(2*M[p][q], M[q][q]-M[p][p]); let c=Math.cos(phi), s=Math.sin(phi); for(let k=0;k<n;k++){let mkp=M[k][p], mkq=M[k][q]; M[k][p]=c*mkp-s*mkq; M[k][q]=s*mkp+c*mkq} for(let k=0;k<n;k++){let mpk=M[p][k], mqk=M[q][k]; M[p][k]=c*mpk-s*mqk; M[q][k]=s*mpk+c*mqk} } return Math.min(...M.map((r,i)=>r[i]));}
+function records(gamma,eta,d0,delta,k0,c){let configs=allConfigs(c.E), rec=[], logs=[]; for(let eps of configs){let lw=0, ph=0; for(let f of c.F){let prod=K(c,f[0],f[1],k0)*K(c,f[1],f[2],k0)*K(c,f[2],f[0],k0); let beta=6*gamma*prod; let om=omega(f,eps); lw += beta*om; ph += om;} let N=c.V.length, A=Array.from({length:N},()=>Array(N).fill(0)); for(let e of c.E){let i=e[0],j=e[1], val=eps[edgeKey(i,j)]*K(c,i,j,k0); A[i][j]=val; A[j][i]=val;} let D=A.map((r,i)=>r.map((v,j)=>eta*v+(i===j?d0:0))); let lm=jacobiEigenMin(D); let phi=0.5*(1-ph/c.F.length); logs.push(lw); rec.push({lw,lm,phi,fail:lm<=delta});} let maxlog=Math.max(...logs); let Z=rec.reduce((s,r)=>s+Math.exp(r.lw-maxlog),0); rec.forEach(r=>r.w=Math.exp(r.lw-maxlog)/Z); return rec;}
+function gMargin(eta,d0,delta,k0,c){let best=1e9; for(let v of c.V){let sum=0; for(let e of c.E){if(e[0]===v) sum += K(c,e[0],e[1],k0); if(e[1]===v) sum += K(c,e[0],e[1],k0);} best=Math.min(best, d0-eta*sum-delta);} return best;}
+function drawLine(canvas, data, keys){let ctx=canvas.getContext('2d'), W=canvas.width,H=canvas.height; ctx.clearRect(0,0,W,H); ctx.strokeStyle='#4b5563'; ctx.strokeRect(45,20,W-70,H-60); let xs=data.map(d=>d.x), maxx=Math.max(...xs), minx=Math.min(...xs); for(let ki=0;ki<keys.length;ki++){ctx.beginPath(); for(let i=0;i<data.length;i++){let x=45+(data[i].x-minx)/(maxx-minx)*(W-70); let y=20+(1-data[i][keys[ki]])*(H-60); if(i===0)ctx.moveTo(x,y); else ctx.lineTo(x,y);} ctx.strokeStyle=ki===0?'#60a5fa':'#fbbf24'; ctx.lineWidth=2; ctx.stroke();} ctx.fillStyle='#d1d5db'; ctx.fillText('blue: P_fail, yellow: mean frustration',55,35);}
+function drawScatter(canvas, rec){let ctx=canvas.getContext('2d'), W=canvas.width,H=canvas.height; ctx.clearRect(0,0,W,H); ctx.strokeStyle='#4b5563'; ctx.strokeRect(45,20,W-70,H-60); let ys=rec.map(r=>r.lm), miny=Math.min(...ys), maxy=Math.max(...ys); if(Math.abs(maxy-miny)<1e-9){maxy+=1;miny-=1;} for(let r of rec){let x=45+r.phi*(W-70); let y=20+(1-(r.lm-miny)/(maxy-miny))*(H-60); ctx.beginPath(); ctx.arc(x,y,Math.max(2,Math.sqrt(r.w)*20),0,2*Math.PI); ctx.fillStyle=r.fail?'rgba(239,68,68,.65)':'rgba(34,197,94,.55)'; ctx.fill();} ctx.fillStyle='#d1d5db'; ctx.fillText('x: frustration, y: lambda_min; red: failure',55,35);}
+function recompute(){let gamma=+document.getElementById('gamma').value, eta=+document.getElementById('eta').value, d0=+document.getElementById('d0').value, delta=+document.getElementById('delta').value, k0=+document.getElementById('k0').value; for(let [id,val] of [['gammaV',gamma],['etaV',eta],['d0V',d0],['deltaV',delta],['k0V',k0]]) document.getElementById(id).textContent=val.toFixed(2); let c=complexes(document.getElementById('complex').value); let rec=records(gamma,eta,d0,delta,k0,c); let pf=rec.reduce((s,r)=>s+(r.fail?r.w:0),0), phi=rec.reduce((s,r)=>s+r.w*r.phi,0), lm=rec.reduce((s,r)=>s+r.w*r.lm,0), gm=gMargin(eta,d0,delta,k0,c); document.getElementById('pfail').textContent=pf.toFixed(3); document.getElementById('pfail').className='v '+(pf>0.5?'bad':pf>0.1?'warn':'ok'); document.getElementById('phi').textContent=phi.toFixed(3); document.getElementById('lmean').textContent=lm.toFixed(3); document.getElementById('gmarg').textContent=gm.toFixed(3); document.getElementById('gmarg').className='v '+(gm>0?'ok':'warn'); let curve=[]; for(let g=0; g<=2.401; g+=0.1){let rr=records(g,eta,d0,delta,k0,c); curve.push({x:g,pf:rr.reduce((s,r)=>s+(r.fail?r.w:0),0),fr:rr.reduce((s,r)=>s+r.w*r.phi,0)});} drawLine(document.getElementById('curve'),curve,['pf','fr']); drawScatter(document.getElementById('scatter'),rec);}
+window.onload=recompute;
+</script>
+</body></html>

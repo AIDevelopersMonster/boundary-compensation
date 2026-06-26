@@ -1,0 +1,11 @@
+Matplotlib is building the font cache; this may take a moment.
+Saved ../figures/p_fail_vs_gamma.png
+Saved ../figures/frustration_density_vs_gamma.png
+Saved ../figures/lambda_min_distribution_vs_gamma.png
+Saved ../figures/frustration_vs_lambda_min_ensemble.png
+Saved ../figures/gershgorin_vs_spectral_margin.png
+Saved ../figures/wilson_loop_vs_projection_failure.png
+Saved ../figures/mcmc_trace_diagnostics.png
+Saved ../figures/exact_vs_mcmc_validation.png
+Saved ../figures/scalar_diagonal_collapse_boundary.png
+Saved ../figures/hidden_graph_projection_failure_lab.png
