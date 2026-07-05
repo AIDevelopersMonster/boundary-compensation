@@ -1,0 +1,8 @@
+{
+  "scenario": "channel_merger",
+  "description": "Selected cluster loses separation from a complementary cluster.",
+  "tau": 0.5,
+  "eta": 0.05,
+  "delta_read": 0.40,
+  "samples": 101
+}

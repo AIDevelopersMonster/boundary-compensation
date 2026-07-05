@@ -1,0 +1,8 @@
+{
+  "scenario": "reset_interrupted",
+  "description": "Certified transport exists on two separated segments, interrupted by reset.",
+  "tau": 1.0,
+  "eta": 0.20,
+  "delta_read": 0.40,
+  "samples": 101
+}

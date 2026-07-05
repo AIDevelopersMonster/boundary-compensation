@@ -1,0 +1,8 @@
+{
+  "scenario": "readout_below_threshold",
+  "description": "Spectral channel persists while residual readout drops below threshold.",
+  "tau": 1.0,
+  "eta": 0.25,
+  "delta_read": 0.40,
+  "samples": 101
+}
