@@ -1,0 +1,426 @@
+{
+  "nonclaim": "certified distance diagnostics, not spacetime geometry",
+  "path_budget": 4,
+  "depth_distance_matrix": {
+    "A": {
+      "A": 0,
+      "B": 1,
+      "C": 1,
+      "D": 2,
+      "E": 3,
+      "F": null
+    },
+    "B": {
+      "A": null,
+      "B": 0,
+      "C": null,
+      "D": 1,
+      "E": 2,
+      "F": null
+    },
+    "C": {
+      "A": null,
+      "B": 3,
+      "C": 0,
+      "D": 1,
+      "E": 2,
+      "F": null
+    },
+    "D": {
+      "A": null,
+      "B": 2,
+      "C": null,
+      "D": 0,
+      "E": 1,
+      "F": null
+    },
+    "E": {
+      "A": null,
+      "B": 1,
+      "C": null,
+      "D": 2,
+      "E": 0,
+      "F": null
+    },
+    "F": {
+      "A": null,
+      "B": 2,
+      "C": null,
+      "D": 3,
+      "E": 1,
+      "F": 0
+    }
+  },
+  "cost_distance_matrix": {
+    "A": {
+      "A": 0.0,
+      "B": 1.0,
+      "C": 1.4,
+      "D": 2.1,
+      "E": 3.1,
+      "F": null
+    },
+    "B": {
+      "A": null,
+      "B": 0.0,
+      "C": null,
+      "D": 1.1,
+      "E": 2.1,
+      "F": null
+    },
+    "C": {
+      "A": null,
+      "B": 3.9,
+      "C": 0.0,
+      "D": 0.9,
+      "E": 1.9,
+      "F": null
+    },
+    "D": {
+      "A": null,
+      "B": 3.0,
+      "C": null,
+      "D": 0.0,
+      "E": 1.0,
+      "F": null
+    },
+    "E": {
+      "A": null,
+      "B": 2.0,
+      "C": null,
+      "D": 3.1,
+      "E": 0.0,
+      "F": null
+    },
+    "F": {
+      "A": null,
+      "B": 3.0,
+      "C": null,
+      "D": 4.1,
+      "E": 1.0,
+      "F": 0.0
+    }
+  },
+  "bottleneck_margin_matrix": {
+    "A": {
+      "A": "inf",
+      "B": 0.75,
+      "C": 0.4,
+      "D": 0.65,
+      "E": 0.55,
+      "F": null
+    },
+    "B": {
+      "A": null,
+      "B": "inf",
+      "C": null,
+      "D": 0.65,
+      "E": 0.55,
+      "F": null
+    },
+    "C": {
+      "A": null,
+      "B": 0.1,
+      "C": "inf",
+      "D": 0.1,
+      "E": 0.1,
+      "F": null
+    },
+    "D": {
+      "A": null,
+      "B": 0.12,
+      "C": null,
+      "D": "inf",
+      "E": 0.55,
+      "F": null
+    },
+    "E": {
+      "A": null,
+      "B": 0.12,
+      "C": null,
+      "D": 0.12,
+      "E": "inf",
+      "F": null
+    },
+    "F": {
+      "A": null,
+      "B": 0.12,
+      "C": null,
+      "D": 0.12,
+      "E": 0.25,
+      "F": "inf"
+    }
+  },
+  "entropy_support_distance": {
+    "A": {
+      "A": -0.0,
+      "B": 0.3531,
+      "C": 0.6931,
+      "D": 0.7381,
+      "E": 1.2972,
+      "F": null
+    },
+    "B": {
+      "A": null,
+      "B": -0.0,
+      "C": null,
+      "D": 0.5108,
+      "E": 1.1087,
+      "F": null
+    },
+    "C": {
+      "A": null,
+      "B": 4.1044,
+      "C": -0.0,
+      "D": 1.6094,
+      "E": 2.2073,
+      "F": null
+    },
+    "D": {
+      "A": null,
+      "B": 2.495,
+      "C": null,
+      "D": -0.0,
+      "E": 0.5978,
+      "F": null
+    },
+    "E": {
+      "A": null,
+      "B": 1.8971,
+      "C": null,
+      "D": 2.4079,
+      "E": -0.0,
+      "F": null
+    },
+    "F": {
+      "A": null,
+      "B": 2.9469,
+      "C": null,
+      "D": 3.4578,
+      "E": 1.0498,
+      "F": -0.0
+    }
+  },
+  "status_table": [
+    {
+      "source": "A",
+      "target": "A",
+      "status": "CERTIFIED_DISTANCE",
+      "path_count_under_budget": 1
+    },
+    {
+      "source": "A",
+      "target": "B",
+      "status": "CERTIFIED_DISTANCE",
+      "path_count_under_budget": 2
+    },
+    {
+      "source": "A",
+      "target": "C",
+      "status": "CERTIFIED_DISTANCE",
+      "path_count_under_budget": 1
+    },
+    {
+      "source": "A",
+      "target": "D",
+      "status": "CERTIFIED_DISTANCE",
+      "path_count_under_budget": 2
+    },
+    {
+      "source": "A",
+      "target": "E",
+      "status": "CERTIFIED_DISTANCE",
+      "path_count_under_budget": 2
+    },
+    {
+      "source": "A",
+      "target": "F",
+      "status": "RESET_BLOCKED",
+      "path_count_under_budget": 0
+    },
+    {
+      "source": "B",
+      "target": "A",
+      "status": "UNREACHABLE",
+      "path_count_under_budget": 0
+    },
+    {
+      "source": "B",
+      "target": "B",
+      "status": "CERTIFIED_DISTANCE",
+      "path_count_under_budget": 1
+    },
+    {
+      "source": "B",
+      "target": "C",
+      "status": "UNREACHABLE",
+      "path_count_under_budget": 0
+    },
+    {
+      "source": "B",
+      "target": "D",
+      "status": "CERTIFIED_DISTANCE",
+      "path_count_under_budget": 1
+    },
+    {
+      "source": "B",
+      "target": "E",
+      "status": "CERTIFIED_DISTANCE",
+      "path_count_under_budget": 1
+    },
+    {
+      "source": "B",
+      "target": "F",
+      "status": "UNREACHABLE",
+      "path_count_under_budget": 0
+    },
+    {
+      "source": "C",
+      "target": "A",
+      "status": "UNREACHABLE",
+      "path_count_under_budget": 0
+    },
+    {
+      "source": "C",
+      "target": "B",
+      "status": "MARGIN_LOW",
+      "path_count_under_budget": 1
+    },
+    {
+      "source": "C",
+      "target": "C",
+      "status": "CERTIFIED_DISTANCE",
+      "path_count_under_budget": 1
+    },
+    {
+      "source": "C",
+      "target": "D",
+      "status": "MARGIN_LOW",
+      "path_count_under_budget": 1
+    },
+    {
+      "source": "C",
+      "target": "E",
+      "status": "MARGIN_LOW",
+      "path_count_under_budget": 1
+    },
+    {
+      "source": "C",
+      "target": "F",
+      "status": "RESET_BLOCKED",
+      "path_count_under_budget": 0
+    },
+    {
+      "source": "D",
+      "target": "A",
+      "status": "UNREACHABLE",
+      "path_count_under_budget": 0
+    },
+    {
+      "source": "D",
+      "target": "B",
+      "status": "MARGIN_LOW",
+      "path_count_under_budget": 1
+    },
+    {
+      "source": "D",
+      "target": "C",
+      "status": "UNREACHABLE",
+      "path_count_under_budget": 0
+    },
+    {
+      "source": "D",
+      "target": "D",
+      "status": "CERTIFIED_DISTANCE",
+      "path_count_under_budget": 1
+    },
+    {
+      "source": "D",
+      "target": "E",
+      "status": "CERTIFIED_DISTANCE",
+      "path_count_under_budget": 1
+    },
+    {
+      "source": "D",
+      "target": "F",
+      "status": "UNREACHABLE",
+      "path_count_under_budget": 0
+    },
+    {
+      "source": "E",
+      "target": "A",
+      "status": "UNREACHABLE",
+      "path_count_under_budget": 0
+    },
+    {
+      "source": "E",
+      "target": "B",
+      "status": "MARGIN_LOW",
+      "path_count_under_budget": 1
+    },
+    {
+      "source": "E",
+      "target": "C",
+      "status": "UNREACHABLE",
+      "path_count_under_budget": 0
+    },
+    {
+      "source": "E",
+      "target": "D",
+      "status": "MARGIN_LOW",
+      "path_count_under_budget": 1
+    },
+    {
+      "source": "E",
+      "target": "E",
+      "status": "CERTIFIED_DISTANCE",
+      "path_count_under_budget": 1
+    },
+    {
+      "source": "E",
+      "target": "F",
+      "status": "UNREACHABLE",
+      "path_count_under_budget": 0
+    },
+    {
+      "source": "F",
+      "target": "A",
+      "status": "UNREACHABLE",
+      "path_count_under_budget": 0
+    },
+    {
+      "source": "F",
+      "target": "B",
+      "status": "MARGIN_LOW",
+      "path_count_under_budget": 1
+    },
+    {
+      "source": "F",
+      "target": "C",
+      "status": "UNREACHABLE",
+      "path_count_under_budget": 0
+    },
+    {
+      "source": "F",
+      "target": "D",
+      "status": "MARGIN_LOW",
+      "path_count_under_budget": 1
+    },
+    {
+      "source": "F",
+      "target": "E",
+      "status": "CERTIFIED_DISTANCE",
+      "path_count_under_budget": 1
+    },
+    {
+      "source": "F",
+      "target": "F",
+      "status": "CERTIFIED_DISTANCE",
+      "path_count_under_budget": 1
+    }
+  ],
+  "global_statuses": [
+    "ENTROPY_DISTANCE_NONMETRIC",
+    "METRIC_TENSOR_NONCLAIM"
+  ]
+}

@@ -1,0 +1,87 @@
+{
+  "nodes": [
+    "A",
+    "B",
+    "C",
+    "D",
+    "E",
+    "F"
+  ],
+  "path_budget": 4,
+  "margin_warning_threshold": 0.15,
+  "edges": [
+    {
+      "source": "A",
+      "target": "B",
+      "cost": 1.0,
+      "margin": 0.75,
+      "robust": true,
+      "reset": false,
+      "support_fraction": 0.7
+    },
+    {
+      "source": "A",
+      "target": "C",
+      "cost": 1.4,
+      "margin": 0.4,
+      "robust": true,
+      "reset": false,
+      "support_fraction": 0.5
+    },
+    {
+      "source": "B",
+      "target": "D",
+      "cost": 1.1,
+      "margin": 0.65,
+      "robust": true,
+      "reset": false,
+      "support_fraction": 0.6
+    },
+    {
+      "source": "C",
+      "target": "D",
+      "cost": 0.9,
+      "margin": 0.1,
+      "robust": true,
+      "reset": false,
+      "support_fraction": 0.2
+    },
+    {
+      "source": "D",
+      "target": "E",
+      "cost": 1.0,
+      "margin": 0.55,
+      "robust": true,
+      "reset": false,
+      "support_fraction": 0.55
+    },
+    {
+      "source": "E",
+      "target": "B",
+      "cost": 2.0,
+      "margin": 0.12,
+      "robust": true,
+      "reset": false,
+      "support_fraction": 0.15
+    },
+    {
+      "source": "C",
+      "target": "F",
+      "cost": 1.0,
+      "margin": 0.3,
+      "robust": false,
+      "reset": true,
+      "support_fraction": 0.0
+    },
+    {
+      "source": "F",
+      "target": "E",
+      "cost": 1.0,
+      "margin": 0.25,
+      "robust": true,
+      "reset": false,
+      "support_fraction": 0.35
+    }
+  ],
+  "notes": "Finite graph audit only; not spacetime geometry."
+}
