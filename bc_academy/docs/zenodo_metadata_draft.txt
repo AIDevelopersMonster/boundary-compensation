@@ -1,0 +1,29 @@
+Title:
+BC-Academy I-V: Programme Charter for the Mathematical Apparatus of Boundary Compensation
+
+Alternative Russian title:
+BC-Academy I-V: uchebno-metodicheskaya programma matematicheskogo apparata Boundary Compensation
+
+Creator:
+A. A. Malachevsky
+ORCID: 0009-0008-6009-3196
+
+Resource type recommendation:
+Publication / Project deliverable
+
+Version:
+v0.1.1 demo package
+
+Description:
+This package introduces BC-Academy, the educational and methodological track for the mathematical apparatus of the Boundary Compensation programme. It organizes the existing BC corpus into a reproducible curriculum path: from linear spectral entry and Schur/Feshbach response operators to finite-resolution access, inverse non-identifiability, quotient representatives, wall-stratified atlases, perturbation tubes, certification workflows, reset protocols, gluing diagnostics, and layer-aware metrics.
+
+The central methodological thesis is that finite-resolution data do not reconstruct hidden reality directly; they define certified layers of compatible response structure. The package is a curriculum and demonstration layer, not a new physical claim and not a hidden-sector reconstruction theorem.
+
+Keywords:
+Boundary Compensation; BC-Academy; mathematical apparatus; finite-resolution response; Schur complement; Feshbach reduction; spectral projectors; sector weights; inverse response; non-identifiability; quotient geometry; certified atlases; perturbation tubes; curriculum syllabus
+
+Related repository:
+https://github.com/AIDevelopersMonster/boundary-compensation
+
+Claim boundary:
+This package does not derive the cosmological constant, reconstruct a true hidden sector, identify induced gaps with particle masses, introduce a detector theory, define physical time dynamics, construct RG flow, or make empirical predictions.
