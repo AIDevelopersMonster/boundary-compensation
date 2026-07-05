@@ -1,0 +1,21 @@
+{
+  "note": "Certification entropy demo only. Not thermodynamic entropy, not physical probability, not dynamics.",
+  "path_budget": 4,
+  "nodes": ["p", "a", "b", "c", "q"],
+  "edges": [
+    {"id":"p_a", "source":"p", "target":"a", "robust":true, "sections":["balanced_core", "wide_support"], "weight_fraction":0.45, "reset":false},
+    {"id":"a_q", "source":"a", "target":"q", "robust":true, "sections":["balanced_core"], "weight_fraction":0.40, "reset":false},
+    {"id":"p_b", "source":"p", "target":"b", "robust":true, "sections":["wide_support"], "weight_fraction":0.55, "reset":false},
+    {"id":"b_q", "source":"b", "target":"q", "robust":true, "sections":["wide_support"], "weight_fraction":0.50, "reset":false},
+    {"id":"a_c", "source":"a", "target":"c", "robust":true, "sections":["fragile_loop"], "weight_fraction":0.02, "reset":false},
+    {"id":"c_a", "source":"c", "target":"a", "robust":true, "sections":["fragile_loop"], "weight_fraction":0.02, "reset":false},
+    {"id":"c_q", "source":"c", "target":"q", "robust":false, "sections":[], "weight_fraction":0.0, "reset":true}
+  ],
+  "macrostate_rules": {
+    "direct_or_two_step": ["p>a>q", "p>b>q"],
+    "loop_contaminated": ["p>a>c>a>q"],
+    "reset_contaminated": ["p>a>c>q"]
+  },
+  "measure_declared_before_selection": true,
+  "entropy_base": "natural_log"
+}

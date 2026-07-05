@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="720" height="360" viewBox="0 0 720 360">
+<style>text{font-family:Arial;font-size:14px}.node{fill:white;stroke:#222;stroke-width:2}.edge{stroke:#222;stroke-width:2;marker-end:url(#arrow)}.frag{stroke-dasharray:6 4;stroke:#b55}.reset{stroke:#b00;stroke-width:2;stroke-dasharray:2 4}</style>
+<defs><marker id="arrow" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth"><path d="M0,0 L0,6 L9,3 z" fill="#222"/></marker></defs>
+<line class="edge" x1="95" y1="180" x2="245" y2="90"/><line class="edge" x1="275" y1="90" x2="595" y2="180"/>
+<line class="edge" x1="95" y1="180" x2="245" y2="270"/><line class="edge" x1="275" y1="270" x2="595" y2="180"/>
+<line class="edge frag" x1="275" y1="95" x2="430" y2="145"/><line class="edge frag" x1="420" y1="135" x2="270" y2="85"/>
+<line class="reset" x1="455" y1="160" x2="590" y2="180"/>
+<circle class="node" cx="80" cy="180" r="24"/><text x="74" y="185">p</text>
+<circle class="node" cx="260" cy="80" r="24"/><text x="254" y="85">a</text>
+<circle class="node" cx="260" cy="280" r="24"/><text x="254" y="285">b</text>
+<circle class="node" cx="440" cy="150" r="24"/><text x="434" y="155">c</text>
+<circle class="node" cx="620" cy="180" r="24"/><text x="614" y="185">q</text>
+<text x="40" y="330">Solid: robust support. Dashed: fragile loop support. Red dashed: reset-contaminated edge excluded from robust entropy.</text>
+</svg>

@@ -1,0 +1,573 @@
+{
+  "note": "Certification entropy audit only: not thermodynamic entropy, not physical probability, not dynamics, not a path integral, and not an arrow of time.",
+  "path_budget": 4,
+  "measure_status": "MEASURE_DECLARED",
+  "reachability_matrix": {
+    "p": {
+      "p": true,
+      "a": true,
+      "b": true,
+      "c": true,
+      "q": true
+    },
+    "a": {
+      "p": false,
+      "a": true,
+      "b": false,
+      "c": true,
+      "q": true
+    },
+    "b": {
+      "p": false,
+      "a": false,
+      "b": true,
+      "c": false,
+      "q": true
+    },
+    "c": {
+      "p": false,
+      "a": true,
+      "b": false,
+      "c": true,
+      "q": true
+    },
+    "q": {
+      "p": false,
+      "a": false,
+      "b": false,
+      "c": false,
+      "q": true
+    }
+  },
+  "path_support_table": [
+    {
+      "source": "p",
+      "target": "p",
+      "path": "p",
+      "length": 0,
+      "macrostate": "identity",
+      "weight_fraction_proxy": 1.0,
+      "section_support": {
+        "existential_count": 1,
+        "uniform_sections": [
+          "length_zero"
+        ]
+      },
+      "statuses": [
+        "CERTIFICATION_ENTROPY_DEFINED"
+      ]
+    },
+    {
+      "source": "p",
+      "target": "a",
+      "path": "p>a",
+      "length": 1,
+      "macrostate": "other_robust_support",
+      "weight_fraction_proxy": 0.45,
+      "section_support": {
+        "existential_count": 2,
+        "uniform_sections": [
+          "balanced_core",
+          "wide_support"
+        ]
+      },
+      "statuses": [
+        "CERTIFICATION_ENTROPY_DEFINED",
+        "NONUNIQUE_REACHABILITY"
+      ]
+    },
+    {
+      "source": "p",
+      "target": "a",
+      "path": "p>a>c>a",
+      "length": 3,
+      "macrostate": "other_robust_support",
+      "weight_fraction_proxy": 0.02,
+      "section_support": {
+        "existential_count": 3,
+        "uniform_sections": []
+      },
+      "statuses": [
+        "CERTIFICATION_ENTROPY_DEFINED",
+        "NONUNIQUE_REACHABILITY",
+        "MEASURE_FRAGILE"
+      ]
+    },
+    {
+      "source": "p",
+      "target": "b",
+      "path": "p>b",
+      "length": 1,
+      "macrostate": "other_robust_support",
+      "weight_fraction_proxy": 0.55,
+      "section_support": {
+        "existential_count": 1,
+        "uniform_sections": [
+          "wide_support"
+        ]
+      },
+      "statuses": [
+        "CERTIFICATION_ENTROPY_DEFINED"
+      ]
+    },
+    {
+      "source": "p",
+      "target": "c",
+      "path": "p>a>c",
+      "length": 2,
+      "macrostate": "other_robust_support",
+      "weight_fraction_proxy": 0.02,
+      "section_support": {
+        "existential_count": 3,
+        "uniform_sections": []
+      },
+      "statuses": [
+        "CERTIFICATION_ENTROPY_DEFINED",
+        "NONUNIQUE_REACHABILITY",
+        "MEASURE_FRAGILE"
+      ]
+    },
+    {
+      "source": "p",
+      "target": "c",
+      "path": "p>a>c>a>c",
+      "length": 4,
+      "macrostate": "other_robust_support",
+      "weight_fraction_proxy": 0.02,
+      "section_support": {
+        "existential_count": 3,
+        "uniform_sections": []
+      },
+      "statuses": [
+        "CERTIFICATION_ENTROPY_DEFINED",
+        "NONUNIQUE_REACHABILITY",
+        "MEASURE_FRAGILE"
+      ]
+    },
+    {
+      "source": "p",
+      "target": "q",
+      "path": "p>a>q",
+      "length": 2,
+      "macrostate": "direct_or_two_step",
+      "weight_fraction_proxy": 0.4,
+      "section_support": {
+        "existential_count": 2,
+        "uniform_sections": [
+          "balanced_core"
+        ]
+      },
+      "statuses": [
+        "CERTIFICATION_ENTROPY_DEFINED",
+        "NONUNIQUE_REACHABILITY"
+      ]
+    },
+    {
+      "source": "p",
+      "target": "q",
+      "path": "p>a>c>a>q",
+      "length": 4,
+      "macrostate": "loop_contaminated",
+      "weight_fraction_proxy": 0.02,
+      "section_support": {
+        "existential_count": 3,
+        "uniform_sections": []
+      },
+      "statuses": [
+        "CERTIFICATION_ENTROPY_DEFINED",
+        "NONUNIQUE_REACHABILITY",
+        "MEASURE_FRAGILE"
+      ]
+    },
+    {
+      "source": "p",
+      "target": "q",
+      "path": "p>b>q",
+      "length": 2,
+      "macrostate": "direct_or_two_step",
+      "weight_fraction_proxy": 0.5,
+      "section_support": {
+        "existential_count": 1,
+        "uniform_sections": [
+          "wide_support"
+        ]
+      },
+      "statuses": [
+        "CERTIFICATION_ENTROPY_DEFINED"
+      ]
+    },
+    {
+      "source": "a",
+      "target": "a",
+      "path": "a",
+      "length": 0,
+      "macrostate": "identity",
+      "weight_fraction_proxy": 1.0,
+      "section_support": {
+        "existential_count": 1,
+        "uniform_sections": [
+          "length_zero"
+        ]
+      },
+      "statuses": [
+        "CERTIFICATION_ENTROPY_DEFINED"
+      ]
+    },
+    {
+      "source": "a",
+      "target": "a",
+      "path": "a>c>a",
+      "length": 2,
+      "macrostate": "other_robust_support",
+      "weight_fraction_proxy": 0.02,
+      "section_support": {
+        "existential_count": 1,
+        "uniform_sections": [
+          "fragile_loop"
+        ]
+      },
+      "statuses": [
+        "CERTIFICATION_ENTROPY_DEFINED",
+        "MEASURE_FRAGILE"
+      ]
+    },
+    {
+      "source": "a",
+      "target": "a",
+      "path": "a>c>a>c>a",
+      "length": 4,
+      "macrostate": "other_robust_support",
+      "weight_fraction_proxy": 0.02,
+      "section_support": {
+        "existential_count": 1,
+        "uniform_sections": [
+          "fragile_loop"
+        ]
+      },
+      "statuses": [
+        "CERTIFICATION_ENTROPY_DEFINED",
+        "MEASURE_FRAGILE"
+      ]
+    },
+    {
+      "source": "a",
+      "target": "c",
+      "path": "a>c",
+      "length": 1,
+      "macrostate": "other_robust_support",
+      "weight_fraction_proxy": 0.02,
+      "section_support": {
+        "existential_count": 1,
+        "uniform_sections": [
+          "fragile_loop"
+        ]
+      },
+      "statuses": [
+        "CERTIFICATION_ENTROPY_DEFINED",
+        "MEASURE_FRAGILE"
+      ]
+    },
+    {
+      "source": "a",
+      "target": "c",
+      "path": "a>c>a>c",
+      "length": 3,
+      "macrostate": "other_robust_support",
+      "weight_fraction_proxy": 0.02,
+      "section_support": {
+        "existential_count": 1,
+        "uniform_sections": [
+          "fragile_loop"
+        ]
+      },
+      "statuses": [
+        "CERTIFICATION_ENTROPY_DEFINED",
+        "MEASURE_FRAGILE"
+      ]
+    },
+    {
+      "source": "a",
+      "target": "q",
+      "path": "a>q",
+      "length": 1,
+      "macrostate": "other_robust_support",
+      "weight_fraction_proxy": 0.4,
+      "section_support": {
+        "existential_count": 1,
+        "uniform_sections": [
+          "balanced_core"
+        ]
+      },
+      "statuses": [
+        "CERTIFICATION_ENTROPY_DEFINED"
+      ]
+    },
+    {
+      "source": "a",
+      "target": "q",
+      "path": "a>c>a>q",
+      "length": 3,
+      "macrostate": "other_robust_support",
+      "weight_fraction_proxy": 0.02,
+      "section_support": {
+        "existential_count": 2,
+        "uniform_sections": []
+      },
+      "statuses": [
+        "CERTIFICATION_ENTROPY_DEFINED",
+        "NONUNIQUE_REACHABILITY",
+        "MEASURE_FRAGILE"
+      ]
+    },
+    {
+      "source": "b",
+      "target": "b",
+      "path": "b",
+      "length": 0,
+      "macrostate": "identity",
+      "weight_fraction_proxy": 1.0,
+      "section_support": {
+        "existential_count": 1,
+        "uniform_sections": [
+          "length_zero"
+        ]
+      },
+      "statuses": [
+        "CERTIFICATION_ENTROPY_DEFINED"
+      ]
+    },
+    {
+      "source": "b",
+      "target": "q",
+      "path": "b>q",
+      "length": 1,
+      "macrostate": "other_robust_support",
+      "weight_fraction_proxy": 0.5,
+      "section_support": {
+        "existential_count": 1,
+        "uniform_sections": [
+          "wide_support"
+        ]
+      },
+      "statuses": [
+        "CERTIFICATION_ENTROPY_DEFINED"
+      ]
+    },
+    {
+      "source": "c",
+      "target": "a",
+      "path": "c>a",
+      "length": 1,
+      "macrostate": "other_robust_support",
+      "weight_fraction_proxy": 0.02,
+      "section_support": {
+        "existential_count": 1,
+        "uniform_sections": [
+          "fragile_loop"
+        ]
+      },
+      "statuses": [
+        "CERTIFICATION_ENTROPY_DEFINED",
+        "MEASURE_FRAGILE"
+      ]
+    },
+    {
+      "source": "c",
+      "target": "a",
+      "path": "c>a>c>a",
+      "length": 3,
+      "macrostate": "other_robust_support",
+      "weight_fraction_proxy": 0.02,
+      "section_support": {
+        "existential_count": 1,
+        "uniform_sections": [
+          "fragile_loop"
+        ]
+      },
+      "statuses": [
+        "CERTIFICATION_ENTROPY_DEFINED",
+        "MEASURE_FRAGILE"
+      ]
+    },
+    {
+      "source": "c",
+      "target": "c",
+      "path": "c",
+      "length": 0,
+      "macrostate": "identity",
+      "weight_fraction_proxy": 1.0,
+      "section_support": {
+        "existential_count": 1,
+        "uniform_sections": [
+          "length_zero"
+        ]
+      },
+      "statuses": [
+        "CERTIFICATION_ENTROPY_DEFINED"
+      ]
+    },
+    {
+      "source": "c",
+      "target": "c",
+      "path": "c>a>c",
+      "length": 2,
+      "macrostate": "other_robust_support",
+      "weight_fraction_proxy": 0.02,
+      "section_support": {
+        "existential_count": 1,
+        "uniform_sections": [
+          "fragile_loop"
+        ]
+      },
+      "statuses": [
+        "CERTIFICATION_ENTROPY_DEFINED",
+        "MEASURE_FRAGILE"
+      ]
+    },
+    {
+      "source": "c",
+      "target": "c",
+      "path": "c>a>c>a>c",
+      "length": 4,
+      "macrostate": "other_robust_support",
+      "weight_fraction_proxy": 0.02,
+      "section_support": {
+        "existential_count": 1,
+        "uniform_sections": [
+          "fragile_loop"
+        ]
+      },
+      "statuses": [
+        "CERTIFICATION_ENTROPY_DEFINED",
+        "MEASURE_FRAGILE"
+      ]
+    },
+    {
+      "source": "c",
+      "target": "q",
+      "path": "c>a>q",
+      "length": 2,
+      "macrostate": "other_robust_support",
+      "weight_fraction_proxy": 0.02,
+      "section_support": {
+        "existential_count": 2,
+        "uniform_sections": []
+      },
+      "statuses": [
+        "CERTIFICATION_ENTROPY_DEFINED",
+        "NONUNIQUE_REACHABILITY",
+        "MEASURE_FRAGILE"
+      ]
+    },
+    {
+      "source": "c",
+      "target": "q",
+      "path": "c>a>c>a>q",
+      "length": 4,
+      "macrostate": "other_robust_support",
+      "weight_fraction_proxy": 0.02,
+      "section_support": {
+        "existential_count": 2,
+        "uniform_sections": []
+      },
+      "statuses": [
+        "CERTIFICATION_ENTROPY_DEFINED",
+        "NONUNIQUE_REACHABILITY",
+        "MEASURE_FRAGILE"
+      ]
+    },
+    {
+      "source": "q",
+      "target": "q",
+      "path": "q",
+      "length": 0,
+      "macrostate": "identity",
+      "weight_fraction_proxy": 1.0,
+      "section_support": {
+        "existential_count": 1,
+        "uniform_sections": [
+          "length_zero"
+        ]
+      },
+      "statuses": [
+        "CERTIFICATION_ENTROPY_DEFINED"
+      ]
+    }
+  ],
+  "macrostate_entropy_table": [
+    {
+      "macrostate": "direct_or_two_step",
+      "support_count": 2,
+      "count_entropy": 0.6931471805599453,
+      "weight_support_proxy_sum": 0.9,
+      "examples": [
+        "p>a>q",
+        "p>b>q"
+      ],
+      "statuses": [
+        "MACROSTATE_CERTIFIED",
+        "CERTIFICATION_ENTROPY_DEFINED"
+      ]
+    },
+    {
+      "macrostate": "identity",
+      "support_count": 5,
+      "count_entropy": 1.6094379124341003,
+      "weight_support_proxy_sum": 5.0,
+      "examples": [
+        "p",
+        "a",
+        "b",
+        "c",
+        "q"
+      ],
+      "statuses": [
+        "MACROSTATE_CERTIFIED",
+        "CERTIFICATION_ENTROPY_DEFINED"
+      ]
+    },
+    {
+      "macrostate": "loop_contaminated",
+      "support_count": 1,
+      "count_entropy": 0.0,
+      "weight_support_proxy_sum": 0.02,
+      "examples": [
+        "p>a>c>a>q"
+      ],
+      "statuses": [
+        "MACROSTATE_CERTIFIED",
+        "CERTIFICATION_ENTROPY_DEFINED"
+      ]
+    },
+    {
+      "macrostate": "other_robust_support",
+      "support_count": 18,
+      "count_entropy": 2.8903717578961645,
+      "weight_support_proxy_sum": 2.18,
+      "examples": [
+        "p>a",
+        "p>a>c>a",
+        "p>b",
+        "p>a>c",
+        "p>a>c>a>c"
+      ],
+      "statuses": [
+        "MACROSTATE_CERTIFIED",
+        "CERTIFICATION_ENTROPY_DEFINED",
+        "ENTROPY_DOMINANT"
+      ]
+    }
+  ],
+  "status_protocol": [
+    "CERTIFICATION_ENTROPY_DEFINED",
+    "EMPTY_SUPPORT",
+    "NONUNIQUE_REACHABILITY",
+    "MACROSTATE_CERTIFIED",
+    "ENTROPY_DOMINANT",
+    "COARSE_GRAINING_GAIN",
+    "MEASURE_FRAGILE",
+    "MEASURE_TUNING_ARTIFACT",
+    "RESET_CONTAMINATED",
+    "INCONCLUSIVE_ENTROPY"
+  ]
+}
