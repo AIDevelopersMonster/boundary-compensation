@@ -1,0 +1,142 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>BC-CI II certified transport demo</title>
+<style>
+  :root { --bg:#0f172a; --panel:#111827; --text:#e5e7eb; --muted:#9ca3af; --blue:#60a5fa; --red:#f87171; --green:#34d399; --orange:#f59e0b; --purple:#c084fc; }
+  body { margin:0; font-family: system-ui, -apple-system, Segoe UI, sans-serif; background:var(--bg); color:var(--text); }
+  main { max-width: 1080px; margin: 0 auto; padding: 24px; }
+  h1 { font-size: 24px; margin: 0 0 8px; }
+  .note { color: var(--muted); line-height: 1.45; }
+  .panel { background: var(--panel); border:1px solid #1f2937; border-radius: 14px; padding: 16px; margin: 16px 0; box-shadow: 0 10px 30px rgba(0,0,0,.2); }
+  label { display:block; margin: 10px 0 6px; color: var(--muted); }
+  select, input { background:#020617; color:var(--text); border:1px solid #374151; border-radius: 8px; padding:8px 10px; }
+  .controls { display:grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 14px; align-items:end; }
+  .equations { display:grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 10px; }
+  code { color:#bfdbfe; }
+  svg { width: 100%; height: auto; background:#020617; border-radius: 12px; }
+  .status { font-weight: 700; padding: 8px 10px; border-radius: 999px; display: inline-block; background:#1f2937; }
+  .legend { display:flex; gap:16px; flex-wrap:wrap; color:var(--muted); font-size:14px; }
+  .swatch { width:12px; height:12px; display:inline-block; border-radius:3px; margin-right:6px; }
+</style>
+</head>
+<body>
+<main>
+  <h1>BC-CI II certified residual transport demo</h1>
+  <p class="note">This browser-only demonstration visualizes the BC-CI II distinction between a spectrally certified channel and a detectable residual readout. It is not a physical simulation: <code>u</code> is not time, and transport is only certified continuation along a declared parameter path.</p>
+
+  <section class="panel controls">
+    <div>
+      <label for="scenario">Scenario</label>
+      <select id="scenario">
+        <option value="stable_channel">stable_channel</option>
+        <option value="readout_below_threshold" selected>readout_below_threshold</option>
+        <option value="channel_merger">channel_merger</option>
+        <option value="reset_interrupted">reset_interrupted</option>
+      </select>
+    </div>
+    <div>
+      <label for="eta">eta: perturbation tolerance</label>
+      <input id="eta" type="range" min="0" max="0.8" value="0.25" step="0.01" />
+      <span id="etaOut"></span>
+    </div>
+    <div>
+      <label for="delta">delta_read: readout threshold</label>
+      <input id="delta" type="range" min="0" max="1.2" value="0.40" step="0.01" />
+      <span id="deltaOut"></span>
+    </div>
+  </section>
+
+  <section class="panel equations">
+    <div><code>s_a(u)=g_a^tau(B(u))-eta</code><br><span class="note">positive spectral margin certifies the channel identity</span></div>
+    <div><code>q_a(u)=||R_a(u)||-delta_read</code><br><span class="note">positive readout margin certifies detectable residual readout</span></div>
+    <div><span class="status" id="summaryStatus">status</span><br><span class="note" id="summaryText"></span></div>
+  </section>
+
+  <section class="panel">
+    <svg id="chart" viewBox="0 0 900 420" role="img" aria-label="margin chart"></svg>
+    <div class="legend">
+      <span><i class="swatch" style="background:var(--blue)"></i>spectral margin</span>
+      <span><i class="swatch" style="background:var(--red)"></i>readout margin</span>
+      <span><i class="swatch" style="background:var(--green)"></i>READOUT_CERTIFIED</span>
+      <span><i class="swatch" style="background:var(--orange)"></i>READOUT_BELOW_THRESHOLD</span>
+      <span><i class="swatch" style="background:var(--purple)"></i>MERGER / RESET</span>
+    </div>
+  </section>
+</main>
+<script>
+const $ = id => document.getElementById(id);
+const scenarioSelect = $('scenario');
+const etaInput = $('eta');
+const deltaInput = $('delta');
+const chart = $('chart');
+const tau = 1.0;
+
+function values(name, u) {
+  let la, lb, r;
+  if (name === 'stable_channel') { la = 2 + 0.1*u; lb = 0.2; r = 0.80 + 0.05*Math.sin(Math.PI*u); }
+  else if (name === 'readout_below_threshold') { la = 2 + 0.1*u; lb = 0.2; r = Math.max(0, 1-u); }
+  else if (name === 'channel_merger') { la = 1.2 + Math.abs(u-0.5); lb = 1.2 - Math.abs(u-0.5); r = 0.8; }
+  else { la = 2.0; lb = (u >= 0.45 && u <= 0.55) ? 1.95 : 0.2; r = 0.7; }
+  const alpha = la - tau;
+  const rho = Math.abs(la-lb);
+  const g = Math.min(alpha, rho);
+  return {la, lb, residual:r, g, rho};
+}
+function rank(la, lb) { return (la > tau ? 1 : 0) + (lb > tau ? 1 : 0); }
+function status(v, eta, delta) {
+  if (v.rho <= eta) return 'CHANNEL_MERGER';
+  if (rank(v.la, v.lb) !== 1) return 'RANK_CHANGE';
+  if (v.g - eta <= 0) return 'CERTIFICATE_RESET';
+  return (v.residual - delta > 0) ? 'READOUT_CERTIFIED' : 'READOUT_BELOW_THRESHOLD';
+}
+function draw() {
+  const name = scenarioSelect.value;
+  const eta = Number(etaInput.value);
+  const delta = Number(deltaInput.value);
+  $('etaOut').textContent = eta.toFixed(2);
+  $('deltaOut').textContent = delta.toFixed(2);
+  const pts = [];
+  for (let i=0; i<=200; i++) {
+    const u = i/200;
+    const v = values(name, u);
+    pts.push({u, spectral:v.g-eta, readout:v.residual-delta, status:status(v,eta,delta)});
+  }
+  const ys = pts.flatMap(p=>[p.spectral,p.readout,0]);
+  let ymin = Math.min(...ys)-0.1, ymax = Math.max(...ys)+0.1;
+  const X0=70, Y0=30, W=760, H=280;
+  const x = u => X0 + u*W;
+  const y = val => Y0 + H - (val-ymin)/(ymax-ymin)*H;
+  const line = key => pts.map(p=>`${x(p.u).toFixed(1)},${y(p[key]).toFixed(1)}`).join(' ');
+  const zeroY = y(0);
+  const blocks = [];
+  for (let i=0;i<pts.length;i++) {
+    const p=pts[i];
+    const color = p.status === 'READOUT_CERTIFIED' ? '#34d399' : p.status === 'READOUT_BELOW_THRESHOLD' ? '#f59e0b' : '#c084fc';
+    blocks.push(`<rect x="${x(p.u).toFixed(1)}" y="340" width="4" height="22" fill="${color}"/>`);
+  }
+  chart.innerHTML = `
+    <rect x="0" y="0" width="900" height="420" fill="#020617"/>
+    <text x="70" y="22" fill="#e5e7eb" font-size="17" font-family="system-ui">${name}</text>
+    <line x1="${X0}" y1="${Y0+H}" x2="${X0+W}" y2="${Y0+H}" stroke="#94a3b8"/>
+    <line x1="${X0}" y1="${Y0}" x2="${X0}" y2="${Y0+H}" stroke="#94a3b8"/>
+    <line x1="${X0}" y1="${zeroY}" x2="${X0+W}" y2="${zeroY}" stroke="#64748b" stroke-dasharray="5 5"/>
+    <polyline points="${line('spectral')}" fill="none" stroke="#60a5fa" stroke-width="4"/>
+    <polyline points="${line('readout')}" fill="none" stroke="#f87171" stroke-width="4"/>
+    <text x="${X0+W-10}" y="${Y0+H+24}" fill="#94a3b8" font-size="13">u</text>
+    <text x="15" y="${zeroY-6}" fill="#94a3b8" font-size="12">0</text>
+    <text x="70" y="385" fill="#94a3b8" font-size="13">status along path</text>
+    ${blocks.join('\n')}`;
+  const counts = pts.reduce((acc,p)=>{acc[p.status]=(acc[p.status]||0)+1; return acc;},{});
+  $('summaryStatus').textContent = name;
+  $('summaryText').textContent = Object.entries(counts).map(([k,v])=>`${k}: ${v}`).join(' | ');
+}
+scenarioSelect.addEventListener('change', draw);
+etaInput.addEventListener('input', draw);
+deltaInput.addEventListener('input', draw);
+draw();
+</script>
+</body>
+</html>
