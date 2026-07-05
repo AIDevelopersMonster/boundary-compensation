@@ -1,0 +1,7 @@
+{
+  "scenario": "three_chart_atlas",
+  "eta": 0.20,
+  "kappa": 0.35,
+  "zeta": 0.25,
+  "grid_size": 41
+}

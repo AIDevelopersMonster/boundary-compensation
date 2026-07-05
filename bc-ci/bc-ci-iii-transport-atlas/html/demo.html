@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>BC-CI III certified transport atlas demo</title>
+<style>
+:root{--bg:#0f172a;--panel:#111827;--text:#e5e7eb;--muted:#9ca3af;--green:#34d399;--red:#f87171;--purple:#c084fc;--blue:#60a5fa;}
+body{margin:0;background:var(--bg);color:var(--text);font-family:system-ui,-apple-system,Segoe UI,sans-serif}
+main{max-width:1080px;margin:0 auto;padding:24px}.panel{background:var(--panel);border:1px solid #1f2937;border-radius:14px;padding:16px;margin:16px 0}svg{width:100%;height:auto;background:#020617;border-radius:12px}.note{color:var(--muted);line-height:1.45}select,input{background:#020617;color:var(--text);border:1px solid #374151;border-radius:8px;padding:8px 10px}.controls{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:14px}.legend{display:flex;gap:16px;flex-wrap:wrap;color:var(--muted)}.sw{display:inline-block;width:12px;height:12px;border-radius:3px;margin-right:6px}
+</style>
+</head>
+<body>
+<main>
+<h1>BC-CI III certified transport atlas demo</h1>
+<p class="note">This browser-only demo visualizes atlas statuses over a declared two-parameter base. The plane is not physical space or spacetime. It is only a parameter base used for certification bookkeeping.</p>
+<section class="panel controls">
+<div><label>Scenario</label><br><select id="mode"><option value="clean">clean gluing</option><option value="reset_edge">reset edge</option><option value="triple_defect">triple defect</option></select></div>
+<div><label>kappa: overlap tolerance</label><br><input id="kappa" type="range" min="0.05" max="0.9" step="0.01" value="0.35"><span id="kout"></span></div>
+<div><label>zeta: triple tolerance</label><br><input id="zeta" type="range" min="0.01" max="0.6" step="0.01" value="0.25"><span id="zout"></span></div>
+</section>
+<section class="panel"><svg id="plot" viewBox="0 0 720 560"></svg>
+<p class="legend"><span><i class="sw" style="background:var(--green)"></i>GLUING_CERTIFIED</span><span><i class="sw" style="background:var(--red)"></i>RESET_EDGE</span><span><i class="sw" style="background:var(--purple)"></i>TRIPLE_DEFECT</span></p>
+<p class="note" id="summary"></p></section>
+</main>
+<script>
+const $=id=>document.getElementById(id);const plot=$('plot');
+function angle(c,x,y,mode){let base=Math.atan2(y-.5,x-.5)/4;let off=[0,.08,-.06][c];if(mode==='reset_edge'&&c===1&&x>.47)off+=.9;if(mode==='triple_defect'&&c===2&&x>.35&&x<.65&&y>.35&&y<.65)off+=.55;return base+off}
+function pd(a,b){return Math.abs(Math.sin(a-b))}
+function status(x,y,k,z,mode){let p=[0,1,2].map(c=>angle(c,x,y,mode));let d01=pd(p[0],p[1]),d12=pd(p[1],p[2]),d02=pd(p[0],p[2]);if(Math.max(d01,d12,d02)>k)return 'RESET_EDGE';let td=Math.abs(d02-Math.min(1,d01+d12));if(td>z)return 'TRIPLE_DEFECT';return 'GLUING_CERTIFIED'}
+function draw(){let mode=$('mode').value,k=+$('kappa').value,z=+$('zeta').value;$('kout').textContent=' '+k.toFixed(2);$('zout').textContent=' '+z.toFixed(2);let n=44,cell=11,x0=90,y0=40,counts={};let rects=[];for(let i=0;i<n;i++){for(let j=0;j<n;j++){let x=i/(n-1),y=j/(n-1),s=status(x,y,k,z,mode);counts[s]=(counts[s]||0)+1;let col=s==='GLUING_CERTIFIED'?'#34d399':s==='RESET_EDGE'?'#f87171':'#c084fc';rects.push(`<rect x="${x0+i*cell}" y="${y0+(n-1-j)*cell}" width="${cell}" height="${cell}" fill="${col}"/>`)}}
+plot.innerHTML=`<rect width="720" height="560" fill="#020617"/><text x="90" y="25" fill="#e5e7eb" font-size="17">${mode}</text>${rects.join('')}<rect x="${x0}" y="${y0}" width="${n*cell}" height="${n*cell}" fill="none" stroke="#94a3b8"/><text x="90" y="545" fill="#94a3b8" font-size="13">parameter base: not physical space</text>`;$('summary').textContent=Object.entries(counts).map(([a,b])=>`${a}: ${b}`).join(' | ')}
+['mode','kappa','zeta'].forEach(id=>$(id).addEventListener('input',draw));draw();
+</script>
+</body>
+</html>
