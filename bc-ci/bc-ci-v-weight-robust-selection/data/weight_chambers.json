@@ -1,0 +1,135 @@
+{
+  "note": "Certification audit only: not a physical trajectory, not an action principle, not empirical evidence, not causality, and not a physical arrow of time. Weight domain is declared before selection.",
+  "epsilon": 0.015,
+  "num_weight_samples": 30000,
+  "components": [
+    "read",
+    "leak",
+    "var",
+    "reset",
+    "bal",
+    "amb"
+  ],
+  "results": [
+    {
+      "id": "balanced_core",
+      "label": "Balanced robust core",
+      "cost": [
+        0.7,
+        0.7,
+        0.35,
+        0.35,
+        0.35,
+        0.35
+      ],
+      "exact_fraction": 0.879467,
+      "epsilon_fraction": 0.893567,
+      "minimax_score": 0.7,
+      "status": [
+        "PARETO_STABLE",
+        "EXACT_WEIGHT_ROBUST",
+        "FACET_ROBUST",
+        "EPSILON_ROBUST",
+        "MINIMAX_ROBUST"
+      ]
+    },
+    {
+      "id": "read_specialist",
+      "label": "Readout specialist",
+      "cost": [
+        0.05,
+        0.95,
+        0.95,
+        0.95,
+        0.95,
+        0.95
+      ],
+      "exact_fraction": 0.0527,
+      "epsilon_fraction": 0.059367,
+      "minimax_score": 0.95,
+      "status": [
+        "PARETO_STABLE",
+        "EXACT_WEIGHT_ROBUST",
+        "FACET_ROBUST",
+        "EPSILON_ROBUST"
+      ]
+    },
+    {
+      "id": "leak_specialist",
+      "label": "Leakage specialist",
+      "cost": [
+        0.95,
+        0.05,
+        0.95,
+        0.95,
+        0.95,
+        0.95
+      ],
+      "exact_fraction": 0.0514,
+      "epsilon_fraction": 0.057267,
+      "minimax_score": 0.95,
+      "status": [
+        "PARETO_STABLE",
+        "EXACT_WEIGHT_ROBUST",
+        "FACET_ROBUST",
+        "EPSILON_ROBUST"
+      ]
+    },
+    {
+      "id": "reset_specialist",
+      "label": "Reset-avoidance specialist",
+      "cost": [
+        0.9,
+        0.9,
+        0.9,
+        0.05,
+        0.9,
+        0.9
+      ],
+      "exact_fraction": 0.016433,
+      "epsilon_fraction": 0.020167,
+      "minimax_score": 0.9,
+      "status": [
+        "PARETO_STABLE"
+      ]
+    },
+    {
+      "id": "point_artifact",
+      "label": "Point-tuned artifact",
+      "cost": [
+        0.5,
+        0.5,
+        0.95,
+        0.95,
+        0.95,
+        0.95
+      ],
+      "exact_fraction": 0.0,
+      "epsilon_fraction": 0.000933,
+      "minimax_score": 0.95,
+      "status": [
+        "PARETO_STABLE",
+        "WEIGHT_FRAGILE",
+        "TUNING_ARTIFACT"
+      ]
+    },
+    {
+      "id": "dominated_noise",
+      "label": "Dominated noisy section",
+      "cost": [
+        0.98,
+        0.98,
+        0.98,
+        0.98,
+        0.98,
+        0.98
+      ],
+      "exact_fraction": 0.0,
+      "epsilon_fraction": 0.0,
+      "minimax_score": 0.98,
+      "status": [
+        "DOMINATED"
+      ]
+    }
+  ]
+}
