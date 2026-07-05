@@ -1,0 +1,29 @@
+{
+  "note": "BC-CI VI diagnostic graph. Not spacetime and not physical causality.",
+  "accepted_section_statuses": ["EPSILON_ROBUST", "MINIMAX_ROBUST", "EXACT_WEIGHT_ROBUST"],
+  "nodes": [
+    {"id": "A", "potential": 0},
+    {"id": "B", "potential": 1},
+    {"id": "C", "potential": 2},
+    {"id": "D", "potential": 3},
+    {"id": "E", "potential": 2},
+    {"id": "F", "potential": 1}
+  ],
+  "sections": [
+    {"id": "xi_chain", "status": ["EPSILON_ROBUST"]},
+    {"id": "xi_minimax", "status": ["MINIMAX_ROBUST"]},
+    {"id": "xi_fragile", "status": ["WEIGHT_FRAGILE"]},
+    {"id": "xi_tuned", "status": ["TUNING_ARTIFACT"]}
+  ],
+  "edges": [
+    {"from": "A", "to": "B", "sections": ["xi_chain"], "atlas_status": "OK"},
+    {"from": "B", "to": "C", "sections": ["xi_chain"], "atlas_status": "OK"},
+    {"from": "C", "to": "D", "sections": ["xi_minimax"], "atlas_status": "OK"},
+    {"from": "B", "to": "E", "sections": ["xi_minimax"], "atlas_status": "OK"},
+    {"from": "E", "to": "C", "sections": ["xi_minimax"], "atlas_status": "OK"},
+    {"from": "C", "to": "B", "sections": ["xi_tuned"], "atlas_status": "OK"},
+    {"from": "D", "to": "A", "sections": ["xi_fragile"], "atlas_status": "OK"},
+    {"from": "E", "to": "F", "sections": ["xi_chain"], "atlas_status": "RESET"},
+    {"from": "F", "to": "A", "sections": ["xi_tuned"], "atlas_status": "OK"}
+  ]
+}

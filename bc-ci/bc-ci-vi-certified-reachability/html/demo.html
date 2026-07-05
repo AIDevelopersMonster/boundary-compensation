@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<title>BC-CI VI Certified Reachability Demo</title>
+<style>
+body{font-family:system-ui,Segoe UI,Arial,sans-serif;max-width:980px;margin:2rem auto;line-height:1.45}
+.badge{display:inline-block;padding:.15rem .4rem;border:1px solid #999;border-radius:.3rem;margin:.1rem;font-size:.85rem}
+canvas{border:1px solid #ccc;max-width:100%}
+pre{background:#f6f6f6;padding:1rem;overflow:auto}
+</style>
+</head>
+<body>
+<h1>BC-CI VI Certified Reachability Demo</h1>
+<p>This browser demo illustrates the same status discipline as the Python supplement. It is a finite diagnostic graph audit, not physical spacetime, not causality, not a light-cone model, and not dynamics.</p>
+<canvas id="cv" width="900" height="420"></canvas>
+<p><span class="badge">robust edge</span><span class="badge">tuned/fragile edge</span><span class="badge">reset edge</span></p>
+<pre id="out"></pre>
+<script>
+const nodes = {
+  A:[80,210,0], B:[230,120,1], C:[400,120,2], D:[570,120,3],
+  E:[400,300,2], F:[230,300,1]
+};
+const edges = [
+  ['A','B','ROBUST_EDGE'], ['B','C','ROBUST_EDGE'], ['C','D','ROBUST_EDGE'],
+  ['B','E','ROBUST_EDGE'], ['E','C','ROBUST_EDGE'], ['C','B','TUNED_EDGE'],
+  ['D','A','WEIGHT_FRAGILE_EDGE'], ['E','F','CERTIFICATE_RESET'], ['F','A','TUNED_EDGE']
+];
+function line(ctx,a,b,status){
+  const [x1,y1]=nodes[a], [x2,y2]=nodes[b];
+  ctx.save();
+  ctx.strokeStyle = status==='ROBUST_EDGE' ? '#1a7f37' : (status==='CERTIFICATE_RESET' ? '#c00' : '#b36b00');
+  ctx.setLineDash(status==='ROBUST_EDGE' ? [] : [8,5]);
+  ctx.lineWidth=2;
+  const dx=x2-x1, dy=y2-y1, len=Math.hypot(dx,dy); const ux=dx/len, uy=dy/len;
+  const sx=x1+22*ux, sy=y1+22*uy, ex=x2-22*ux, ey=y2-22*uy;
+  ctx.beginPath(); ctx.moveTo(sx,sy); ctx.lineTo(ex,ey); ctx.stroke();
+  ctx.setLineDash([]);
+  ctx.beginPath(); ctx.moveTo(ex,ey); ctx.lineTo(ex-10*ux-5*uy,ey-10*uy+5*ux); ctx.lineTo(ex-10*ux+5*uy,ey-10*uy-5*ux); ctx.closePath(); ctx.fillStyle=ctx.strokeStyle; ctx.fill();
+  ctx.restore();
+}
+function draw(){
+  const cv=document.getElementById('cv'), ctx=cv.getContext('2d');
+  ctx.clearRect(0,0,cv.width,cv.height);
+  edges.forEach(e=>line(ctx,e[0],e[1],e[2]));
+  for(const [id,[x,y,phi]] of Object.entries(nodes)){
+    ctx.beginPath(); ctx.arc(x,y,22,0,2*Math.PI); ctx.fillStyle='#fff'; ctx.fill(); ctx.strokeStyle='#333'; ctx.lineWidth=2; ctx.stroke();
+    ctx.fillStyle='#111'; ctx.textAlign='center'; ctx.textBaseline='middle'; ctx.font='16px sans-serif'; ctx.fillText(id,x,y-4);
+    ctx.font='11px sans-serif'; ctx.fillText('phi='+phi,x,y+12);
+  }
+}
+draw();
+document.getElementById('out').textContent = JSON.stringify({
+  interpretation:'Certified reachability uses only robust edges. Tuned, fragile, and reset edges are audit objects, not certified reachability.',
+  robust_edges: edges.filter(e=>e[2]==='ROBUST_EDGE').map(e=>e[0]+'->'+e[1]),
+  non_claims:['not physical causality','not spacetime','not light cone','not dynamics']
+},null,2);
+</script>
+</body>
+</html>

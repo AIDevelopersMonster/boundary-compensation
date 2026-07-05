@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="900" height="420" viewBox="0 0 900 420">
+<rect width="100%" height="100%" fill="white"/>
+<defs><marker id="arrowG" markerWidth="10" markerHeight="8" refX="9" refY="4" orient="auto"><path d="M0,0 L10,4 L0,8 Z" fill="#1a7f37"/></marker><marker id="arrowO" markerWidth="10" markerHeight="8" refX="9" refY="4" orient="auto"><path d="M0,0 L10,4 L0,8 Z" fill="#b36b00"/></marker><marker id="arrowR" markerWidth="10" markerHeight="8" refX="9" refY="4" orient="auto"><path d="M0,0 L10,4 L0,8 Z" fill="#cc0000"/></marker></defs>
+<g stroke-width="3" fill="none">
+<path d="M102 202 L208 128" stroke="#1a7f37" marker-end="url(#arrowG)"/>
+<path d="M252 120 L378 120" stroke="#1a7f37" marker-end="url(#arrowG)"/>
+<path d="M422 120 L548 120" stroke="#1a7f37" marker-end="url(#arrowG)"/>
+<path d="M238 140 L384 280" stroke="#1a7f37" marker-end="url(#arrowG)"/>
+<path d="M400 278 L400 144" stroke="#1a7f37" marker-end="url(#arrowG)"/>
+<path d="M382 132 L250 132" stroke="#b36b00" stroke-dasharray="10 6" marker-end="url(#arrowO)"/>
+<path d="M552 136 L105 202" stroke="#b36b00" stroke-dasharray="10 6" marker-end="url(#arrowO)"/>
+<path d="M378 300 L252 300" stroke="#cc0000" stroke-dasharray="10 6" marker-end="url(#arrowR)"/>
+<path d="M208 288 L102 218" stroke="#b36b00" stroke-dasharray="10 6" marker-end="url(#arrowO)"/>
+</g>
+<g font-family="Arial" font-size="16" text-anchor="middle" dominant-baseline="middle">
+<g><circle cx="80" cy="210" r="24" fill="white" stroke="#333" stroke-width="2"/><text x="80" y="205">A</text><text x="80" y="224" font-size="11">phi=0</text></g>
+<g><circle cx="230" cy="120" r="24" fill="white" stroke="#333" stroke-width="2"/><text x="230" y="115">B</text><text x="230" y="134" font-size="11">phi=1</text></g>
+<g><circle cx="400" cy="120" r="24" fill="white" stroke="#333" stroke-width="2"/><text x="400" y="115">C</text><text x="400" y="134" font-size="11">phi=2</text></g>
+<g><circle cx="570" cy="120" r="24" fill="white" stroke="#333" stroke-width="2"/><text x="570" y="115">D</text><text x="570" y="134" font-size="11">phi=3</text></g>
+<g><circle cx="400" cy="300" r="24" fill="white" stroke="#333" stroke-width="2"/><text x="400" y="295">E</text><text x="400" y="314" font-size="11">phi=2</text></g>
+<g><circle cx="230" cy="300" r="24" fill="white" stroke="#333" stroke-width="2"/><text x="230" y="295">F</text><text x="230" y="314" font-size="11">phi=1</text></g>
+</g>
+<text x="450" y="390" font-family="Arial" font-size="14" text-anchor="middle">Green: robust certified edges. Orange: tuned/fragile audit edges. Red: reset barrier.</text>
+</svg>

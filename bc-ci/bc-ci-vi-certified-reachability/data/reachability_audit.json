@@ -1,0 +1,279 @@
+{
+  "note": "Certification reachability audit only: not physical causality, not spacetime, not light cones, not dynamics, not empirical signal propagation.",
+  "accepted_section_statuses": [
+    "EPSILON_ROBUST",
+    "EXACT_WEIGHT_ROBUST",
+    "MINIMAX_ROBUST"
+  ],
+  "edge_status_table": [
+    {
+      "edge": "A->B",
+      "status": "ROBUST_EDGE"
+    },
+    {
+      "edge": "B->C",
+      "status": "ROBUST_EDGE"
+    },
+    {
+      "edge": "B->E",
+      "status": "ROBUST_EDGE"
+    },
+    {
+      "edge": "C->B",
+      "status": "TUNED_EDGE"
+    },
+    {
+      "edge": "C->D",
+      "status": "ROBUST_EDGE"
+    },
+    {
+      "edge": "D->A",
+      "status": "WEIGHT_FRAGILE_EDGE"
+    },
+    {
+      "edge": "E->C",
+      "status": "ROBUST_EDGE"
+    },
+    {
+      "edge": "E->F",
+      "status": "CERTIFICATE_RESET"
+    },
+    {
+      "edge": "F->A",
+      "status": "TUNED_EDGE"
+    }
+  ],
+  "edge_status": {
+    "A->B": "ROBUST_EDGE",
+    "B->C": "ROBUST_EDGE",
+    "C->D": "ROBUST_EDGE",
+    "B->E": "ROBUST_EDGE",
+    "E->C": "ROBUST_EDGE",
+    "C->B": "TUNED_EDGE",
+    "D->A": "WEIGHT_FRAGILE_EDGE",
+    "E->F": "CERTIFICATE_RESET",
+    "F->A": "TUNED_EDGE"
+  },
+  "robust_edges": [
+    [
+      "A",
+      "B"
+    ],
+    [
+      "B",
+      "C"
+    ],
+    [
+      "C",
+      "D"
+    ],
+    [
+      "B",
+      "E"
+    ],
+    [
+      "E",
+      "C"
+    ]
+  ],
+  "reachability_matrix": {
+    "A": [
+      "A",
+      "B",
+      "C",
+      "D",
+      "E"
+    ],
+    "B": [
+      "B",
+      "C",
+      "D",
+      "E"
+    ],
+    "C": [
+      "C",
+      "D"
+    ],
+    "D": [
+      "D"
+    ],
+    "E": [
+      "C",
+      "D",
+      "E"
+    ],
+    "F": [
+      "F"
+    ]
+  },
+  "reachability": {
+    "A": [
+      "A",
+      "B",
+      "C",
+      "D",
+      "E"
+    ],
+    "B": [
+      "B",
+      "C",
+      "D",
+      "E"
+    ],
+    "C": [
+      "C",
+      "D"
+    ],
+    "D": [
+      "D"
+    ],
+    "E": [
+      "C",
+      "D",
+      "E"
+    ],
+    "F": [
+      "F"
+    ]
+  },
+  "strongly_connected_components": [
+    [
+      "A"
+    ],
+    [
+      "B"
+    ],
+    [
+      "C"
+    ],
+    [
+      "D"
+    ],
+    [
+      "E"
+    ],
+    [
+      "F"
+    ]
+  ],
+  "quotient_order": [
+    [
+      0,
+      1
+    ],
+    [
+      1,
+      2
+    ],
+    [
+      1,
+      4
+    ],
+    [
+      2,
+      3
+    ],
+    [
+      4,
+      2
+    ]
+  ],
+  "quotient_component_edges": [
+    [
+      0,
+      1
+    ],
+    [
+      1,
+      2
+    ],
+    [
+      1,
+      4
+    ],
+    [
+      2,
+      3
+    ],
+    [
+      4,
+      2
+    ]
+  ],
+  "cycle_status_table": [
+    {
+      "cycle": [
+        "B",
+        "E",
+        "C"
+      ],
+      "edges": [
+        "B->E",
+        "E->C",
+        "C->B"
+      ],
+      "edge_statuses": [
+        "ROBUST_EDGE",
+        "ROBUST_EDGE",
+        "TUNED_EDGE"
+      ],
+      "status": "TUNED_LOOP"
+    }
+  ],
+  "cycle_audit": [
+    {
+      "cycle": [
+        "B",
+        "E",
+        "C"
+      ],
+      "edges": [
+        "B->E",
+        "E->C",
+        "C->B"
+      ],
+      "edge_statuses": [
+        "ROBUST_EDGE",
+        "ROBUST_EDGE",
+        "TUNED_EDGE"
+      ],
+      "status": "TUNED_LOOP"
+    }
+  ],
+  "reset_barrier_report": [
+    {
+      "edge": "E->F",
+      "status": "CERTIFICATE_RESET"
+    }
+  ],
+  "tuned_loop_audit": [
+    {
+      "cycle": [
+        "B",
+        "E",
+        "C"
+      ],
+      "edges": [
+        "B->E",
+        "E->C",
+        "C->B"
+      ],
+      "edge_statuses": [
+        "ROBUST_EDGE",
+        "ROBUST_EDGE",
+        "TUNED_EDGE"
+      ],
+      "status": "TUNED_LOOP"
+    }
+  ],
+  "potential_audit": {
+    "status": "POTENTIAL_NOT_MONOTONE",
+    "violations": [
+      {
+        "edge": "E->C",
+        "phi_from": 2.0,
+        "phi_to": 2.0
+      }
+    ]
+  }
+}
