@@ -1,0 +1,11 @@
+{
+  "scenario": "anchored_selection",
+  "description": "Externally anchored hidden-section selection over a finite diagnostic chain.",
+  "delta_read": 0.35,
+  "max_norm": 1.5,
+  "readout_weight": 2.0,
+  "variation_weight": 0.8,
+  "leakage_weight": 0.5,
+  "balance_weight": 1.0,
+  "samples": 9
+}

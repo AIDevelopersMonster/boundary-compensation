@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>BC-CI IV certification-cost selection demo</title>
+<style>
+:root { --bg:#0f172a; --panel:#111827; --text:#e5e7eb; --muted:#9ca3af; --blue:#60a5fa; --green:#34d399; --red:#f87171; --orange:#f59e0b; }
+body { margin:0; font-family:system-ui,-apple-system,Segoe UI,sans-serif; background:var(--bg); color:var(--text); }
+main { max-width:1080px; margin:0 auto; padding:24px; }
+h1 { font-size:24px; margin:0 0 8px; }
+.note { color:var(--muted); line-height:1.45; }
+.panel { background:var(--panel); border:1px solid #1f2937; border-radius:14px; padding:16px; margin:16px 0; }
+.controls { display:grid; grid-template-columns:repeat(auto-fit,minmax(180px,1fr)); gap:14px; }
+label { display:block; color:var(--muted); margin:6px 0; }
+input { width:100%; }
+code { color:#bfdbfe; }
+svg { width:100%; height:auto; background:#020617; border-radius:12px; }
+.badge { display:inline-block; padding:7px 10px; border-radius:999px; background:#1f2937; font-weight:700; }
+</style>
+</head>
+<body>
+<main>
+<h1>BC-CI IV certification-cost selection</h1>
+<p class="note">Browser-only finite-dimensional demo. The selected section is not a physical trajectory. The cost is not an action, energy, entropy, or Lagrangian. Weights are certification-policy parameters, not physical constants; one tuned weight vector is not a theorem-level result.</p>
+<section class="panel controls">
+<div><label>readout weight</label><input id="wr" type="range" min="0" max="5" value="2" step="0.1"><span id="wrv"></span></div>
+<div><label>variation weight</label><input id="wv" type="range" min="0" max="5" value="0.8" step="0.1"><span id="wvv"></span></div>
+<div><label>leakage weight</label><input id="wl" type="range" min="0" max="5" value="0.5" step="0.1"><span id="wlv"></span></div>
+<div><label>balance weight</label><input id="wb" type="range" min="0" max="5" value="1" step="0.1"><span id="wbv"></span></div>
+</section>
+<section class="panel">
+<div><span class="badge" id="status">COST_SELECTED</span> <span class="note" id="summary"></span></div>
+<p><code>J = w_read J_read + w_var J_var + w_leak J_leak + w_bal J_bal</code></p>
+<svg id="chart" viewBox="0 0 920 430"></svg>
+</section>
+</main>
+<script>
+const $ = id => document.getElementById(id);
+const sliders = ['wr','wv','wl','wb'];
+const vals = [-1,-0.5,0,0.5,1];
+const n = 9, delta = 0.35;
+function candidates(){
+  const out=[];
+  for(const x of vals){ for(const y of vals){ if(x*x+y*y<=2.25) out.push(Array(n).fill(0).map(()=>[x,y])); }}
+  for(const amp of [0.5,1.0]){
+    out.push(Array(n).fill(0).map((_,i)=>[i<n/2?amp:-amp,0]));
+    out.push(Array(n).fill(0).map((_,i)=>[(i/(n-1))*2*amp-amp,0]));
+    out.push(Array(n).fill(0).map((_,i)=>[amp*Math.sin(Math.PI*i/(n-1)),0]));
+    out.push(Array(n).fill(0).map((_,i)=>[amp*Math.sin(Math.PI*i/(n-1)),0.25*Math.cos(Math.PI*i/(n-1))]));
+  }
+  return out;
+}
+function read(sec){return sec.reduce((s,v)=>s+Math.max(0,delta-Math.abs(v[0]))**2,0)}
+function leak(sec){return sec.reduce((s,v)=>s+v[1]*v[1],0)}
+function vari(sec){let s=0; for(let i=0;i<sec.length-1;i++){s+=(sec[i+1][0]-sec[i][0])**2+(sec[i+1][1]-sec[i][1])**2;} return s;}
+function bal(sec){const sx=sec.reduce((s,v)=>s+v[0],0), sy=sec.reduce((s,v)=>s+v[1],0); return sx*sx+sy*sy;}
+function draw(){
+  const wr=+$('wr').value,wv=+$('wv').value,wl=+$('wl').value,wb=+$('wb').value;
+  $('wrv').textContent=wr.toFixed(1); $('wvv').textContent=wv.toFixed(1); $('wlv').textContent=wl.toFixed(1); $('wbv').textContent=wb.toFixed(1);
+  const rows=candidates().map((sec,i)=>({i,sec,r:read(sec),v:vari(sec),l:leak(sec),b:bal(sec)}));
+  rows.forEach(o=>o.J=wr*o.r+wv*o.v+wl*o.l+wb*o.b);
+  rows.sort((a,b)=>a.J-b.J);
+  const top=rows.slice(0,24), maxJ=Math.max(...top.map(o=>o.J),1);
+  const bars=top.map((o,i)=>{const x=70+i*32,h=260*o.J/maxJ,y=320-h,c=i===0?'#34d399':'#60a5fa'; return `<rect x="${x}" y="${y}" width="22" height="${h}" fill="${c}"/>`;}).join('');
+  const sec=rows[0].sec; const pts=sec.map((v,i)=>`${560+i*35},${180-v[0]*80}`).join(' ');
+  $('chart').innerHTML=`<rect width="920" height="430" fill="#020617"/><text x="60" y="30" fill="#e5e7eb" font-size="17">candidate costs</text><line x1="55" y1="320" x2="840" y2="320" stroke="#94a3b8"/><line x1="55" y1="60" x2="55" y2="320" stroke="#94a3b8"/>${bars}<text x="555" y="85" fill="#e5e7eb" font-size="15">selected first component</text><polyline points="${pts}" fill="none" stroke="#f87171" stroke-width="4"/><line x1="555" y1="180" x2="850" y2="180" stroke="#64748b" stroke-dasharray="5 5"/><text x="60" y="370" fill="#94a3b8" font-size="13">green: selected minimum; blue: other candidates</text>`;
+  $('summary').textContent=`minimum cost ${rows[0].J.toFixed(3)} | read ${rows[0].r.toFixed(3)} | var ${rows[0].v.toFixed(3)} | leak ${rows[0].l.toFixed(3)} | balance ${rows[0].b.toFixed(3)}`;
+}
+sliders.forEach(id=>$(id).addEventListener('input',draw));
+draw();
+</script>
+</body>
+</html>
