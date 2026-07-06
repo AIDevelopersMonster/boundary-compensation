@@ -1,0 +1,33 @@
+{
+  "protocol_id": "bc-ci-engineering-guide-toy-v0.1.1",
+  "description": "Minimal deterministic BC-CI toy protocol: finite response matrices, section costs, edge certificates, reset barrier, endpoint failure, and distance diagnostics.",
+  "thresholds": {
+    "tau": 0.50,
+    "eta": 0.05,
+    "fp_tol": 1e-12,
+    "delta_read": 0.05,
+    "epsilon_opt": 0.03,
+    "robust_region_min_fraction": 0.05,
+    "path_budget_L": 4,
+    "support_floor": 1e-12
+  },
+  "nodes": ["0", "1", "2", "3"],
+  "response_matrices": {
+    "0": [[1.00, 0.00], [0.00, 0.60]],
+    "1": [[0.90, 0.00], [0.00, 0.57]],
+    "2": [[0.82, 0.00], [0.00, 0.56]],
+    "3": [[0.72, 0.00], [0.00, 0.49]]
+  },
+  "candidate_sections": {
+    "Xi_A": {"cost": [0.10, 0.18, 0.15, 0.08, 0.20, 0.12]},
+    "Xi_B": {"cost": [0.18, 0.10, 0.17, 0.20, 0.13, 0.18]},
+    "Xi_C": {"cost": [0.23, 0.24, 0.22, 0.21, 0.25, 0.24]}
+  },
+  "declared_edges": [
+    {"source": "0", "target": "1", "cost": 1.0, "margin": 0.25, "status": "EDGE_DECLARED", "certified_by": ["Xi_A", "Xi_B"]},
+    {"source": "1", "target": "2", "cost": 1.4, "margin": 0.18, "status": "EDGE_DECLARED", "certified_by": ["Xi_A"]},
+    {"source": "2", "target": "0", "cost": 3.0, "margin": -0.02, "status": "CERTIFICATE_RESET", "certified_by": []},
+    {"source": "2", "target": "3", "cost": 1.1, "margin": 0.11, "status": "EDGE_DECLARED", "certified_by": ["Xi_A", "Xi_B"]},
+    {"source": "0", "target": "2", "cost": 2.8, "margin": 0.07, "status": "EDGE_DECLARED", "certified_by": ["Xi_B"]}
+  ]
+}

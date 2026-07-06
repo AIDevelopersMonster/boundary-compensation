@@ -1,0 +1,20 @@
+{
+  "protocol_id": "bc-ci-engineering-guide-toy-v0.1.0",
+  "robust_sections": [
+    "Xi_A",
+    "Xi_B"
+  ],
+  "robust_edges": [
+    "0->1",
+    "1->2",
+    "2->3",
+    "0->2"
+  ],
+  "status": "REFERENCE_RUN_COMPLETE",
+  "claim_firewall": [
+    "TRANSPORT_NONPHYSICAL",
+    "CAUSALITY_NONCLAIM",
+    "THERMODYNAMIC_ENTROPY_NONCLAIM",
+    "METRIC_TENSOR_NONCLAIM"
+  ]
+}

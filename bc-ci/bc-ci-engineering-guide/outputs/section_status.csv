@@ -1,0 +1,4 @@
+section,pareto_status,epsilon_region_fraction,robustness_status,cost_vector
+Xi_A,PARETO_STABLE,0.908314,EPSILON_ROBUST,"[0.100, 0.180, 0.150, 0.080, 0.200, 0.120]"
+Xi_B,PARETO_STABLE,0.573427,EPSILON_ROBUST,"[0.180, 0.100, 0.170, 0.200, 0.130, 0.180]"
+Xi_C,DOMINATED,0.000000,DOMINATED,"[0.230, 0.240, 0.220, 0.210, 0.250, 0.240]"

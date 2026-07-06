@@ -1,0 +1,41 @@
+{
+  "file_hashes_sha256": {
+    "README.md": "ba5e00f53b34b306ae70ac0f60e78b0053edbfdb95ae98406ee907f11fee0f32",
+    "bc_ci_audit.py": "3e045ee1ef0ee303fc8d7afd994318d931f97b33c7237c84ac1458d6bd69d74f",
+    "configs/toy_protocol_config.json": "bda7a270c7a311cab5cc1add5e0a6c65a742ba5b371d8c1ef305772385782abd",
+    "figures/diagnostic_graph.svg": "d888ae3c44ca9b48fc56b05fd0acdb6bea97a4ee147aba71f5987bc09a8a91fb",
+    "figures/status_tree.svg": "31d5b0aadf4410dce92a337910ed7d94775b36323e6e4da9548bf85a399ab02b",
+    "outputs/bottleneck_margin.csv": "2cc98a340de8cc30b2d56e1e56a4f1091ff0b73f17c61f26d9c529dc8be02d28",
+    "outputs/certification_entropy.csv": "5e57814ea1829f8f4a1fd9cd966bed477e7c5446fcd6944ef271b51fd04f4845",
+    "outputs/distance_cost.csv": "427f96ba4c34989b682748c279e0d73498d271e412cf168ab54874727c0cdc87",
+    "outputs/distance_depth.csv": "68ac1a4bb74ca7a7f1ca04f884cbd06add3570012d5d6e2c1d3fd312f14b8f38",
+    "outputs/edge_status.csv": "27458087703e016fe44c6545112bb8d4c459126a59ac8241d3a1e3bc95844d59",
+    "outputs/path_count_matrix.csv": "7faec757f4c765ce83797abd41ea64fd3b7f5b1bf4f0c5bcc5df878de8fa7b95",
+    "outputs/reachability_matrix.csv": "e844a3779279cd5d071d28f4d4b0649c37464b02180d02e959c12f9dfeec4673",
+    "outputs/response_status.csv": "7aeb63a6cf7472e5ff2dfdfdc397d35e6a5c4e437ada3f6853b4f26f27ac5268",
+    "outputs/run_summary.json": "7ae85cb02721d6b8c12c0d65de4af9f8269f68f361319d3c8cd3f627a63062ae",
+    "outputs/section_status.csv": "c6fb0db66dd86a7be4646529da86ef74caf680f5651ea267ec403276039003f1",
+    "requirements.txt": "0712fb868af2de542c8633a674a0530c9299ef716627765f64ce02e0e14249a0"
+  },
+  "generated_at_utc": "2026-07-06T08:27:27+00:00",
+  "generated_outputs": [
+    "outputs/bottleneck_margin.csv",
+    "outputs/certification_entropy.csv",
+    "outputs/distance_depth.csv",
+    "outputs/path_count_matrix.csv",
+    "outputs/distance_cost.csv",
+    "outputs/response_status.csv",
+    "outputs/edge_status.csv",
+    "outputs/section_status.csv",
+    "outputs/reachability_matrix.csv",
+    "figures/diagnostic_graph.svg",
+    "figures/status_tree.svg",
+    "outputs/run_summary.json"
+  ],
+  "package": "bc-ci-engineering-guide",
+  "source_files": [
+    "configs/toy_protocol_config.json",
+    "bc_ci_audit.py"
+  ],
+  "version": "v0.1.1-clean"
+}
