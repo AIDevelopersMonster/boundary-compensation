@@ -2,7 +2,7 @@
 
 **Programme:** Boundary Compensation / BC-Academy  
 **Status:** educational and methodological demonstration layer  
-**Version:** v0.1.1 demo package  
+**Version:** v0.1.1 repository package  
 **Author:** A. A. Malachevsky  
 **ORCID:** 0009-0008-6009-3196
 
@@ -56,8 +56,17 @@ bc_academy/
     bc_academy_linear_spectral_demo.py
     sample_output.txt
   docs/
+    README.md
+    BC_ACADEMY_I_V_PROGRAMME_CHARTER_v0.1.1_RU.md
+    BC_ACADEMY_I_RESEARCH_SYLLABUS_v0.1.1_RU.md
     zenodo_metadata_draft.txt
 ```
+
+## Documents
+
+- `docs/BC_ACADEMY_I_V_PROGRAMME_CHARTER_v0.1.1_RU.md` — repository-facing companion to the Programme Charter / Curriculum Syllabus v0.1.1.
+- `docs/BC_ACADEMY_I_RESEARCH_SYLLABUS_v0.1.1_RU.md` — repository-facing companion to BC-Academy I: Linear Spectral Entry — Research Syllabus v0.1.1.
+- `PROGRAMME_CHARTER_OVERVIEW.md` — compact English overview for the repository front door.
 
 ## Quick start
 
