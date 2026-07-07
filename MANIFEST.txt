@@ -1,13 +1,16 @@
 Boundary Compensation repository manifest
 
-BC-Academy demonstration package
+BC-Academy v0.1.1 repository package
 
 bc_academy/README.md
 bc_academy/PROGRAMME_CHARTER_OVERVIEW.md
+bc_academy/docs/README.md
+bc_academy/docs/BC_ACADEMY_I_V_PROGRAMME_CHARTER_v0.1.1_RU.md
+bc_academy/docs/BC_ACADEMY_I_RESEARCH_SYLLABUS_v0.1.1_RU.md
+bc_academy/docs/zenodo_metadata_draft.txt
 bc_academy/demo/README.md
 bc_academy/demo/bc_academy_linear_spectral_demo.py
 bc_academy/demo/sample_output.txt
-bc_academy/docs/zenodo_metadata_draft.txt
 
 BC-Origin IV v0.1.1 software patch
 
