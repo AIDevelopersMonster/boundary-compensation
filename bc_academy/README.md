@@ -45,6 +45,14 @@ near-zero spectrum
 5. **BC-Academy V: Quotient Representatives and Certified Atlases**  
    Normal forms, rank walls, dictionary tubes, certification, reset, gluing and metrics.
 
+## BC-Academy I lecture resources
+
+**Lecture 1: Operator, Matrix, Spectrum**
+
+- Article DOI: [10.5281/zenodo.21251960](https://doi.org/10.5281/zenodo.21251960)
+- Video lecture: [YouTube](https://youtu.be/O_ZId9dZT3c)
+- NotebookLM companion: [NotebookLM](https://notebooklm.google.com/notebook/28b52381-5032-447f-9f49-e83641c7ac07)
+
 ## Folder contents
 
 ```text
