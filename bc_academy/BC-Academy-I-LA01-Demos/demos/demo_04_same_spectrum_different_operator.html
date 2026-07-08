@@ -1,0 +1,18 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>demo 04 same spectrum different operator</title>
+  <link rel="stylesheet" href="../assets/css/bc-academy.css">
+</head>
+<body>
+<nav class="navbar"><div class="nav-inner"><a class="brand" href="../index.html">BC-Academy I · LA01 Demos</a><div class="nav-links"><a href="../index.html#main-demo">Главная</a><a href="../demos/demo_01_diagonal_spectrum.html">Diagonal</a><a href="../demos/demo_02_basis_change_same_spectrum.html">Basis</a><a href="../demos/demo_03_eigenvector_detector.html">Eigenvector</a><a href="../demos/demo_04_same_spectrum_different_operator.html">Non-completeness</a><a href="../demos/demo_05_near_zero_preview.html">Near-zero</a></div></div></nav>
+
+<header class="hero"><div class="hero-inner"><div><div class="kicker">Demo 04</div><h1>Same spectrum, different operator</h1><p>Спектр информативен, но не полон: разные операторы могут иметь один и тот же spectrum.</p></div></div></header>
+<main class="container"><section class="section grid two"><div class="card"><h2>Two operators</h2><p><span class="math">I = [[1,0],[0,1]]</span> и <span class="math">J = [[1,1],[0,1]]</span> имеют один spectrum, но действуют на сетку по-разному.</p><div class="callout warn">Это первый методологический мост к будущей теме: spectral data do not reconstruct the whole hidden structure.</div><div class="stat"><div class="label">Spectrum</div><div class="value" id="sameSpec"></div></div></div><div class="card"><div class="canvas-wrap"><canvas id="sameCanvas"></canvas></div></div></section><section class="section"><figure class="figure-card card"><img src="../assets/img/spectral_reading_compression.png" alt="spectral compression"><figcaption>Spectrum as structured trace: informative, not complete.</figcaption></figure></section></main>
+
+<script src="../assets/js/linear-algebra-demos.js"></script>
+<script>window.addEventListener('DOMContentLoaded', window.initSameSpectrumDemo);</script>
+</body>
+</html>

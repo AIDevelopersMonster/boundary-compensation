@@ -1,0 +1,18 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>demo 05 near zero preview</title>
+  <link rel="stylesheet" href="../assets/css/bc-academy.css">
+</head>
+<body>
+<nav class="navbar"><div class="nav-inner"><a class="brand" href="../index.html">BC-Academy I · LA01 Demos</a><div class="nav-links"><a href="../index.html#main-demo">Главная</a><a href="../demos/demo_01_diagonal_spectrum.html">Diagonal</a><a href="../demos/demo_02_basis_change_same_spectrum.html">Basis</a><a href="../demos/demo_03_eigenvector_detector.html">Eigenvector</a><a href="../demos/demo_04_same_spectrum_different_operator.html">Non-completeness</a><a href="../demos/demo_05_near_zero_preview.html">Near-zero</a></div></div></nav>
+
+<header class="hero"><div class="hero-inner"><div><div class="kicker">Demo 05</div><h1>Near-zero preview</h1><p>Слайдер ε показывает, как spectral point приближается к нулю. Это preview к zero modes и near-zero modes.</p></div></div></header>
+<main class="container"><section class="section demo-shell"><div class="card controls"><h3>Aε = diag(ε,1)</h3><div class="control"><label>ε</label><input id="eps" type="range" min="-1" max="1" step="0.001" value="0.2"><input id="epsn" type="number" step="0.001" value="0.2"></div><div class="callout warn">В этой первой лекции это только preview. Интерпретации gap, sensitivity и multiplicity появляются позже.</div></div><div class="card"><div class="canvas-wrap"><canvas id="nzCanvas"></canvas></div><div class="result-panel"><div class="stat"><div class="label">Matrix</div><div class="value" id="nzMatrix"></div></div><div class="stat"><div class="label">Spectrum</div><div class="value" id="nzSpec"></div></div></div><h3 style="margin-top:18px">Spectrum</h3><div class="canvas-wrap"><canvas id="nzSpectrum"></canvas></div><div class="callout" style="margin-top:12px" id="nzComment"></div></div></section></main>
+
+<script src="../assets/js/linear-algebra-demos.js"></script>
+<script>window.addEventListener('DOMContentLoaded', window.initNearZeroDemo);</script>
+</body>
+</html>

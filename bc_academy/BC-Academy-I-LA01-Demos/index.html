@@ -1,0 +1,102 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>BC-Academy I LA01 HTML Demos</title>
+  <link rel="stylesheet" href="assets/css/bc-academy.css">
+</head>
+<body>
+<nav class="navbar"><div class="nav-inner"><a class="brand" href="index.html">BC-Academy I · LA01 Demos</a><div class="nav-links"><a href="index.html#main-demo">Главная</a><a href="demos/demo_01_diagonal_spectrum.html">Diagonal</a><a href="demos/demo_02_basis_change_same_spectrum.html">Basis</a><a href="demos/demo_03_eigenvector_detector.html">Eigenvector</a><a href="demos/demo_04_same_spectrum_different_operator.html">Non-completeness</a><a href="demos/demo_05_near_zero_preview.html">Near-zero</a></div></div></nav>
+
+<header class="hero">
+  <div class="hero-inner">
+    <div>
+      <div class="kicker">BC-Academy I · Linear Spectral Entry</div>
+      <h1>Operator → Matrix → Spectrum</h1>
+      <p>Интерактивные демонстрации к Lecture-Article 1. Цель: показать, как конечномерное пространство, линейный оператор, матричная запись, собственные векторы и спектр образуют первый вход в язык BC-Academy.</p>
+      <div style="margin-top:18px"><span class="badge">finite-dimensional</span><span class="badge">operator as action</span><span class="badge">matrix as representation</span><span class="badge">spectrum as structured trace</span></div>
+    </div>
+    <img src="assets/img/banner_operator_matrix_spectrum.png" alt="Operator Matrix Spectrum banner">
+  </div>
+</header>
+<main class="container">
+  <section class="section card">
+    <h2>Claim boundary</h2>
+    <div class="grid two">
+      <div class="callout claim">Эти HTML-демонстрации являются <strong>учебной визуализацией</strong> конечномерной линейной алгебры. Они не доказывают физические утверждения и не заменяют определения из lecture-article.</div>
+      <div class="callout warn">Визуализации показывают первые объекты: <span class="math">H</span>, <span class="math">A:H→H</span>, matrix representation, <span class="math">Au=λu</span>, <span class="math">σ(A)</span>. Темы gap, logarithmic sensitivity и finite-resolution access появляются как preview.</div>
+    </div>
+  </section>
+
+  <section id="main-demo" class="section">
+    <h2>Главная демонстрация: Space → Operator → Matrix → Spectrum</h2>
+    <div class="demo-shell">
+      <div class="card controls">
+        <h3>Матрица оператора</h3>
+        <div class="control-row">
+          <div class="control"><label>a <span id="av"></span></label><input id="a" type="range" min="-3" max="3" step="0.05" value="2"><input id="an" type="number" step="0.05" value="2"></div>
+          <div class="control"><label>b</label><input id="b" type="range" min="-3" max="3" step="0.05" value="1"><input id="bn" type="number" step="0.05" value="1"></div>
+          <div class="control"><label>c</label><input id="c" type="range" min="-3" max="3" step="0.05" value="0"><input id="cn" type="number" step="0.05" value="0"></div>
+          <div class="control"><label>d</label><input id="d" type="range" min="-3" max="3" step="0.05" value="3"><input id="dn" type="number" step="0.05" value="3"></div>
+        </div>
+        <h3>Вектор u</h3>
+        <div class="control-row">
+          <div class="control"><label>x</label><input id="vx" type="range" min="-2.5" max="2.5" step="0.05" value="1"><input id="vxn" type="number" step="0.05" value="1"></div>
+          <div class="control"><label>y</label><input id="vy" type="range" min="-2.5" max="2.5" step="0.05" value="1"><input id="vyn" type="number" step="0.05" value="1"></div>
+        </div>
+        <div class="button-row"><button id="preset1">diagonal-ish</button><button id="preset2" class="secondary">Jordan</button><button id="preset3" class="secondary">near-zero</button><button id="preset4" class="secondary">rotation</button></div>
+      </div>
+      <div class="card">
+        <div class="canvas-wrap"><canvas id="mainCanvas"></canvas></div>
+        <div class="result-panel">
+          <div class="stat"><div class="label">Matrix</div><div class="value" id="matrixVal"></div></div>
+          <div class="stat"><div class="label">Vector</div><div class="value" id="vectorVal"></div></div>
+          <div class="stat"><div class="label">Image</div><div class="value" id="imageVal"></div></div>
+          <div class="stat"><div class="label">Trace / determinant</div><div class="value" id="traceDetVal"></div></div>
+          <div class="stat"><div class="label">Spectrum</div><div class="value" id="spectrumVal"></div></div>
+          <div class="stat"><div class="label">Eigenvector check</div><div class="value" id="eigenCheck"></div></div>
+        </div>
+        <h3 style="margin-top:18px">Spectrum view</h3>
+        <div class="canvas-wrap"><canvas id="spectrumCanvas"></canvas></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <h2>Мини-демонстрации</h2>
+    <div class="demo-list">
+      <a class="demo-link" href="demos/demo_01_diagonal_spectrum.html"><strong>1. Diagonal spectrum</strong>Самый простой случай: eigenvalues равны диагональным элементам.</a>
+      <a class="demo-link" href="demos/demo_02_basis_change_same_spectrum.html"><strong>2. Same operator, different matrix</strong>Смена базиса: A′ = S⁻¹AS; матрица меняется, spectrum сохраняется.</a>
+      <a class="demo-link" href="demos/demo_03_eigenvector_detector.html"><strong>3. Eigenvector detector</strong>Поверните вектор u и найдите направления, где Au коллинеарен u.</a>
+      <a class="demo-link" href="demos/demo_04_same_spectrum_different_operator.html"><strong>4. Spectrum is not complete</strong>Identity и Jordan/shear: один spectrum, разное действие.</a>
+      <a class="demo-link" href="demos/demo_05_near_zero_preview.html"><strong>5. Near-zero preview</strong>Слайдер ε в diag(ε,1): spectral point приближается к нулю.</a>
+    </div>
+  </section>
+
+  <section class="section">
+    <h2>Статические иллюстрации</h2>
+    <div class="figure-grid">
+      <figure class="figure-card card"><img src="assets/img/basis_change_same_operator.png" alt="basis change diagram"><figcaption>Оператор как геометрическое действие; матрица как запись в выбранном базисе.</figcaption></figure>
+      <figure class="figure-card card"><img src="assets/img/eigenvector_equation.png" alt="eigenvector equation"><figcaption>Собственный вектор сохраняет направление: <span class="math">Au=λu</span>.</figcaption></figure>
+      <figure class="figure-card card"><img src="assets/img/spectral_reading_compression.png" alt="spectral reading"><figcaption>Spectral reading: spectrum is informative, not complete.</figcaption></figure>
+    </div>
+  </section>
+
+  <section class="section card">
+    <h2>Порядок изучения</h2>
+    <table class="table"><thead><tr><th>Шаг</th><th>Что увидеть</th><th>Главный вывод</th></tr></thead><tbody>
+      <tr><td>1</td><td>Оператор действует на вектор и сетку.</td><td>Operator is action.</td></tr>
+      <tr><td>2</td><td>Матрица меняется при смене базиса.</td><td>Matrix is representation.</td></tr>
+      <tr><td>3</td><td>Некоторые направления сохраняются.</td><td>Eigenvectors are stable directions.</td></tr>
+      <tr><td>4</td><td>Eigenvalues собираются в spectrum.</td><td>Spectrum is structured reading.</td></tr>
+      <tr><td>5</td><td>Разные операторы могут иметь один spectrum.</td><td>Spectrum is informative, not complete.</td></tr>
+    </tbody></table>
+  </section>
+</main>
+<footer class="footer"><div class="inner">BC-Academy I · Lecture-Article 1 · Operator, Matrix, Spectrum · HTML demonstrations v0.1.1</div></footer>
+
+<script src="assets/js/linear-algebra-demos.js"></script>
+<script>window.addEventListener('DOMContentLoaded', window.initMainDemo);</script>
+</body>
+</html>

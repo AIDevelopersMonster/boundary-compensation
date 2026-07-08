@@ -1,0 +1,18 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>demo 03 eigenvector detector</title>
+  <link rel="stylesheet" href="../assets/css/bc-academy.css">
+</head>
+<body>
+<nav class="navbar"><div class="nav-inner"><a class="brand" href="../index.html">BC-Academy I · LA01 Demos</a><div class="nav-links"><a href="../index.html#main-demo">Главная</a><a href="../demos/demo_01_diagonal_spectrum.html">Diagonal</a><a href="../demos/demo_02_basis_change_same_spectrum.html">Basis</a><a href="../demos/demo_03_eigenvector_detector.html">Eigenvector</a><a href="../demos/demo_04_same_spectrum_different_operator.html">Non-completeness</a><a href="../demos/demo_05_near_zero_preview.html">Near-zero</a></div></div></nav>
+
+<header class="hero"><div class="hero-inner"><div><div class="kicker">Demo 03</div><h1>Eigenvector detector</h1><p>Поверните вектор u. Если Au остаётся на той же прямой, найдено eigenvector direction.</p></div></div></header>
+<main class="container"><section class="section demo-shell"><div class="card controls"><h3>Operator matrix</h3><div class="control-row"><div class="control"><label>a</label><input id="ea" type="range" min="-3" max="3" step="0.05" value="2"><input id="ean" type="number" step="0.05" value="2"></div><div class="control"><label>b</label><input id="eb" type="range" min="-3" max="3" step="0.05" value="1"><input id="ebn" type="number" step="0.05" value="1"></div><div class="control"><label>c</label><input id="ec" type="range" min="-3" max="3" step="0.05" value="0"><input id="ecn" type="number" step="0.05" value="0"></div><div class="control"><label>d</label><input id="ed" type="range" min="-3" max="3" step="0.05" value="3"><input id="edn" type="number" step="0.05" value="3"></div></div><div class="control"><label>angle of u</label><input id="angle" type="range" min="-180" max="180" step="1" value="45"><input id="anglen" type="number" step="1" value="45"></div><div class="callout claim"><span class="math">Au = λu</span> means: the image Au is collinear with u.</div></div><div class="card"><div class="canvas-wrap"><canvas id="eigenCanvas"></canvas></div><div class="result-panel"><div class="stat"><div class="label">Matrix</div><div class="value" id="eigenMatrix"></div></div><div class="stat"><div class="label">Spectrum</div><div class="value" id="eigenSpectrum"></div></div><div class="stat" style="grid-column:1/-1"><div class="label">Status</div><div class="value" id="eigenStatus"></div></div></div></div></section><section class="section"><figure class="figure-card card"><img src="../assets/img/eigenvector_equation.png" alt="eigenvector static diagram"><figcaption>Static version for lecture notes.</figcaption></figure></section></main>
+
+<script src="../assets/js/linear-algebra-demos.js"></script>
+<script>window.addEventListener('DOMContentLoaded', window.initEigenDemo);</script>
+</body>
+</html>

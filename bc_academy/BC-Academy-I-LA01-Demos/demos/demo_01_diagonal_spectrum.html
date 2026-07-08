@@ -1,0 +1,18 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>demo 01 diagonal spectrum</title>
+  <link rel="stylesheet" href="../assets/css/bc-academy.css">
+</head>
+<body>
+<nav class="navbar"><div class="nav-inner"><a class="brand" href="../index.html">BC-Academy I · LA01 Demos</a><div class="nav-links"><a href="../index.html#main-demo">Главная</a><a href="../demos/demo_01_diagonal_spectrum.html">Diagonal</a><a href="../demos/demo_02_basis_change_same_spectrum.html">Basis</a><a href="../demos/demo_03_eigenvector_detector.html">Eigenvector</a><a href="../demos/demo_04_same_spectrum_different_operator.html">Non-completeness</a><a href="../demos/demo_05_near_zero_preview.html">Near-zero</a></div></div></nav>
+
+<header class="hero"><div class="hero-inner"><div><div class="kicker">Demo 01</div><h1>Diagonal spectrum</h1><p>Для диагонального оператора спектр читается напрямую с диагонали.</p></div></div></header>
+<main class="container"><section class="section demo-shell"><div class="card controls"><h3>A = diag(λ1, λ2)</h3><div class="control"><label>λ1</label><input id="l1" type="range" min="-2" max="4" step="0.01" value="0.3"><input id="l1n" type="number" step="0.01" value="0.3"></div><div class="control"><label>λ2</label><input id="l2" type="range" min="-2" max="4" step="0.01" value="1"><input id="l2n" type="number" step="0.01" value="1"></div><div class="callout claim"><span class="math">σ(diag(λ1,λ2)) = {λ1,λ2}</span>.</div></div><div class="card"><div class="canvas-wrap"><canvas id="diagCanvas"></canvas></div><div class="result-panel"><div class="stat"><div class="label">Matrix</div><div class="value" id="diagMatrix"></div></div><div class="stat"><div class="label">Spectrum</div><div class="value" id="diagSpectrumText"></div></div></div><h3 style="margin-top:18px">Spectrum</h3><div class="canvas-wrap"><canvas id="diagSpectrum"></canvas></div><div class="callout" style="margin-top:12px" id="diagComment"></div></div></section></main>
+
+<script src="../assets/js/linear-algebra-demos.js"></script>
+<script>window.addEventListener('DOMContentLoaded', window.initDiagonalDemo);</script>
+</body>
+</html>

@@ -1,0 +1,18 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>demo 02 basis change same spectrum</title>
+  <link rel="stylesheet" href="../assets/css/bc-academy.css">
+</head>
+<body>
+<nav class="navbar"><div class="nav-inner"><a class="brand" href="../index.html">BC-Academy I · LA01 Demos</a><div class="nav-links"><a href="../index.html#main-demo">Главная</a><a href="../demos/demo_01_diagonal_spectrum.html">Diagonal</a><a href="../demos/demo_02_basis_change_same_spectrum.html">Basis</a><a href="../demos/demo_03_eigenvector_detector.html">Eigenvector</a><a href="../demos/demo_04_same_spectrum_different_operator.html">Non-completeness</a><a href="../demos/demo_05_near_zero_preview.html">Near-zero</a></div></div></nav>
+
+<header class="hero"><div class="hero-inner"><div><div class="kicker">Demo 02</div><h1>Same operator, different matrix</h1><p>Смена базиса меняет координатную запись оператора, но не меняет spectrum.</p></div></div></header>
+<main class="container"><section class="section demo-shell"><div class="card controls"><h3>Basis controls</h3><div class="control"><label>basis angle θ</label><input id="theta" type="range" min="-75" max="75" step="1" value="32"><input id="thetan" type="number" step="1" value="32"></div><div class="control"><label>basis scale</label><input id="scale" type="range" min="0.45" max="1.8" step="0.01" value="1"><input id="scalen" type="number" step="0.01" value="1"></div><div class="callout claim"><span class="math">A′ = S⁻¹AS</span>. Similar matrices have the same characteristic polynomial and the same spectrum.</div></div><div class="card"><div class="canvas-wrap"><canvas id="basisCanvas"></canvas></div><div class="result-panel"><div class="stat"><div class="label">A in e-basis</div><div class="value" id="basisA"></div></div><div class="stat"><div class="label">S</div><div class="value" id="basisS"></div></div><div class="stat"><div class="label">A′ in f-basis</div><div class="value" id="basisAp"></div></div><div class="stat"><div class="label">Spectrum</div><div class="value" id="basisSpec"></div></div></div></div></section><section class="section"><figure class="figure-card card"><img src="../assets/img/basis_change_same_operator.png" alt="basis change static diagram"><figcaption>Static version for lecture notes.</figcaption></figure></section></main>
+
+<script src="../assets/js/linear-algebra-demos.js"></script>
+<script>window.addEventListener('DOMContentLoaded', window.initBasisDemo);</script>
+</body>
+</html>
