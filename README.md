@@ -11,6 +11,12 @@ Current repository tracks include:
 
 The new `bc_academy/` folder introduces **BC-Academy I--V**, the curriculum track for the mathematical apparatus of Boundary Compensation.
 
+BC-Academy I lecture resources:
+
+- Article DOI: [10.5281/zenodo.21251960](https://doi.org/10.5281/zenodo.21251960)
+- Video lecture: [YouTube](https://youtu.be/O_ZId9dZT3c)
+- NotebookLM companion: [NotebookLM](https://notebooklm.google.com/notebook/28b52381-5032-447f-9f49-e83641c7ac07)
+
 BC-Academy organizes the BC corpus as a learning path:
 
 ```text
