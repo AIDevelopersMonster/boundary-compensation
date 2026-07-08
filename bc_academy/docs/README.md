@@ -12,6 +12,14 @@ BC-Academy is not a new physical hypothesis branch. It is a curriculum path for 
 | BC-Academy I: Linear Spectral Entry | Research Syllabus v0.1.1, Russian Zenodo-ready version | `BC_ACADEMY_I_RESEARCH_SYLLABUS_v0.1.1_RU.md` |
 | Zenodo metadata draft | Metadata companion | `zenodo_metadata_draft.txt` |
 
+## BC-Academy I lecture resources
+
+**Lecture 1: Operator, Matrix, Spectrum**
+
+- Article DOI: [10.5281/zenodo.21251960](https://doi.org/10.5281/zenodo.21251960)
+- Video lecture: [YouTube](https://youtu.be/O_ZId9dZT3c)
+- NotebookLM companion: [NotebookLM](https://notebooklm.google.com/notebook/28b52381-5032-447f-9f49-e83641c7ac07)
+
 ## Programme spine
 
 ```text
