@@ -26,3 +26,7 @@ These demonstrations are finite-dimensional educational visualizations. They do 
 ## Suggested GitHub Pages publication
 
 Upload this folder to a repository and enable GitHub Pages from the repository root or `/docs` folder.
+
+### 6. What can be read from the spectrum?
+
+`demos/demo_06_what_spectrum_reads.html` demonstrates what spectral reading extracts from an operator: eigenvalue scales, zero / near-zero events, gap-to-zero, multiplicity / cluster status, trace, determinant, and the non-completeness of spectrum as a full reconstruction device.
