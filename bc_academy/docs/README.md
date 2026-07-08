@@ -6,11 +6,11 @@ BC-Academy is not a new physical hypothesis branch. It is a curriculum path for 
 
 ## Canonical curriculum documents
 
-| Document | Status | Repository file |
-|---|---|---|
-| BC-Academy I--V: Programme Charter | Programme Charter / Curriculum Syllabus v0.1.1 | `BC_ACADEMY_I_V_PROGRAMME_CHARTER_v0.1.1_RU.md` |
-| BC-Academy I: Linear Spectral Entry | Research Syllabus v0.1.1, Russian Zenodo-ready version | `BC_ACADEMY_I_RESEARCH_SYLLABUS_v0.1.1_RU.md` |
-| Zenodo metadata draft | Metadata companion | `zenodo_metadata_draft.txt` |
+| Document | DOI | Status | Repository file |
+|---|---|---|---|
+| BC-Academy I--V: Programme Charter | [10.5281/zenodo.21199133](https://doi.org/10.5281/zenodo.21199133) | Programme Charter / Curriculum Syllabus v0.1.1 | `BC_ACADEMY_I_V_PROGRAMME_CHARTER_v0.1.1_RU.md` |
+| BC-Academy I: Linear Spectral Entry | [10.5281/zenodo.21205935](https://doi.org/10.5281/zenodo.21205935) | Research Syllabus v0.1.1, Russian Zenodo-ready version | `BC_ACADEMY_I_RESEARCH_SYLLABUS_v0.1.1_RU.md` |
+| Zenodo metadata draft | — | Metadata companion | `zenodo_metadata_draft.txt` |
 
 ## BC-Academy I lecture resources
 
@@ -19,6 +19,7 @@ BC-Academy is not a new physical hypothesis branch. It is a curriculum path for 
 - Article DOI: [10.5281/zenodo.21251960](https://doi.org/10.5281/zenodo.21251960)
 - Video lecture: [YouTube](https://youtu.be/O_ZId9dZT3c)
 - NotebookLM companion: [NotebookLM](https://notebooklm.google.com/notebook/28b52381-5032-447f-9f49-e83641c7ac07)
+- HTML demonstrations: [`../BC-Academy-I-LA01-Demos/`](../BC-Academy-I-LA01-Demos/)
 
 ## Programme spine
 
