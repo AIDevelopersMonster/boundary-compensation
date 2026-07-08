@@ -12,6 +12,17 @@ bc_academy/demo/README.md
 bc_academy/demo/bc_academy_linear_spectral_demo.py
 bc_academy/demo/sample_output.txt
 
+BC-Academy I Lecture-Article 1 HTML demos
+
+bc_academy/BC-Academy-I-LA01-Demos/README.md
+bc_academy/BC-Academy-I-LA01-Demos/index.html
+bc_academy/BC-Academy-I-LA01-Demos/demos/demo_01_diagonal_spectrum.html
+bc_academy/BC-Academy-I-LA01-Demos/demos/demo_02_basis_change_same_spectrum.html
+bc_academy/BC-Academy-I-LA01-Demos/demos/demo_03_eigenvector_detector.html
+bc_academy/BC-Academy-I-LA01-Demos/demos/demo_04_same_spectrum_different_operator.html
+bc_academy/BC-Academy-I-LA01-Demos/demos/demo_05_near_zero_preview.html
+bc_academy/BC-Academy-I-LA01-Demos/demos/demo_06_what_spectrum_reads.html
+
 BC-Origin IV v0.1.1 software patch
 
 origin_iv/software/bc_origin_iv_phase_flow_core.py
