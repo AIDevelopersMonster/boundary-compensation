@@ -6,6 +6,11 @@
 
 This folder contains standalone browser demonstrations for the first BC-Academy lecture-article.
 
+## Course-level references
+
+- Full BC-Academy I--V Programme Charter DOI: [10.5281/zenodo.21199133](https://doi.org/10.5281/zenodo.21199133)
+- BC-Academy I block syllabus DOI: [10.5281/zenodo.21205935](https://doi.org/10.5281/zenodo.21205935)
+
 ## Lecture resources
 
 - Article DOI: [10.5281/zenodo.21251960](https://doi.org/10.5281/zenodo.21251960)
