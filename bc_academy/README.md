@@ -45,6 +45,11 @@ near-zero spectrum
 5. **BC-Academy V: Quotient Representatives and Certified Atlases**  
    Normal forms, rank walls, dictionary tubes, certification, reset, gluing and metrics.
 
+## Canonical resources
+
+- Full course charter DOI: [10.5281/zenodo.21199133](https://doi.org/10.5281/zenodo.21199133)
+- BC-Academy I block syllabus DOI: [10.5281/zenodo.21205935](https://doi.org/10.5281/zenodo.21205935)
+
 ## BC-Academy I lecture resources
 
 **Lecture 1: Operator, Matrix, Spectrum**
@@ -52,6 +57,7 @@ near-zero spectrum
 - Article DOI: [10.5281/zenodo.21251960](https://doi.org/10.5281/zenodo.21251960)
 - Video lecture: [YouTube](https://youtu.be/O_ZId9dZT3c)
 - NotebookLM companion: [NotebookLM](https://notebooklm.google.com/notebook/28b52381-5032-447f-9f49-e83641c7ac07)
+- HTML demonstrations: [`BC-Academy-I-LA01-Demos/`](BC-Academy-I-LA01-Demos/)
 
 ## Folder contents
 
@@ -59,6 +65,16 @@ near-zero spectrum
 bc_academy/
   README.md
   PROGRAMME_CHARTER_OVERVIEW.md
+  BC-Academy-I-LA01-Demos/
+    README.md
+    index.html
+    demos/
+      demo_01_diagonal_spectrum.html
+      demo_02_basis_change_same_spectrum.html
+      demo_03_eigenvector_detector.html
+      demo_04_same_spectrum_different_operator.html
+      demo_05_near_zero_preview.html
+      demo_06_what_spectrum_reads.html
   demo/
     README.md
     bc_academy_linear_spectral_demo.py
@@ -78,14 +94,21 @@ bc_academy/
 
 ## Quick start
 
-Run the dependency-free demonstration:
+Run the dependency-free Python demonstration:
 
 ```bash
 cd bc_academy/demo
 python bc_academy_linear_spectral_demo.py
 ```
 
-The script demonstrates a minimal avoided-crossing model where full gaps move, sector weights flow, and finite-resolution access depends on a declared threshold.
+Open the Lecture-Article 1 browser demonstrations:
+
+```bash
+cd bc_academy/BC-Academy-I-LA01-Demos
+# then open index.html in a modern browser
+```
+
+The Python script demonstrates a minimal avoided-crossing model where full gaps move, sector weights flow, and finite-resolution access depends on a declared threshold. The LA01 HTML package demonstrates the first route: space → operator → matrix → spectrum.
 
 ## Claim boundary
 
