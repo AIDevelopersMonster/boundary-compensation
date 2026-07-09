@@ -1,0 +1,228 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>BC-Academy I — Demo 02: Hermitian Operators and Projectors</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header class="hero">
+    <div class="hero__kicker">BC-Academy I · Linear Spectral Entry</div>
+    <h1>Demo 02: Hermitian Operators and Projectors</h1>
+    <p class="hero__lead">
+      Интерактивное чтение самосопряжённого оператора как структурированной суммы
+      eigenvalues и spectral projectors.
+    </p>
+    <div class="formula-card">
+      <span>A = A†</span>
+      <span>λ<sub>j</sub>(A) ∈ ℝ</span>
+      <span>A = Σ<sub>j</sub> λ<sub>j</sub>Π<sub>j</sub></span>
+      <span>Π<sub>j</sub><sup>2</sup> = Π<sub>j</sub>, Π<sub>j</sub>† = Π<sub>j</sub></span>
+    </div>
+  </header>
+
+  <main>
+    <section class="panel intro">
+      <h2>Цель модуля</h2>
+      <p>
+        Модуль показывает, почему самосопряжённость делает спектр вещественным,
+        почему projectors устойчивее отдельных eigenvectors, и как trace суммирует
+        спектральную информацию с учётом кратности.
+      </p>
+      <p class="note">
+        Все вычисления выполняются прямо в браузере. Внешние библиотеки не используются.
+      </p>
+    </section>
+
+    <nav class="tabs" aria-label="Разделы демонстрации">
+      <button class="tab is-active" data-tab="tab-hermitian">1. Эрмитовость</button>
+      <button class="tab" data-tab="tab-decomp">2. Разложение</button>
+      <button class="tab" data-tab="tab-projector">3. Проекторы</button>
+      <button class="tab" data-tab="tab-trace">4. Trace</button>
+      <button class="tab" data-tab="tab-check">5. Контроль</button>
+    </nav>
+
+    <section id="tab-hermitian" class="tab-panel is-active">
+      <div class="grid two">
+        <article class="panel">
+          <h2>1. Эрмитова матрица 2×2</h2>
+          <p>
+            Рассматриваем матрицу
+            <strong>A = [[a, x+iy], [x−iy, d]]</strong>. Она эрмитова при вещественных
+            <strong>a, d, x, y</strong>.
+          </p>
+
+          <div class="controls">
+            <label>a <input id="h-a" type="range" min="-4" max="4" step="0.1" value="1.0" /></label>
+            <output id="h-a-out"></output>
+            <label>d <input id="h-d" type="range" min="-4" max="4" step="0.1" value="3.0" /></label>
+            <output id="h-d-out"></output>
+            <label>x <input id="h-x" type="range" min="-3" max="3" step="0.1" value="1.0" /></label>
+            <output id="h-x-out"></output>
+            <label>y <input id="h-y" type="range" min="-3" max="3" step="0.1" value="0.8" /></label>
+            <output id="h-y-out"></output>
+            <label class="checkline">
+              <input id="break-hermitian" type="checkbox" /> нарушить сопряжённость нижнего элемента
+            </label>
+          </div>
+        </article>
+
+        <article class="panel result-card">
+          <h2>Результат чтения</h2>
+          <div class="matrix-row">
+            <div>
+              <h3>A</h3>
+              <div id="hermitian-matrix" class="matrix"></div>
+            </div>
+            <div>
+              <h3>A†</h3>
+              <div id="adjoint-matrix" class="matrix"></div>
+            </div>
+          </div>
+          <div id="hermitian-status" class="status"></div>
+          <div class="readout">
+            <div><span class="label">λ₁</span><span id="h-l1"></span></div>
+            <div><span class="label">λ₂</span><span id="h-l2"></span></div>
+            <div><span class="label">Tr A</span><span id="h-trace"></span></div>
+            <div><span class="label">det A</span><span id="h-det"></span></div>
+          </div>
+          <p id="hermitian-comment" class="note"></p>
+        </article>
+      </div>
+    </section>
+
+    <section id="tab-decomp" class="tab-panel">
+      <div class="grid two">
+        <article class="panel">
+          <h2>2. Спектральное разложение</h2>
+          <p>
+            Строим вещественный самосопряжённый оператор через поворот spectral basis:
+          </p>
+          <p class="equation">A = λ₁Π₁ + λ₂Π₂, где Π₁ = q₁q₁ᵀ, Π₂ = q₂q₂ᵀ.</p>
+
+          <div class="controls">
+            <label>λ₁ <input id="d-l1" type="range" min="-5" max="5" step="0.1" value="1.0" /></label>
+            <output id="d-l1-out"></output>
+            <label>λ₂ <input id="d-l2" type="range" min="-5" max="5" step="0.1" value="4.0" /></label>
+            <output id="d-l2-out"></output>
+            <label>θ <input id="d-theta" type="range" min="0" max="180" step="1" value="32" /></label>
+            <output id="d-theta-out"></output>
+            <label>vector angle <input id="v-angle" type="range" min="0" max="360" step="1" value="65" /></label>
+            <output id="v-angle-out"></output>
+          </div>
+        </article>
+
+        <article class="panel">
+          <h2>Геометрическое чтение</h2>
+          <svg id="decomp-svg" viewBox="-180 -180 360 360" class="viz" role="img" aria-label="Спектральные направления и проекции"></svg>
+          <div class="legend">
+            <span><i class="line axis1"></i> eigenvector direction q₁</span>
+            <span><i class="line axis2"></i> eigenvector direction q₂</span>
+            <span><i class="line vector"></i> vector v</span>
+            <span><i class="line image"></i> Av</span>
+          </div>
+        </article>
+      </div>
+
+      <article class="panel wide">
+        <h2>Матрицы разложения</h2>
+        <div class="matrix-grid">
+          <div><h3>Π₁</h3><div id="p1-matrix" class="matrix"></div></div>
+          <div><h3>Π₂</h3><div id="p2-matrix" class="matrix"></div></div>
+          <div><h3>A</h3><div id="d-a-matrix" class="matrix"></div></div>
+          <div><h3>λ₁Π₁ + λ₂Π₂</h3><div id="sum-matrix" class="matrix"></div></div>
+        </div>
+        <div class="readout compact">
+          <div><span class="label">Tr A</span><span id="d-trace"></span></div>
+          <div><span class="label">λ₁ Tr Π₁ + λ₂ Tr Π₂</span><span id="d-trace-spectral"></span></div>
+          <div><span class="label">det A</span><span id="d-det"></span></div>
+        </div>
+      </article>
+    </section>
+
+    <section id="tab-projector" class="tab-panel">
+      <div class="grid two">
+        <article class="panel">
+          <h2>3. Проверка свойств projectors</h2>
+          <p>
+            Выберите один spectral projector из предыдущей модели. Модуль проверяет:
+          </p>
+          <p class="equation">Π² = Π, Π† = Π, Tr Π = dim Ran Π.</p>
+          <div class="controls block">
+            <label class="checkline"><input type="radio" name="proj" value="p1" checked /> использовать Π₁</label>
+            <label class="checkline"><input type="radio" name="proj" value="p2" /> использовать Π₂</label>
+          </div>
+        </article>
+
+        <article class="panel">
+          <h2>Алгебра проектора</h2>
+          <div class="matrix-grid small">
+            <div><h3>Π</h3><div id="proj-matrix" class="matrix"></div></div>
+            <div><h3>Π²</h3><div id="proj-square" class="matrix"></div></div>
+            <div><h3>Π†</h3><div id="proj-adjoint" class="matrix"></div></div>
+          </div>
+          <div id="proj-status" class="status good"></div>
+          <p id="proj-comment" class="note"></p>
+        </article>
+      </div>
+    </section>
+
+    <section id="tab-trace" class="tab-panel">
+      <div class="grid two">
+        <article class="panel">
+          <h2>4. Trace как spectral count</h2>
+          <p>
+            Диагональная модель с кратностью показывает, что trace projectors считает
+            размерность spectral layer.
+          </p>
+          <p class="equation">A = λΠλ + μΠμ, Tr A = λ Tr Πλ + μ Tr Πμ.</p>
+          <div class="controls">
+            <label>λ <input id="t-lambda" type="range" min="-3" max="3" step="0.1" value="0.5" /></label>
+            <output id="t-lambda-out"></output>
+            <label>μ <input id="t-mu" type="range" min="-3" max="7" step="0.1" value="5.0" /></label>
+            <output id="t-mu-out"></output>
+            <label>multiplicity m for λ <input id="t-m" type="range" min="1" max="5" step="1" value="3" /></label>
+            <output id="t-m-out"></output>
+          </div>
+        </article>
+        <article class="panel">
+          <h2>Суммирование</h2>
+          <div id="trace-spectrum" class="spectrum-list"></div>
+          <div class="readout">
+            <div><span class="label">Tr Πλ</span><span id="t-tr-pi-l"></span></div>
+            <div><span class="label">Tr Πμ</span><span id="t-tr-pi-mu"></span></div>
+            <div><span class="label">Tr A</span><span id="t-trace"></span></div>
+            <div><span class="label">spectral formula</span><span id="t-formula"></span></div>
+          </div>
+          <p class="note">
+            Если λ близко к нулю, этот слой становится кандидатом на near-zero spectral layer.
+          </p>
+        </article>
+      </div>
+    </section>
+
+    <section id="tab-check" class="tab-panel">
+      <article class="panel wide">
+        <h2>5. Контроль понимания</h2>
+        <p>Ответьте на короткие вопросы. Проверка выполняется локально.</p>
+        <div class="quiz" id="quiz"></div>
+        <button id="check-quiz" class="primary">Проверить</button>
+        <div id="quiz-result" class="status"></div>
+      </article>
+    </section>
+  </main>
+
+  <footer>
+    <p>
+      BC-Academy I · Lecture-Article 2 companion demo · v0.1.0-draft · RU
+    </p>
+    <p class="small">
+      Методологическая граница: демонстрация обучает конечномерной линейной алгебре,
+      spectral projectors и trace. Она не вводит физических claims и не реконструирует hidden sector.
+    </p>
+  </footer>
+
+  <script src="app.js"></script>
+</body>
+</html>
