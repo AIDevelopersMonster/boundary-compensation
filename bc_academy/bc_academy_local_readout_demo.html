@@ -1,0 +1,206 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>BC-Academy I - Local Readout Demo</title>
+<style>
+  :root{
+    --bg:#f6f7fb; --panel:#ffffff; --ink:#172033; --muted:#5b6475;
+    --blue:#183454; --gold:#b8872d; --red:#8c2424; --line:#d6dbe5;
+    --vac:#edf1f7; --exc:#ffe5aa;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;font-family:system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;background:var(--bg);color:var(--ink);line-height:1.45}
+  header{background:linear-gradient(135deg,var(--blue),#2f5b8a);color:white;padding:28px 22px;border-bottom:5px solid var(--gold)}
+  header h1{margin:0;font-size:clamp(1.4rem,3vw,2.5rem);letter-spacing:.2px}
+  header p{margin:.6rem 0 0;max-width:1100px;color:#eef3ff}
+  main{max-width:1180px;margin:0 auto;padding:22px}
+  .warning{background:#fff7f7;border:1px solid #c57b7b;border-left:8px solid var(--red);padding:16px 18px;border-radius:12px;margin:0 0 20px}
+  .warning b{color:var(--red)}
+  .grid{display:grid;grid-template-columns:1fr;gap:18px}
+  @media(min-width:900px){.grid.two{grid-template-columns:1fr 1fr}.grid.three{grid-template-columns:1.1fr .9fr .9fr}}
+  section.card{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:18px;box-shadow:0 4px 18px rgba(20,35,70,.06)}
+  h2{margin:0 0 12px;color:var(--blue);font-size:1.25rem}
+  h3{margin:16px 0 8px;color:#263b5a;font-size:1.05rem}
+  .eq{font-family:"Times New Roman",serif;background:#f7f8fb;border:1px solid var(--line);border-radius:10px;padding:10px 12px;text-align:center;font-size:1.15rem;overflow:auto}
+  .row{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin:10px 0}
+  label{font-weight:650;color:#29384f}
+  input[type="range"]{width:190px}
+  button{background:var(--blue);color:white;border:0;border-radius:10px;padding:9px 13px;font-weight:700;cursor:pointer}
+  button.secondary{background:#50627c}
+  button.gold{background:var(--gold)}
+  button:active{transform:translateY(1px)}
+  .matrix{display:inline-grid;grid-template-columns:repeat(2,54px);gap:4px;padding:10px;margin:6px;border-left:3px solid var(--ink);border-right:3px solid var(--ink);vertical-align:middle;background:#fff}
+  .cellm{height:40px;display:flex;align-items:center;justify-content:center;border:1px solid #d9deea;border-radius:6px;font-family:"Times New Roman",serif;font-size:1.1rem}
+  .matwrap{display:flex;gap:14px;align-items:center;flex-wrap:wrap;justify-content:center}
+  .caption{text-align:center;color:var(--muted);font-size:.9rem;margin-top:4px}
+  .lattice{display:grid;grid-template-columns:repeat(7,1fr);gap:10px;margin:14px 0}
+  .site{min-height:86px;border:2px solid #d7deeb;border-radius:14px;background:var(--vac);display:flex;flex-direction:column;align-items:center;justify-content:center;position:relative;transition:.25s transform,.25s background,.25s border}
+  .site.excited{background:var(--exc);border-color:var(--gold);transform:translateY(-4px);box-shadow:0 10px 20px rgba(184,135,45,.25)}
+  .site .pi{font-family:"Times New Roman",serif;font-size:1.25rem;font-weight:700}
+  .site .tag{font-size:.8rem;color:var(--muted)}
+  .site.excited .tag{color:#5a3900}
+  .status{background:#f1f5fb;border:1px solid var(--line);padding:12px;border-radius:12px;color:#26384f}
+  .bars{display:grid;grid-template-columns:80px 1fr 58px;gap:8px;align-items:center;margin:8px 0}
+  .bar{height:14px;background:#e7ebf2;border-radius:99px;overflow:hidden}
+  .fill{height:100%;background:linear-gradient(90deg,var(--gold),#ffd27b);width:0%}
+  .mini{font-size:.88rem;color:var(--muted)}
+  .chips{display:flex;gap:8px;flex-wrap:wrap;margin:10px 0}
+  .chip{border:1px solid var(--line);background:#f8fafc;border-radius:99px;padding:7px 11px;cursor:pointer;user-select:none}
+  .chip.active{background:#e9f1ff;border-color:#7194c8;color:#12375f;font-weight:700}
+  .flow{display:grid;gap:6px;justify-items:center;margin:8px 0 4px}
+  .arrow{color:var(--gold);font-size:1.4rem;font-weight:800;line-height:1}
+  footer{text-align:center;color:var(--muted);font-size:.88rem;padding:18px}
+  .smalltable{width:100%;border-collapse:collapse;margin-top:10px;font-size:.95rem}
+  .smalltable th,.smalltable td{border-bottom:1px solid var(--line);padding:7px;text-align:left;vertical-align:top}
+  .smalltable th{color:var(--blue)}
+</style>
+</head>
+<body>
+<header>
+  <h1>BC-Academy I: локальный readout-канал</h1>
+  <p>Интерактивная демонстрация к факультативной прикладной лекции: проекторы, локальное возбуждение, переключение и индуцированный gap.</p>
+</header>
+<main>
+  <div class="warning">
+    <b>Предохранитель.</b> Эта демонстрация не является строгой физической моделью электрона, времени, скорости или вакуума. Она показывает учебную интуицию: как конечномерная спектральная алгебра может служить языком локального finite-resolution readout.
+  </div>
+
+  <div class="grid two">
+    <section class="card">
+      <h2>1. Двухуровневый локальный канал</h2>
+      <p>Минимальная область доступа различает два режима: нет зарегистрированного возбуждения и есть зарегистрированное возбуждение.</p>
+      <div class="eq">A = λ<sub>0</sub> Π<sub>vac</sub> + λ<sub>1</sub> Π<sub>exc</sub></div>
+      <div class="row">
+        <label for="lambda0">λ<sub>0</sub> vac</label>
+        <input id="lambda0" type="range" min="-2" max="2" value="0" step="0.1">
+        <span id="lambda0v">0.0</span>
+      </div>
+      <div class="row">
+        <label for="lambda1">λ<sub>1</sub> exc</label>
+        <input id="lambda1" type="range" min="-2" max="2" value="1" step="0.1">
+        <span id="lambda1v">1.0</span>
+      </div>
+      <div class="matwrap">
+        <div><div class="matrix"><div class="cellm">1</div><div class="cellm">0</div><div class="cellm">0</div><div class="cellm">0</div></div><div class="caption">Π<sub>vac</sub></div></div>
+        <div><div class="matrix"><div class="cellm">0</div><div class="cellm">0</div><div class="cellm">0</div><div class="cellm">1</div></div><div class="caption">Π<sub>exc</sub></div></div>
+        <div><div class="matrix" id="Amatrix"><div class="cellm">0</div><div class="cellm">0</div><div class="cellm">0</div><div class="cellm">1</div></div><div class="caption">A</div></div>
+      </div>
+      <p class="mini">Смысл: проектор здесь читается как канал различения, а не как полная теория частицы.</p>
+    </section>
+
+    <section class="card">
+      <h2>2. Внутренние индексы</h2>
+      <p>Добавляя признаки вроде спина или заряда, мы не меняем идею проекторов, а расширяем локальное пространство.</p>
+      <div class="eq">H<sub>local</sub> = H<sub>occ</sub> ⊗ H<sub>spin</sub> ⊗ H<sub>charge</sub> ⊗ ...</div>
+      <div class="chips">
+        <span class="chip active" data-dim="2">occupation</span>
+        <span class="chip" data-dim="2">spin</span>
+        <span class="chip" data-dim="2">charge ±</span>
+        <span class="chip" data-dim="3">sector 3</span>
+      </div>
+      <div class="status" id="dimStatus">Локальная размерность: 2. Активные индексы: occupation.</div>
+      <table class="smalltable">
+        <tr><th>Строгая математика</th><th>Физическая интуиция</th></tr>
+        <tr><td>прямые суммы и тензорные произведения</td><td>разные локальные режимы возбуждения</td></tr>
+        <tr><td>секторные проекторы</td><td>различимые каналы чтения</td></tr>
+      </table>
+    </section>
+  </div>
+
+  <section class="card">
+    <h2>3. Движение как переключение readout-статусов</h2>
+    <p>Один активный локальный канал перемещается по сетке. Это не физическая траектория, а визуальная интуиция: макроскопический наблюдатель может читать последовательность переключений как движение.</p>
+    <div class="lattice" id="lattice"></div>
+    <div class="row">
+      <button id="prevBtn" class="secondary">← назад</button>
+      <button id="nextBtn">шаг →</button>
+      <button id="autoBtn" class="gold">авто</button>
+      <button id="resetBtn" class="secondary">сброс</button>
+    </div>
+    <div class="status" id="moveStatus"></div>
+  </section>
+
+  <div class="grid two">
+    <section class="card">
+      <h2>4. Реляционная длительность</h2>
+      <p>В этой игрушечной картине счётчик не доказывает природу времени. Он показывает, как порядок изменений может стать параметром наблюдателя.</p>
+      <div class="flow">
+        <div>локальные изменения</div><div class="arrow">↓</div>
+        <div>порядок событий</div><div class="arrow">↓</div>
+        <div>реляционная длительность</div><div class="arrow">↓</div>
+        <div>эффективное макроскопическое время</div>
+      </div>
+      <div class="bars"><span>шаги</span><div class="bar"><div class="fill" id="timeFill"></div></div><b id="stepCount">0</b></div>
+      <div class="status" id="timeStatus">Пока переключений нет: readout-история пуста.</div>
+    </section>
+
+    <section class="card">
+      <h2>5. Скрытый сектор и индуцированный gap</h2>
+      <p>Игрушечная Schur/Feshbach-интуиция: скрытый сектор может превратить точный нулевой режим в малый индуцированный зазор.</p>
+      <div class="eq">D<sub>gap</sub> = - V<sup>†</sup> M<sup>-1</sup> V &nbsp;&nbsp; → &nbsp;&nbsp; ε = |D<sub>gap</sub>|</div>
+      <div class="row"><label for="coupling">связь V</label><input id="coupling" type="range" min="0" max="2" value="0.5" step="0.05"><span id="couplingv">0.50</span></div>
+      <div class="row"><label for="mass">скрытый масштаб M</label><input id="mass" type="range" min="0.5" max="5" value="2" step="0.1"><span id="massv">2.0</span></div>
+      <div class="bars"><span>ε</span><div class="bar"><div class="fill" id="gapFill"></div></div><b id="gapv">0.125</b></div>
+      <div class="status" id="gapStatus">Малый gap: локальный режим почти нулевой, но уже не точный ноль.</div>
+    </section>
+  </div>
+</main>
+<footer>BC-Academy optional applied demo. Offline, no external libraries. Status: interpretive visualization, not theorem-level physics.</footer>
+<script>
+const lambda0 = document.getElementById('lambda0');
+const lambda1 = document.getElementById('lambda1');
+const lambda0v = document.getElementById('lambda0v');
+const lambda1v = document.getElementById('lambda1v');
+const Amatrix = document.getElementById('Amatrix').children;
+function fmt(x){ return Number(x).toFixed(2).replace(/\.00$/,''); }
+function updateA(){
+  const l0 = parseFloat(lambda0.value), l1 = parseFloat(lambda1.value);
+  lambda0v.textContent = l0.toFixed(1); lambda1v.textContent = l1.toFixed(1);
+  Amatrix[0].textContent = fmt(l0); Amatrix[1].textContent = '0'; Amatrix[2].textContent = '0'; Amatrix[3].textContent = fmt(l1);
+}
+lambda0.addEventListener('input',updateA); lambda1.addEventListener('input',updateA); updateA();
+
+const chips = [...document.querySelectorAll('.chip')];
+const dimStatus = document.getElementById('dimStatus');
+function updateDim(){
+  let dim=1, names=[];
+  chips.forEach(c=>{ if(c.classList.contains('active')){dim *= Number(c.dataset.dim); names.push(c.textContent.trim());}});
+  dimStatus.textContent = `Локальная размерность: ${dim}. Активные индексы: ${names.join(', ')}.`;
+}
+chips.forEach(c=>c.addEventListener('click',()=>{c.classList.toggle('active'); if(!chips.some(x=>x.classList.contains('active'))) c.classList.add('active'); updateDim();})); updateDim();
+
+const lattice = document.getElementById('lattice');
+let pos=2, steps=0, timer=null;
+function renderLattice(){
+  lattice.innerHTML='';
+  for(let i=0;i<7;i++){
+    const d=document.createElement('div'); d.className='site'+(i===pos?' excited':'');
+    d.innerHTML = i===pos ? '<div class="pi">Π<sub>exc</sub></div><div class="tag">есть возбуждение</div>' : '<div class="pi">Π<sub>vac</sub></div><div class="tag">нет возбуждения</div>';
+    lattice.appendChild(d);
+  }
+  document.getElementById('moveStatus').innerHTML = `Активна ячейка ${pos+1}. Readout-переход: соседние проекторы меняют статус vac/exc.`;
+  document.getElementById('stepCount').textContent = steps;
+  document.getElementById('timeFill').style.width = Math.min(100, steps*8)+'%';
+  document.getElementById('timeStatus').textContent = steps===0 ? 'Пока переключений нет: readout-история пуста.' : `История содержит ${steps} переключений. В демонстрации это служит реляционным счётчиком изменений.`;
+}
+function step(dir=1){pos=(pos+dir+7)%7; steps++; renderLattice();}
+document.getElementById('nextBtn').onclick=()=>step(1);
+document.getElementById('prevBtn').onclick=()=>step(-1);
+document.getElementById('resetBtn').onclick=()=>{pos=2;steps=0; if(timer){clearInterval(timer);timer=null;document.getElementById('autoBtn').textContent='авто';} renderLattice();};
+document.getElementById('autoBtn').onclick=(e)=>{ if(timer){clearInterval(timer);timer=null;e.target.textContent='авто';} else {timer=setInterval(()=>step(1),700);e.target.textContent='стоп';}};
+renderLattice();
+
+const coupling=document.getElementById('coupling'), mass=document.getElementById('mass');
+function updateGap(){
+ const v=parseFloat(coupling.value), m=parseFloat(mass.value); const eps=(v*v/m); const dgap=-eps;
+ document.getElementById('couplingv').textContent=v.toFixed(2); document.getElementById('massv').textContent=m.toFixed(1);
+ document.getElementById('gapv').textContent=eps.toFixed(3); document.getElementById('gapFill').style.width=Math.min(100,eps*55)+'%';
+ const phrase = eps < 0.08 ? 'Почти нулевой режим: связь со скрытым сектором мала.' : eps < 0.5 ? 'Малый induced gap: нулевой режим слегка раскрыт.' : 'Заметный gap: скрытая связь уже сильно влияет на локальный канал.';
+ document.getElementById('gapStatus').textContent = `${phrase} D_gap = ${dgap.toFixed(3)}.`;
+}
+coupling.addEventListener('input',updateGap); mass.addEventListener('input',updateGap); updateGap();
+</script>
+</body>
+</html>
