@@ -1,0 +1,314 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>BC-Academy I - Лекция 3: Kernel Explorer</title>
+<style>
+  :root{
+    --bg:#f4f7fb;
+    --paper:#ffffff;
+    --ink:#142033;
+    --muted:#667085;
+    --line:#d8e0ec;
+    --blue:#204b8f;
+    --blue2:#3d6eb4;
+    --gold:#b38728;
+    --green:#16794f;
+    --red:#a33a3a;
+    --shadow:0 14px 40px rgba(28,49,80,.10);
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:linear-gradient(180deg,#edf3fa 0,#f8fafc 420px);color:var(--ink);font-family:Inter,Segoe UI,Arial,sans-serif;line-height:1.45}
+  .wrap{max-width:1180px;margin:0 auto;padding:26px 20px 52px}
+  header{background:linear-gradient(135deg,#102a52,#204b8f);color:#fff;border-radius:24px;padding:30px 32px;box-shadow:var(--shadow);position:relative;overflow:hidden}
+  header:after{content:"";position:absolute;right:-80px;top:-120px;width:340px;height:340px;border:1px solid rgba(255,255,255,.14);border-radius:50%}
+  header:before{content:"";position:absolute;right:48px;top:40px;width:110px;height:110px;border:1px solid rgba(255,255,255,.22);border-radius:50%}
+  h1{font-size:clamp(28px,4.5vw,48px);line-height:1.08;margin:0 0 10px;max-width:840px}
+  .eyebrow{font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:#d9e7fb;font-size:13px}
+  .subtitle{max-width:830px;color:#e8eef8;font-size:17px}
+  .map{margin-top:20px;display:flex;gap:8px;flex-wrap:wrap;align-items:center;font-family:Consolas,monospace;font-size:14px}
+  .map span{background:rgba(255,255,255,.10);border:1px solid rgba(255,255,255,.16);padding:7px 10px;border-radius:999px}
+  .map b{color:#f1c75b}
+  nav{display:flex;gap:8px;flex-wrap:wrap;margin:22px 0 18px}
+  .tab{border:1px solid var(--line);background:var(--paper);color:var(--ink);padding:10px 14px;border-radius:12px;cursor:pointer;font-weight:700;box-shadow:0 4px 12px rgba(28,49,80,.04)}
+  .tab.active{background:var(--blue);color:#fff;border-color:var(--blue)}
+  section.panel{display:none}
+  section.panel.active{display:block}
+  .grid{display:grid;grid-template-columns:1.05fr .95fr;gap:18px}
+  .card{background:var(--paper);border:1px solid var(--line);border-radius:20px;padding:20px;box-shadow:var(--shadow)}
+  .card h2,.card h3{margin-top:0}
+  .card h2{font-size:23px;margin-bottom:8px}
+  .card h3{font-size:16px;color:var(--blue);margin-bottom:10px}
+  .lead{color:var(--muted);margin-top:0}
+  .controls{display:grid;gap:15px;margin:18px 0}
+  .control{display:grid;grid-template-columns:140px 1fr 82px;gap:12px;align-items:center}
+  label{font-weight:700}
+  input[type=range]{width:100%;accent-color:var(--blue)}
+  output{font-family:Consolas,monospace;background:#eef3f9;border:1px solid var(--line);padding:6px 8px;border-radius:8px;text-align:right}
+  .matrix{font-family:Cambria Math,STIX Two Math,serif;font-size:27px;text-align:center;padding:18px;background:#f7f9fc;border-radius:14px;border:1px solid var(--line);overflow:auto}
+  .formula{font-family:Cambria Math,STIX Two Math,serif;background:#f7f9fc;border-left:4px solid var(--blue);padding:12px 14px;border-radius:8px;margin:10px 0;overflow:auto}
+  .status-row{display:flex;gap:10px;flex-wrap:wrap;margin:14px 0}
+  .badge{display:inline-flex;align-items:center;gap:7px;border-radius:999px;padding:7px 11px;font-weight:700;font-size:14px;border:1px solid}
+  .good{background:#ecf8f2;color:var(--green);border-color:#b7e3cf}
+  .warn{background:#fff6e6;color:#8a5b00;border-color:#efd8a4}
+  .bad{background:#fff0f0;color:var(--red);border-color:#efc4c4}
+  .neutral{background:#eef3f9;color:#344054;border-color:#d5deea}
+  svg{width:100%;height:auto;display:block;background:#fbfcfe;border:1px solid var(--line);border-radius:14px}
+  .legend{display:flex;gap:14px;flex-wrap:wrap;color:var(--muted);font-size:13px;margin-top:8px}
+  .dot{width:10px;height:10px;border-radius:50%;display:inline-block;margin-right:5px}
+  .two{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+  .metric{padding:13px;border:1px solid var(--line);border-radius:13px;background:#f8fafc}
+  .metric .k{font-size:12px;color:var(--muted);text-transform:uppercase;letter-spacing:.04em}
+  .metric .v{font-family:Consolas,monospace;font-size:18px;font-weight:700;margin-top:4px}
+  .note{border:1px dashed #aebed4;background:#f8fbff;padding:13px 14px;border-radius:12px;color:#40516a}
+  .footer-note{margin-top:18px;color:var(--muted);font-size:13px}
+  .quiz button{border:1px solid var(--line);background:#fff;border-radius:10px;padding:9px 12px;cursor:pointer;margin:4px 5px 4px 0}
+  .quiz button:hover{border-color:var(--blue)}
+  .answer{margin-top:10px;font-weight:700;min-height:24px}
+  @media(max-width:850px){.grid,.two{grid-template-columns:1fr}.control{grid-template-columns:110px 1fr 74px}header{padding:24px 22px}}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header>
+  <div class="eyebrow">BC-Academy I · Linear Spectral Entry · Lecture 3</div>
+  <h1>Kernel Explorer: exact zero, near-zero и нулевой проектор</h1>
+  <p class="subtitle">Интерактивная демонстрация к лекции «Нулевые моды и ядро оператора». Все модели конечномерны; физические интерпретации не используются.</p>
+  <div class="map"><span>A = A†</span><b>→</b><span>σ(A)</span><b>→</b><span>ker A</span><b>→</b><span>|λ| ≪ 1</span><b>→</b><span>small gap scale</span></div>
+</header>
+
+<nav aria-label="Разделы демонстрации">
+  <button class="tab active" data-tab="diag">1. Exact zero</button>
+  <button class="tab" data-tab="split">2. Расщепление</button>
+  <button class="tab" data-tab="projector">3. Проектор Π₀</button>
+  <button class="tab" data-tab="threshold">4. Численный порог</button>
+</nav>
+
+<section id="diag" class="panel active">
+<div class="grid">
+  <div class="card">
+    <h2>Диагональное семейство A(ε)</h2>
+    <p class="lead">Одна координата имеет собственное значение ε, другая — 1. Ядро появляется только в точке ε = 0.</p>
+    <div class="controls">
+      <div class="control"><label for="eps1">ε</label><input id="eps1" type="range" min="-1" max="1" step="0.001" value="0"><output id="eps1o">0.000</output></div>
+    </div>
+    <div class="matrix" id="diagMatrix">A(ε) = [[0, 0], [0, 1]]</div>
+    <div class="status-row">
+      <span id="diagKernel" class="badge good">dim ker A = 1</span>
+      <span id="diagClass" class="badge good">exact zero mode</span>
+      <span id="diagInv" class="badge bad">A необратим</span>
+    </div>
+    <div class="two">
+      <div class="metric"><div class="k">Спектр</div><div class="v" id="diagSpectrum">{0, 1}</div></div>
+      <div class="metric"><div class="k">g₀(A) = dist(0, σ(A))</div><div class="v" id="diagGap">0</div></div>
+    </div>
+    <div class="formula">ε = 0 ⇔ 0 ∈ σ(A) ⇔ ker A ≠ {0}</div>
+  </div>
+  <div class="card">
+    <h3>Спектральная линия</h3>
+    <svg id="diagSvg" viewBox="0 0 620 260" role="img" aria-label="Спектр диагональной матрицы"></svg>
+    <div class="legend"><span><i class="dot" style="background:#204b8f"></i>λ₁ = ε</span><span><i class="dot" style="background:#b38728"></i>λ₂ = 1</span><span><i class="dot" style="background:#a33a3a"></i>нуль</span></div>
+    <p class="note" id="diagNote">При ε = 0 вектор e₁ принадлежит ядру. Даже при ε = 0.001 он уже не является нулевой модой.</p>
+  </div>
+</div>
+</section>
+
+<section id="split" class="panel">
+<div class="grid">
+  <div class="card">
+    <h2>Двухуровневое расщепление</h2>
+    <p class="lead">Связь ε между нулевым и тяжёлым уровнями M смещает точный нуль в малое ненулевое значение.</p>
+    <div class="controls">
+      <div class="control"><label for="eps2">ε</label><input id="eps2" type="range" min="0" max="1" step="0.002" value="0.2"><output id="eps2o">0.200</output></div>
+      <div class="control"><label for="mass">M</label><input id="mass" type="range" min="0.5" max="5" step="0.01" value="2"><output id="masso">2.00</output></div>
+    </div>
+    <div class="matrix" id="splitMatrix">A = [[0, ε], [ε, M]]</div>
+    <div class="two">
+      <div class="metric"><div class="k">λ₋ exact</div><div class="v" id="lminus">-0.019804</div></div>
+      <div class="metric"><div class="k">−ε²/M</div><div class="v" id="approx">-0.020000</div></div>
+      <div class="metric"><div class="k">λ₊</div><div class="v" id="lplus">2.019804</div></div>
+      <div class="metric"><div class="k">Ошибка асимптотики</div><div class="v" id="err">0.000196</div></div>
+    </div>
+    <div class="status-row"><span id="splitStatus" class="badge warn">near-zero mode</span><span id="splitKernel" class="badge neutral">dim ker A = 0</span></div>
+    <div class="formula">λ₋ = −2ε² / (M + √(M² + 4ε²)) ≈ −ε²/M</div>
+  </div>
+  <div class="card">
+    <h3>Спектральные ветви</h3>
+    <svg id="splitSvg" viewBox="0 0 620 320" role="img" aria-label="График собственных значений при расщеплении"></svg>
+    <p class="note">При ε ≠ 0 определитель равен −ε², поэтому матрица обратима. Малое |λ₋| не означает принадлежность ядру.</p>
+  </div>
+</div>
+</section>
+
+<section id="projector" class="panel">
+<div class="grid">
+  <div class="card">
+    <h2>Одинаковый спектр — разные ядра</h2>
+    <p class="lead">Поворачиваем оператор U(θ) diag(0,1) U(θ)ᵀ. Спектр остаётся {0,1}, но нулевое подпространство меняет положение.</p>
+    <div class="controls">
+      <div class="control"><label for="theta">θ</label><input id="theta" type="range" min="0" max="180" step="1" value="35"><output id="thetao">35°</output></div>
+    </div>
+    <div class="matrix" id="rotMatrix"></div>
+    <div class="two">
+      <div class="metric"><div class="k">Спектр</div><div class="v">{0, 1}</div></div>
+      <div class="metric"><div class="k">dim ker A</div><div class="v">1</div></div>
+    </div>
+    <div class="formula" id="kernelVector">ker A = span{(cos θ, sin θ)}</div>
+    <div class="formula" id="projectorMatrix">Π₀ = uuᵀ</div>
+  </div>
+  <div class="card">
+    <h3>Положение нулевого направления</h3>
+    <svg id="projectorSvg" viewBox="0 0 620 420" role="img" aria-label="Поворот нулевого подпространства"></svg>
+    <p class="note">Числовой член 0·Π₀ равен нулю, но Π₀ хранит ориентацию и размерность ядра. Поэтому список собственных значений не заменяет спектральные проекторы.</p>
+  </div>
+</div>
+</section>
+
+<section id="threshold" class="panel">
+<div class="grid">
+  <div class="card">
+    <h2>Точный нуль и численный порог</h2>
+    <p class="lead">Порог τ — правило чтения, а не изменение точной математики. Значение λ ≠ 0 остаётся ненулевым, даже если |λ| ≤ τ.</p>
+    <div class="controls">
+      <div class="control"><label for="lam">λ</label><input id="lam" type="range" min="-0.02" max="0.02" step="0.00001" value="0.004"><output id="lamo">0.00400</output></div>
+      <div class="control"><label for="tau">τ</label><input id="tau" type="range" min="0" max="0.02" step="0.0001" value="0.005"><output id="tauo">0.0050</output></div>
+    </div>
+    <div class="status-row">
+      <span id="exactBadge" class="badge warn">exact: λ ≠ 0</span>
+      <span id="thresholdBadge" class="badge neutral">threshold: counted as near-zero</span>
+    </div>
+    <div class="two">
+      <div class="metric"><div class="k">Точная dim ker</div><div class="v" id="exactDim">0</div></div>
+      <div class="metric"><div class="k">Пороговый count</div><div class="v" id="thresholdCount">1</div></div>
+    </div>
+    <div class="formula">exact kernel: λ = 0 &nbsp;&nbsp; | &nbsp;&nbsp; threshold window: |λ| ≤ τ</div>
+  </div>
+  <div class="card quiz">
+    <h3>Проверка понимания</h3>
+    <p>Пусть λ = 10⁻⁶ и τ = 10⁻⁵. Принадлежит ли собственный вектор точному ядру?</p>
+    <button data-answer="no">Нет</button><button data-answer="yes">Да</button>
+    <div class="answer" id="quizAnswer"></div>
+    <p class="note">Правильная формулировка: вектор не принадлежит ker A, но попадает в выбранное near-zero окно.</p>
+    <svg id="thresholdSvg" viewBox="0 0 620 250" role="img" aria-label="Численный порог вокруг нуля"></svg>
+  </div>
+</div>
+</section>
+
+<p class="footer-note">BC-Academy I · Lecture 3 · Self-contained HTML demonstration v0.1.0. Работает локально без библиотек и подключения к сети.</p>
+</div>
+<script>
+(() => {
+  const $ = id => document.getElementById(id);
+  const fmt = (x, n=4) => Math.abs(x) < 0.5*Math.pow(10,-n) ? (0).toFixed(n) : x.toFixed(n);
+  const esc = x => Number.isFinite(x) ? x : 0;
+
+  document.querySelectorAll('.tab').forEach(btn => btn.addEventListener('click', () => {
+    document.querySelectorAll('.tab').forEach(b => b.classList.remove('active'));
+    document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+    btn.classList.add('active');
+    $(btn.dataset.tab).classList.add('active');
+  }));
+
+  function spectrumSvg(svg, vals, colors, min=-1.2, max=1.2){
+    const W=620,H=260,L=55,R=35,Y=145;
+    const x = v => L + (v-min)/(max-min)*(W-L-R);
+    let s = `<line x1="${L}" y1="${Y}" x2="${W-R}" y2="${Y}" stroke="#6b7d96" stroke-width="2"/>`;
+    for(let t=Math.ceil(min*2)/2;t<=max+1e-9;t+=0.5){
+      const xx=x(t); s += `<line x1="${xx}" y1="${Y-7}" x2="${xx}" y2="${Y+7}" stroke="#8795a8"/><text x="${xx}" y="${Y+28}" text-anchor="middle" fill="#667085" font-size="13">${t.toFixed(1)}</text>`;
+    }
+    const x0=x(0); s += `<line x1="${x0}" y1="42" x2="${x0}" y2="210" stroke="#a33a3a" stroke-dasharray="5 5"/><text x="${x0+8}" y="55" fill="#a33a3a" font-size="13">0</text>`;
+    vals.forEach((v,i)=>{const xx=x(Math.max(min,Math.min(max,v)));s += `<circle cx="${xx}" cy="${Y-(i%2)*38}" r="9" fill="${colors[i]}"/><text x="${xx}" y="${Y-(i%2)*38-16}" text-anchor="middle" fill="${colors[i]}" font-size="15" font-weight="700">λ${i+1}=${fmt(v,3)}</text>`});
+    svg.innerHTML=s;
+  }
+
+  function updateDiag(){
+    const e=+$('eps1').value; $('eps1o').value=fmt(e,3);
+    $('diagMatrix').textContent=`A(ε) = [[${fmt(e,3)}, 0], [0, 1]]`;
+    const exact=Math.abs(e)<1e-12;
+    $('diagKernel').textContent=`dim ker A = ${exact?1:0}`;
+    $('diagKernel').className=`badge ${exact?'good':'neutral'}`;
+    $('diagClass').textContent=exact?'exact zero mode':(Math.abs(e)<0.08?'near-zero, но не kernel':'nonzero mode');
+    $('diagClass').className=`badge ${exact?'good':(Math.abs(e)<0.08?'warn':'neutral')}`;
+    $('diagInv').textContent=exact?'A необратим':'A обратим';
+    $('diagInv').className=`badge ${exact?'bad':'good'}`;
+    $('diagSpectrum').textContent=`{${fmt(e,3)}, 1}`;
+    $('diagGap').textContent=fmt(Math.min(Math.abs(e),1),4);
+    $('diagNote').textContent=exact?'При ε = 0 вектор e₁ принадлежит ядру: A e₁ = 0.':'При ε ≠ 0 вектор e₁ не принадлежит ядру. Малость |ε| не меняет точное равенство ker A = {0}.';
+    spectrumSvg($('diagSvg'),[e,1],['#204b8f','#b38728'],-1.2,1.2);
+  }
+
+  function updateSplit(){
+    const e=+$('eps2').value,M=+$('mass').value;
+    $('eps2o').value=fmt(e,3); $('masso').value=fmt(M,2);
+    const d=Math.sqrt(M*M+4*e*e), lm=(M-d)/2, lp=(M+d)/2, ap=-(e*e/M), er=Math.abs(lm-ap);
+    $('splitMatrix').textContent=`A(ε) = [[0, ${fmt(e,3)}], [${fmt(e,3)}, ${fmt(M,2)}]]`;
+    $('lminus').textContent=fmt(lm,6);$('lplus').textContent=fmt(lp,6);$('approx').textContent=fmt(ap,6);$('err').textContent=fmt(er,6);
+    const exact=e===0;
+    $('splitStatus').textContent=exact?'exact zero mode':(Math.abs(lm)<0.1?'near-zero mode':'shifted nonzero mode');
+    $('splitStatus').className=`badge ${exact?'good':(Math.abs(lm)<0.1?'warn':'neutral')}`;
+    $('splitKernel').textContent=`dim ker A = ${exact?1:0}`;
+    drawSplit(e,M);
+  }
+
+  function drawSplit(eNow,M){
+    const svg=$('splitSvg'),W=620,H=320,L=60,R=25,T=30,B=48;
+    const maxE=1, minY=-0.6, maxY=Math.max(5.4,M+1.2);
+    const X=e=>L+e/maxE*(W-L-R), Y=v=>H-B-(v-minY)/(maxY-minY)*(H-T-B);
+    let s=`<rect x="${L}" y="${T}" width="${W-L-R}" height="${H-T-B}" fill="#fbfcfe"/>`;
+    [0,1,2,3,4,5].forEach(v=>{if(v<=maxY){s+=`<line x1="${L}" y1="${Y(v)}" x2="${W-R}" y2="${Y(v)}" stroke="#e2e8f0"/><text x="${L-10}" y="${Y(v)+4}" text-anchor="end" fill="#667085" font-size="12">${v}</text>`}});
+    s+=`<line x1="${L}" y1="${Y(0)}" x2="${W-R}" y2="${Y(0)}" stroke="#a33a3a" stroke-dasharray="5 5"/>`;
+    const ptsM=[],ptsP=[],ptsA=[];
+    for(let i=0;i<=160;i++){const e=i/160,d=Math.sqrt(M*M+4*e*e);ptsM.push(`${X(e)},${Y((M-d)/2)}`);ptsP.push(`${X(e)},${Y((M+d)/2)}`);ptsA.push(`${X(e)},${Y(-(e*e/M))}`)}
+    s+=`<polyline points="${ptsP.join(' ')}" fill="none" stroke="#b38728" stroke-width="3"/><polyline points="${ptsM.join(' ')}" fill="none" stroke="#204b8f" stroke-width="3"/><polyline points="${ptsA.join(' ')}" fill="none" stroke="#7a8ba4" stroke-width="2" stroke-dasharray="6 5"/>`;
+    const d=Math.sqrt(M*M+4*eNow*eNow),lm=(M-d)/2,lp=(M+d)/2;
+    s+=`<line x1="${X(eNow)}" y1="${T}" x2="${X(eNow)}" y2="${H-B}" stroke="#355d93" stroke-dasharray="3 4"/><circle cx="${X(eNow)}" cy="${Y(lm)}" r="7" fill="#204b8f"/><circle cx="${X(eNow)}" cy="${Y(lp)}" r="7" fill="#b38728"/><text x="${W-R}" y="${H-12}" text-anchor="end" fill="#667085" font-size="13">ε</text>`;
+    svg.innerHTML=s;
+  }
+
+  function updateProjector(){
+    const deg=+$('theta').value,th=deg*Math.PI/180,c=Math.cos(th),s=Math.sin(th);
+    $('thetao').value=`${deg}°`;
+    const a=s*s,b=-s*c,d=c*c;
+    $('rotMatrix').textContent=`A(θ) = [[${fmt(a,3)}, ${fmt(b,3)}], [${fmt(b,3)}, ${fmt(d,3)}]]`;
+    $('kernelVector').textContent=`ker A = span{(${fmt(c,3)}, ${fmt(s,3)})}`;
+    $('projectorMatrix').textContent=`Π₀ = [[${fmt(c*c,3)}, ${fmt(c*s,3)}], [${fmt(c*s,3)}, ${fmt(s*s,3)}]]`;
+    const svg=$('projectorSvg'),W=620,H=420,cx=310,cy=210,scale=150;
+    const ux=c,uy=-s,vx=-s,vy=-c;
+    const arrow=(x1,y1,x2,y2,col,label)=>`<line x1="${x1}" y1="${y1}" x2="${x2}" y2="${y2}" stroke="${col}" stroke-width="5"/><circle cx="${x2}" cy="${y2}" r="6" fill="${col}"/><text x="${x2+10}" y="${y2-8}" fill="${col}" font-size="15" font-weight="700">${label}</text>`;
+    let z=`<line x1="70" y1="${cy}" x2="550" y2="${cy}" stroke="#c8d2df"/><line x1="${cx}" y1="50" x2="${cx}" y2="370" stroke="#c8d2df"/><circle cx="${cx}" cy="${cy}" r="4" fill="#40516a"/>`;
+    z+=`<line x1="${cx-ux*scale}" y1="${cy-uy*scale}" x2="${cx+ux*scale}" y2="${cy+uy*scale}" stroke="#204b8f" stroke-width="3" opacity=".55"/>`;
+    z+=arrow(cx,cy,cx+ux*scale,cy+uy*scale,'#204b8f','u₀: kernel');
+    z+=arrow(cx,cy,cx+vx*scale*.85,cy+vy*scale*.85,'#b38728','u₁: λ=1');
+    z+=`<text x="30" y="30" fill="#667085" font-size="13">Спектр неизменен: {0,1}</text>`;
+    svg.innerHTML=z;
+  }
+
+  function updateThreshold(){
+    const l=+$('lam').value,t=+$('tau').value;
+    $('lamo').value=fmt(l,5);$('tauo').value=fmt(t,4);
+    const exact=Math.abs(l)<1e-14,inside=Math.abs(l)<=t;
+    $('exactBadge').textContent=exact?'exact: λ = 0':'exact: λ ≠ 0';
+    $('exactBadge').className=`badge ${exact?'good':'warn'}`;
+    $('thresholdBadge').textContent=inside?'threshold: counted as near-zero':'threshold: outside window';
+    $('thresholdBadge').className=`badge ${inside?'neutral':'bad'}`;
+    $('exactDim').textContent=exact?'1':'0';$('thresholdCount').textContent=inside?'1':'0';
+    const svg=$('thresholdSvg'),W=620,H=250,L=55,R=35,Y=140,max=.02,x=v=>L+(v+max)/(2*max)*(W-L-R),x0=x(0);
+    let s=`<rect x="${x(-t)}" y="72" width="${x(t)-x(-t)}" height="95" fill="#dbe8f7" opacity=".8"/><line x1="${L}" y1="${Y}" x2="${W-R}" y2="${Y}" stroke="#6b7d96" stroke-width="2"/><line x1="${x0}" y1="45" x2="${x0}" y2="190" stroke="#a33a3a" stroke-dasharray="5 5"/><circle cx="${x(l)}" cy="${Y}" r="9" fill="#204b8f"/><text x="${x(l)}" y="${Y-18}" text-anchor="middle" fill="#204b8f" font-weight="700">λ</text><text x="${x0+7}" y="55" fill="#a33a3a">0</text><text x="${x(-t)}" y="205" text-anchor="middle" fill="#667085">−τ</text><text x="${x(t)}" y="205" text-anchor="middle" fill="#667085">τ</text>`;
+    svg.innerHTML=s;
+  }
+
+  ['eps1'].forEach(id=>$(id).addEventListener('input',updateDiag));
+  ['eps2','mass'].forEach(id=>$(id).addEventListener('input',updateSplit));
+  $('theta').addEventListener('input',updateProjector);
+  ['lam','tau'].forEach(id=>$(id).addEventListener('input',updateThreshold));
+  document.querySelectorAll('.quiz button').forEach(b=>b.addEventListener('click',()=>{
+    $('quizAnswer').textContent=b.dataset.answer==='no'?'Верно: λ ≠ 0, поэтому вектор не лежит в точном ядре.':'Неверно: пороговое near-zero чтение не превращает λ ≠ 0 в точный нуль.';
+    $('quizAnswer').style.color=b.dataset.answer==='no'?'#16794f':'#a33a3a';
+  }));
+
+  updateDiag();updateSplit();updateProjector();updateThreshold();
+})();
+</script>
+</body>
+</html>
