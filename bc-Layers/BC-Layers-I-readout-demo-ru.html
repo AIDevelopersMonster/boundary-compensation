@@ -1,0 +1,460 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>BC-Layers I Demo — Continuum Mode Compression</title>
+<style>
+  :root {
+    --bg: #071221;
+    --panel: #0d1d33;
+    --panel2: #10243e;
+    --ink: #eaf2ff;
+    --muted: #9fb5d1;
+    --gold: #f2c46d;
+    --cyan: #5ed7ff;
+    --green: #7ee787;
+    --red: #ff7b72;
+    --line: rgba(255,255,255,.12);
+    --shadow: rgba(0,0,0,.35);
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    background: radial-gradient(circle at 20% 0%, #12335a 0%, var(--bg) 45%, #030914 100%);
+    color: var(--ink);
+  }
+  header {
+    padding: 28px 32px 18px;
+    border-bottom: 1px solid var(--line);
+    background: linear-gradient(180deg, rgba(255,255,255,.04), rgba(255,255,255,0));
+  }
+  h1 {
+    margin: 0;
+    font-size: clamp(28px, 4vw, 48px);
+    line-height: 1.05;
+    letter-spacing: -0.03em;
+  }
+  h1 span { color: var(--gold); }
+  .subtitle {
+    margin-top: 10px;
+    color: var(--muted);
+    max-width: 1100px;
+    font-size: 17px;
+  }
+  .wrap {
+    display: grid;
+    grid-template-columns: 350px 1fr;
+    gap: 18px;
+    padding: 18px;
+  }
+  .panel {
+    background: rgba(13, 29, 51, .92);
+    border: 1px solid var(--line);
+    border-radius: 18px;
+    box-shadow: 0 18px 50px var(--shadow);
+    overflow: hidden;
+  }
+  .controls {
+    padding: 18px;
+    position: sticky;
+    top: 16px;
+    align-self: start;
+  }
+  .control { margin: 0 0 18px; }
+  label {
+    display: flex;
+    justify-content: space-between;
+    gap: 12px;
+    color: var(--ink);
+    font-size: 14px;
+    margin-bottom: 8px;
+  }
+  label small { color: var(--gold); font-variant-numeric: tabular-nums; }
+  input[type="range"] { width: 100%; accent-color: var(--cyan); }
+  select {
+    width: 100%;
+    background: #07182c;
+    color: var(--ink);
+    border: 1px solid var(--line);
+    border-radius: 10px;
+    padding: 10px 12px;
+  }
+  .hint {
+    font-size: 13px;
+    color: var(--muted);
+    line-height: 1.5;
+    background: rgba(255,255,255,.04);
+    border: 1px solid var(--line);
+    padding: 12px;
+    border-radius: 12px;
+  }
+  .grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    gap: 18px;
+  }
+  .full { grid-column: 1 / -1; }
+  .card {
+    padding: 18px;
+    min-height: 260px;
+  }
+  .card h2 {
+    margin: 0 0 10px;
+    font-size: 20px;
+    letter-spacing: -0.02em;
+  }
+  .card p { color: var(--muted); line-height: 1.5; }
+  canvas, svg {
+    width: 100%;
+    height: auto;
+    display: block;
+    background: #061427;
+    border: 1px solid var(--line);
+    border-radius: 14px;
+  }
+  .formula {
+    font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    color: #dbeafe;
+    background: rgba(0,0,0,.22);
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    padding: 12px;
+    overflow-x: auto;
+    line-height: 1.55;
+  }
+  .status {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+    margin-top: 12px;
+  }
+  .pill {
+    border: 1px solid var(--line);
+    background: rgba(255,255,255,.045);
+    border-radius: 14px;
+    padding: 10px 12px;
+    min-height: 70px;
+  }
+  .pill strong { display: block; font-size: 13px; color: var(--muted); margin-bottom: 5px; }
+  .pill span { font-size: 18px; color: var(--ink); font-variant-numeric: tabular-nums; }
+  .ok span { color: var(--green); }
+  .warn span { color: var(--gold); }
+  .bad span { color: var(--red); }
+  .matrix {
+    display: grid;
+    gap: 4px;
+    justify-content: center;
+    margin: 10px auto 0;
+  }
+  .cell {
+    width: 40px;
+    height: 40px;
+    border-radius: 8px;
+    display: grid;
+    place-items: center;
+    font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    font-size: 12px;
+    border: 1px solid rgba(255,255,255,.14);
+    color: #061427;
+  }
+  .legend {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 12px;
+    color: var(--muted);
+    font-size: 13px;
+  }
+  .dot { width: 10px; height: 10px; border-radius: 50%; display: inline-block; margin-right: 6px; }
+  .footer {
+    padding: 18px 32px 30px;
+    color: var(--muted);
+    text-align: center;
+  }
+  .badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    border: 1px solid var(--line);
+    background: rgba(255,255,255,.06);
+    border-radius: 999px;
+    padding: 8px 12px;
+    color: var(--gold);
+    margin-bottom: 14px;
+  }
+  @media (max-width: 980px) {
+    .wrap { grid-template-columns: 1fr; }
+    .controls { position: static; }
+    .grid { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+<header>
+  <div class="badge">Boundary Compensation / BC-Layers I</div>
+  <h1>Континуальная мода → <span>конечномерный readout-канал</span></h1>
+  <div class="subtitle">
+    Интерактивная демонстрация к статье <b>BC-Layers I</b>: сжатие непрерывной моды в конечномерную матрицу, projectorization, no-reconstruction и evolution drift.
+  </div>
+</header>
+
+<main class="wrap">
+  <aside class="panel controls">
+    <div class="control">
+      <label>Форма верхнего слоя <small id="shapeName">Gaussian</small></label>
+      <select id="shape">
+        <option value="gaussian">Один локализованный профиль</option>
+        <option value="wide">Более широкий профиль</option>
+        <option value="double">Двухпиковый профиль</option>
+        <option value="wiggle">Профиль с мелкой структурой</option>
+      </select>
+    </div>
+    <div class="control">
+      <label>Ширина моды σ <small id="sigmaVal">0.18</small></label>
+      <input id="sigma" type="range" min="0.08" max="0.35" step="0.01" value="0.18" />
+    </div>
+    <div class="control">
+      <label>Возмущение / near-zero ε_raw <small id="noiseVal">0.06</small></label>
+      <input id="noise" type="range" min="0" max="0.35" step="0.01" value="0.06" />
+    </div>
+    <div class="control">
+      <label>Число readout-каналов m <small id="mVal">4</small></label>
+      <input id="m" type="range" min="2" max="6" step="1" value="4" />
+    </div>
+    <div class="control">
+      <label>Порог ε <small id="epsVal">0.10</small></label>
+      <input id="eps" type="range" min="0.02" max="0.30" step="0.01" value="0.10" />
+    </div>
+    <div class="control">
+      <label>Скрытая связь g для drift <small id="gVal">0.35</small></label>
+      <input id="g" type="range" min="0" max="1.20" step="0.05" value="0.35" />
+    </div>
+    <div class="control">
+      <label>Время t для drift <small id="tVal">2.0</small></label>
+      <input id="time" type="range" min="0" max="8" step="0.1" value="2" />
+    </div>
+    <div class="hint">
+      Смысл демо: верхняя форма ψ₀(x) может быть сложной, но нижний слой хранит не форму, а канал |e₀⟩ и проектор Π₀. Нулевой или near-zero статус может сохраняться, даже когда внутренняя геометрия уже потеряна.
+    </div>
+  </aside>
+
+  <section class="grid">
+    <article class="panel card">
+      <h2>1. Верхний слой: континуальная мода ψ₀(x)</h2>
+      <canvas id="wave" width="720" height="330" aria-label="continuum mode plot"></canvas>
+      <div class="legend">
+        <span><i class="dot" style="background: var(--cyan)"></i>ψ₀(x)</span>
+        <span><i class="dot" style="background: var(--gold)"></i>detector profile φ₀(x)</span>
+      </div>
+      <p>Форма может меняться: ширина, мелкая структура, два пика. Для нижнего слоя это всё может оставаться одним и тем же readout-каналом.</p>
+    </article>
+
+    <article class="panel card">
+      <h2>2. Сжатие: матричные элементы</h2>
+      <div class="formula">
+        Aᵢⱼ = ⟨ ψᵢ, 𝓓̂ ψⱼ ⟩<br>
+        ψ₀(x) ↦ |e₀⟩<br>
+        Π₀ = |e₀⟩⟨e₀|
+      </div>
+      <div id="matrix" class="matrix"></div>
+      <p>Матрица ниже — toy-readout: она не реконструирует континуум, а хранит конечное число доступных каналов.</p>
+    </article>
+
+    <article class="panel card full">
+      <h2>3. Статус readout-канала</h2>
+      <div class="status">
+        <div class="pill" id="fullNormBox"><strong>верхний остаток ||𝓓̂ψ₀||</strong><span id="fullNorm">0.000</span></div>
+        <div class="pill" id="projNormBox"><strong>readout-остаток ||A|e₀⟩||</strong><span id="projNorm">0.000</span></div>
+        <div class="pill" id="statusBox"><strong>статус</strong><span id="statusText">EXACT_ZERO</span></div>
+      </div>
+      <div class="formula" style="margin-top:12px;">
+        Если 𝓓̂ψ₀ = 0, то A|e₀⟩ = 0 и AΠ₀ = 0.<br>
+        Если ||𝓓̂ψ₀|| ≤ ε, то ||A|e₀⟩|| ≤ ε. Нижний слой может “недослышать” часть остатка, но не обязан увеличивать его.
+      </div>
+    </article>
+
+    <article class="panel card">
+      <h2>4. No-Reconstruction</h2>
+      <canvas id="norecon" width="720" height="330" aria-label="no reconstruction plot"></canvas>
+      <div class="formula">
+        AΠ₀ = 0 ⇏ unique ψ₀(x)<br>
+        один проектор Π₀ совместим с разными верхними формами
+      </div>
+      <p>Разные профили могут попадать в один и тот же нижний канал. Потеря формы — не баг, а свойство finite-resolution слоя.</p>
+    </article>
+
+    <article class="panel card">
+      <h2>5. Evolution Drift</h2>
+      <canvas id="drift" width="720" height="330" aria-label="evolution drift plot"></canvas>
+      <div class="formula">
+        Pᵥ exp(-it𝓓̂) Pᵥ ≠ exp(-itA_eff)<br>
+        Δᵥ(t) = Pᵥ exp(-it𝓓̂)Pᵥ − exp(-itA_eff)
+      </div>
+      <p>Статический статус zero/near-zero может сохраняться, но динамика нижнего слоя требует отдельной сертификации: DRIFT_BOUND или DYNAMICS_INCONCLUSIVE.</p>
+    </article>
+
+    <article class="panel card full">
+      <h2>6. Короткая карта смысла</h2>
+      <svg id="flow" viewBox="0 0 1200 260" role="img" aria-label="BC-Layers flow diagram"></svg>
+    </article>
+  </section>
+</main>
+
+<div class="footer">
+  BC-Layers I Demo — Continuum Modes as Finite-Resolution Readout Channels. Самодостаточный HTML-файл без внешних библиотек.
+</div>
+
+<script>
+(function(){
+  const $ = (id) => document.getElementById(id);
+  const els = {
+    shape: $('shape'), sigma: $('sigma'), noise: $('noise'), m: $('m'), eps: $('eps'), g: $('g'), time: $('time'),
+    sigmaVal: $('sigmaVal'), noiseVal: $('noiseVal'), mVal: $('mVal'), epsVal: $('epsVal'), gVal: $('gVal'), tVal: $('tVal'), shapeName: $('shapeName'),
+    wave: $('wave'), norecon: $('norecon'), drift: $('drift'), matrix: $('matrix'), flow: $('flow'),
+    fullNorm: $('fullNorm'), projNorm: $('projNorm'), statusText: $('statusText'), fullNormBox: $('fullNormBox'), projNormBox: $('projNormBox'), statusBox: $('statusBox')
+  };
+  const W = 720, H = 330;
+  function clamp(x,a,b){ return Math.max(a, Math.min(b,x)); }
+  function gauss(x, mu, sig){ return Math.exp(-0.5*Math.pow((x-mu)/sig,2)); }
+  function norm(arr){ return Math.sqrt(arr.reduce((s,v)=>s+v*v,0)); }
+  function normalize(arr){ const n=norm(arr)||1; return arr.map(v=>v/n); }
+  function dot(a,b){ let s=0; for(let i=0;i<a.length;i++) s+=a[i]*b[i]; return s; }
+  function makeX(N=360){ return Array.from({length:N},(_,i)=>-1+2*i/(N-1)); }
+  function makePsi(x, shape, sigma){
+    let y;
+    if(shape === 'gaussian') y = x.map(xx => gauss(xx,0,sigma));
+    else if(shape === 'wide') y = x.map(xx => gauss(xx,0,sigma*1.55));
+    else if(shape === 'double') y = x.map(xx => 0.72*gauss(xx,-0.16,sigma*.75) + 0.72*gauss(xx,0.18,sigma*.82));
+    else y = x.map(xx => gauss(xx,0,sigma)*(1+0.20*Math.sin(34*xx)+0.08*Math.sin(71*xx)));
+    return normalize(y);
+  }
+  function makeBasis(x,m){
+    const basis=[];
+    basis.push(normalize(x.map(xx => gauss(xx,0,0.19))));
+    for(let k=1;k<m;k++){
+      const mu = -0.75 + 1.5*(k-1)/Math.max(1,m-2);
+      const sig = 0.16 + 0.015*k;
+      basis.push(normalize(x.map(xx => gauss(xx,mu,sig)*(k%2?1:-1))));
+    }
+    return basis;
+  }
+  function residualVector(x, psi, noise){
+    if(noise < 1e-9) return psi.map(_=>0);
+    const r = psi.map((v,i)=> noise*(0.65*v + 0.35*Math.sin(8*x[i])*gauss(x[i],0.15,0.32)) );
+    return r;
+  }
+  function clear(ctx){ ctx.clearRect(0,0,W,H); ctx.fillStyle='#061427'; ctx.fillRect(0,0,W,H); }
+  function drawAxes(ctx){
+    ctx.strokeStyle='rgba(255,255,255,.14)'; ctx.lineWidth=1;
+    ctx.beginPath(); ctx.moveTo(45,H-45); ctx.lineTo(W-30,H-45); ctx.moveTo(45,25); ctx.lineTo(45,H-45); ctx.stroke();
+    ctx.fillStyle='rgba(234,242,255,.55)'; ctx.font='13px system-ui'; ctx.fillText('x', W-45, H-22); ctx.fillText('amplitude', 52, 28);
+  }
+  function drawLine(ctx,x,y,color,width=3,alpha=1){
+    const minY = Math.min(...y), maxY = Math.max(...y), span=(maxY-minY)||1;
+    ctx.strokeStyle=color; ctx.globalAlpha=alpha; ctx.lineWidth=width; ctx.beginPath();
+    for(let i=0;i<x.length;i++){
+      const px=45+(x[i]+1)/2*(W-80);
+      const py=H-45-((y[i]-minY)/span)*240;
+      if(i===0) ctx.moveTo(px,py); else ctx.lineTo(px,py);
+    }
+    ctx.stroke(); ctx.globalAlpha=1;
+  }
+  function drawWave(x,psi,basis0){
+    const ctx=els.wave.getContext('2d'); clear(ctx); drawAxes(ctx);
+    drawLine(ctx,x,basis0,'#f2c46d',2,0.75);
+    drawLine(ctx,x,psi,'#5ed7ff',3,1);
+    ctx.fillStyle='rgba(94,215,255,.12)';
+    ctx.fillRect(45,H-45, W-80, 1);
+  }
+  function drawNoRecon(x, sigma){
+    const ctx=els.norecon.getContext('2d'); clear(ctx); drawAxes(ctx);
+    const shapes=['gaussian','wide','double','wiggle']; const colors=['#5ed7ff','#f2c46d','#7ee787','#ff7b72'];
+    shapes.forEach((s,idx)=>drawLine(ctx,x,makePsi(x,s,sigma),colors[idx],2.2,0.82));
+    ctx.fillStyle='rgba(255,255,255,.75)'; ctx.font='14px system-ui';
+    ctx.fillText('Разные ψ₀(x)  →  один readout channel Π₀', 70, 48);
+  }
+  function drawDrift(g,t){
+    const ctx=els.drift.getContext('2d'); clear(ctx); drawAxes(ctx);
+    const xs = Array.from({length:240},(_,i)=> 8*i/239);
+    const lower = xs.map(tt => Math.cos(0.45*tt));
+    const truec = xs.map(tt => Math.cos(0.45*tt)*Math.cos(g*tt*0.65));
+    drawLine(ctx,xs.map(v=>v/4-1), lower, '#f2c46d',2.5,0.9);
+    drawLine(ctx,xs.map(v=>v/4-1), truec, '#5ed7ff',2.5,0.9);
+    const driftVal = Math.abs(Math.cos(0.45*t)*(Math.cos(g*t*0.65)-1));
+    const px=45+(t/8)*(W-80);
+    ctx.strokeStyle='rgba(255,255,255,.45)'; ctx.setLineDash([5,5]); ctx.beginPath(); ctx.moveTo(px,30); ctx.lineTo(px,H-45); ctx.stroke(); ctx.setLineDash([]);
+    ctx.fillStyle='#eaf2ff'; ctx.font='14px system-ui';
+    ctx.fillText('gold: exp(-itA_eff)', 70, 48); ctx.fillStyle='#5ed7ff'; ctx.fillText('cyan: Pᵥ exp(-it𝓓̂)Pᵥ', 70, 70);
+    ctx.fillStyle='#f2c46d'; ctx.fillText('drift ≈ '+driftVal.toFixed(3), 70, 94);
+  }
+  function colorFor(v,max){
+    const r = Math.round(242*clamp(Math.abs(v)/max,0,1));
+    const g = Math.round(196*clamp(Math.abs(v)/max,0,1));
+    const b = Math.round(109 + 80*(1-clamp(Math.abs(v)/max,0,1)));
+    const alpha = 0.18 + .82*clamp(Math.abs(v)/max,0,1);
+    return `rgba(${r},${g},${b},${alpha})`;
+  }
+  function drawMatrix(m, diag, off){
+    els.matrix.innerHTML=''; els.matrix.style.gridTemplateColumns=`repeat(${m}, 40px)`;
+    const max = Math.max(1, ...diag.map(Math.abs), Math.abs(off));
+    for(let i=0;i<m;i++) for(let j=0;j<m;j++){
+      const cell=document.createElement('div'); cell.className='cell';
+      let val = i===j ? diag[i] : (Math.abs(i-j)===1 ? off/(1+Math.min(i,j)) : 0);
+      cell.style.background = colorFor(val,max);
+      cell.textContent = Math.abs(val)<0.005?'0':val.toFixed(2);
+      els.matrix.appendChild(cell);
+    }
+  }
+  function drawFlow(){
+    const svg=els.flow; svg.innerHTML='';
+    const ns='http://www.w3.org/2000/svg';
+    function el(name, attrs){ const e=document.createElementNS(ns,name); for(const k in attrs) e.setAttribute(k,attrs[k]); svg.appendChild(e); return e; }
+    el('rect',{x:0,y:0,width:1200,height:260,rx:22,fill:'#061427'});
+    const boxes=[
+      ['Континуальная мода','ψ₀(x), shape-sensitive',70],
+      ['Compression','Aᵢⱼ=⟨ψᵢ,𝓓̂ψⱼ⟩',330],
+      ['Readout channel','|e₀⟩',590],
+      ['Projectorization','Π₀=|e₀⟩⟨e₀|',820],
+      ['Certificate','ZERO / NEAR_ZERO',1010]
+    ];
+    boxes.forEach(([title,sub,x],i)=>{
+      el('rect',{x:x,y:80,width:160,height:88,rx:16,fill:i===0?'#12335a':(i===4?'#20331d':'#10243e'),stroke:'rgba(255,255,255,.18)'});
+      const t=el('text',{x:x+80,y:113,'text-anchor':'middle',fill:'#eaf2ff','font-size':'18','font-family':'system-ui','font-weight':'700'}); t.textContent=title;
+      const s=el('text',{x:x+80,y:142,'text-anchor':'middle',fill:'#9fb5d1','font-size':'14','font-family':'system-ui'}); s.textContent=sub;
+      if(i<boxes.length-1){
+        const x2=boxes[i+1][2];
+        el('line',{x1:x+164,y1:124,x2:x2-12,y2:124,stroke:'#f2c46d','stroke-width':'3','marker-end':'url(#arrow)'});
+      }
+    });
+    const defs=document.createElementNS(ns,'defs');
+    defs.innerHTML='<marker id="arrow" markerWidth="10" markerHeight="10" refX="6" refY="3" orient="auto" markerUnits="strokeWidth"><path d="M0,0 L0,6 L7,3 z" fill="#f2c46d" /></marker>';
+    svg.insertBefore(defs, svg.firstChild);
+    const bottom=el('text',{x:600,y:215,'text-anchor':'middle',fill:'#9fb5d1','font-size':'18','font-family':'system-ui'});
+    bottom.textContent='BC-Layers: сохраняем объявленные readout-инварианты, а не реконструируем скрытый верхний слой';
+  }
+  function classifyBox(el, cls){ el.className='pill '+cls; }
+  function update(){
+    const shape=els.shape.value, sigma=+els.sigma.value, noise=+els.noise.value, m=+els.m.value, eps=+els.eps.value, g=+els.g.value, t=+els.time.value;
+    els.shapeName.textContent=shape; els.sigmaVal.textContent=sigma.toFixed(2); els.noiseVal.textContent=noise.toFixed(2); els.mVal.textContent=m; els.epsVal.textContent=eps.toFixed(2); els.gVal.textContent=g.toFixed(2); els.tVal.textContent=t.toFixed(1);
+    const x=makeX(); const psi=makePsi(x,shape,sigma); const basis=makeBasis(x,m); const r=residualVector(x,psi,noise);
+    const full=norm(r); const projVec=basis.map(b=>dot(b,r)); const proj=norm(projVec);
+    drawWave(x,psi,basis[0]); drawNoRecon(x,sigma); drawDrift(g,t); drawFlow();
+    const overlap=Math.abs(dot(psi,basis[0]));
+    const diag=[projVec[0]||0]; for(let k=1;k<m;k++) diag.push(0.25*k + 0.05*Math.abs(projVec[k]||0));
+    drawMatrix(m,diag,0.03*g);
+    els.fullNorm.textContent=full.toFixed(3); els.projNorm.textContent=proj.toFixed(3);
+    let status=''; let cls='';
+    if(full<0.008){ status='EXACT_ZERO'; cls='ok'; }
+    else if(proj<=eps){ status='NEAR_ZERO'; cls='warn'; }
+    else { status='INCONCLUSIVE'; cls='bad'; }
+    if(overlap<0.62){ status='CHANNEL_LOW_OVERLAP'; cls='bad'; }
+    els.statusText.textContent=status; classifyBox(els.statusBox,cls); classifyBox(els.projNormBox, proj<=eps?'ok':'bad'); classifyBox(els.fullNormBox, full<=eps?'ok':'warn');
+  }
+  ['shape','sigma','noise','m','eps','g','time'].forEach(id=>$(id).addEventListener('input', update));
+  update();
+})();
+</script>
+</body>
+</html>
