@@ -1,0 +1,442 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>BC-Academy I - Лекция 5: Gap Law Explorer</title>
+<style>
+  :root{
+    --bg:#f4f7fb;
+    --paper:#ffffff;
+    --ink:#142033;
+    --muted:#667085;
+    --line:#d8e0ec;
+    --blue:#204b8f;
+    --blue2:#3d6eb4;
+    --gold:#b38728;
+    --green:#16794f;
+    --red:#a33a3a;
+    --shadow:0 14px 40px rgba(28,49,80,.10);
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:linear-gradient(180deg,#edf3fa 0,#f8fafc 420px);color:var(--ink);font-family:Inter,Segoe UI,Arial,sans-serif;line-height:1.45}
+  .wrap{max-width:1180px;margin:0 auto;padding:26px 20px 52px}
+  header{background:linear-gradient(135deg,#102a52,#204b8f);color:#fff;border-radius:24px;padding:30px 32px;box-shadow:var(--shadow);position:relative;overflow:hidden}
+  header:after{content:"";position:absolute;right:-80px;top:-120px;width:340px;height:340px;border:1px solid rgba(255,255,255,.14);border-radius:50%}
+  header:before{content:"";position:absolute;right:48px;top:40px;width:110px;height:110px;border:1px solid rgba(255,255,255,.22);border-radius:50%}
+  h1{font-size:clamp(28px,4.5vw,48px);line-height:1.08;margin:0 0 10px;max-width:840px}
+  .eyebrow{font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:#d9e7fb;font-size:13px}
+  .subtitle{max-width:830px;color:#e8eef8;font-size:17px}
+  .map{margin-top:20px;display:flex;gap:8px;flex-wrap:wrap;align-items:center;font-family:Consolas,monospace;font-size:14px}
+  .map span{background:rgba(255,255,255,.10);border:1px solid rgba(255,255,255,.16);padding:7px 10px;border-radius:999px}
+  .map b{color:#f1c75b}
+  nav{display:flex;gap:8px;flex-wrap:wrap;margin:22px 0 18px}
+  .tab{border:1px solid var(--line);background:var(--paper);color:var(--ink);padding:10px 14px;border-radius:12px;cursor:pointer;font-weight:700;box-shadow:0 4px 12px rgba(28,49,80,.04)}
+  .tab.active{background:var(--blue);color:#fff;border-color:var(--blue)}
+  .grid{display:grid;grid-template-columns:1.05fr .95fr;gap:18px; margin-bottom: 18px}
+  .card{background:var(--paper);border:1px solid var(--line);border-radius:20px;padding:20px;box-shadow:var(--shadow)}
+  .card.wide{grid-column: 1 / -1;}
+  .card h2,.card h3{margin-top:0}
+  .card h2{font-size:23px;margin-bottom:8px}
+  .card h3{font-size:16px;color:var(--blue);margin-bottom:10px}
+  .lead{color:var(--muted);margin-top:0}
+  .controls{display:grid;gap:15px;margin:18px 0}
+  .control{display:grid;grid-template-columns:120px 1fr 70px;gap:12px;align-items:center}
+  label{font-weight:700; font-size: 14px;}
+  input[type=range]{width:100%;accent-color:var(--blue)}
+  output{font-family:Consolas,monospace;background:#eef3f9;border:1px solid var(--line);padding:6px 8px;border-radius:8px;text-align:right; font-size: 13px;}
+  select {width: 100%; padding: 8px; border-radius: 8px; border: 1px solid var(--line); background: #f8fafc; font-family: inherit; font-size: 14px;}
+  .formula{font-family:Cambria Math,STIX Two Math,serif;background:#f7f9fc;border-left:4px solid var(--blue);padding:12px 14px;border-radius:8px;margin:10px 0;overflow:auto; font-size: 18px; text-align: center;}
+  .status-row{display:flex;gap:10px;flex-wrap:wrap;margin:14px 0}
+  .badge{display:inline-flex;align-items:center;gap:7px;border-radius:999px;padding:7px 11px;font-weight:700;font-size:13px;border:1px solid}
+  .good{background:#ecf8f2;color:var(--green);border-color:#b7e3cf}
+  .warn{background:#fff6e6;color:#8a5b00;border-color:#efd8a4}
+  .bad{background:#fff0f0;color:var(--red);border-color:#efc4c4}
+  .neutral{background:#eef3f9;color:#344054;border-color:#d5deea}
+  svg{width:100%;height:auto;display:block;background:#fbfcfe;border:1px solid var(--line);border-radius:14px}
+  .legend{display:flex;gap:14px;flex-wrap:wrap;color:var(--muted);font-size:13px;margin-top:8px}
+  .dot{width:10px;height:10px;border-radius:50%;display:inline-block;margin-right:5px}
+  .two{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+  .three{display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px}
+  .metric{padding:13px;border:1px solid var(--line);border-radius:13px;background:#f8fafc; display: flex; flex-direction: column; justify-content: center;}
+  .metric .k{font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.04em; margin-bottom: 4px;}
+  .metric .v{font-family:Consolas,monospace;font-size:18px;font-weight:700;}
+  .metric .v.small {font-size: 15px;}
+  .note{border:1px dashed #aebed4;background:#f8fbff;padding:13px 14px;border-radius:12px;color:#40516a; font-size: 14px;}
+  .footer-note{margin-top:18px;color:var(--muted);font-size:13px}
+  .hidden {display: none !important;}
+  ul.methodology {margin: 0; padding-left: 20px;}
+  ul.methodology li {margin-bottom: 6px; color: #40516a;}
+
+  @media(max-width:850px){.grid,.two,.three{grid-template-columns:1fr}.control{grid-template-columns:100px 1fr 60px}header{padding:24px 22px}}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header>
+  <div class="eyebrow">BC-Academy I · Linear Spectral Entry · Lecture 5</div>
+  <h1>Gap Law Explorer: логарифмическая чувствительность</h1>
+  <p class="subtitle">Интерактивная демонстрация к лекции «Логарифмическая чувствительность малых спектральных масштабов». Связь масштаба, производной и относительного отклика.</p>
+  <div class="map"><span>ε(α) > 0</span><b>→</b><span>ln ε</span><b>→</b><span>β_ε</span><b>→</b><span>relative response</span><b>→</b><span>amplification (Lecture 6)</span></div>
+</header>
+
+<div class="grid">
+  <!-- Управление моделью -->
+  <div class="card">
+    <h2>1. Модель спектрального масштаба ε(α)</h2>
+    <p class="lead">Выберите закон изменения зазора и настройте управляющий параметр α.</p>
+    
+    <div style="margin-bottom: 15px;">
+        <label for="modelSelect">Тип зависимости (Gap Law):</label>
+        <select id="modelSelect" style="margin-top: 5px;">
+            <option value="power">Pure Power Law: ε(α) = α^p</option>
+            <option value="offset">Offset Power Law: ε(α) = ε₀ + α^p</option>
+            <option value="closing">Critical Closing: ε(α) = C(α - α_c)^p</option>
+            <option value="avoided">Avoided Crossing: ε(α) = √((α - α_c)² + Δ²)</option>
+            <option value="exponential">Exponential Law: ε(α) = exp(-qα)</option>
+        </select>
+    </div>
+
+    <div class="controls" id="commonControls">
+      <div class="control"><label for="alpha">Параметр α</label><input id="alpha" type="range" min="0.1" max="5.0" step="0.01" value="2.0"><output id="alphaOut">2.00</output></div>
+    </div>
+
+    <div class="controls" id="specificControls">
+        <!-- Специфичные контролы добавляются через JS -->
+    </div>
+
+    <div class="formula" id="modelFormula">ε(α) = α^p</div>
+
+    <div class="three">
+      <div class="metric"><div class="k">Масштаб ε(α)</div><div class="v" id="valEps">0.00</div></div>
+      <div class="metric"><div class="k">Абс. производная dε/dα</div><div class="v small" id="valDeriv">0.00</div></div>
+      <div class="metric" style="border-color: var(--blue); background: #f0f4fc;"><div class="k" style="color: var(--blue)">Log Sensitivity β_ε</div><div class="v" id="valBeta" style="color: var(--blue)">0.00</div></div>
+    </div>
+  </div>
+
+  <!-- График -->
+  <div class="card">
+    <h3>Log-Log График (ln ε vs ln α)</h3>
+    <svg id="loglogSvg" viewBox="0 0 620 300" role="img" aria-label="Log-log график зависимости масштаба от параметра"></svg>
+    <div class="legend">
+        <span><i class="dot" style="background:#204b8f"></i>ln ε(α)</span>
+        <span><i class="dot" style="background:#b38728; border-radius: 0; width: 14px; height: 3px;"></i>Касательная (наклона β_ε)</span>
+    </div>
+    <p class="note" id="graphNote">Для чистого степенного закона наклон (логарифмическая чувствительность) постоянен. Для других моделей он зависит от α.</p>
+  </div>
+</div>
+
+<div class="grid">
+  <!-- Local Relative Response -->
+  <div class="card">
+    <h2>2. Относительный отклик (Relative Response)</h2>
+    <p class="lead">Сравнение точного относительного приращения с линейным предсказанием.</p>
+    
+    <div class="controls">
+      <div class="control"><label for="stepR">Отн. шаг r = Δα/α</label><input id="stepR" type="range" min="-0.5" max="0.5" step="0.01" value="0.1"><output id="stepROut">10%</output></div>
+    </div>
+
+    <div class="two">
+      <div class="metric"><div class="k">Линейное предсказание (β_ε · r)</div><div class="v" id="valPred">0.00%</div></div>
+      <div class="metric"><div class="k">Точное изменение (Δε / ε)</div><div class="v" id="valExact">0.00%</div></div>
+    </div>
+    <div class="status-row">
+        <span id="errorBadge" class="badge neutral">Ошибка приближения: 0.00%</span>
+    </div>
+  </div>
+
+  <!-- Spectral Branch Panel (Avoided Crossing specific) -->
+  <div class="card">
+    <h2>3. Спектральная ветвь (Spectral Branch)</h2>
+    <p class="lead">Демонстрация для двухуровневой модели: A(α) = [[α-α_c, Δ], [Δ, -(α-α_c)]]</p>
+    <div class="matrix">λ_±(α) = ±√((α - α_c)² + Δ²)</div>
+    <div class="two" style="margin-top: 15px;">
+        <div class="metric"><div class="k">Собственное значение λ_+(α)</div><div class="v" id="valLambda">0.00</div></div>
+        <div class="metric"><div class="k">β_{|λ|}</div><div class="v" id="valBetaBranch">0.00</div></div>
+    </div>
+    <div class="status-row" id="branchStatus">
+        <span class="badge good">λ ≠ 0, чувствительность определена</span>
+    </div>
+  </div>
+</div>
+
+<div class="card wide">
+  <h2>Методологическая панель (Non-claims)</h2>
+  <ul class="methodology">
+      <li><b>Small gap $\neq$ large sensitivity:</b> Малый спектральный зазор сам по себе не гарантирует высокую логарифмическую чувствительность (см. Avoided Crossing в минимуме).</li>
+      <li><b>Local sensitivity $\neq$ global power law:</b> Значение $\beta_\varepsilon$ в одной точке не определяет глобальный степенной закон. Это лишь локальный эффективный показатель.</li>
+      <li><b>Log sensitivity requires a positive scale:</b> Определение $\beta_\varepsilon$ сингулярно в точке точного нуля (Exact Zero).</li>
+      <li><b>Multiplicity amplification belongs to Lecture 6:</b> Множительное усиление отклика (когда несколько ветвей дают вклад) здесь не рассматривается.</li>
+  </ul>
+</div>
+
+<p class="footer-note">BC-Academy I · Lecture 5 · Gap Law Explorer v0.1.0. Работает локально без библиотек.</p>
+</div>
+
+<script>
+(() => {
+  const $ = id => document.getElementById(id);
+  const fmt = (x, n=4) => Number.isFinite(x) ? (Math.abs(x) < 0.5*Math.pow(10,-n) ? (0).toFixed(n) : x.toFixed(n)) : 'N/A';
+  
+  // Model definitions
+  const models = {
+    power: {
+      formula: "ε(α) = α^p",
+      params: [{id: 'p', label: 'p', min: -3, max: 3, step: 0.1, val: 2}],
+      calc: (a, p) => ({ eps: Math.pow(a, p), deriv: p * Math.pow(a, p - 1), beta: p })
+    },
+    offset: {
+      formula: "ε(α) = ε₀ + α^p",
+      params: [
+          {id: 'p', label: 'p', min: 0.5, max: 3, step: 0.1, val: 2},
+          {id: 'eps0', label: 'ε₀', min: 0.01, max: 5, step: 0.01, val: 0.5}
+      ],
+      calc: (a, p, eps0) => {
+          const eps = eps0 + Math.pow(a, p);
+          const deriv = p * Math.pow(a, p - 1);
+          return { eps, deriv, beta: (a * deriv) / eps };
+      }
+    },
+    closing: {
+      formula: "ε(α) = C|α - α_c|^p",
+      params: [
+          {id: 'p', label: 'p', min: 0.5, max: 3, step: 0.1, val: 1},
+          {id: 'ac', label: 'α_c', min: 0.5, max: 4.5, step: 0.1, val: 2.5},
+          {id: 'C', label: 'C', min: 0.1, max: 2, step: 0.1, val: 1}
+      ],
+      calc: (a, p, ac, C) => {
+          const diff = Math.abs(a - ac);
+          if (diff < 1e-6) return { eps: 0, deriv: 0, beta: Infinity };
+          const eps = C * Math.pow(diff, p);
+          const deriv = C * p * Math.pow(diff, p - 1) * Math.sign(a - ac);
+          return { eps, deriv, beta: (a * deriv) / eps };
+      }
+    },
+    avoided: {
+      formula: "ε(α) = √((α - α_c)² + Δ²)",
+      params: [
+          {id: 'ac', label: 'α_c', min: 0.5, max: 4.5, step: 0.1, val: 2.5},
+          {id: 'delta', label: 'Δ', min: 0.0, max: 2, step: 0.01, val: 0.5}
+      ],
+      calc: (a, ac, delta) => {
+          const diff = a - ac;
+          const eps = Math.sqrt(diff * diff + delta * delta);
+          if (eps < 1e-6) return { eps: 0, deriv: 0, beta: Infinity }; // Exact zero case
+          const deriv = diff / eps;
+          return { eps, deriv, beta: (a * deriv) / eps };
+      }
+    },
+    exponential: {
+      formula: "ε(α) = exp(-qα)",
+      params: [{id: 'q', label: 'q', min: -2, max: 2, step: 0.1, val: 1}],
+      calc: (a, q) => {
+          const eps = Math.exp(-q * a);
+          const deriv = -q * Math.exp(-q * a);
+          return { eps, deriv, beta: -q * a };
+      }
+    }
+  };
+
+  let currentModelKey = 'power';
+  let currentParams = {};
+
+  // Build UI for specific parameters
+  function buildParamsUI() {
+      const container = $('specificControls');
+      container.innerHTML = '';
+      currentParams = {};
+      
+      const model = models[currentModelKey];
+      $('modelFormula').textContent = model.formula;
+
+      model.params.forEach(p => {
+          currentParams[p.id] = p.val;
+          const div = document.createElement('div');
+          div.className = 'control';
+          div.innerHTML = `
+              <label for="param_${p.id}">${p.label}</label>
+              <input id="param_${p.id}" type="range" min="${p.min}" max="${p.max}" step="${p.step}" value="${p.val}">
+              <output id="out_${p.id}">${fmt(p.val, 2)}</output>
+          `;
+          container.appendChild(div);
+          
+          $(`param_${p.id}`).addEventListener('input', (e) => {
+              const val = parseFloat(e.target.value);
+              currentParams[p.id] = val;
+              $(`out_${p.id}`).textContent = fmt(val, 2);
+              updateAll();
+          });
+      });
+  }
+
+  $('modelSelect').addEventListener('change', (e) => {
+      currentModelKey = e.target.value;
+      buildParamsUI();
+      updateAll();
+  });
+
+  $('alpha').addEventListener('input', (e) => {
+      $('alphaOut').textContent = fmt(parseFloat(e.target.value), 2);
+      updateAll();
+  });
+
+  $('stepR').addEventListener('input', (e) => {
+      const r = parseFloat(e.target.value);
+      $('stepROut').textContent = (r > 0 ? '+' : '') + Math.round(r * 100) + '%';
+      updateAll();
+  });
+
+  function calculateCurrent(alphaOverride = null) {
+      const a = alphaOverride !== null ? alphaOverride : parseFloat($('alpha').value);
+      const model = models[currentModelKey];
+      const args = [a].concat(model.params.map(p => currentParams[p.id]));
+      return model.calc(...args);
+  }
+
+  function drawLogLogGraph(currentA, beta) {
+      const svg = $('loglogSvg');
+      const W = 620, H = 300, L = 50, R = 20, T = 20, B = 40;
+      
+      // Generate points
+      const points = [];
+      let minLnA = Infinity, maxLnA = -Infinity;
+      let minLnE = Infinity, maxLnE = -Infinity;
+
+      for (let a = 0.1; a <= 5.0; a += 0.05) {
+          const res = calculateCurrent(a);
+          if (res.eps > 1e-6) { // Avoid log(0)
+              const lnA = Math.log(a);
+              const lnE = Math.log(res.eps);
+              points.push({a, lnA, lnE});
+              minLnA = Math.min(minLnA, lnA); maxLnA = Math.max(maxLnA, lnA);
+              minLnE = Math.min(minLnE, lnE); maxLnE = Math.max(maxLnE, lnE);
+          }
+      }
+
+      if (points.length === 0) {
+          svg.innerHTML = `<text x="${W/2}" y="${H/2}" text-anchor="middle" fill="#a33a3a">Cannot draw (ε ≤ 0)</text>`;
+          return;
+      }
+
+      // Add padding to domain
+      const padA = (maxLnA - minLnA) * 0.1 || 1;
+      const padE = (maxLnE - minLnE) * 0.1 || 1;
+      minLnA -= padA; maxLnA += padA;
+      minLnE -= padE; maxLnE += padE;
+
+      const posX = lnA => L + ((lnA - minLnA) / (maxLnA - minLnA)) * (W - L - R);
+      const posY = lnE => H - B - ((lnE - minLnE) / (maxLnE - minLnE)) * (H - T - B);
+
+      let s = `<rect x="${L}" y="${T}" width="${W-L-R}" height="${H-T-B}" fill="#fbfcfe" stroke="#d8e0ec"/>`;
+      
+      // Axes labels
+      s += `<text x="${W/2}" y="${H-10}" text-anchor="middle" fill="#667085" font-size="12">ln α</text>`;
+      s += `<text x="15" y="${H/2}" transform="rotate(-90 15,${H/2})" text-anchor="middle" fill="#667085" font-size="12">ln ε(α)</text>`;
+
+      // Draw curve
+      const polylinePts = points.map(p => `${posX(p.lnA)},${posY(p.lnE)}`).join(' ');
+      s += `<polyline points="${polylinePts}" fill="none" stroke="#204b8f" stroke-width="3"/>`;
+
+      // Draw current point
+      const currentRes = calculateCurrent(currentA);
+      if (currentRes.eps > 1e-6) {
+          const cx = posX(Math.log(currentA));
+          const cy = posY(Math.log(currentRes.eps));
+          
+          // Tangent line
+          if (isFinite(beta)) {
+              const dx = (maxLnA - minLnA) * 0.2; // arbitrary tangent length in data space
+              const dy = beta * dx;
+              const x1 = posX(Math.log(currentA) - dx);
+              const y1 = posY(Math.log(currentRes.eps) - dy);
+              const x2 = posX(Math.log(currentA) + dx);
+              const y2 = posY(Math.log(currentRes.eps) + dy);
+              s += `<line x1="${x1}" y1="${y1}" x2="${x2}" y2="${y2}" stroke="#b38728" stroke-width="2" stroke-dasharray="4 4"/>`;
+          }
+
+          s += `<line x1="${cx}" y1="${T}" x2="${cx}" y2="${H-B}" stroke="#aebed4" stroke-dasharray="2 2"/>`;
+          s += `<circle cx="${cx}" cy="${cy}" r="6" fill="#a33a3a"/>`;
+      }
+
+      svg.innerHTML = s;
+  }
+
+  function updateAll() {
+      const alpha = parseFloat($('alpha').value);
+      const r = parseFloat($('stepR').value);
+      const res = calculateCurrent(alpha);
+
+      // 1. Model metrics
+      if (!isFinite(res.beta)) {
+          $('valEps').textContent = "0.0000";
+          $('valDeriv').textContent = "N/A";
+          $('valBeta').textContent = "∞ (Singular)";
+          $('valBeta').style.color = "var(--red)";
+      } else {
+          $('valEps').textContent = fmt(res.eps, 4);
+          $('valDeriv').textContent = fmt(res.deriv, 4);
+          $('valBeta').textContent = fmt(res.beta, 4);
+          $('valBeta').style.color = "var(--blue)";
+      }
+
+      // Graph note update
+      if (currentModelKey === 'power') {
+          $('graphNote').textContent = "Чистый степенной закон: касательная совпадает с графиком (β_ε постоянно).";
+      } else if (currentModelKey === 'closing' && Math.abs(alpha - currentParams.ac) < 0.1) {
+          $('graphNote').textContent = "Приближение к нулю: масштаб исчезает, логарифмическая чувствительность расходится.";
+      } else if (currentModelKey === 'avoided' && Math.abs(alpha - currentParams.ac) < 0.1) {
+          $('graphNote').textContent = "Avoided crossing (минимум зазора): масштаб положителен, чувствительность близка к нулю.";
+      } else {
+          $('graphNote').textContent = "Наклон касательной (β_ε) меняется в зависимости от α.";
+      }
+
+      // 2. Relative Response
+      if (!isFinite(res.beta) || res.eps < 1e-6) {
+          $('valPred').textContent = "N/A";
+          $('valExact').textContent = "N/A";
+          $('errorBadge').textContent = "Cannot compute at zero";
+          $('errorBadge').className = "badge bad";
+      } else {
+          const linearPred = res.beta * r;
+          $('valPred').textContent = (linearPred > 0 ? '+' : '') + fmt(linearPred * 100, 2) + '%';
+          
+          const alphaNew = alpha * (1 + r);
+          const resNew = calculateCurrent(alphaNew);
+          const exactResponse = (resNew.eps - res.eps) / res.eps;
+          $('valExact').textContent = (exactResponse > 0 ? '+' : '') + fmt(exactResponse * 100, 2) + '%';
+
+          const error = Math.abs(linearPred - exactResponse);
+          $('errorBadge').textContent = `Ошибка линейного приближения: ${fmt(error * 100, 3)}%`;
+          $('errorBadge').className = error > 0.05 ? "badge warn" : "badge good";
+      }
+
+      // 3. Spectral Branch Panel
+      // Use the avoided crossing logic specifically for this panel
+      const ac = currentModelKey === 'avoided' ? currentParams.ac : 2.5;
+      const delta = currentModelKey === 'avoided' ? currentParams.delta : 0.5;
+      
+      const diff = alpha - ac;
+      const lambda = Math.sqrt(diff * diff + delta * delta);
+      
+      $('valLambda').textContent = fmt(lambda, 4);
+      
+      if (lambda < 1e-6) {
+          $('valBetaBranch').textContent = "UNDEFINED";
+          $('branchStatus').innerHTML = `<span class="badge bad">EXACT ZERO: Log sensitivity undefined</span>`;
+      } else {
+          const deriv = diff / lambda;
+          const betaL = (alpha * deriv) / lambda;
+          $('valBetaBranch').textContent = fmt(betaL, 4);
+          $('branchStatus').innerHTML = `<span class="badge good">λ ≠ 0, чувствительность определена</span>`;
+      }
+
+      drawLogLogGraph(alpha, res.beta);
+  }
+
+  // Init
+  buildParamsUI();
+  updateAll();
+})();
+</script>
+</body>
+</html>
