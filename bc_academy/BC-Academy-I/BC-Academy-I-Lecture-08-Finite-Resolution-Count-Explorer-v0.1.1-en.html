@@ -1,0 +1,358 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>BC-Academy I — Lecture 8 — Finite-Resolution Count Explorer</title>
+<style>
+:root{
+  --bg:#eef3f8; --paper:#fff; --ink:#172033; --muted:#617086; --line:#d5deea;
+  --blue:#173a63; --blue2:#285b8f; --gold:#b28a33; --green:#2d6a4f;
+  --red:#9e3d3d; --orange:#9a6600; --soft:#f5f8fc; --shadow:0 16px 42px rgba(22,46,78,.11);
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:linear-gradient(180deg,#e9f0f8 0,#f7f9fc 440px);color:var(--ink);font-family:Inter,"Segoe UI",Arial,sans-serif;line-height:1.45}
+button,input,select{font:inherit}
+.wrap{max-width:1240px;margin:0 auto;padding:24px 18px 52px}
+.hero{position:relative;overflow:hidden;border-radius:26px;padding:30px 32px;background:linear-gradient(135deg,#102a4a,#285b8f);color:#fff;box-shadow:var(--shadow)}
+.hero:before,.hero:after{content:"";position:absolute;border:1px solid rgba(255,255,255,.15);border-radius:50%}
+.hero:before{width:310px;height:310px;right:-80px;top:-165px}.hero:after{width:120px;height:120px;right:80px;top:35px}
+.eyebrow{text-transform:uppercase;letter-spacing:.08em;font-size:12px;font-weight:800;color:#d9e6f7}
+h1{font-size:clamp(31px,4.5vw,52px);line-height:1.05;margin:8px 0 10px;max-width:900px}
+.hero p{max-width:870px;color:#e8eef7;font-size:17px;margin:0}
+.chain{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-top:20px;font-family:"DejaVu Sans Mono",Consolas,monospace;font-size:13px}
+.chain span{padding:7px 10px;border-radius:999px;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.16)}
+.chain b{color:#f2cc70}
+.tabs{display:flex;gap:8px;flex-wrap:wrap;margin:22px 0 16px}
+.tab{border:1px solid var(--line);background:var(--paper);color:var(--ink);padding:10px 14px;border-radius:12px;font-weight:800;cursor:pointer;box-shadow:0 4px 12px rgba(20,42,70,.04)}
+.tab.active{background:var(--blue);color:#fff;border-color:var(--blue)}
+.panel{display:none}.panel.active{display:block}
+.grid{display:grid;grid-template-columns:1.03fr .97fr;gap:18px;margin-bottom:18px}
+.grid.equal{grid-template-columns:1fr 1fr}
+.card{background:var(--paper);border:1px solid var(--line);border-radius:20px;padding:20px;box-shadow:var(--shadow)}
+h2,h3{margin-top:0}h2{font-size:24px;margin-bottom:6px}h3{font-size:16px;color:var(--blue2);margin-bottom:10px}
+.lead{margin-top:0;color:var(--muted)}
+.controls{display:grid;gap:13px;margin-top:16px}.control{display:grid;grid-template-columns:150px 1fr 72px;gap:10px;align-items:center}.control label{font-weight:750;font-size:14px}
+input[type=range]{width:100%;accent-color:var(--blue2)}select{width:100%;padding:8px 10px;border:1px solid var(--line);border-radius:9px;background:#f8fafc;color:var(--ink)}
+output{font-family:"DejaVu Sans Mono",Consolas,monospace;background:#eef3f9;border:1px solid var(--line);padding:6px 7px;border-radius:8px;text-align:right;font-size:13px}
+.metrics{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:16px}.metric{border:1px solid var(--line);background:#f8fafc;border-radius:13px;padding:12px}.metric .k{font-size:10px;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);font-weight:800}.metric .v{font-family:"DejaVu Sans Mono",Consolas,monospace;font-size:20px;font-weight:800;margin-top:4px;word-break:break-word}.metric.primary{border-color:#b8cbe2;background:#f1f6fc}.metric.primary .v{color:var(--blue2)}
+.badges{display:flex;gap:8px;flex-wrap:wrap;margin-top:13px}.badge{display:inline-flex;align-items:center;border:1px solid;border-radius:999px;padding:7px 11px;font-size:12px;font-weight:850}.good{background:#edf8f2;color:var(--green);border-color:#b9dfcb}.warn{background:#fff7e9;color:var(--orange);border-color:#e9d19b}.bad{background:#fff0f0;color:var(--red);border-color:#ecc1c1}.neutral{background:#eef3f9;color:#405069;border-color:#d0dbe7}
+.formula{font-family:"Cambria Math","Times New Roman",serif;text-align:center;font-size:18px;background:#f7f9fc;border-left:4px solid var(--blue2);padding:12px 14px;border-radius:9px;margin:12px 0;overflow:auto}
+.note{border:1px dashed #aebed4;background:#f8fbff;padding:12px 14px;border-radius:12px;color:#40516a;font-size:14px}.note strong{color:var(--blue)}
+svg{width:100%;height:auto;display:block;background:#fbfcfe;border:1px solid var(--line);border-radius:14px}
+.legend{display:flex;gap:13px;flex-wrap:wrap;color:var(--muted);font-size:12px;margin-top:8px}.swatch{display:inline-block;width:12px;height:12px;border-radius:50%;margin-right:5px;vertical-align:-1px}.line-swatch{height:3px;border-radius:0;width:16px}
+.table-wrap{overflow:auto;margin-top:14px}table{width:100%;border-collapse:collapse;font-size:14px}th,td{padding:9px 10px;border-bottom:1px solid var(--line);text-align:left}th{background:#f3f6fa;color:var(--blue);font-size:12px;text-transform:uppercase;letter-spacing:.04em}td.mono{font-family:"DejaVu Sans Mono",Consolas,monospace}
+.split{display:grid;grid-template-columns:1fr 1fr;gap:12px}.example-box{border:1px solid var(--line);border-radius:14px;background:#f8fafc;padding:14px}.example-box h3{margin-bottom:7px}.mono{font-family:"DejaVu Sans Mono",Consolas,monospace}
+.status-strip{margin-top:13px;padding:11px 13px;border-radius:11px;background:#f7f9fc;border:1px solid var(--line);font-size:13px;color:var(--muted)}
+.footer{margin-top:20px;color:var(--muted);font-size:13px;text-align:center}
+.small{font-size:12px;color:var(--muted)}
+@media(max-width:900px){.grid,.grid.equal,.split{grid-template-columns:1fr}.metrics{grid-template-columns:1fr}.control{grid-template-columns:115px 1fr 64px}.hero{padding:24px 22px}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="hero">
+    <div class="eyebrow">BC-Academy I · Linear Spectral Entry · Lecture 8</div>
+    <h1>Finite-Resolution Count Explorer</h1>
+    <p>Interactive module for Lecture 8: hard and soft spectral windows, positive and symmetric protocols, spectral margins, exact versus threshold multiplicity, avoided crossings, and non-injectivity of the scalar count.</p>
+    <div class="chain"><span>A = A†</span><b>→</b><span>Wδ(A)</span><b>→</b><span>Neff(δ) = Tr Wδ(A)</span><b>→</b><span>margin / status</span></div>
+  </header>
+
+  <nav class="tabs" aria-label="Demonstration sections">
+    <button class="tab active" data-panel="windowPanel">1. Window Explorer</button>
+    <button class="tab" data-panel="multPanel">2. Multiplicity</button>
+    <button class="tab" data-panel="crossPanel">3. Avoided Crossing</button>
+    <button class="tab" data-panel="inversePanel">4. No-Reconstruction</button>
+  </nav>
+
+  <section id="windowPanel" class="panel active">
+    <div class="grid">
+      <div class="card">
+        <h2>Spectral Window Explorer</h2>
+        <p class="lead">Select a protocol and modify the spectrum. The positive protocol works with A ≥ 0; the symmetric protocol selects near-zero modes by |λ|.</p>
+        <div class="controls">
+          <div class="control"><label for="protocol">Protocol</label><select id="protocol"><option value="positive">Positive [0, δ]</option><option value="symmetric">Symmetric [−δ, δ]</option></select><output aria-hidden="true"> </output></div>
+          <div class="control"><label for="windowType">Window</label><select id="windowType"><option value="hard">Hard</option><option value="soft">Soft</option></select><output aria-hidden="true"> </output></div>
+          <div class="control"><label for="delta">Threshold δ</label><input id="delta" type="range" min="0.2" max="5" step="0.05" value="2.0"><output id="deltaOut">2.00</output></div>
+          <div class="control" id="rhoRow" style="display:none"><label for="rho">Width ρ</label><input id="rho" type="range" min="0.05" max="1" step="0.05" value="0.25"><output id="rhoOut">0.25</output></div>
+          <div class="control"><label for="eta">Tolerance η</label><input id="eta" type="range" min="0.02" max="1" step="0.02" value="0.30"><output id="etaOut">0.30</output></div>
+          <div style="border-top:1px solid var(--line);padding-top:10px;margin-top:4px"><strong>Eigenvalues λk</strong></div>
+          <div class="control"><label for="l1">λ1</label><input id="l1" class="eig" type="range" min="0" max="6" step="0.05" value="0.4"><output id="l1Out">0.40</output></div>
+          <div class="control"><label for="l2">λ2</label><input id="l2" class="eig" type="range" min="0" max="6" step="0.05" value="1.6"><output id="l2Out">1.60</output></div>
+          <div class="control"><label for="l3">λ3</label><input id="l3" class="eig" type="range" min="0" max="6" step="0.05" value="2.8"><output id="l3Out">2.80</output></div>
+          <div class="control"><label for="l4">λ4</label><input id="l4" class="eig" type="range" min="0" max="6" step="0.05" value="4.5"><output id="l4Out">4.50</output></div>
+        </div>
+        <div class="metrics">
+          <div class="metric primary"><div class="k">Neff</div><div class="v" id="neffValue">2</div></div>
+          <div class="metric"><div class="k">Spectral margin</div><div class="v" id="marginValue">0.40</div></div>
+          <div class="metric"><div class="k">Window trace type</div><div class="v" id="countType">integer</div></div>
+        </div>
+        <div class="badges" id="windowBadges"></div>
+        <div class="status-strip" id="windowFormula"></div>
+      </div>
+      <div class="card">
+        <h3>Window, eigenvalues, and weights</h3>
+        <svg id="windowSvg" viewBox="0 0 680 360" role="img" aria-label="Spectral-window plot"></svg>
+        <div class="legend">
+          <span><i class="swatch" style="background:#285b8f"></i>eigenvalues</span>
+          <span><i class="swatch line-swatch" style="background:#2d6a4f"></i>threshold boundary</span>
+          <span><i class="swatch" style="background:#dce9f7;border-radius:2px"></i>window region</span>
+          <span><i class="swatch" style="background:#f4dca9"></i>η-neighborhood</span>
+        </div>
+        <div class="table-wrap"><table><thead><tr><th>k</th><th>λk</th><th>weight wk</th><th>hard access</th></tr></thead><tbody id="weightsBody"></tbody></table></div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="formula" id="windowDefinition">Wδ(A) = 1[0,δ](A), Neff = Tr Wδ(A)</div>
+      <div class="note"><strong>Key:</strong> under THRESHOLD_HIT, the hard count for a closed window is mathematically defined but unstable. The soft count is continuous, yet depends on δ, ρ, and the selected profile.</div>
+    </div>
+  </section>
+
+  <section id="multPanel" class="panel">
+    <div class="grid equal">
+      <div class="card">
+        <h2>Exact versus Threshold Multiplicity</h2>
+        <p class="lead">Model Aε = diag(0, ε, 2ε, 1). Exact multiplicity is determined by the kernel; threshold multiplicity depends on δ.</p>
+        <div class="controls">
+          <div class="control"><label for="epsMult">ε</label><input id="epsMult" type="range" min="0.05" max="0.45" step="0.01" value="0.20"><output id="epsMultOut">0.20</output></div>
+          <div class="control"><label for="deltaMult">δ</label><input id="deltaMult" type="range" min="0" max="1.3" step="0.01" value="0.45"><output id="deltaMultOut">0.45</output></div>
+        </div>
+        <div class="metrics">
+          <div class="metric"><div class="k">mexact(0;Aε)</div><div class="v">1</div></div>
+          <div class="metric primary"><div class="k">mthr(δ;Aε)</div><div class="v" id="mthrValue">3</div></div>
+          <div class="metric"><div class="k">Condition for count 3</div><div class="v" style="font-size:14px">2ε ≤ δ &lt; 1</div></div>
+        </div>
+        <div class="badges" id="multBadges"></div>
+        <div class="formula">mexact(0;A) = dim ker A &nbsp;&nbsp; | &nbsp;&nbsp; mthr(δ;A) = Tr 1[−δ,δ](A)</div>
+      </div>
+      <div class="card">
+        <h3>Positions of the four eigenvalues</h3>
+        <svg id="multSvg" viewBox="0 0 680 300" role="img"></svg>
+        <div class="note" id="multNote"></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="crossPanel" class="panel">
+    <div class="grid">
+      <div class="card">
+        <h2>Avoided Crossing Readout</h2>
+        <p class="lead">A(t) = [[t, ε],[ε,−t]], λ± = ±√(t²+ε²), and |A(t)| = √(t²+ε²) I.</p>
+        <div class="controls">
+          <div class="control"><label for="tCross">t</label><input id="tCross" type="range" min="-3" max="3" step="0.02" value="0"><output id="tCrossOut">0.00</output></div>
+          <div class="control"><label for="epsCross">ε</label><input id="epsCross" type="range" min="0.1" max="2" step="0.05" value="0.8"><output id="epsCrossOut">0.80</output></div>
+          <div class="control"><label for="deltaCross">δ</label><input id="deltaCross" type="range" min="0.2" max="3" step="0.05" value="1.5"><output id="deltaCrossOut">1.50</output></div>
+          <div class="control"><label for="softCross">Readout</label><select id="softCross"><option value="hard">Hard</option><option value="soft">Soft</option></select><output aria-hidden="true"> </output></div>
+        </div>
+        <div class="metrics">
+          <div class="metric"><div class="k">|λ±(t)|</div><div class="v" id="lambdaCross">0.80</div></div>
+          <div class="metric primary"><div class="k">Neff</div><div class="v" id="neffCross">2</div></div>
+          <div class="metric"><div class="k">Accessible interval</div><div class="v" id="intervalCross" style="font-size:14px">|t| ≤ 1.269</div></div>
+        </div>
+        <div class="badges" id="crossBadges"></div>
+        <div class="formula">Neffhard = 2 if √(t²+ε²) ≤ δ; otherwise 0</div>
+      </div>
+      <div class="card">
+        <h3>Branches and finite-resolution band</h3>
+        <svg id="crossSvg" viewBox="0 0 680 360" role="img"></svg>
+        <div class="note" id="crossNote"></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="inversePanel" class="panel">
+    <div class="grid equal">
+      <div class="card">
+        <h2>Non-Injective Scalar Count</h2>
+        <p class="lead">Two distinct positive matrices can have the same Neff at a fixed threshold.</p>
+        <div class="controls">
+          <div class="control"><label for="deltaInv">δ</label><input id="deltaInv" type="range" min="0.005" max="0.08" step="0.001" value="0.03"><output id="deltaInvOut">0.030</output></div>
+          <div class="control"><label for="thetaInv">Rotation θ</label><input id="thetaInv" type="range" min="0" max="1.57" step="0.01" value="0.55"><output id="thetaInvOut">0.55</output></div>
+        </div>
+        <div class="split">
+          <div class="example-box"><h3>A1</h3><div class="mono">diag(0.010, 0.020, 1.000)</div><div class="status-strip">Neff = <strong id="countA1">2</strong></div></div>
+          <div class="example-box"><h3>A2(θ)</h3><div class="mono">U(θ) diag(0.015, 0.018, 2.000) U(θ)†</div><div class="status-strip">Neff = <strong id="countA2">2</strong></div></div>
+        </div>
+        <div class="badges" id="inverseBadges"></div>
+        <div class="formula">Φδ(A) = Tr 1[0,δ](A) is generally non-injective</div>
+      </div>
+      <div class="card">
+        <h3>What the scalar count erases</h3>
+        <table><tbody>
+          <tr><td>Exact eigenvalues inside window</td><td id="lostInside">lost</td></tr>
+          <tr><td>Spectrum outside window</td><td>lost</td></tr>
+          <tr><td>Spectral projectors / basis orientation</td><td id="lostProjectors">changed by θ</td></tr>
+          <tr><td>Unique hidden mechanism</td><td>not determined</td></tr>
+        </tbody></table>
+        <div class="note" style="margin-top:14px"><strong>Precise conclusion:</strong> the example proves non-injectivity of the specific map A ↦ Neff(δ;A), not a universal theorem for all possible hidden-sector maps.</div>
+      </div>
+    </div>
+    <div class="card">
+      <h3>Preview sector-resolved counts</h3>
+      <div class="split">
+        <div>
+          <p class="lead">For the current spectrum in the Window Explorer, assign the first two modes to sector S1 and the last two to S2.</p>
+          <div class="metrics">
+            <div class="metric primary"><div class="k">N1</div><div class="v" id="sector1">0</div></div>
+            <div class="metric primary"><div class="k">N2</div><div class="v" id="sector2">0</div></div>
+            <div class="metric"><div class="k">N1 + N2</div><div class="v" id="sectorTotal">0</div></div>
+          </div>
+        </div>
+        <div class="note"><strong>Module boundary:</strong> these are sector-resolved counts Ns = Tr(PsWδ(A)). Normalized weights, isotypic projectors, transport, locking, leakage, and forward atlases remain in BC-Academy III.</div>
+      </div>
+    </div>
+  </section>
+
+  <div class="footer">BC-Academy I · Lecture 8 · Finite-Resolution Count Explorer · v0.1.1 · standalone offline HTML</div>
+</div>
+<script>
+(() => {
+  const $ = id => document.getElementById(id);
+  const fmt = (x,n=2) => Number.isFinite(x) ? x.toFixed(n) : "—";
+  const clamp = (x,a,b) => Math.max(a,Math.min(b,x));
+
+  document.querySelectorAll('.tab').forEach(btn => btn.addEventListener('click', () => {
+    document.querySelectorAll('.tab').forEach(x => x.classList.remove('active'));
+    document.querySelectorAll('.panel').forEach(x => x.classList.remove('active'));
+    btn.classList.add('active'); $(btn.dataset.panel).classList.add('active');
+  }));
+
+  let lastWeights = [1,1,0,0];
+
+  function positiveSoft(x,d,r){ return 1/(1+Math.exp((x-d)/r)); }
+  function symmetricSoft(x,d,r){ return 1/(1+Math.exp((x*x-d*d)/(2*d*r))); }
+  function hardWeight(x,d,p){ return p==='positive' ? (x>=0 && x<=d ? 1:0) : (Math.abs(x)<=d ? 1:0); }
+  function softWeight(x,d,r,p){ return p==='positive' ? positiveSoft(Math.max(0,x),d,r) : symmetricSoft(x,d,r); }
+
+  function updateProtocolRanges(){
+    const p=$('protocol').value;
+    document.querySelectorAll('.eig').forEach((el,i)=>{
+      const old=parseFloat(el.value);
+      if(p==='positive'){
+        el.min='0';
+        if(old<0) el.value=String(Math.abs(old));
+      }else{
+        el.min='-6';
+        if(i===0 && old>=0) el.value='-3.2';
+        if(i===1 && old>=0) el.value='-0.7';
+      }
+    });
+  }
+
+  function updateWindow(){
+    updateProtocolRanges();
+    const p=$('protocol').value, type=$('windowType').value;
+    const d=parseFloat($('delta').value), r=parseFloat($('rho').value), eta=parseFloat($('eta').value);
+    const vals=[1,2,3,4].map(i=>parseFloat($('l'+i).value));
+    $('rhoRow').style.display=type==='soft'?'grid':'none';
+    $('deltaOut').textContent=fmt(d); $('rhoOut').textContent=fmt(r); $('etaOut').textContent=fmt(eta);
+    vals.forEach((v,i)=>$('l'+(i+1)+'Out').textContent=fmt(v));
+    const weights=vals.map(v=>type==='hard'?hardWeight(v,d,p):softWeight(v,d,r,p));
+    lastWeights=weights;
+    const neff=weights.reduce((a,b)=>a+b,0);
+    const margin=Math.min(...vals.map(v=>p==='positive'?Math.abs(v-d):Math.abs(Math.abs(v)-d)));
+    $('neffValue').textContent=type==='hard'?String(Math.round(neff)):fmt(neff,3);
+    $('marginValue').textContent=fmt(margin);
+    $('countType').textContent=type==='hard'?'integer':'effective';
+    let badge='';
+    if(margin<1e-9) badge='<span class="badge bad">THRESHOLD_HIT</span>';
+    else if(margin<=eta) badge='<span class="badge warn">MARGIN_LOW</span>';
+    else badge='<span class="badge good">COUNT_CERTIFIED</span>';
+    if(type==='soft') badge += '<span class="badge neutral">SOFT_PROTOCOL</span>';
+    $('windowBadges').innerHTML=badge;
+    $('windowFormula').textContent=p==='positive' ? 'margin mδ+ = dist(δ, σ(A)); positivity protects the lower endpoint 0.' : 'margin mδ± = dist({−δ,+δ}, σ(A)); both boundaries are controlled.';
+    $('windowDefinition').textContent = type==='hard'
+      ? (p==='positive'?'Wδ(A) = 1[0,δ](A), Neff = Tr Wδ(A)':'Wδ(A) = 1[−δ,δ](A), Neff = Tr Wδ(A)')
+      : (p==='positive'?'w+(x)=1/(1+exp((x−δ)/ρ))':'w±(x)=1/(1+exp((x²−δ²)/(2δρ)))');
+    $('weightsBody').innerHTML=vals.map((v,i)=>`<tr><td>${i+1}</td><td class="mono">${fmt(v)}</td><td class="mono">${fmt(weights[i],3)}</td><td>${hardWeight(v,d,p)?'inside':'outside'}</td></tr>`).join('');
+    drawWindow(vals,weights,p,type,d,r,eta);
+    updateSectors();
+  }
+
+  function drawWindow(vals,weights,p,type,d,r,eta){
+    const svg=$('windowSvg'),W=680,H=360,L=54,R=26,T=24,B=52;
+    const xmin=p==='positive'?0:-6,xmax=6,y0=H-B;
+    const px=x=>L+(x-xmin)/(xmax-xmin)*(W-L-R), py=w=>y0-w*(y0-T-12);
+    let s=`<rect x="${L}" y="${T}" width="${W-L-R}" height="${H-T-B}" fill="#fbfcfe" stroke="#d5deea"/>`;
+    s+=`<line x1="${L}" y1="${y0}" x2="${W-R}" y2="${y0}" stroke="#687a92" stroke-width="1.5"/>`;
+    const ticks=p==='positive'?[0,1,2,3,4,5,6]:[-6,-4,-2,0,2,4,6];
+    ticks.forEach(x=>{s+=`<line x1="${px(x)}" y1="${y0}" x2="${px(x)}" y2="${y0+5}" stroke="#687a92"/><text x="${px(x)}" y="${y0+21}" text-anchor="middle" fill="#617086" font-size="12">${x}</text>`});
+    const rect=(x1,x2,color,op)=>{const a=clamp(px(x1),L,W-R),b=clamp(px(x2),L,W-R);return `<rect x="${Math.min(a,b)}" y="${T}" width="${Math.abs(b-a)}" height="${y0-T}" fill="${color}" opacity="${op}"/>`};
+    if(p==='positive') s+=rect(0,d,'#dce9f7',.45)+rect(d-eta,d+eta,'#f4dca9',.45);
+    else s+=rect(-d,d,'#dce9f7',.45)+rect(-d-eta,-d+eta,'#f4dca9',.45)+rect(d-eta,d+eta,'#f4dca9',.45);
+    if(type==='hard'){
+      if(p==='positive') s+=`<polyline points="${px(0)},${py(1)} ${px(d)},${py(1)} ${px(d)},${py(0)} ${px(6)},${py(0)}" fill="none" stroke="#173a63" stroke-width="3"/>`;
+      else s+=`<polyline points="${px(-6)},${py(0)} ${px(-d)},${py(0)} ${px(-d)},${py(1)} ${px(d)},${py(1)} ${px(d)},${py(0)} ${px(6)},${py(0)}" fill="none" stroke="#173a63" stroke-width="3"/>`;
+    }else{
+      const pts=[]; for(let x=xmin;x<=xmax;x+=(xmax-xmin)/240){const w=p==='positive'?positiveSoft(Math.max(0,x),d,r):symmetricSoft(x,d,r);pts.push(`${px(x)},${py(w)}`)}
+      s+=`<polyline points="${pts.join(' ')}" fill="none" stroke="#173a63" stroke-width="3"/>`;
+    }
+    const bounds=p==='positive'?[d]:[-d,d]; bounds.forEach(x=>s+=`<line x1="${px(x)}" y1="${T}" x2="${px(x)}" y2="${y0}" stroke="#2d6a4f" stroke-width="2" stroke-dasharray="5 4"/>`);
+    vals.forEach((v,i)=>{const x=px(v),w=weights[i];s+=`<line x1="${x}" y1="${y0}" x2="${x}" y2="${py(w)}" stroke="#aab8c9" stroke-dasharray="3 3"/><circle cx="${x}" cy="${py(w)}" r="7" fill="#285b8f"/><text x="${x}" y="${py(w)-12}" text-anchor="middle" fill="#172033" font-size="11" font-weight="700">λ${i+1}</text>`});
+    s+=`<text x="${L-16}" y="${py(1)+4}" text-anchor="middle" fill="#617086" font-size="12">1</text><text x="${L-16}" y="${py(0)+4}" text-anchor="middle" fill="#617086" font-size="12">0</text>`;
+    svg.innerHTML=s;
+  }
+
+  function updateMultiplicity(){
+    const e=parseFloat($('epsMult').value),d=parseFloat($('deltaMult').value); $('epsMultOut').textContent=fmt(e);$('deltaMultOut').textContent=fmt(d);
+    const vals=[0,e,2*e,1],count=vals.filter(x=>Math.abs(x)<=d).length; $('mthrValue').textContent=String(count);
+    let badge=count===3?'<span class="badge good">2ε ≤ δ &lt; 1: count = 3</span>':(d>=1?'<span class="badge warn">δ ≥ 1: fourth mode included</span>':'<span class="badge neutral">threshold selects another count</span>');
+    $('multBadges').innerHTML=badge;
+    $('multNote').innerHTML=`Spectrum: <span class="mono">{0, ${fmt(e)}, ${fmt(2*e)}, 1.00}</span>. Exact zero multiplicity remains 1 for every δ, while threshold multiplicity is ${count}.`;
+    drawMultiplicity(vals,d);
+  }
+  function drawMultiplicity(vals,d){
+    const svg=$('multSvg'),W=680,H=300,L=50,R=30,y=190,px=x=>L+x/1.3*(W-L-R); let s=`<rect x="${L}" y="30" width="${W-L-R}" height="210" fill="#fbfcfe" stroke="#d5deea"/>`;
+    s+=`<rect x="${px(0)}" y="30" width="${Math.max(0,px(Math.min(d,1.3))-px(0))}" height="210" fill="#dce9f7" opacity=".5"/><line x1="${L}" y1="${y}" x2="${W-R}" y2="${y}" stroke="#687a92" stroke-width="2"/>`;
+    [0,.25,.5,.75,1,1.25].forEach(x=>s+=`<line x1="${px(x)}" y1="${y}" x2="${px(x)}" y2="${y+5}" stroke="#687a92"/><text x="${px(x)}" y="${y+22}" text-anchor="middle" font-size="12" fill="#617086">${x}</text>`);
+    s+=`<line x1="${px(d)}" y1="30" x2="${px(d)}" y2="${y}" stroke="#2d6a4f" stroke-width="2" stroke-dasharray="5 4"/><text x="${px(d)}" y="50" text-anchor="middle" fill="#2d6a4f" font-weight="700">δ</text>`;
+    vals.forEach((v,i)=>s+=`<circle cx="${px(v)}" cy="${y-30-(i%2)*38}" r="8" fill="${i===0?'#9e3d3d':'#285b8f'}"/><text x="${px(v)}" y="${y-44-(i%2)*38}" text-anchor="middle" font-size="12" font-weight="700">${i===0?'0':(i===1?'ε':(i===2?'2ε':'1'))}</text><line x1="${px(v)}" y1="${y-22-(i%2)*38}" x2="${px(v)}" y2="${y}" stroke="#aab8c9" stroke-dasharray="3 3"/>`);
+    svg.innerHTML=s;
+  }
+
+  function updateCross(){
+    const t=parseFloat($('tCross').value),e=parseFloat($('epsCross').value),d=parseFloat($('deltaCross').value),mode=$('softCross').value;
+    $('tCrossOut').textContent=fmt(t);$('epsCrossOut').textContent=fmt(e);$('deltaCrossOut').textContent=fmt(d);
+    const lam=Math.sqrt(t*t+e*e),hard=lam<=d?2:0,soft=2*positiveSoft(lam,d,.22),neff=mode==='hard'?hard:soft;
+    $('lambdaCross').textContent=fmt(lam,3);$('neffCross').textContent=mode==='hard'?String(hard):fmt(soft,3);
+    if(d>e){const b=Math.sqrt(d*d-e*e);$('intervalCross').textContent=`|t| ≤ ${fmt(b,3)}`;$('crossBadges').innerHTML='<span class="badge good">ACCESSIBLE INTERVAL EXISTS</span>';}
+    else{$('intervalCross').textContent='empty';$('crossBadges').innerHTML='<span class="badge warn">δ ≤ ε: hard access absent</span>';}
+    $('crossNote').textContent=mode==='hard'?'Hard readout is binary and changes at the boundary of the accessible interval.':'Soft readout changes continuously but remains protocol-dependent.';
+    drawCross(t,e,d);
+  }
+  function drawCross(t,e,d){
+    const svg=$('crossSvg'),W=680,H=360,L=48,R=28,T=24,B=44,xmin=-3,xmax=3,ymin=-3.4,ymax=3.4,px=x=>L+(x-xmin)/(xmax-xmin)*(W-L-R),py=y=>T+(ymax-y)/(ymax-ymin)*(H-T-B);
+    let s=`<rect x="${L}" y="${T}" width="${W-L-R}" height="${H-T-B}" fill="#fbfcfe" stroke="#d5deea"/><rect x="${L}" y="${py(d)}" width="${W-L-R}" height="${py(-d)-py(d)}" fill="#dce9f7" opacity=".45"/>`;
+    s+=`<line x1="${L}" y1="${py(0)}" x2="${W-R}" y2="${py(0)}" stroke="#687a92"/><line x1="${px(0)}" y1="${T}" x2="${px(0)}" y2="${H-B}" stroke="#aab8c9" stroke-dasharray="3 3"/>`;
+    [-3,-2,-1,0,1,2,3].forEach(x=>s+=`<text x="${px(x)}" y="${H-B+20}" text-anchor="middle" font-size="12" fill="#617086">${x}</text>`);
+    const up=[],dn=[];for(let x=xmin;x<=xmax;x+=.025){const l=Math.sqrt(x*x+e*e);up.push(`${px(x)},${py(l)}`);dn.push(`${px(x)},${py(-l)}`)}
+    s+=`<polyline points="${up.join(' ')}" fill="none" stroke="#173a63" stroke-width="3"/><polyline points="${dn.join(' ')}" fill="none" stroke="#285b8f" stroke-width="3"/>`;
+    [d,-d].forEach(y=>s+=`<line x1="${L}" y1="${py(y)}" x2="${W-R}" y2="${py(y)}" stroke="#2d6a4f" stroke-width="2" stroke-dasharray="5 4"/>`);
+    const l=Math.sqrt(t*t+e*e);s+=`<line x1="${px(t)}" y1="${T}" x2="${px(t)}" y2="${H-B}" stroke="#9e3d3d"/><circle cx="${px(t)}" cy="${py(l)}" r="6" fill="#9e3d3d"/><circle cx="${px(t)}" cy="${py(-l)}" r="6" fill="#9e3d3d"/>`;
+    svg.innerHTML=s;
+  }
+
+  function updateInverse(){
+    const d=parseFloat($('deltaInv').value),th=parseFloat($('thetaInv').value);$('deltaInvOut').textContent=fmt(d,3);$('thetaInvOut').textContent=fmt(th,2);
+    const a1=[.01,.02,1],a2=[.015,.018,2],c1=a1.filter(x=>x<=d).length,c2=a2.filter(x=>x<=d).length;$('countA1').textContent=c1;$('countA2').textContent=c2;
+    $('lostProjectors').textContent=`orientation rotated by θ = ${fmt(th,2)}`;
+    $('inverseBadges').innerHTML=c1===c2?'<span class="badge good">SAME COUNT, DIFFERENT OPERATORS</span>':'<span class="badge warn">COUNTS DIFFER AT THIS δ</span>';
+    $('lostInside').textContent=(c1===c2&&c1>0)?'different values, same aggregate':'protocol-dependent';
+  }
+
+  function updateSectors(){
+    const n1=lastWeights[0]+lastWeights[1],n2=lastWeights[2]+lastWeights[3],tot=n1+n2,type=$('windowType').value;
+    $('sector1').textContent=type==='hard'?String(Math.round(n1)):fmt(n1,3);$('sector2').textContent=type==='hard'?String(Math.round(n2)):fmt(n2,3);$('sectorTotal').textContent=type==='hard'?String(Math.round(tot)):fmt(tot,3);
+  }
+
+  ['protocol','windowType','delta','rho','eta','l1','l2','l3','l4'].forEach(id=>{$(id).addEventListener('input',updateWindow);$(id).addEventListener('change',updateWindow)});
+  ['epsMult','deltaMult'].forEach(id=>$(id).addEventListener('input',updateMultiplicity));
+  ['tCross','epsCross','deltaCross','softCross'].forEach(id=>{$(id).addEventListener('input',updateCross);$(id).addEventListener('change',updateCross)});
+  ['deltaInv','thetaInv'].forEach(id=>$(id).addEventListener('input',updateInverse));
+
+  updateWindow();updateMultiplicity();updateCross();updateInverse();
+})();
+</script>
+</body>
+</html>
