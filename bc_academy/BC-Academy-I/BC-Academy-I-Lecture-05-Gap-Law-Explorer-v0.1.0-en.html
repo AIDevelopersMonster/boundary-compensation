@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>BC-Academy I - Lecture 5 - Gap Law Explorer</title>
+<style>
+:root{
+  --bg:#07111f; --panel:#0d1b2d; --panel2:#11233a; --ink:#e9f0f7;
+  --muted:#9db0c7; --line:#27415e; --accent:#72c7ff; --gold:#ffc96b;
+  --green:#76e3a2; --red:#ff8290; --violet:#c5a3ff; --shadow:0 18px 55px rgba(0,0,0,.28);
+}
+*{box-sizing:border-box}
+body{margin:0;background:radial-gradient(circle at 15% 0%,#102a48 0,#07111f 38%,#050c16 100%);color:var(--ink);font-family:Inter,Segoe UI,Arial,sans-serif;line-height:1.45}
+header{padding:28px clamp(18px,4vw,56px) 18px;border-bottom:1px solid #18304a;background:rgba(5,12,22,.78);backdrop-filter:blur(10px);position:sticky;top:0;z-index:20}
+.eyebrow{font-size:.78rem;letter-spacing:.18em;text-transform:uppercase;color:var(--gold);font-weight:700}
+h1{margin:.25rem 0 .4rem;font-size:clamp(1.65rem,3vw,2.65rem);line-height:1.08}
+.subtitle{color:var(--muted);max-width:980px}
+main{padding:24px clamp(14px,3vw,44px) 60px;max-width:1680px;margin:auto}
+.layout{display:grid;grid-template-columns:minmax(280px,360px) 1fr;gap:20px;align-items:start}
+@media(max-width:980px){.layout{grid-template-columns:1fr}header{position:relative}}
+.panel{background:linear-gradient(180deg,rgba(17,35,58,.96),rgba(10,24,41,.96));border:1px solid #203a57;border-radius:18px;box-shadow:var(--shadow)}
+.controls{padding:18px;position:sticky;top:142px}
+@media(max-width:980px){.controls{position:relative;top:auto}}
+.panel h2{font-size:1rem;margin:0 0 12px;letter-spacing:.04em}
+label{font-size:.83rem;color:var(--muted);display:flex;justify-content:space-between;gap:12px;margin-bottom:5px}
+.control{margin:0 0 14px}
+select,input[type=range]{width:100%}
+select{appearance:none;background:#091726;color:var(--ink);border:1px solid #2b4866;border-radius:10px;padding:10px 12px;font-size:.92rem}
+input[type=range]{accent-color:var(--accent)}
+.value{color:var(--ink);font-variant-numeric:tabular-nums;font-weight:650}
+.btnrow{display:flex;gap:8px;flex-wrap:wrap;margin-top:8px}
+button{border:1px solid #31516f;background:#0a1a2c;color:var(--ink);border-radius:10px;padding:9px 12px;cursor:pointer;font-weight:650}
+button:hover{border-color:var(--accent);background:#102640}
+.formula{padding:12px;border-radius:12px;background:#071523;border:1px solid #203a57;color:#d9e8f7;font-family:Cambria Math,STIX Two Math,Georgia,serif;font-size:.95rem;overflow:auto}
+.content{display:grid;gap:18px}
+.cards{display:grid;grid-template-columns:repeat(4,minmax(150px,1fr));gap:12px}
+@media(max-width:1200px){.cards{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:620px){.cards{grid-template-columns:1fr}}
+.card{padding:14px 15px;background:rgba(13,29,48,.92);border:1px solid #203a57;border-radius:14px;min-height:96px}
+.card .k{font-size:.76rem;color:var(--muted);text-transform:uppercase;letter-spacing:.08em}
+.card .v{font-size:1.32rem;font-weight:750;margin-top:7px;font-variant-numeric:tabular-nums}
+.card .s{font-size:.76rem;color:var(--muted);margin-top:4px}
+.plots{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px}
+@media(max-width:1180px){.plots{grid-template-columns:1fr}}
+.plotpanel{padding:14px;overflow:hidden}
+.plothead{display:flex;justify-content:space-between;align-items:baseline;gap:12px;margin-bottom:8px}
+.plothead strong{font-size:.98rem}.plothead span{font-size:.74rem;color:var(--muted)}
+svg{display:block;width:100%;height:auto;border-radius:12px;background:#07131f;border:1px solid #18324c;touch-action:none}
+.axis{stroke:#55708d;stroke-width:1}.grid{stroke:#17304a;stroke-width:1}.tick{fill:#87a0ba;font-size:11px}.label{fill:#adc0d3;font-size:12px}.crosshair{stroke:#ffc96b;stroke-width:1.2;stroke-dasharray:5 4}.curve1{fill:none;stroke:#72c7ff;stroke-width:2.6}.curve2{fill:none;stroke:#c5a3ff;stroke-width:2.2}.curve3{fill:none;stroke:#76e3a2;stroke-width:2}.tangent{fill:none;stroke:#ffc96b;stroke-width:2;stroke-dasharray:7 5}.secant{fill:none;stroke:#ff8290;stroke-width:2;stroke-dasharray:3 4}.point{fill:#ffc96b;stroke:#07111f;stroke-width:2}
+.status{padding:14px 16px;border-radius:14px;border:1px solid #31516f;background:#0b1b2d;display:flex;gap:12px;align-items:flex-start}
+.status.ok{border-color:#2f6c52}.status.warn{border-color:#7d6332}.status.bad{border-color:#87404a}.badge{border-radius:999px;padding:3px 8px;font-size:.7rem;font-weight:800;letter-spacing:.08em}.ok .badge{background:#143d2b;color:#8bf0b1}.warn .badge{background:#463819;color:#ffd886}.bad .badge{background:#4b2026;color:#ff9aa5}
+.method{padding:18px}.method ul{margin:8px 0 0;padding-left:20px}.method li{margin:7px 0;color:#c9d8e7}.method code{color:var(--gold)}
+.legend{display:flex;gap:14px;flex-wrap:wrap;font-size:.75rem;color:var(--muted);margin-top:8px}.sw{display:inline-block;width:18px;height:3px;vertical-align:middle;margin-right:5px;border-radius:3px}
+.footer{margin-top:22px;color:#7890aa;font-size:.8rem;text-align:center}
+.hidden{display:none!important}
+.small{font-size:.78rem;color:var(--muted)}
+</style>
+</head>
+<body>
+<header>
+  <div class="eyebrow">Boundary Compensation / BC-Academy I</div>
+  <h1>Gap Law Explorer</h1>
+  <div class="subtitle">Interactive companion to Lecture 5: logarithmic sensitivity, local relative response, tangent-versus-secant geometry, and two-level avoided crossing.</div>
+</header>
+<main>
+<div class="layout">
+  <aside class="panel controls">
+    <h2>Model and parameters</h2>
+    <div class="control"><label for="model">Gap law</label><select id="model">
+      <option value="power">Pure power law</option>
+      <option value="offset">Offset power law</option>
+      <option value="critical">Critical closing</option>
+      <option value="avoided" selected>Avoided crossing</option>
+      <option value="exponential">Exponential law</option>
+    </select></div>
+    <div class="control"><label>Current α <span class="value" id="alphaVal"></span></label><input id="alpha" type="range" min="0.1" max="5" step="0.001" value="1.5"></div>
+    <div class="control"><label>Exponent p <span class="value" id="pVal"></span></label><input id="p" type="range" min="-4" max="5" step="0.05" value="2"></div>
+    <div class="control"><label>Scale C / ε* <span class="value" id="scaleVal"></span></label><input id="scale" type="range" min="0.01" max="2" step="0.01" value="0.35"></div>
+    <div class="control offsetOnly"><label>Positive background ε₀ <span class="value" id="e0Val"></span></label><input id="e0" type="range" min="0" max="1" step="0.005" value="0.08"></div>
+    <div class="control crossingOnly"><label>Center αc <span class="value" id="acVal"></span></label><input id="ac" type="range" min="0.2" max="4.5" step="0.01" value="1.5"></div>
+    <div class="control avoidedOnly"><label>Mixing Δ <span class="value" id="deltaVal"></span></label><input id="delta" type="range" min="0" max="1.5" step="0.005" value="0.22"></div>
+    <div class="control expOnly"><label>Exponential rate q <span class="value" id="qVal"></span></label><input id="q" type="range" min="-4" max="4" step="0.05" value="1.2"></div>
+    <div class="control"><label>Relative step r = Δα/α <span class="value" id="rVal"></span></label><input id="r" type="range" min="-0.8" max="0.8" step="0.005" value="0.1"></div>
+    <div class="control"><label>Secant α₁ <span class="value" id="a1Val"></span></label><input id="a1" type="range" min="0.1" max="5" step="0.01" value="0.8"></div>
+    <div class="control"><label>Secant α₂ <span class="value" id="a2Val"></span></label><input id="a2" type="range" min="0.1" max="5" step="0.01" value="3.2"></div>
+    <div class="formula" id="formula"></div>
+    <div class="btnrow"><button id="reset">Reset</button><button id="snapCenter">α = αc</button></div>
+    <p class="small">Tip: click or drag inside a plot to move the current α.</p>
+  </aside>
+
+  <section class="content">
+    <div class="cards">
+      <div class="card"><div class="k">Gap scale ε(α)</div><div class="v" id="epsNow">-</div><div class="s" id="gapNote">positive declared scale</div></div>
+      <div class="card"><div class="k">Local sensitivity βε</div><div class="v" id="betaNow">-</div><div class="s">d ln ε / d ln α</div></div>
+      <div class="card"><div class="k">Exact relative response</div><div class="v" id="exactResp">-</div><div class="s">[ε(α(1+r))-ε(α)] / ε(α)</div></div>
+      <div class="card"><div class="k">Linearization error</div><div class="v" id="linErr">-</div><div class="s">exact response - βεr</div></div>
+    </div>
+
+    <div id="status" class="status ok"><span class="badge">DEFINED</span><div><strong id="statusTitle">Logarithmic sensitivity is defined.</strong><div class="small" id="statusText">The current scale is positive and inside the declared domain.</div></div></div>
+
+    <div class="plots">
+      <div class="panel plotpanel"><div class="plothead"><strong>Gap law ε(α)</strong><span>click to select α</span></div><svg id="gapPlot" viewBox="0 0 640 320" aria-label="Gap law plot"></svg><div class="legend"><span><i class="sw" style="background:#72c7ff"></i>ε(α)</span><span><i class="sw" style="background:#ffc96b"></i>current α</span></div></div>
+      <div class="panel plotpanel"><div class="plothead"><strong>Log-log geometry</strong><span>tangent vs secant</span></div><svg id="logPlot" viewBox="0 0 640 320" aria-label="Log-log plot"></svg><div class="legend"><span><i class="sw" style="background:#72c7ff"></i>ln ε</span><span><i class="sw" style="background:#ffc96b"></i>local tangent</span><span><i class="sw" style="background:#ff8290"></i>secant</span></div></div>
+      <div class="panel plotpanel"><div class="plothead"><strong>Logarithmic sensitivity βε(α)</strong><span>local relative response</span></div><svg id="betaPlot" viewBox="0 0 640 320" aria-label="Sensitivity plot"></svg><div class="legend"><span><i class="sw" style="background:#76e3a2"></i>βε(α)</span><span><i class="sw" style="background:#ffc96b"></i>current α</span></div></div>
+      <div class="panel plotpanel"><div class="plothead"><strong>Two-level spectral branches</strong><span>λ± and |λ±|</span></div><svg id="branchPlot" viewBox="0 0 640 320" aria-label="Spectral branch plot"></svg><div class="legend"><span><i class="sw" style="background:#72c7ff"></i>λ+</span><span><i class="sw" style="background:#c5a3ff"></i>λ−</span><span><i class="sw" style="background:#76e3a2"></i>|λ±|</span></div></div>
+    </div>
+
+    <div class="panel method">
+      <h2>Methodological firewall</h2>
+      <ul>
+        <li><code>small gap</code> ≠ <code>large sensitivity</code>;</li>
+        <li><code>local sensitivity</code> ≠ <code>global power law</code>;</li>
+        <li>logarithmic sensitivity requires a positive scale;</li>
+        <li>an individual spectral branch requires declared isolation;</li>
+        <li>multiplicity amplification belongs to Lecture 6.</li>
+      </ul>
+    </div>
+  </section>
+</div>
+<div class="footer">BC-Academy I · Lecture 5 · standalone demonstration v0.1.0 · no external dependencies</div>
+</main>
+<script>
+'use strict';
+const $ = id => document.getElementById(id);
+const inputs = ['model','alpha','p','scale','e0','ac','delta','q','r','a1','a2'].map($);
+const defaults = {model:'avoided',alpha:1.5,p:2,scale:.35,e0:.08,ac:1.5,delta:.22,q:1.2,r:.1,a1:.8,a2:3.2};
+const DOMAIN = {min:.1,max:5};
+const clamp=(x,a,b)=>Math.max(a,Math.min(b,x));
+const fmt=(x,d=5)=> !Number.isFinite(x) ? 'undefined' : (Math.abs(x)>=1e4||Math.abs(x)<1e-4&&x!==0 ? x.toExponential(3) : (+x.toFixed(d)).toString());
+const num=id=>+$((id)).value;
+function state(){return {model:$('model').value,a:num('alpha'),p:num('p'),C:num('scale'),e0:num('e0'),ac:num('ac'),D:num('delta'),q:num('q'),r:num('r'),a1:num('a1'),a2:num('a2'),astar:1};}
+function evaluate(a,s){
+  if(!(a>0)) return {eps:NaN,beta:NaN,valid:false,reason:'α must be positive.'};
+  let eps,beta;
+  if(s.model==='power'){
+    eps=s.C*Math.pow(a/s.astar,s.p); beta=s.p;
+  } else if(s.model==='offset'){
+    const v=s.C*Math.pow(a/s.astar,s.p); eps=s.e0+v; beta=s.p*v/eps;
+  } else if(s.model==='critical'){
+    const x=a-s.ac;
+    if(!(x>0) || !(s.p>0)) return {eps:NaN,beta:NaN,valid:false,reason:'Critical closing requires α > αc and p > 0.'};
+    eps=s.C*Math.pow(x,s.p); beta=s.p*a/x;
+  } else if(s.model==='avoided'){
+    const x=a-s.ac; eps=Math.sqrt(x*x+s.D*s.D);
+    if(eps===0) return {eps:0,beta:NaN,valid:false,reason:'LOG_SENSITIVITY_UNDEFINED_AT_ZERO'};
+    beta=a*x/(eps*eps);
+  } else {
+    eps=s.C*Math.exp(-s.q*(a/s.astar-1)); beta=-s.q*a/s.astar;
+  }
+  const valid=Number.isFinite(eps)&&eps>0&&Number.isFinite(beta);
+  return {eps,beta,valid,reason:valid?'':(eps<=0?'The declared scale is not positive.':'The model is outside its declared domain.')};
+}
+function formula(s){
+  const m={
+    power:`ε(α) = C(α/α*)<sup>p</sup><br>β<sub>ε</sub> = p`,
+    offset:`ε(α) = ε₀ + C(α/α*)<sup>p</sup><br>β<sub>ε</sub> = p·C(α/α*)<sup>p</sup>/ε`,
+    critical:`ε(α) = C(α−α<sub>c</sub>)<sup>p</sup>, α&gt;α<sub>c</sub><br>β<sub>ε</sub> = pα/(α−α<sub>c</sub>)`,
+    avoided:`ε(α) = √[(α−α<sub>c</sub>)²+Δ²]<br>β<sub>ε</sub> = α(α−α<sub>c</sub>)/ε²`,
+    exponential:`ε(α) = C exp[−q(α/α*−1)]<br>β<sub>ε</sub> = −qα/α*`
+  }; return m[s.model];
+}
+function visibility(s){
+  document.querySelectorAll('.offsetOnly').forEach(e=>e.classList.toggle('hidden',s.model!=='offset'));
+  document.querySelectorAll('.crossingOnly').forEach(e=>e.classList.toggle('hidden',!['critical','avoided'].includes(s.model)));
+  document.querySelectorAll('.avoidedOnly').forEach(e=>e.classList.toggle('hidden',s.model!=='avoided'));
+  document.querySelectorAll('.expOnly').forEach(e=>e.classList.toggle('hidden',s.model!=='exponential'));
+  $('snapCenter').style.display=['critical','avoided'].includes(s.model)?'inline-block':'none';
+}
+function values(s){
+  $('alphaVal').textContent=fmt(s.a,3); $('pVal').textContent=fmt(s.p,2); $('scaleVal').textContent=fmt(s.C,2);
+  $('e0Val').textContent=fmt(s.e0,3); $('acVal').textContent=fmt(s.ac,2); $('deltaVal').textContent=fmt(s.D,3);
+  $('qVal').textContent=fmt(s.q,2); $('rVal').textContent=fmt(s.r,3); $('a1Val').textContent=fmt(s.a1,2); $('a2Val').textContent=fmt(s.a2,2);
+}
+function sample(s,n=360){
+  const out=[]; for(let i=0;i<n;i++){const a=DOMAIN.min+(DOMAIN.max-DOMAIN.min)*i/(n-1); const e=evaluate(a,s); out.push({a,...e});} return out;
+}
+function extent(arr,key,includeZero=false){
+  const get=typeof key==='function'?key:(d=>d[key]);
+  const xs=arr.map(get).filter(Number.isFinite); if(!xs.length)return [-1,1];
+  let lo=Math.min(...xs),hi=Math.max(...xs); if(includeZero){lo=Math.min(lo,0);hi=Math.max(hi,0)}
+  if(lo===hi){lo-=1;hi+=1} const pad=(hi-lo)*.1; return [lo-pad,hi+pad];
+}
+function pathSegments(data,xFn,yFn,validFn=d=>Number.isFinite(xFn(d))&&Number.isFinite(yFn(d))){
+  const segs=[]; let cur=[]; data.forEach(d=>{if(validFn(d)){cur.push(d)}else if(cur.length){segs.push(cur);cur=[]}}); if(cur.length)segs.push(cur); return segs;
+}
+function el(name,attrs={}){const n=document.createElementNS('http://www.w3.org/2000/svg',name);Object.entries(attrs).forEach(([k,v])=>n.setAttribute(k,v));return n}
+function plot(svgId,data,opts){
+  const svg=$(svgId); svg.innerHTML=''; const W=640,H=320,m={l:66,r:20,t:18,b:47};
+  const xdom=opts.xdom||extent(data,opts.x); const ydom=opts.ydom||extent(data,opts.y,opts.includeZero);
+  const X=x=>m.l+(x-xdom[0])/(xdom[1]-xdom[0])*(W-m.l-m.r); const Y=y=>H-m.b-(y-ydom[0])/(ydom[1]-ydom[0])*(H-m.t-m.b);
+  for(let i=0;i<=5;i++){
+    const xv=xdom[0]+(xdom[1]-xdom[0])*i/5, yv=ydom[0]+(ydom[1]-ydom[0])*i/5;
+    svg.appendChild(el('line',{x1:X(xv),y1:m.t,x2:X(xv),y2:H-m.b,class:'grid'}));
+    svg.appendChild(el('line',{x1:m.l,y1:Y(yv),x2:W-m.r,y2:Y(yv),class:'grid'}));
+    let tx=el('text',{x:X(xv),y:H-22,'text-anchor':'middle',class:'tick'});tx.textContent=fmt(xv,2);svg.appendChild(tx);
+    let ty=el('text',{x:m.l-9,y:Y(yv)+4,'text-anchor':'end',class:'tick'});ty.textContent=fmt(yv,2);svg.appendChild(ty);
+  }
+  svg.appendChild(el('line',{x1:m.l,y1:H-m.b,x2:W-m.r,y2:H-m.b,class:'axis'}));
+  svg.appendChild(el('line',{x1:m.l,y1:m.t,x2:m.l,y2:H-m.b,class:'axis'}));
+  let xl=el('text',{x:(m.l+W-m.r)/2,y:H-5,'text-anchor':'middle',class:'label'});xl.textContent=opts.xlabel;svg.appendChild(xl);
+  let yl=el('text',{x:16,y:(m.t+H-m.b)/2,transform:`rotate(-90 16 ${(m.t+H-m.b)/2})`,'text-anchor':'middle',class:'label'});yl.textContent=opts.ylabel;svg.appendChild(yl);
+  (opts.curves||[{x:opts.x,y:opts.y,cls:'curve1'}]).forEach(c=>{
+    pathSegments(data,c.x,c.y,c.valid).forEach(seg=>{const pts=seg.map(d=>`${X(c.x(d)).toFixed(2)},${Y(c.y(d)).toFixed(2)}`).join(' ');svg.appendChild(el('polyline',{points:pts,class:c.cls||'curve1'}));});
+  });
+  if(opts.lines) opts.lines.forEach(l=>{if(l.every(Number.isFinite))svg.appendChild(el('line',{x1:X(l[0]),y1:Y(l[1]),x2:X(l[2]),y2:Y(l[3]),class:l[4]}));});
+  if(Number.isFinite(opts.currentX)) svg.appendChild(el('line',{x1:X(opts.currentX),y1:m.t,x2:X(opts.currentX),y2:H-m.b,class:'crosshair'}));
+  if(opts.point&&opts.point.every(Number.isFinite)) svg.appendChild(el('circle',{cx:X(opts.point[0]),cy:Y(opts.point[1]),r:5,class:'point'}));
+  svg.onpointerdown=ev=>{svg.setPointerCapture(ev.pointerId); move(ev)}; svg.onpointermove=ev=>{if(ev.buttons)move(ev)};
+  function move(ev){const r=svg.getBoundingClientRect(); const px=(ev.clientX-r.left)/r.width*W; const xv=xdom[0]+(clamp(px,m.l,W-m.r)-m.l)/(W-m.l-m.r)*(xdom[1]-xdom[0]); const alpha=opts.fromX?opts.fromX(xv):xv; $('alpha').value=clamp(alpha,DOMAIN.min,DOMAIN.max); update();}
+  return {X,Y,xdom,ydom};
+}
+function update(){
+  const s=state(); visibility(s); values(s); $('formula').innerHTML=formula(s);
+  const now=evaluate(s.a,s); const next=evaluate(s.a*(1+s.r),s);
+  const exact=(now.valid&&next.valid)?next.eps/now.eps-1:NaN; const linear=now.valid?now.beta*s.r:NaN; const err=exact-linear;
+  $('epsNow').textContent=fmt(now.eps); $('betaNow').textContent=fmt(now.beta); $('exactResp').textContent=fmt(exact); $('linErr').textContent=fmt(err);
+  const st=$('status'); st.className='status '+(now.valid?'ok':now.reason.includes('ZERO')?'bad':'warn');
+  st.querySelector('.badge').textContent=now.valid?'DEFINED':now.reason.includes('ZERO')?'UNDEFINED':'OUTSIDE DOMAIN';
+  $('statusTitle').textContent=now.valid?'Logarithmic sensitivity is defined.':now.reason;
+  $('statusText').textContent=now.valid?(s.model==='avoided'&&Math.abs(s.a-s.ac)<.01?'The gap is near its minimum, while the first logarithmic sensitivity is near zero.':'The current scale is positive and inside the declared model domain.'):'Move α or change parameters to return to the declared positive domain.';
+  $('gapNote').textContent=s.model==='avoided'?'minimum gap is controlled by Δ':'positive declared scale';
+  const data=sample(s);
+  const valid=data.filter(d=>d.valid&&Number.isFinite(d.eps));
+  plot('gapPlot',data,{x:d=>d.a,y:d=>d.eps,xdom:[DOMAIN.min,DOMAIN.max],ydom:extent(valid,'eps',true),xlabel:'α',ylabel:'ε(α)',currentX:s.a,point:now.valid?[s.a,now.eps]:null,includeZero:true});
+  const logData=data.filter(d=>d.valid&&d.eps>0).map(d=>({...d,lna:Math.log(d.a),lne:Math.log(d.eps)}));
+  let lines=[]; const x0=Math.log(s.a); if(now.valid){const y0=Math.log(now.eps),ld=extent(logData,'lna'),span=(ld[1]-ld[0])*.18; lines.push([x0-span,y0-now.beta*span,x0+span,y0+now.beta*span,'tangent']);}
+  const e1=evaluate(s.a1,s),e2=evaluate(s.a2,s); let sec=NaN;
+  if(e1.valid&&e2.valid&&s.a1!==s.a2){sec=Math.log(e2.eps/e1.eps)/Math.log(s.a2/s.a1); lines.push([Math.log(s.a1),Math.log(e1.eps),Math.log(s.a2),Math.log(e2.eps),'secant']);}
+  plot('logPlot',logData,{x:d=>d.lna,y:d=>d.lne,xlabel:'ln α',ylabel:'ln ε',currentX:Math.log(s.a),point:now.valid?[Math.log(s.a),Math.log(now.eps)]:null,lines,fromX:Math.exp});
+  $('statusText').textContent += Number.isFinite(sec)?` Secant sensitivity: ${fmt(sec,4)}.`:'';
+  plot('betaPlot',data,{x:d=>d.a,y:d=>d.beta,valid:d=>d.valid&&Number.isFinite(d.beta),xdom:[DOMAIN.min,DOMAIN.max],ydom:extent(data.filter(d=>d.valid),'beta',true),xlabel:'α',ylabel:'βε(α)',currentX:s.a,point:now.valid?[s.a,now.beta]:null,includeZero:true});
+  const branches=data.map(d=>{const x=d.a-s.ac,g=Math.sqrt(x*x+s.D*s.D);return {a:d.a,plus:g,minus:-g,abs:g}});
+  plot('branchPlot',branches,{x:d=>d.a,y:d=>d.plus,xdom:[DOMAIN.min,DOMAIN.max],ydom:extent(branches,'plus',true).map((v,i)=>i===0?-Math.max(...branches.map(d=>d.plus))*1.12:Math.max(...branches.map(d=>d.plus))*1.12),xlabel:'α',ylabel:'spectral value',currentX:s.a,curves:[{x:d=>d.a,y:d=>d.plus,cls:'curve1'},{x:d=>d.a,y:d=>d.minus,cls:'curve2'},{x:d=>d.a,y:d=>d.abs,cls:'curve3'}]});
+}
+inputs.forEach(i=>i.addEventListener('input',update));
+$('reset').addEventListener('click',()=>{Object.entries(defaults).forEach(([k,v])=>$(k).value=v);update()});
+$('snapCenter').addEventListener('click',()=>{$('alpha').value=$('ac').value;update()});
+update();
+</script>
+</body>
+</html>
