@@ -1,0 +1,420 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>BC-Academy I - Lecture 7: Topological Multiplicity Explorer</title>
+<style>
+  :root {
+    --bg: #f3f6fa;
+    --panel: #ffffff;
+    --ink: #142033;
+    --muted: #64748b;
+    --line: #dbe3ee;
+    --blue: #173f73;
+    --blue2: #2b67a8;
+    --gold: #b8872d;
+    --green: #28785f;
+    --red: #a04444;
+    --shadow: 0 14px 40px rgba(30, 48, 75, .10);
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    color: var(--ink);
+    background:
+      radial-gradient(circle at top right, rgba(43,103,168,.12), transparent 34rem),
+      linear-gradient(180deg, #f8fafc 0%, var(--bg) 100%);
+  }
+  header {
+    background: linear-gradient(135deg, #102c50, #1d4f83 65%, #2d6b9a);
+    color: white;
+    padding: 34px clamp(20px, 5vw, 72px) 30px;
+    border-bottom: 4px solid #c69a43;
+  }
+  .eyebrow { text-transform: uppercase; letter-spacing: .12em; font-size: .78rem; opacity: .82; }
+  h1 { margin: 8px 0 8px; font-family: Georgia, "Times New Roman", serif; font-size: clamp(1.8rem, 4vw, 3.2rem); line-height: 1.08; }
+  header p { margin: 0; max-width: 900px; color: #dce9f7; font-size: 1.02rem; line-height: 1.55; }
+  main { width: min(1220px, calc(100% - 32px)); margin: 28px auto 48px; }
+  .method-boundary {
+    background: #fff9eb;
+    border: 1px solid #ecd39e;
+    border-left: 5px solid var(--gold);
+    padding: 14px 18px;
+    margin-bottom: 22px;
+    border-radius: 10px;
+    line-height: 1.5;
+  }
+  .grid { display: grid; grid-template-columns: minmax(280px, 360px) 1fr; gap: 22px; align-items: start; }
+  .panel { background: var(--panel); border: 1px solid var(--line); border-radius: 16px; box-shadow: var(--shadow); }
+  .controls { padding: 22px; position: sticky; top: 16px; }
+  .controls h2, .view h2 { margin: 0 0 14px; font-family: Georgia, "Times New Roman", serif; }
+  .control { margin: 18px 0; }
+  .control-head { display: flex; justify-content: space-between; gap: 12px; align-items: baseline; margin-bottom: 7px; }
+  label { font-weight: 700; }
+  .value { font-variant-numeric: tabular-nums; color: var(--blue); font-weight: 800; }
+  input[type="range"] { width: 100%; accent-color: var(--blue2); }
+  .hint { font-size: .82rem; color: var(--muted); line-height: 1.4; margin-top: 5px; }
+  .switch-row { display: flex; gap: 10px; align-items: center; margin: 16px 0; }
+  .switch-row input { width: 18px; height: 18px; accent-color: var(--blue2); }
+  button {
+    border: 1px solid #bfd0e3;
+    background: #edf4fb;
+    color: var(--blue);
+    font-weight: 750;
+    padding: 9px 12px;
+    border-radius: 9px;
+    cursor: pointer;
+  }
+  button:hover { background: #dfeefa; }
+  .preset-row { display: flex; flex-wrap: wrap; gap: 8px; }
+  .view { padding: 22px; }
+  .formula-strip {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 12px;
+    margin-bottom: 18px;
+  }
+  .metric { border: 1px solid var(--line); border-radius: 12px; padding: 14px; background: #fbfdff; min-height: 98px; }
+  .metric .k { color: var(--muted); font-size: .78rem; text-transform: uppercase; letter-spacing: .07em; }
+  .metric .v { font-size: 1.55rem; font-weight: 850; margin-top: 6px; font-variant-numeric: tabular-nums; }
+  .metric .s { font-size: .82rem; color: var(--muted); margin-top: 2px; }
+  .chain {
+    display: grid;
+    grid-template-columns: 1fr auto 1fr auto 1fr auto 1fr;
+    align-items: stretch;
+    gap: 8px;
+    margin: 18px 0 22px;
+  }
+  .chain-card { border: 1px solid var(--line); background: #f8fbff; border-radius: 12px; padding: 14px; text-align: center; }
+  .chain-card strong { display: block; font-family: Georgia, "Times New Roman", serif; font-size: 1.15rem; color: var(--blue); }
+  .arrow { align-self: center; font-size: 1.55rem; color: var(--gold); }
+  .branches-wrap { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  .subpanel { border: 1px solid var(--line); border-radius: 13px; padding: 16px; background: #fff; }
+  .subpanel h3 { margin: 0 0 12px; font-size: 1rem; }
+  .branches { min-height: 92px; display: flex; flex-wrap: wrap; gap: 8px; align-content: flex-start; }
+  .branch {
+    width: 38px; height: 38px; border-radius: 50%; display: grid; place-items: center;
+    font-weight: 800; color: white; background: linear-gradient(135deg, var(--blue2), var(--blue));
+    box-shadow: 0 5px 12px rgba(35, 88, 142, .22);
+  }
+  .branch.minus { background: linear-gradient(135deg, #6b4f9d, #3d2c6a); }
+  .empty { color: var(--muted); font-style: italic; padding: 16px 0; }
+  .equation {
+    font-family: Georgia, "Times New Roman", serif;
+    background: #f7f9fc;
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    padding: 15px;
+    text-align: center;
+    font-size: clamp(1rem, 2.1vw, 1.35rem);
+    margin: 16px 0;
+    overflow-x: auto;
+  }
+  .stacked-bar { margin: 14px 0 6px; height: 28px; display: flex; border-radius: 8px; overflow: hidden; background: #e9eef5; border: 1px solid var(--line); }
+  .seg { min-width: 0; transition: width .2s ease; }
+  .seg.leading { background: #2b67a8; }
+  .seg.shape { background: #b8872d; }
+  .seg.regular { background: #28785f; }
+  .legend { display: flex; flex-wrap: wrap; gap: 12px; color: var(--muted); font-size: .82rem; }
+  .dot { display: inline-block; width: 9px; height: 9px; border-radius: 50%; margin-right: 5px; }
+  table { width: 100%; border-collapse: collapse; margin-top: 12px; }
+  th, td { padding: 10px 12px; border-bottom: 1px solid var(--line); text-align: left; }
+  th { color: var(--muted); font-size: .79rem; text-transform: uppercase; letter-spacing: .05em; }
+  .warning-box { margin-top: 16px; padding: 13px 15px; border-radius: 10px; background: #fff2f1; border: 1px solid #efc2bf; color: #78312f; display: none; }
+  .warning-box.show { display: block; }
+  .ok-box { margin-top: 16px; padding: 13px 15px; border-radius: 10px; background: #eef9f5; border: 1px solid #b9dfd1; color: #1f624d; }
+  .tabs { display: flex; gap: 8px; margin: 22px 0 12px; flex-wrap: wrap; }
+  .tabs button.active { background: var(--blue); color: white; border-color: var(--blue); }
+  .tab-page { display: none; }
+  .tab-page.active { display: block; }
+  .assumptions { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+  .assumption { border: 1px solid var(--line); border-radius: 10px; padding: 12px; background: #fbfdff; line-height: 1.4; }
+  .assumption b { color: var(--blue); }
+  footer { color: var(--muted); text-align: center; font-size: .82rem; padding: 0 20px 28px; }
+  @media (max-width: 900px) {
+    .grid { grid-template-columns: 1fr; }
+    .controls { position: static; }
+    .formula-strip { grid-template-columns: 1fr 1fr; }
+    .chain { grid-template-columns: 1fr; }
+    .arrow { transform: rotate(90deg); justify-self: center; }
+    .branches-wrap { grid-template-columns: 1fr; }
+  }
+  @media (max-width: 560px) {
+    main { width: min(100% - 18px, 1220px); }
+    .formula-strip { grid-template-columns: 1fr; }
+    .assumptions { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+<header>
+  <div class="eyebrow">BC-Academy I · Linear Spectral Entry · Lecture 7</div>
+  <h1>Topological Multiplicity Explorer</h1>
+  <p>Explore the controlled specialization from the signed index <em>n</em> to the nonnegative branch count |<em>n</em>|, and see how shape drift and the regular nonzero sector modify the leading logarithmic response.</p>
+</header>
+
+<main>
+  <div class="method-boundary"><strong>Methodological boundary.</strong> This module visualizes the finite-dimensional mechanism proved in the lecture. It does not calculate the cosmological constant, reconstruct a hidden sector, or interpret |<em>n</em>| as a particle count.</div>
+
+  <div class="grid">
+    <section class="panel controls" aria-label="Controls">
+      <h2>Parameters</h2>
+
+      <div class="control">
+        <div class="control-head"><label for="n">Signed index n</label><span class="value" id="nValue">-3</span></div>
+        <input id="n" type="range" min="-12" max="12" step="1" value="-3">
+        <div class="hint">The sign stores chirality; the magnitude |n| stores the zero-mode count in the minimal monopole model.</div>
+      </div>
+
+      <div class="control">
+        <div class="control-head"><label for="beta">Gap sensitivity beta_epsilon</label><span class="value" id="betaValue">1.20</span></div>
+        <input id="beta" type="range" min="-4" max="4" step="0.05" value="1.2">
+        <div class="hint">beta_epsilon = d ln(epsilon) / d ln(alpha).</div>
+      </div>
+
+      <div class="switch-row">
+        <input id="shapeOn" type="checkbox">
+        <label for="shapeOn">Include determinant-shape drift</label>
+      </div>
+      <div class="control" id="shapeControl" hidden>
+        <div class="control-head"><label for="shape">Gamma_Cn</label><span class="value" id="shapeValue">0.40</span></div>
+        <input id="shape" type="range" min="-3" max="3" step="0.05" value="0.4">
+      </div>
+
+      <div class="switch-row">
+        <input id="regularOn" type="checkbox" checked>
+        <label for="regularOn">Include regular factor G(x)=1+cx</label>
+      </div>
+      <div id="regularControls">
+        <div class="control">
+          <div class="control-head"><label for="epsR">epsilon R_Sigma</label><span class="value" id="epsRValue">0.18</span></div>
+          <input id="epsR" type="range" min="0" max="0.8" step="0.01" value="0.18">
+        </div>
+        <div class="control">
+          <div class="control-head"><label for="c">Regular coefficient c</label><span class="value" id="cValue">1.00</span></div>
+          <input id="c" type="range" min="-3" max="3" step="0.05" value="1">
+          <div class="hint">The exact correction is 2cx beta_epsilon / (1+cx), with x=(epsilon R_Sigma)^2 and 1+cx&gt;0.</div>
+        </div>
+      </div>
+
+      <div class="switch-row">
+        <input id="crossing" type="checkbox">
+        <label for="crossing">Simulate a zero crossing</label>
+      </div>
+      <div class="hint">A crossing creates a cusp in |lambda(alpha)| and takes the model outside the C1 chamber assumed by the theorem.</div>
+
+      <h3>Presets</h3>
+      <div class="preset-row">
+        <button data-preset="uniform">Uniform lift</button>
+        <button data-preset="negative">n = -5</button>
+        <button data-preset="shape">Shape drift</button>
+        <button data-preset="small">Small regular term</button>
+      </div>
+    </section>
+
+    <section class="panel view">
+      <div class="formula-strip">
+        <div class="metric"><div class="k">Signed index</div><div class="v" id="mN">-3</div><div class="s">orientation / chirality information</div></div>
+        <div class="metric"><div class="k">Multiplicity</div><div class="v" id="mAbs">3</div><div class="s">rank P0(n) = |n|</div></div>
+        <div class="metric"><div class="k">Leading response</div><div class="v" id="mLead">3.600</div><div class="s">|n| beta_epsilon</div></div>
+        <div class="metric"><div class="k">Total response</div><div class="v" id="mTotal">3.675</div><div class="s">leading + shape + regular</div></div>
+      </div>
+
+      <div class="chain">
+        <div class="chain-card"><strong id="chainIndex">ind Dn+ = -3</strong><span>signed topological index</span></div>
+        <div class="arrow">→</div>
+        <div class="chain-card"><strong id="chainKernel">dim ker Dn = 3</strong><span>minimal monopole model</span></div>
+        <div class="arrow">→</div>
+        <div class="chain-card"><strong id="chainLift">3 lifted branches</strong><span>common leading gap scale</span></div>
+        <div class="arrow">→</div>
+        <div class="chain-card"><strong id="chainResponse">Gamma0 = 3.600</strong><span>determinant-based response</span></div>
+      </div>
+
+      <div class="tabs" role="tablist">
+        <button class="active" data-tab="specialization">Specialization</button>
+        <button data-tab="observables">Observable specificity</button>
+        <button data-tab="assumptions">Assumptions</button>
+      </div>
+
+      <div id="specialization" class="tab-page active">
+        <div class="branches-wrap">
+          <div class="subpanel">
+            <h3 id="chiralityTitle">Negative chirality sector</h3>
+            <div class="branches" id="branches"></div>
+          </div>
+          <div class="subpanel">
+            <h3>Response decomposition</h3>
+            <div class="equation" id="equation">gamma = 3 x 1.20 + 0 + 0.075 = 3.675</div>
+            <div class="stacked-bar" aria-label="Magnitude decomposition">
+              <div class="seg leading" id="barLeading"></div>
+              <div class="seg shape" id="barShape"></div>
+              <div class="seg regular" id="barRegular"></div>
+            </div>
+            <div class="legend">
+              <span><i class="dot" style="background:#2b67a8"></i>leading |n| beta</span>
+              <span><i class="dot" style="background:#b8872d"></i>shape</span>
+              <span><i class="dot" style="background:#28785f"></i>regular</span>
+            </div>
+          </div>
+        </div>
+        <div class="warning-box" id="warning"></div>
+        <div class="ok-box" id="status">Inside the declared smooth chamber: fixed n, positive factor, and no zero crossing.</div>
+      </div>
+
+      <div id="observables" class="tab-page">
+        <h2>Same block, different observables</h2>
+        <p>For B0 = epsilon I<sub>|n|</sub>, multiplicity amplifies the additive log-determinant response, but not the relative logarithmic sensitivity of the minimum gap or trace.</p>
+        <table>
+          <thead><tr><th>Observable</th><th>Value</th><th>Logarithmic sensitivity</th></tr></thead>
+          <tbody>
+            <tr><td>Minimum gap</td><td>epsilon</td><td id="obsMin">1.200</td></tr>
+            <tr><td>Trace</td><td id="obsTraceValue">3 epsilon</td><td id="obsTrace">1.200</td></tr>
+            <tr><td>Log-determinant</td><td id="obsDetValue">3 ln epsilon</td><td id="obsDet">3.600</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div id="assumptions" class="tab-page">
+        <h2>Conditions behind the displayed formula</h2>
+        <div class="assumptions">
+          <div class="assumption"><b>A1.</b> The integer n is fixed inside the parameter chamber.</div>
+          <div class="assumption"><b>A2.</b> Minimal monopole model on S2; no accidental zero modes.</div>
+          <div class="assumption"><b>A3.</b> epsilon(alpha) is positive and C1.</div>
+          <div class="assumption"><b>A4.</b> B0 = epsilon Cn with Cn strictly positive and C1.</div>
+          <div class="assumption"><b>A5.</b> The chosen observable is determinant-based and logarithmically additive.</div>
+          <div class="assumption"><b>A6.</b> Heavy-sector couplings are absent or absorbed into a regular Schur--Feshbach factor G(x).</div>
+          <div class="assumption"><b>A7.</b> beta_epsilon and G'/G are bounded in the declared regime.</div>
+          <div class="assumption"><b>A8.</b> No zero crossing, rank change, branch loss, or topological-sector change occurs.</div>
+        </div>
+      </div>
+    </section>
+  </div>
+</main>
+
+<footer>BC-Academy I · Lecture 7 interactive companion · v0.1.0 · standalone HTML</footer>
+
+<script>
+(() => {
+  'use strict';
+  const $ = id => document.getElementById(id);
+  const controls = {
+    n: $('n'), beta: $('beta'), shapeOn: $('shapeOn'), shape: $('shape'),
+    regularOn: $('regularOn'), epsR: $('epsR'), c: $('c'), crossing: $('crossing')
+  };
+  const fmt = (x, d=3) => Number.isFinite(x) ? x.toFixed(d) : 'undefined';
+
+  function update() {
+    const n = Number(controls.n.value);
+    const m = Math.abs(n);
+    const beta = Number(controls.beta.value);
+    const shape = controls.shapeOn.checked ? Number(controls.shape.value) : 0;
+    const epsR = Number(controls.epsR.value);
+    const c = Number(controls.c.value);
+    const x = epsR * epsR;
+    const denom = 1 + c * x;
+    const factorValid = !controls.regularOn.checked || denom > 0;
+    const regular = controls.regularOn.checked && factorValid ? (2 * c * x / denom) * beta : 0;
+    const leading = m * beta;
+    const total = factorValid ? leading + shape + regular : NaN;
+
+    $('nValue').textContent = n;
+    $('betaValue').textContent = beta.toFixed(2);
+    $('shapeValue').textContent = Number(controls.shape.value).toFixed(2);
+    $('epsRValue').textContent = epsR.toFixed(2);
+    $('cValue').textContent = c.toFixed(2);
+    $('shapeControl').hidden = !controls.shapeOn.checked;
+    $('regularControls').hidden = !controls.regularOn.checked;
+
+    $('mN').textContent = n;
+    $('mAbs').textContent = m;
+    $('mLead').textContent = fmt(leading);
+    $('mTotal').textContent = factorValid ? fmt(total) : 'invalid';
+    $('chainIndex').textContent = `ind Dn+ = ${n}`;
+    $('chainKernel').textContent = `dim ker Dn = ${m}`;
+    $('chainLift').textContent = `${m} lifted branch${m === 1 ? '' : 'es'}`;
+    $('chainResponse').textContent = `Gamma0 = ${fmt(leading)}`;
+
+    const chirality = n > 0 ? 'Positive chirality sector' : n < 0 ? 'Negative chirality sector' : 'No topologically protected branch';
+    $('chiralityTitle').textContent = chirality;
+    const branches = $('branches');
+    branches.innerHTML = '';
+    if (m === 0) {
+      const empty = document.createElement('div');
+      empty.className = 'empty';
+      empty.textContent = 'Topological multiplicity |n| = 0.';
+      branches.appendChild(empty);
+    } else {
+      for (let i = 1; i <= m; i++) {
+        const b = document.createElement('div');
+        b.className = 'branch' + (n < 0 ? ' minus' : '');
+        b.textContent = i;
+        b.title = `Lifted near-zero branch ${i}`;
+        branches.appendChild(b);
+      }
+    }
+
+    const regText = controls.regularOn.checked ? (factorValid ? fmt(regular) : 'undefined') : '0.000';
+    $('equation').textContent = factorValid
+      ? `gamma = |${n}| x ${beta.toFixed(2)} + ${fmt(shape)} + ${regText} = ${fmt(total)}`
+      : 'The regular factor is nonpositive: ln G(x) is not defined.';
+
+    const mags = [Math.abs(leading), Math.abs(shape), Math.abs(regular)];
+    const scale = Math.max(mags.reduce((a,b) => a+b, 0), 0.001);
+    $('barLeading').style.width = `${100*mags[0]/scale}%`;
+    $('barShape').style.width = `${100*mags[1]/scale}%`;
+    $('barRegular').style.width = `${100*mags[2]/scale}%`;
+
+    $('obsMin').textContent = fmt(beta);
+    $('obsTraceValue').textContent = `${m} epsilon`;
+    $('obsTrace').textContent = fmt(beta);
+    $('obsDetValue').textContent = `${m} ln epsilon`;
+    $('obsDet').textContent = fmt(leading);
+
+    const warning = $('warning');
+    const status = $('status');
+    const messages = [];
+    if (controls.crossing.checked) messages.push('Zero crossing enabled: |lambda(alpha)| develops a cusp, so the C1 hypothesis for B0 fails at the crossing.');
+    if (!factorValid) messages.push('The selected parameters give 1 + cx <= 0. The positive regular factor and its logarithm are undefined.');
+    if (epsR > 0.35 && controls.regularOn.checked) messages.push('epsilon R_Sigma is not very small; the asymptotic O((epsilon R_Sigma)^2) reading may be quantitatively weak.');
+    if (messages.length) {
+      warning.classList.add('show');
+      warning.textContent = messages.join(' ');
+      status.style.display = 'none';
+    } else {
+      warning.classList.remove('show');
+      warning.textContent = '';
+      status.style.display = 'block';
+    }
+  }
+
+  Object.values(controls).forEach(el => el.addEventListener('input', update));
+  document.querySelectorAll('[data-tab]').forEach(btn => btn.addEventListener('click', () => {
+    document.querySelectorAll('[data-tab]').forEach(b => b.classList.toggle('active', b === btn));
+    document.querySelectorAll('.tab-page').forEach(p => p.classList.toggle('active', p.id === btn.dataset.tab));
+  }));
+
+  document.querySelectorAll('[data-preset]').forEach(btn => btn.addEventListener('click', () => {
+    const p = btn.dataset.preset;
+    if (p === 'uniform') {
+      controls.n.value = 3; controls.beta.value = 1; controls.shapeOn.checked = false;
+      controls.regularOn.checked = false; controls.crossing.checked = false;
+    } else if (p === 'negative') {
+      controls.n.value = -5; controls.beta.value = .8; controls.shapeOn.checked = false;
+      controls.regularOn.checked = false; controls.crossing.checked = false;
+    } else if (p === 'shape') {
+      controls.n.value = 2; controls.beta.value = 1.1; controls.shapeOn.checked = true;
+      controls.shape.value = .7; controls.regularOn.checked = false; controls.crossing.checked = false;
+    } else if (p === 'small') {
+      controls.n.value = 4; controls.beta.value = 1.25; controls.shapeOn.checked = false;
+      controls.regularOn.checked = true; controls.epsR.value = .12; controls.c.value = 1.5; controls.crossing.checked = false;
+    }
+    update();
+  }));
+
+  update();
+})();
+</script>
+</body>
+</html>
