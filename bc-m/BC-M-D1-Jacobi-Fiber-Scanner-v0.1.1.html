@@ -1,0 +1,1023 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>BC-M-D1 Jacobi Fiber Scanner</title>
+<meta name="description" content="Автономная интерактивная демонстрация fiber collapse для 3x3 матрицы Якоби: 2D → 1D → 0D, resolvent probes, finite-resolution tube и BCMReport.">
+<style>
+  :root {
+    --bg: #07111f;
+    --panel: #0d1a2b;
+    --panel-2: #12243a;
+    --line: #29415f;
+    --text: #eaf2ff;
+    --muted: #9fb2c9;
+    --blue: #69b7ff;
+    --cyan: #56e0d4;
+    --green: #62d68b;
+    --gold: #f5c45a;
+    --orange: #ff9e57;
+    --red: #ff6f7d;
+    --violet: #b49cff;
+    --shadow: 0 16px 45px rgba(0,0,0,.28);
+    --radius: 16px;
+  }
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    margin: 0;
+    min-height: 100vh;
+    color: var(--text);
+    background:
+      radial-gradient(circle at 12% 0%, rgba(51,121,187,.22), transparent 34%),
+      radial-gradient(circle at 90% 18%, rgba(65,202,190,.12), transparent 30%),
+      var(--bg);
+    font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    line-height: 1.45;
+  }
+  button, input, select { font: inherit; }
+  button { cursor: pointer; }
+  .app { width: min(1580px, 100%); margin: 0 auto; padding: 20px; }
+  .hero {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 18px;
+    align-items: start;
+    padding: 24px 26px;
+    border: 1px solid rgba(105,183,255,.23);
+    border-radius: 22px;
+    background: linear-gradient(135deg, rgba(18,36,58,.95), rgba(8,22,37,.95));
+    box-shadow: var(--shadow);
+  }
+  .eyebrow { color: var(--cyan); font-weight: 800; letter-spacing: .12em; text-transform: uppercase; font-size: .78rem; }
+  h1 { margin: .3rem 0 .25rem; font-size: clamp(1.75rem, 3vw, 3rem); line-height: 1.08; }
+  .subtitle { margin: 0; color: var(--muted); max-width: 920px; font-size: 1.02rem; }
+  .hero-badges { display: flex; flex-wrap: wrap; justify-content: flex-end; gap: 8px; max-width: 420px; }
+  .chip {
+    display: inline-flex; align-items: center; gap: 6px;
+    padding: 7px 10px; border-radius: 999px;
+    border: 1px solid var(--line); color: var(--muted); background: rgba(5,14,25,.58);
+    font-size: .82rem; white-space: nowrap;
+  }
+  .chip strong { color: var(--text); }
+  .toolbar {
+    margin: 16px 0;
+    display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px;
+    padding: 12px;
+    border: 1px solid var(--line); border-radius: var(--radius); background: rgba(13,26,43,.9);
+  }
+  .stage-group { display: flex; flex-wrap: wrap; gap: 8px; }
+  .stage-btn, .action-btn, .tab-btn {
+    border: 1px solid var(--line);
+    background: #0a1727;
+    color: var(--muted);
+    border-radius: 10px;
+    padding: 9px 12px;
+    transition: .18s ease;
+  }
+  .stage-btn:hover, .action-btn:hover, .tab-btn:hover { border-color: var(--blue); color: var(--text); transform: translateY(-1px); }
+  .stage-btn.active { color: #03111f; background: var(--cyan); border-color: var(--cyan); font-weight: 900; }
+  .action-btn.primary { background: var(--blue); color: #041321; border-color: var(--blue); font-weight: 850; }
+  .action-btn.gold { background: var(--gold); color: #1d1400; border-color: var(--gold); font-weight: 850; }
+  .action-btn.danger { border-color: rgba(255,111,125,.6); color: #ffc4ca; }
+  .main-grid {
+    display: grid;
+    grid-template-columns: 330px minmax(500px, 1.25fr) minmax(340px, .8fr);
+    gap: 16px;
+    align-items: start;
+  }
+  .card {
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    background: linear-gradient(180deg, rgba(15,31,51,.97), rgba(10,23,39,.97));
+    box-shadow: var(--shadow);
+    overflow: hidden;
+  }
+  .card-header { padding: 14px 16px 10px; display: flex; align-items: center; justify-content: space-between; gap: 10px; border-bottom: 1px solid rgba(41,65,95,.65); }
+  .card-header h2, .card-header h3 { margin: 0; font-size: 1rem; }
+  .card-body { padding: 14px 16px 16px; }
+  .stack { display: grid; gap: 12px; }
+  .field-group { display: grid; gap: 7px; }
+  .field-group > label { color: var(--muted); font-size: .82rem; font-weight: 700; }
+  .input-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 7px; }
+  .input-row.two { grid-template-columns: repeat(2, 1fr); }
+  .input-wrap { display: grid; gap: 4px; }
+  .input-wrap span { color: var(--muted); font-size: .72rem; }
+  input[type="number"], input[type="text"] {
+    width: 100%; min-width: 0;
+    padding: 8px 9px;
+    color: var(--text); background: #071322; border: 1px solid var(--line); border-radius: 9px;
+    outline: none;
+  }
+  input[type="number"]:focus, input[type="text"]:focus { border-color: var(--blue); box-shadow: 0 0 0 3px rgba(105,183,255,.1); }
+  input:disabled { opacity: .65; cursor: not-allowed; }
+  input[type="range"] { width: 100%; accent-color: var(--cyan); }
+  .toggle-row { display: flex; align-items: center; gap: 9px; color: var(--muted); font-size: .86rem; }
+  .toggle-row input { accent-color: var(--cyan); width: 17px; height: 17px; }
+  .small-note { color: var(--muted); font-size: .77rem; }
+  .rule { height: 1px; background: rgba(41,65,95,.7); margin: 3px 0; }
+  .status-box {
+    display: flex; align-items: flex-start; gap: 10px;
+    padding: 12px; border-radius: 12px; border: 1px solid var(--line); background: rgba(4,15,27,.74);
+  }
+  .status-dot { width: 10px; height: 10px; border-radius: 50%; margin-top: 5px; flex: 0 0 auto; box-shadow: 0 0 18px currentColor; }
+  .status-title { font-weight: 900; overflow-wrap: anywhere; }
+  .status-detail { color: var(--muted); font-size: .8rem; margin-top: 2px; }
+  .status-success .status-dot { color: var(--green); background: var(--green); }
+  .status-info .status-dot { color: var(--blue); background: var(--blue); }
+  .status-warning .status-dot { color: var(--gold); background: var(--gold); }
+  .status-fail .status-dot { color: var(--red); background: var(--red); }
+  .simplex-wrap { position: relative; min-height: 510px; }
+  #simplexSvg { width: 100%; display: block; touch-action: none; user-select: none; }
+  .legend { display: flex; flex-wrap: wrap; gap: 10px; color: var(--muted); font-size: .77rem; margin-top: 4px; }
+  .legend span { display: inline-flex; align-items: center; gap: 6px; }
+  .legend i { width: 14px; height: 3px; border-radius: 3px; display: inline-block; }
+  .mini-grid { display: grid; grid-template-columns: repeat(2, minmax(0,1fr)); gap: 9px; }
+  .metric { padding: 10px; border: 1px solid rgba(41,65,95,.8); border-radius: 11px; background: rgba(5,15,27,.52); min-height: 76px; }
+  .metric .name { color: var(--muted); font-size: .72rem; }
+  .metric .value { font-size: 1.05rem; font-weight: 850; margin-top: 3px; overflow-wrap: anywhere; }
+  .metric .hint { color: var(--muted); font-size: .68rem; margin-top: 2px; }
+  .matrix {
+    display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px;
+    padding: 12px 16px; position: relative; margin: 8px auto; max-width: 360px;
+  }
+  .matrix:before, .matrix:after { content: ""; position: absolute; top: 4px; bottom: 4px; width: 9px; border-top: 2px solid var(--muted); border-bottom: 2px solid var(--muted); }
+  .matrix:before { left: 1px; border-left: 2px solid var(--muted); }
+  .matrix:after { right: 1px; border-right: 2px solid var(--muted); }
+  .matrix-cell { text-align: center; padding: 7px 3px; background: rgba(8,19,33,.75); border-radius: 7px; font-variant-numeric: tabular-nums; font-size: .84rem; }
+  .weight-bars { display: grid; gap: 8px; }
+  .weight-line { display: grid; grid-template-columns: 34px 1fr 62px; gap: 8px; align-items: center; font-size: .78rem; }
+  .bar { height: 9px; background: #071322; border-radius: 999px; overflow: hidden; border: 1px solid rgba(41,65,95,.75); }
+  .bar > i { display: block; height: 100%; background: linear-gradient(90deg,var(--cyan),var(--blue)); }
+  .right-stack { display: grid; gap: 16px; }
+  .graph-card svg { width: 100%; display: block; background: rgba(4,14,25,.48); }
+  .graph-caption { color: var(--muted); font-size: .75rem; padding: 8px 12px 12px; }
+  .tabs { margin-top: 16px; }
+  .tab-bar { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 10px; }
+  .tab-btn.active { background: var(--blue); color: #041321; border-color: var(--blue); font-weight: 850; }
+  .tab-panel { display: none; }
+  .tab-panel.active { display: block; }
+  .content-grid { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: 14px; }
+  .formula-box { padding: 12px; background: rgba(5,15,27,.65); border: 1px solid var(--line); border-radius: 12px; overflow-x: auto; }
+  .formula { font-family: "Cambria Math", "STIX Two Math", Georgia, serif; font-size: 1.02rem; white-space: nowrap; }
+  .witness-grid { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: 14px; }
+  .witness-card { border: 1px solid var(--line); border-radius: 14px; padding: 14px; background: rgba(7,18,32,.65); }
+  .witness-card h3 { margin: 0 0 7px; }
+  .comparison { margin-top: 12px; padding: 12px; border-radius: 12px; border: 1px solid rgba(245,196,90,.42); background: rgba(245,196,90,.08); }
+  pre {
+    margin: 0; padding: 14px; max-height: 520px; overflow: auto;
+    background: #030b14; border: 1px solid var(--line); border-radius: 12px;
+    color: #cce7ff; font-size: .76rem; line-height: 1.5; white-space: pre-wrap; word-break: break-word;
+  }
+  .report-actions { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 10px; }
+  .footer { margin-top: 18px; color: var(--muted); font-size: .78rem; text-align: center; padding: 14px; }
+  .kbd { border: 1px solid var(--line); background: #071322; border-radius: 6px; padding: 1px 6px; color: var(--text); }
+  .pulse { animation: pulse 1.2s ease-in-out; }
+  @keyframes pulse { 0%,100%{filter:none} 50%{filter:drop-shadow(0 0 16px rgba(86,224,212,.75))} }
+  @media (max-width: 1220px) {
+    .main-grid { grid-template-columns: 320px 1fr; }
+    .right-stack { grid-column: 1 / -1; grid-template-columns: repeat(2,minmax(0,1fr)); }
+  }
+  @media (max-width: 820px) {
+    .app { padding: 10px; }
+    .hero { grid-template-columns: 1fr; padding: 18px; }
+    .hero-badges { justify-content: flex-start; }
+    .main-grid { grid-template-columns: 1fr; }
+    .right-stack { grid-column: auto; grid-template-columns: 1fr; }
+    .content-grid, .witness-grid { grid-template-columns: 1fr; }
+    .simplex-wrap { min-height: 390px; }
+  }
+</style>
+</head>
+<body>
+<div class="app">
+  <header class="hero">
+    <div>
+      <div class="eyebrow">Boundary Compensation · BC-M-D1</div>
+      <h1>Jacobi Fiber Scanner</h1>
+      <p class="subtitle">Автономная интерактивная демонстрация anchored reconstruction для вещественной irreducible матрицы Якоби 3×3: exact fiber, collapse 2D → 1D → 0D, finite-resolution tube, stability margins и машинно читаемый BCMReport.</p>
+    </div>
+    <div class="hero-badges">
+      <span class="chip"><strong>v0.1.1</strong> reviewed demo</span>
+      <span class="chip">без внешних библиотек</span>
+      <span class="chip">offline-ready</span>
+      <span class="chip">CC BY 4.0</span>
+    </div>
+  </header>
+
+  <div class="toolbar">
+    <div class="stage-group" aria-label="Этап fiber collapse">
+      <button class="stage-btn active" data-stage="0">0 · Spectrum only · 2D</button>
+      <button class="stage-btn" data-stage="1">1 · One real probe · 1D</button>
+      <button class="stage-btn" data-stage="2">2 · Two real probes · 0D</button>
+    </div>
+    <div class="stage-group">
+      <button class="action-btn gold" id="referenceBtn">Эталон J★</button>
+      <button class="action-btn" id="setTargetBtn">Сделать кандидата целью</button>
+      <button class="action-btn" id="witnessBtn">Witness pair</button>
+      <button class="action-btn danger" id="resetDataBtn">Сброс данных</button>
+    </div>
+  </div>
+
+  <div class="main-grid">
+    <aside class="card">
+      <div class="card-header"><h2>Протокол и параметры</h2><span class="chip">preregistered</span></div>
+      <div class="card-body stack">
+        <div class="field-group">
+          <label>Простой упорядоченный спектр λ</label>
+          <div class="input-row">
+            <div class="input-wrap"><span>λ₁</span><input id="lam1" type="number" step="0.1" value="-1"></div>
+            <div class="input-wrap"><span>λ₂</span><input id="lam2" type="number" step="0.1" value="1"></div>
+            <div class="input-wrap"><span>λ₃</span><input id="lam3" type="number" step="0.1" value="3"></div>
+          </div>
+          <div class="small-note">Требование: λ₁ &lt; λ₂ &lt; λ₃. Слияние eigenvalues переводит систему в <b>SPECTRAL_COLLISION</b>.</div>
+        </div>
+
+        <div class="rule"></div>
+
+        <div class="field-group">
+          <label>Real anchored resolvent probes</label>
+          <div class="input-row two">
+            <div class="input-wrap"><span>z₁</span><input id="z1" type="number" step="0.1" value="0"></div>
+            <div class="input-wrap"><span>z₂</span><input id="z2" type="number" step="0.1" value="2"></div>
+          </div>
+          <label class="toggle-row"><input id="autoResponses" type="checkbox" checked> ответы rᵢ вычисляются из скрытой цели</label>
+          <div class="input-row two">
+            <div class="input-wrap"><span>r₁ = m(z₁)</span><input id="r1" type="number" step="0.01" disabled></div>
+            <div class="input-wrap"><span>r₂ = m(z₂)</span><input id="r2" type="number" step="0.01" disabled></div>
+          </div>
+          <div class="small-note">Снимите флажок, чтобы вручную задать несовместимые данные и увидеть <b>EMPTY_ADMISSIBLE_FIBER</b>.</div>
+        </div>
+
+        <div id="fiberSliderGroup" class="field-group" style="display:none">
+          <label>Положение кандидата вдоль one-probe fiber</label>
+          <input id="fiberSlider" type="range" min="0" max="1" step="0.001" value="0.5">
+          <div class="small-note">При одном real probe допустимые веса образуют открытый отрезок внутри simplex.</div>
+        </div>
+
+        <div class="rule"></div>
+
+        <div class="field-group">
+          <label>Finite-resolution tolerances</label>
+          <div class="input-row two">
+            <div class="input-wrap"><span>ε₁</span><input id="eps1" type="number" min="0" step="0.0001" value="0.001"></div>
+            <div class="input-wrap"><span>ε₂</span><input id="eps2" type="number" min="0" step="0.0001" value="0.001"></div>
+          </div>
+          <div class="input-row two">
+            <div class="input-wrap"><span>σmin threshold</span><input id="sigmaThreshold" type="number" min="0" step="0.000001" value="0.000001"></div>
+            <div class="input-wrap"><span>ωirr для min(bᵢ²)</span><input id="irrThreshold" type="number" min="0" step="0.000001" value="0.000001"></div>
+          </div>
+          <label class="toggle-row"><input id="showTube" type="checkbox" checked> показывать finite-resolution tube</label>
+        </div>
+
+        <div class="rule"></div>
+
+        <div class="field-group">
+          <label>Скрытая цель</label>
+          <div id="targetWeightsText" class="formula-box formula">w★ = (0.25, 0.50, 0.25)</div>
+          <div class="small-note">В stage 0 щёлкните внутри simplex, затем нажмите «Сделать кандидата целью». Это изменит наблюдаемые r₁,r₂ без ретрофиттинга probe points.</div>
+        </div>
+
+        <div id="primaryStatus" class="status-box status-info">
+          <div class="status-dot"></div>
+          <div><div class="status-title">POSITIVE_DIMENSION_FIBER</div><div class="status-detail">Spectrum-only descriptor оставляет 2D simplex реализаций.</div></div>
+        </div>
+      </div>
+    </aside>
+
+    <section class="card">
+      <div class="card-header">
+        <h2>Weight simplex и fiber collapse</h2>
+        <span id="stageChip" class="chip"><strong>Stage 0</strong> · 2D fiber</span>
+      </div>
+      <div class="card-body">
+        <div class="simplex-wrap">
+          <svg id="simplexSvg" viewBox="0 0 600 560" role="img" aria-label="Симплекс спектральных весов">
+            <defs>
+              <linearGradient id="simplexFill" x1="0" x2="1" y1="0" y2="1">
+                <stop offset="0" stop-color="#1e3857" stop-opacity=".95"/>
+                <stop offset="1" stop-color="#0b1e33" stop-opacity=".95"/>
+              </linearGradient>
+              <clipPath id="triClip"><polygon points="70,500 530,500 300,80"/></clipPath>
+              <filter id="glow"><feGaussianBlur stdDeviation="4" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+            </defs>
+            <polygon points="70,500 530,500 300,80" fill="url(#simplexFill)" stroke="#69b7ff" stroke-width="2"/>
+            <g opacity=".26" stroke="#7894b4" stroke-width="1">
+              <line x1="116" y1="416" x2="484" y2="416"/><line x1="162" y1="332" x2="438" y2="332"/><line x1="208" y1="248" x2="392" y2="248"/><line x1="254" y1="164" x2="346" y2="164"/>
+              <line x1="116" y1="416" x2="346" y2="164"/><line x1="162" y1="332" x2="392" y2="248"/><line x1="208" y1="248" x2="438" y2="332"/><line x1="254" y1="164" x2="484" y2="416"/>
+              <line x1="484" y1="416" x2="254" y2="164"/><line x1="438" y1="332" x2="208" y2="248"/><line x1="392" y1="248" x2="162" y2="332"/><line x1="346" y1="164" x2="116" y2="416"/>
+            </g>
+            <g id="tubeGroup" clip-path="url(#triClip)"></g>
+            <g id="line2Group"></g>
+            <g id="line1Group"></g>
+            <g id="pointsGroup"></g>
+            <text x="48" y="526" fill="#b8cae0" font-size="16">w₁ = 1</text>
+            <text x="484" y="526" fill="#b8cae0" font-size="16">w₂ = 1</text>
+            <text x="280" y="56" fill="#b8cae0" font-size="16">w₃ = 1</text>
+            <text x="300" y="548" text-anchor="middle" fill="#7894b4" font-size="13">Щелчок/drag доступен в Stage 0</text>
+          </svg>
+        </div>
+        <div class="legend">
+          <span><i style="background:var(--gold)"></i> скрытая цель</span>
+          <span><i style="background:var(--cyan)"></i> текущий кандидат</span>
+          <span><i style="background:var(--green)"></i> one-probe fiber</span>
+          <span><i style="background:var(--blue)"></i> second-probe section</span>
+          <span><i style="background:var(--violet)"></i> finite-resolution tube</span>
+        </div>
+      </div>
+    </section>
+
+    <div class="right-stack">
+      <section class="card">
+        <div class="card-header"><h2>Текущая реализация J(w)</h2><span id="admissibilityChip" class="chip">admissible</span></div>
+        <div class="card-body">
+          <div id="matrixBox" class="matrix"></div>
+          <div class="weight-bars" id="weightBars"></div>
+          <div class="formula-box" style="margin-top:10px">
+            <div class="small-note">Текущие probe responses</div>
+            <div id="currentResponses" class="formula">m(z₁)=—, m(z₂)=—</div>
+          </div>
+        </div>
+      </section>
+
+      <section class="card graph-card">
+        <div class="card-header"><h2>Anchored resolvent m<sub>J</sub>(z)</h2><span class="chip">rational response</span></div>
+        <svg id="resolventSvg" viewBox="0 0 760 320" aria-label="График резольвентного отклика"></svg>
+        <div class="graph-caption">Сплошная линия — текущий кандидат; золотой пунктир — скрытая цель. Вертикальные штрихи обозначают poles λₖ.</div>
+      </section>
+
+      <section class="card">
+        <div class="card-header"><h2>Margins и сертификаты</h2><span id="marginChip" class="chip">live</span></div>
+        <div class="card-body mini-grid" id="metricsGrid"></div>
+      </section>
+    </div>
+  </div>
+
+  <section class="tabs">
+    <div class="tab-bar">
+      <button class="tab-btn active" data-tab="analysis">Аналитика</button>
+      <button class="tab-btn" data-tab="witness">Witness pair</button>
+      <button class="tab-btn" data-tab="report">BCMReport</button>
+      <button class="tab-btn" data-tab="guide">Как читать демонстрацию</button>
+    </div>
+
+    <div id="tab-analysis" class="tab-panel active">
+      <div class="content-grid">
+        <div class="card"><div class="card-header"><h3>Fiber geometry</h3></div><div class="card-body stack">
+          <div class="formula-box"><div class="formula">Π₀⁻¹(λ) ≅ Δ₂° = {wₖ &gt; 0, Σwₖ = 1}</div></div>
+          <div class="formula-box"><div class="formula">m<sub>J</sub>(z) = Σₖ wₖ/(z − λₖ)</div></div>
+          <div id="dimensionNarrative" class="small-note"></div>
+        </div></div>
+        <div class="card"><div class="card-header"><h3>Finite-resolution certificate</h3></div><div class="card-body stack">
+          <div class="formula-box"><div class="formula">diam(W<sub>ε</sub>) ≤ 2√(ε₁²+ε₂²) / γ<sub>C</sub></div></div>
+          <div id="tubeNarrative" class="small-note"></div>
+          <div class="formula-box"><div class="small-note">Preimage of the response box</div><div id="tubeVerticesText" class="formula" style="white-space:normal">—</div></div>
+        </div></div>
+      </div>
+    </div>
+
+    <div id="tab-witness" class="tab-panel">
+      <div class="card"><div class="card-header"><h3>Candidate non-factorization witness for Q(J)=a₂(J)</h3><span class="chip">BC-M only · not emergence</span></div><div class="card-body">
+        <div class="witness-grid">
+          <div class="witness-card"><h3>J★ · t = 1/4</h3><div id="witnessMatrixA" class="matrix"></div><div class="formula-box"><div class="formula">spec = (−1,1,3), m(0)=−1/3, a₂=1</div></div></div>
+          <div class="witness-card"><h3>J<sub>1/2</sub> · t = 1/2</h3><div id="witnessMatrixB" class="matrix"></div><div class="formula-box"><div class="formula">spec = (−1,1,3), m(0)=−1/3, a₂=11/15</div></div></div>
+        </div>
+        <div class="comparison"><b>Одинаковая тень, различное Q:</b> spectrum-only и one-probe descriptors не различают эти реализации, но Q(J)=a₂(J) различается. Это exact witness of non-factorization; robustness, universality и assembly здесь не проверяются.</div>
+      </div></div>
+    </div>
+
+    <div id="tab-report" class="tab-panel">
+      <div class="card"><div class="card-header"><h3>Live BCMReport</h3><span class="chip">JSON</span></div><div class="card-body">
+        <div class="report-actions"><button id="copyReportBtn" class="action-btn primary">Копировать JSON</button><button id="downloadReportBtn" class="action-btn">Скачать JSON</button></div>
+        <pre id="reportPre"></pre>
+      </div></div>
+    </div>
+
+    <div id="tab-guide" class="tab-panel">
+      <div class="content-grid">
+        <div class="card"><div class="card-header"><h3>Минимальный маршрут</h3></div><div class="card-body">
+          <ol>
+            <li>В <b>Stage 0</b> щёлкайте по simplex: spectrum фиксирован, но J меняется.</li>
+            <li>Перейдите в <b>Stage 1</b>: кандидат вынужден двигаться по one-probe line, однако остаётся continuum.</li>
+            <li>Перейдите в <b>Stage 2</b>: second probe пересекает первую line в одной точке.</li>
+            <li>Увеличьте ε₁,ε₂: singleton превращается в tube. Следите за positivity wall.</li>
+            <li>Снимите «ответы из цели» и измените r₂: algebraic solution может выйти из simplex.</li>
+          </ol>
+        </div></div>
+        <div class="card"><div class="card-header"><h3>Claim Firewall</h3></div><div class="card-body">
+          <p>Демонстрация не заявляет новую общую inverse spectral theorem, оптимальность среди всех измерений, physical tomography, hidden-sector reconstruction или emergence.</p>
+          <p>Два probes минимальны только в preregistered классе <b>real scalar point evaluations at real probe points</b>. Один complex probe способен дать два независимых real constraints.</p>
+          <p><span class="kbd">Tip</span> Все вычисления выполняются локально в браузере; файл не обращается к сети.</p>
+        </div></div>
+      </div>
+    </div>
+  </section>
+
+  <div class="footer">A. A. Malachevsky · Boundary Compensation research programme · Interactive computational supplement to BC-M-D1 v0.1.1</div>
+</div>
+
+<script>
+"use strict";
+
+const SVG_NS = "http://www.w3.org/2000/svg";
+const VERTICES = [
+  {x:70, y:500},   // w1=1
+  {x:530, y:500},  // w2=1
+  {x:300, y:80}    // w3=1
+];
+const TOL = 1e-10;
+
+const state = {
+  stage: 0,
+  lambda: [-1,1,3],
+  z: [0,2],
+  targetWeights: [0.25,0.5,0.25],
+  candidateWeights: [0.25,0.5,0.25],
+  autoResponses: true,
+  responses: [-1/3,1/3],
+  eps: [1e-3,1e-3],
+  sigmaThreshold: 1e-6,
+  irrThreshold: 1e-6,
+  fiberT: 0.5,
+  showTube: true,
+  dragging: false,
+  lastReport: null
+};
+
+const $ = id => document.getElementById(id);
+const qsa = sel => Array.from(document.querySelectorAll(sel));
+const clamp = (x,a,b) => Math.max(a,Math.min(b,x));
+const dot = (a,b) => a.reduce((s,x,i)=>s+x*b[i],0);
+const norm2 = v => Math.sqrt(dot(v,v));
+const sum = v => v.reduce((a,b)=>a+b,0);
+const fmt = (x, digits=6) => {
+  if (x === null || x === undefined || !Number.isFinite(x)) return "—";
+  const ax = Math.abs(x);
+  if ((ax > 0 && ax < 1e-4) || ax >= 1e5) return x.toExponential(3);
+  return Number(x.toFixed(digits)).toString();
+};
+const nearly = (a,b,t=1e-9) => Math.abs(a-b) <= t;
+
+function parseNum(id, fallback=0) {
+  const v = Number($(id).value);
+  return Number.isFinite(v) ? v : fallback;
+}
+
+function svgEl(name, attrs={}) {
+  const el = document.createElementNS(SVG_NS,name);
+  for (const [k,v] of Object.entries(attrs)) el.setAttribute(k,String(v));
+  return el;
+}
+
+function baryToPoint(w) {
+  return {
+    x: w[0]*VERTICES[0].x + w[1]*VERTICES[1].x + w[2]*VERTICES[2].x,
+    y: w[0]*VERTICES[0].y + w[1]*VERTICES[1].y + w[2]*VERTICES[2].y
+  };
+}
+
+function pointToBary(x,y) {
+  const [A,B,C] = VERTICES;
+  const den = (B.y-C.y)*(A.x-C.x) + (C.x-B.x)*(A.y-C.y);
+  const w1 = ((B.y-C.y)*(x-C.x) + (C.x-B.x)*(y-C.y))/den;
+  const w2 = ((C.y-A.y)*(x-C.x) + (A.x-C.x)*(y-C.y))/den;
+  const w3 = 1-w1-w2;
+  return [w1,w2,w3];
+}
+
+function insideSimplex(w, tol=1e-8) {
+  return w.every(v=>v>=-tol) && Math.abs(sum(w)-1)<=1e-6;
+}
+
+function normalizePositive(w) {
+  const v = w.map(x=>Math.max(1e-6,x));
+  const s = sum(v);
+  return v.map(x=>x/s);
+}
+
+function response(weights,z,lambda=state.lambda) {
+  let s=0;
+  for (let k=0;k<3;k++) {
+    const d=z-lambda[k];
+    if (Math.abs(d)<TOL) return NaN;
+    s += weights[k]/d;
+  }
+  return s;
+}
+
+function determinant3(M) {
+  return M[0][0]*(M[1][1]*M[2][2]-M[1][2]*M[2][1])
+       - M[0][1]*(M[1][0]*M[2][2]-M[1][2]*M[2][0])
+       + M[0][2]*(M[1][0]*M[2][1]-M[1][1]*M[2][0]);
+}
+
+function inverse3(M) {
+  const d=determinant3(M);
+  if (!Number.isFinite(d) || Math.abs(d)<1e-14) return null;
+  const a=M;
+  const adj = [
+    [ a[1][1]*a[2][2]-a[1][2]*a[2][1], a[0][2]*a[2][1]-a[0][1]*a[2][2], a[0][1]*a[1][2]-a[0][2]*a[1][1] ],
+    [ a[1][2]*a[2][0]-a[1][0]*a[2][2], a[0][0]*a[2][2]-a[0][2]*a[2][0], a[0][2]*a[1][0]-a[0][0]*a[1][2] ],
+    [ a[1][0]*a[2][1]-a[1][1]*a[2][0], a[0][1]*a[2][0]-a[0][0]*a[2][1], a[0][0]*a[1][1]-a[0][1]*a[1][0] ]
+  ];
+  return adj.map(row=>row.map(x=>x/d));
+}
+
+function matVec(M,v) { return M.map(row=>dot(row,v)); }
+function transpose(M) { return M[0].map((_,j)=>M.map(row=>row[j])); }
+function matMul(A,B) {
+  const BT=transpose(B);
+  return A.map(row=>BT.map(col=>dot(row,col)));
+}
+
+function jacobiEigenSym3(M) {
+  const A=M.map(r=>r.slice());
+  for (let it=0;it<60;it++) {
+    let p=0,q=1,max=Math.abs(A[0][1]);
+    for (const [i,j] of [[0,2],[1,2]]) {
+      if (Math.abs(A[i][j])>max) {max=Math.abs(A[i][j]);p=i;q=j;}
+    }
+    if (max<1e-14) break;
+    const phi=0.5*Math.atan2(2*A[p][q], A[q][q]-A[p][p]);
+    const c=Math.cos(phi), s=Math.sin(phi);
+    const app=c*c*A[p][p]-2*s*c*A[p][q]+s*s*A[q][q];
+    const aqq=s*s*A[p][p]+2*s*c*A[p][q]+c*c*A[q][q];
+    for (let k=0;k<3;k++) {
+      if (k===p || k===q) continue;
+      const akp=A[k][p], akq=A[k][q];
+      A[k][p]=A[p][k]=c*akp-s*akq;
+      A[k][q]=A[q][k]=s*akp+c*akq;
+    }
+    A[p][p]=app; A[q][q]=aqq; A[p][q]=A[q][p]=0;
+  }
+  return [A[0][0],A[1][1],A[2][2]].sort((a,b)=>a-b);
+}
+
+function singularValues3(A) {
+  const ATA=matMul(transpose(A),A);
+  return jacobiEigenSym3(ATA).map(x=>Math.sqrt(Math.max(0,x))).sort((a,b)=>b-a);
+}
+
+function buildA(lambda,z) {
+  return [
+    [1,1,1],
+    lambda.map(l=>1/(z[0]-l)),
+    lambda.map(l=>1/(z[1]-l))
+  ];
+}
+
+function reconstructFromWeights(lambda,w) {
+  const moments=[];
+  for (let j=0;j<=4;j++) moments.push(sum(w.map((wk,k)=>wk*Math.pow(lambda[k],j))));
+  const [m0,m1,m2,m3,m4]=moments;
+  const a1=m1;
+  const b1sq=m2-m1*m1;
+  if (!(b1sq>TOL)) return {ok:false, reason:"b1²≤0", moments, b1sq};
+  const b1=Math.sqrt(b1sq);
+  const a2=(m3-a1**3-2*a1*b1sq)/b1sq;
+  const b2sq=(m4-(a1*a1+b1sq)**2-b1sq*(a1+a2)**2)/b1sq;
+  if (!(b2sq>TOL)) return {ok:false, reason:"b2²≤0", moments, a1,b1,b1sq,a2,b2sq};
+  const b2=Math.sqrt(b2sq);
+  const a3=sum(lambda)-a1-a2;
+  const J=[[a1,b1,0],[b1,a2,b2],[0,b2,a3]];
+  return {ok:true,moments,a1,b1,b1sq,a2,b2,b2sq,a3,J};
+}
+
+function lineSegmentInSimplex(c,r) {
+  const pts=[];
+  for (let zero=0;zero<3;zero++) {
+    const ids=[0,1,2].filter(i=>i!==zero);
+    const i=ids[0], j=ids[1];
+    const den=c[i]-c[j];
+    if (Math.abs(den)<1e-13) continue;
+    const wi=(r-c[j])/den;
+    const wj=1-wi;
+    const w=[0,0,0]; w[zero]=0; w[i]=wi; w[j]=wj;
+    if (w.every(v=>v>=-1e-9 && v<=1+1e-9)) pts.push(w.map(v=>clamp(v,0,1)));
+  }
+  const unique=[];
+  for (const p of pts) if (!unique.some(q=>norm2(p.map((x,i)=>x-q[i]))<1e-7)) unique.push(p);
+  return unique.length>=2 ? [unique[0],unique[1]] : unique;
+}
+
+function exactSolution() {
+  const A=buildA(state.lambda,state.z);
+  const inv=inverse3(A);
+  if (!inv) return {A,inv:null,weights:null};
+  const weights=matVec(inv,[1,state.responses[0],state.responses[1]]);
+  return {A,inv,weights};
+}
+
+function computeTube(inv,center) {
+  if (!inv || !center || !state.showTube) return null;
+  const verts=[];
+  for (const s1 of [-1,1]) for (const s2 of [-1,1]) {
+    const delta=matVec(inv,[0,s1*state.eps[0],s2*state.eps[1]]);
+    verts.push(center.map((x,i)=>x+delta[i]));
+  }
+  // Convex order around centroid in display coordinates
+  const centerPt=baryToPoint(center);
+  verts.sort((a,b)=>{
+    const pa=baryToPoint(a), pb=baryToPoint(b);
+    return Math.atan2(pa.y-centerPt.y,pa.x-centerPt.x)-Math.atan2(pb.y-centerPt.y,pb.x-centerPt.x);
+  });
+  let diam=0;
+  for (let i=0;i<verts.length;i++) for (let j=i+1;j<verts.length;j++) diam=Math.max(diam,norm2(verts[i].map((x,k)=>x-verts[j][k])));
+  return {verts,diam,hitsWall:verts.some(w=>w.some(x=>x<=0))};
+}
+
+function syncInputsToState() {
+  state.lambda=[parseNum("lam1",-1),parseNum("lam2",1),parseNum("lam3",3)];
+  state.z=[parseNum("z1",0),parseNum("z2",2)];
+  state.autoResponses=$("autoResponses").checked;
+  state.eps=[Math.max(0,parseNum("eps1",0)),Math.max(0,parseNum("eps2",0))];
+  state.sigmaThreshold=Math.max(0,parseNum("sigmaThreshold",1e-6));
+  state.irrThreshold=Math.max(0,parseNum("irrThreshold",1e-6));
+  state.fiberT=parseNum("fiberSlider",0.5);
+  state.showTube=$("showTube").checked;
+  if (state.autoResponses) {
+    state.responses=[response(state.targetWeights,state.z[0]),response(state.targetWeights,state.z[1])];
+    $("r1").value=Number.isFinite(state.responses[0])?state.responses[0]:"";
+    $("r2").value=Number.isFinite(state.responses[1])?state.responses[1]:"";
+  } else {
+    state.responses=[parseNum("r1",0),parseNum("r2",0)];
+  }
+  $("r1").disabled=state.autoResponses;
+  $("r2").disabled=state.autoResponses;
+}
+
+function updateCandidateByStage() {
+  if (state.stage===1) {
+    const c=state.lambda.map(l=>1/(state.z[0]-l));
+    const seg=lineSegmentInSimplex(c,state.responses[0]);
+    if (seg.length===2) {
+      const t=clamp(state.fiberT,0.001,0.999);
+      state.candidateWeights=seg[0].map((x,i)=>(1-t)*x+t*seg[1][i]);
+    }
+  } else if (state.stage===2) {
+    const sol=exactSolution();
+    if (sol.weights && sol.weights.every(Number.isFinite)) state.candidateWeights=sol.weights.slice();
+  }
+}
+
+function primaryDiagnosis() {
+  const lambda=state.lambda, z=state.z;
+  const gaps=[lambda[1]-lambda[0],lambda[2]-lambda[1]];
+  if (!(gaps[0]>TOL && gaps[1]>TOL)) return {status:"SPECTRAL_COLLISION",type:"fail",detail:"Требуется простой упорядоченный spectrum λ₁<λ₂<λ₃."};
+  const clearance=Math.min(...z.flatMap(zi=>lambda.map(l=>Math.abs(zi-l))));
+  if (!(clearance>TOL)) return {status:"PROBE_UNDEFINED",type:"fail",detail:"Одна из probe points совпадает с eigenvalue."};
+  if (state.stage===2 && Math.abs(z[0]-z[1])<=TOL) return {status:"PROBE_DEPENDENCE",type:"fail",detail:"Две real probe points должны быть различны."};
+  if (state.stage===0) return {status:"POSITIVE_DIMENSION_FIBER",type:"info",detail:"Spectrum-only descriptor оставляет 2D open simplex спектральных весов."};
+  if (state.stage===1) {
+    const c=lambda.map(l=>1/(z[0]-l));
+    const seg=lineSegmentInSimplex(c,state.responses[0]);
+    if (seg.length<2) return {status:"EMPTY_ADMISSIBLE_FIBER",type:"fail",detail:"One-probe affine section не пересекает interior simplex."};
+    return {status:"POSITIVE_DIMENSION_FIBER",type:"info",detail:"Один real scalar probe оставляет 1D open segment реализаций."};
+  }
+  const sol=exactSolution();
+  if (!sol.inv) return {status:"PROBE_DEPENDENCE",type:"fail",detail:"Augmented Cauchy system singular."};
+  if (!sol.weights.every(Number.isFinite)) return {status:"INCONCLUSIVE",type:"warning",detail:"Алгебраическое решение не вычислено устойчиво."};
+  const pmin=Math.min(...sol.weights);
+  if (!(pmin>TOL)) return {status:"EMPTY_ADMISSIBLE_FIBER",type:"fail",detail:"Unique algebraic weight vector не лежит в Δ₂°."};
+  const rec=reconstructFromWeights(lambda,sol.weights);
+  if (!rec.ok) return {status:"IRREDUCIBILITY_NOT_CERTIFIED",type:"fail",detail:rec.reason};
+  const s=singularValues3(sol.A), sigmaMin=s[2];
+  const irr=Math.min(rec.b1sq,rec.b2sq);
+  if (irr<=state.irrThreshold) return {status:"IRREDUCIBILITY_MARGIN_LOW",type:"warning",detail:"Exact irreducibility сохраняется, но min(bᵢ²) ниже объявленного margin."};
+  if (sigmaMin<=state.sigmaThreshold) return {status:"LOW_STABILITY_MARGIN",type:"warning",detail:"Exact uniqueness есть, но Cauchy margin ниже threshold."};
+  return {status:"UNIQUE_MODULO_DECLARED_EQUIVALENCE",type:"success",detail:"Два независимых real probes дают singleton внутри positive-off-diagonal Jacobi class."};
+}
+
+function renderSimplex() {
+  const g1=$("line1Group"), g2=$("line2Group"), gp=$("pointsGroup"), gt=$("tubeGroup");
+  g1.innerHTML=g2.innerHTML=gp.innerHTML=gt.innerHTML="";
+  const lambda=state.lambda;
+  const validSpec=lambda[0]<lambda[1] && lambda[1]<lambda[2];
+  if (validSpec) {
+    const c1=lambda.map(l=>1/(state.z[0]-l));
+    const seg1=Number.isFinite(state.responses[0])?lineSegmentInSimplex(c1,state.responses[0]):[];
+    if (seg1.length===2) {
+      const p=seg1.map(baryToPoint);
+      g1.appendChild(svgEl("line",{x1:p[0].x,y1:p[0].y,x2:p[1].x,y2:p[1].y,stroke:"#62d68b","stroke-width":5,"stroke-linecap":"round",opacity:.9}));
+    }
+    const c2=lambda.map(l=>1/(state.z[1]-l));
+    const seg2=Number.isFinite(state.responses[1])?lineSegmentInSimplex(c2,state.responses[1]):[];
+    if (seg2.length===2) {
+      const p=seg2.map(baryToPoint);
+      g2.appendChild(svgEl("line",{x1:p[0].x,y1:p[0].y,x2:p[1].x,y2:p[1].y,stroke:"#69b7ff","stroke-width":3,"stroke-dasharray":"10 7","stroke-linecap":"round",opacity:state.stage>=2?.95:.42}));
+    }
+    const sol=exactSolution();
+    if (sol.inv && sol.weights && sol.weights.every(Number.isFinite)) {
+      const tube=computeTube(sol.inv,sol.weights);
+      if (tube) {
+        const pts=tube.verts.map(baryToPoint).map(p=>`${p.x},${p.y}`).join(" ");
+        gt.appendChild(svgEl("polygon",{points:pts,fill:"#b49cff",opacity:.23,stroke:tube.hitsWall?"#ff6f7d":"#b49cff","stroke-width":2,"stroke-dasharray":"6 5"}));
+      }
+    }
+  }
+  const targetP=baryToPoint(state.targetWeights);
+  gp.appendChild(svgEl("circle",{cx:targetP.x,cy:targetP.y,r:10,fill:"#f5c45a",stroke:"#fff3c9","stroke-width":2,filter:"url(#glow)"}));
+  const tl=svgEl("text",{x:targetP.x+13,y:targetP.y-12,fill:"#f5c45a","font-size":14,"font-weight":800}); tl.textContent="target"; gp.appendChild(tl);
+  if (state.candidateWeights && state.candidateWeights.every(Number.isFinite) && insideSimplex(state.candidateWeights,1e-5)) {
+    const p=baryToPoint(state.candidateWeights);
+    gp.appendChild(svgEl("circle",{cx:p.x,cy:p.y,r:8,fill:"#56e0d4",stroke:"#d7fffb","stroke-width":2,filter:"url(#glow)"}));
+    const cl=svgEl("text",{x:p.x+12,y:p.y+18,fill:"#56e0d4","font-size":14,"font-weight":800}); cl.textContent="candidate"; gp.appendChild(cl);
+  }
+}
+
+function renderMatrix(containerId, rec) {
+  const box=$(containerId); box.innerHTML="";
+  const J=rec && rec.ok ? rec.J : [[NaN,NaN,0],[NaN,NaN,NaN],[0,NaN,NaN]];
+  J.flat().forEach(x=>{
+    const c=document.createElement("div"); c.className="matrix-cell"; c.textContent=fmt(x,5); box.appendChild(c);
+  });
+}
+
+function renderCurrentRealization() {
+  const w=state.candidateWeights;
+  const admissible=w && w.every(x=>Number.isFinite(x) && x>0) && Math.abs(sum(w)-1)<1e-6;
+  const rec=admissible?reconstructFromWeights(state.lambda,w):{ok:false};
+  renderMatrix("matrixBox",rec);
+  const chip=$("admissibilityChip");
+  chip.textContent=rec.ok?"admissible":"algebraic / outside class";
+  chip.style.borderColor=rec.ok?"rgba(98,214,139,.55)":"rgba(255,111,125,.65)";
+  chip.style.color=rec.ok?"#a9f4c1":"#ffc4ca";
+  const wb=$("weightBars"); wb.innerHTML="";
+  (w||[NaN,NaN,NaN]).forEach((x,i)=>{
+    const row=document.createElement("div"); row.className="weight-line";
+    const label=document.createElement("span"); label.textContent=`w${i+1}`;
+    const bar=document.createElement("div"); bar.className="bar";
+    const fill=document.createElement("i"); fill.style.width=`${clamp(Number.isFinite(x)?x:0,0,1)*100}%`; bar.appendChild(fill);
+    const val=document.createElement("span"); val.textContent=fmt(x,5); val.style.textAlign="right";
+    row.append(label,bar,val); wb.appendChild(row);
+  });
+  const m1=response(w,state.z[0]), m2=response(w,state.z[1]);
+  $("currentResponses").innerHTML=`m(z₁)=${fmt(m1,6)}, &nbsp; m(z₂)=${fmt(m2,6)}`;
+  return rec;
+}
+
+function renderGraph() {
+  const svg=$("resolventSvg"); svg.innerHTML="";
+  const W=760,H=320, pad={l:55,r:22,t:18,b:38};
+  const lambda=state.lambda.slice().sort((a,b)=>a-b);
+  const span=Math.max(2,lambda[2]-lambda[0]);
+  const xmin=lambda[0]-.55*span, xmax=lambda[2]+.55*span;
+  const samples=[];
+  const evalSeries=(weights)=>{
+    const segs=[]; let seg=[];
+    for (let i=0;i<=650;i++) {
+      const x=xmin+(xmax-xmin)*i/650;
+      const close=lambda.some(l=>Math.abs(x-l)<.012*span);
+      if (close) { if(seg.length>1)segs.push(seg); seg=[]; continue; }
+      const y=response(weights,x);
+      if (!Number.isFinite(y)) { if(seg.length>1)segs.push(seg);seg=[];continue; }
+      samples.push(Math.abs(y)); seg.push([x,y]);
+    }
+    if(seg.length>1)segs.push(seg); return segs;
+  };
+  const targetSegs=evalSeries(state.targetWeights);
+  const candSegs=evalSeries(state.candidateWeights);
+  samples.sort((a,b)=>a-b);
+  const p90=samples.length?samples[Math.floor(.90*(samples.length-1))]:2;
+  const ycap=clamp(p90*1.25,1.5,12);
+  const X=x=>pad.l+(x-xmin)/(xmax-xmin)*(W-pad.l-pad.r);
+  const Y=y=>pad.t+(ycap-clamp(y,-ycap,ycap))/(2*ycap)*(H-pad.t-pad.b);
+  const grid=svgEl("g",{stroke:"#29415f","stroke-width":1,opacity:.55});
+  for(let i=0;i<=6;i++) {const x=pad.l+i*(W-pad.l-pad.r)/6;grid.appendChild(svgEl("line",{x1:x,y1:pad.t,x2:x,y2:H-pad.b}));}
+  for(let i=0;i<=4;i++) {const y=pad.t+i*(H-pad.t-pad.b)/4;grid.appendChild(svgEl("line",{x1:pad.l,y1:y,x2:W-pad.r,y2:y}));}
+  svg.appendChild(grid);
+  svg.appendChild(svgEl("line",{x1:pad.l,y1:Y(0),x2:W-pad.r,y2:Y(0),stroke:"#7894b4","stroke-width":1.5}));
+  lambda.forEach((l,i)=>{
+    const x=X(l); svg.appendChild(svgEl("line",{x1:x,y1:pad.t,x2:x,y2:H-pad.b,stroke:"#ff6f7d","stroke-width":1.5,"stroke-dasharray":"5 5",opacity:.85}));
+    const t=svgEl("text",{x,y:H-13,"text-anchor":"middle",fill:"#ff9aa4","font-size":12});t.textContent=`λ${i+1}=${fmt(l,3)}`;svg.appendChild(t);
+  });
+  const drawSegments=(segs,color,width,dash="")=>{
+    segs.forEach(seg=>{
+      let d="";
+      seg.forEach(([x,y],i)=>{d+=(i?"L":"M")+X(x)+","+Y(y);});
+      const p=svgEl("path",{d,fill:"none",stroke:color,"stroke-width":width,"stroke-linejoin":"round","stroke-linecap":"round"});
+      if(dash)p.setAttribute("stroke-dasharray",dash); svg.appendChild(p);
+    });
+  };
+  drawSegments(targetSegs,"#f5c45a",2.2,"8 6");
+  drawSegments(candSegs,"#56e0d4",3);
+  state.z.forEach((z,i)=>{
+    const r=state.responses[i]; if(!Number.isFinite(z)||!Number.isFinite(r)||z<xmin||z>xmax)return;
+    svg.appendChild(svgEl("circle",{cx:X(z),cy:Y(r),r:5,fill:i===0?"#62d68b":"#69b7ff",stroke:"#fff","stroke-width":1.5}));
+    const t=svgEl("text",{x:X(z)+7,y:Y(r)-7,fill:i===0?"#9ff0b8":"#a9d6ff","font-size":12});t.textContent=`r${i+1}`;svg.appendChild(t);
+  });
+  const yl1=svgEl("text",{x:10,y:pad.t+5,fill:"#9fb2c9","font-size":11});yl1.textContent=`+${fmt(ycap,2)}`;svg.appendChild(yl1);
+  const yl2=svgEl("text",{x:10,y:H-pad.b,fill:"#9fb2c9","font-size":11});yl2.textContent=`−${fmt(ycap,2)}`;svg.appendChild(yl2);
+  const zero=svgEl("text",{x:20,y:Y(0)-4,fill:"#9fb2c9","font-size":11});zero.textContent="0";svg.appendChild(zero);
+}
+
+function metric(name,value,hint) { return `<div class="metric"><div class="name">${name}</div><div class="value">${value}</div><div class="hint">${hint}</div></div>`; }
+
+function computeReport(rec,diag) {
+  const sol=exactSolution();
+  const A=sol.A;
+  const det=Number.isFinite(determinant3(A))?determinant3(A):null;
+  const svals=A.flat().every(Number.isFinite)?singularValues3(A):[NaN,NaN,NaN];
+  const sigmaMin=svals[2], cond=sigmaMin>0?svals[0]/sigmaMin:Infinity;
+  const specGap=Math.min(state.lambda[1]-state.lambda[0],state.lambda[2]-state.lambda[1]);
+  const clearance=Math.min(...state.z.flatMap(zi=>state.lambda.map(l=>Math.abs(zi-l))));
+  const probeInd=Math.abs(state.z[0]-state.z[1]);
+  const positive=state.candidateWeights?Math.min(...state.candidateWeights):null;
+  const irr=rec&&rec.ok?Math.min(rec.b1sq,rec.b2sq):null;
+  const tube=sol.inv&&sol.weights?computeTube(sol.inv,sol.weights):null;
+  const bound=Number.isFinite(sigmaMin)&&sigmaMin>0?2*Math.hypot(...state.eps)/sigmaMin:null;
+  const eigRes=rec&&rec.ok?norm2(jacobiEigenSym3(rec.J).map((x,i)=>x-state.lambda[i])):null;
+  const probeRes=state.candidateWeights?norm2([
+    response(state.candidateWeights,state.z[0])-state.responses[0],
+    response(state.candidateWeights,state.z[1])-state.responses[1]
+  ]):null;
+  const fiberDim=state.stage===0?2:state.stage===1?1:(diag.status==="UNIQUE_MODULO_DECLARED_EQUIVALENCE"||diag.status.includes("MARGIN")?0:null);
+  return {
+    module:"BC-M-D1",
+    version:"v0.1.1 interactive supplement",
+    generated_at:new Date().toISOString(),
+    status:diag.status,
+    stage:state.stage,
+    fiber_dimension:fiberDim,
+    model_class:"real irreducible 3x3 Jacobi matrices with positive off-diagonal entries",
+    descriptor:state.stage===0?"ordered spectrum":state.stage===1?"ordered spectrum + one real anchored resolvent probe":"ordered spectrum + two real anchored resolvent probes",
+    eigenvalues:state.lambda,
+    probe_points:state.z,
+    probe_values:state.responses,
+    target_weights:state.targetWeights,
+    current_weights:state.candidateWeights,
+    reconstructed_jacobi_matrix:rec&&rec.ok?rec.J:null,
+    determinant_A:det,
+    singular_values_A:svals.every(Number.isFinite)?svals:null,
+    sigma_min_A:Number.isFinite(sigmaMin)?sigmaMin:null,
+    condition_number_A:Number.isFinite(cond)?cond:null,
+    margins:{
+      spectral_separation:Number.isFinite(specGap)?specGap:null,
+      probe_clearance:Number.isFinite(clearance)?clearance:null,
+      probe_independence:Number.isFinite(probeInd)?probeInd:null,
+      positivity:Number.isFinite(positive)?positive:null,
+      irreducibility_sq:Number.isFinite(irr)?irr:null
+    },
+    finite_resolution:{
+      epsilon:state.eps,
+      theorem_weight_diameter_bound:bound,
+      exact_response_box_preimage_diameter:tube?tube.diam:null,
+      tube_hits_simplex_wall:tube?tube.hitsWall:null
+    },
+    verification:{spectral_residual_l2:eigRes,probe_residual_l2:probeRes},
+    claim_ceiling:[
+      "protocol-relative minimality only",
+      "no general inverse spectral novelty claim",
+      "no physical tomography",
+      "no hidden-sector reconstruction",
+      "non-factorization witness is not emergence"
+    ]
+  };
+}
+
+function renderMetrics(rec) {
+  const sol=exactSolution();
+  const A=sol.A;
+  const svals=A.flat().every(Number.isFinite)?singularValues3(A):[NaN,NaN,NaN];
+  const det=A.flat().every(Number.isFinite)?determinant3(A):NaN;
+  const specGap=Math.min(state.lambda[1]-state.lambda[0],state.lambda[2]-state.lambda[1]);
+  const clearance=Math.min(...state.z.flatMap(zi=>state.lambda.map(l=>Math.abs(zi-l))));
+  const positivity=Math.min(...state.candidateWeights);
+  const irr=rec&&rec.ok?Math.min(rec.b1sq,rec.b2sq):NaN;
+  $("metricsGrid").innerHTML=[
+    metric("det A",fmt(det,6),"exact independence"),
+    metric("γC = σmin(A)",fmt(svals[2],6),"Cauchy margin"),
+    metric("cond₂(A)",fmt(svals[2]>0?svals[0]/svals[2]:NaN,6),"finite-resolution conditioning"),
+    metric("spectral gap",fmt(specGap,6),"min(λ₂−λ₁, λ₃−λ₂)"),
+    metric("probe clearance",fmt(clearance,6),"min |zᵢ−λₖ|"),
+    metric("probe independence",fmt(Math.abs(state.z[0]-state.z[1]),6),"|z₁−z₂|"),
+    metric("positivity margin",fmt(positivity,6),"min wₖ"),
+    metric("irreducibility²",fmt(irr,6),"min(b₁²,b₂²)")
+  ].join("");
+}
+
+function renderNarratives(rec) {
+  const diag=primaryDiagnosis();
+  $("dimensionNarrative").innerHTML=state.stage===0
+    ? "Фиксированный spectrum определяет лишь support spectral measure. Положительные endpoint weights остаются свободными и параметризуют 2D fiber."
+    : state.stage===1
+      ? "Normalization и один real response дают две affine equations для трёх weights. Их пересечение с Δ₂° — 1D open segment."
+      : "Normalization и два независимых Cauchy rows дают 3×3 system. При positive algebraic solution admissible fiber становится singleton.";
+  const sol=exactSolution();
+  const svals=sol.A.flat().every(Number.isFinite)?singularValues3(sol.A):[NaN,NaN,NaN];
+  const bound=svals[2]>0?2*Math.hypot(...state.eps)/svals[2]:NaN;
+  const tube=sol.inv&&sol.weights?computeTube(sol.inv,sol.weights):null;
+  $("tubeNarrative").innerHTML=`При ε₁=${fmt(state.eps[0],5)}, ε₂=${fmt(state.eps[1],5)} theorem bound равен <b>${fmt(bound,6)}</b>. ${tube&&tube.hitsWall?"Tube пересекает positivity wall: irreducibility at finite resolution не сертифицирована.":"Response-box preimage остаётся внутри simplex для отображённых corners."}`;
+  $("tubeVerticesText").textContent=tube?tube.verts.map((w,i)=>`v${i+1}=(${w.map(x=>fmt(x,5)).join(", ")})`).join("; "):"—";
+}
+
+function renderStatus() {
+  const d=primaryDiagnosis();
+  const box=$("primaryStatus"); box.className=`status-box status-${d.type}`;
+  box.querySelector(".status-title").textContent=d.status;
+  box.querySelector(".status-detail").textContent=d.detail;
+  $("stageChip").innerHTML=`<strong>Stage ${state.stage}</strong> · ${state.stage===0?"2D fiber":state.stage===1?"1D fiber":"0D target"}`;
+  $("marginChip").textContent=d.type==="success"?"certified":d.type==="fail"?"failed":d.type==="warning"?"low margin":"live";
+  return d;
+}
+
+function renderReport(rec,diag) {
+  const report=computeReport(rec,diag); state.lastReport=report;
+  $("reportPre").textContent=JSON.stringify(report,null,2);
+}
+
+function renderTargetText() {
+  $("targetWeightsText").textContent=`w★ = (${state.targetWeights.map(x=>fmt(x,5)).join(", ")})`;
+}
+
+function renderWitness() {
+  const lam=[-1,1,3];
+  renderMatrix("witnessMatrixA",reconstructFromWeights(lam,[1/4,1/2,1/4]));
+  renderMatrix("witnessMatrixB",reconstructFromWeights(lam,[1/6,1/3,1/2]));
+}
+
+function renderAll() {
+  syncInputsToState();
+  updateCandidateByStage();
+  renderSimplex();
+  const rec=renderCurrentRealization();
+  renderGraph();
+  renderMetrics(rec);
+  renderNarratives(rec);
+  const diag=renderStatus();
+  renderReport(rec,diag);
+  renderTargetText();
+  renderWitness();
+}
+
+function setReference() {
+  state.lambda=[-1,1,3]; state.z=[0,2]; state.targetWeights=[.25,.5,.25]; state.candidateWeights=[.25,.5,.25]; state.responses=[-1/3,1/3]; state.fiberT=.5;
+  $("lam1").value=-1;$("lam2").value=1;$("lam3").value=3;$("z1").value=0;$("z2").value=2;
+  $("autoResponses").checked=true;$("eps1").value=.001;$("eps2").value=.001;$("fiberSlider").value=.5;
+  state.stage=0; setStageUI(); renderAll();
+}
+
+function setStageUI() {
+  qsa(".stage-btn").forEach(b=>b.classList.toggle("active",Number(b.dataset.stage)===state.stage));
+  $("fiberSliderGroup").style.display=state.stage===1?"grid":"none";
+}
+
+function showWitnessMode() {
+  setReference();
+  state.stage=1; state.fiberT=.5; $("fiberSlider").value=.5; setStageUI(); renderAll();
+  qsa(".tab-btn").forEach(b=>b.classList.toggle("active",b.dataset.tab==="witness"));
+  qsa(".tab-panel").forEach(p=>p.classList.toggle("active",p.id==="tab-witness"));
+  $("tab-witness").scrollIntoView({behavior:"smooth",block:"start"});
+}
+
+function eventPoint(evt,svg) {
+  const pt=svg.createSVGPoint(); pt.x=evt.clientX; pt.y=evt.clientY;
+  return pt.matrixTransform(svg.getScreenCTM().inverse());
+}
+
+function updateCandidateFromPointer(evt) {
+  if (state.stage!==0) return;
+  const svg=$("simplexSvg"), p=eventPoint(evt,svg), w=pointToBary(p.x,p.y);
+  if (insideSimplex(w)) { state.candidateWeights=normalizePositive(w); renderAll(); }
+}
+
+qsa(".stage-btn").forEach(btn=>btn.addEventListener("click",()=>{
+  state.stage=Number(btn.dataset.stage); setStageUI(); renderAll();
+}));
+qsa("input").forEach(inp=>inp.addEventListener("input",()=>renderAll()));
+$("referenceBtn").addEventListener("click",setReference);
+$("resetDataBtn").addEventListener("click",setReference);
+$("setTargetBtn").addEventListener("click",()=>{
+  if (!state.candidateWeights.every(x=>x>0) || Math.abs(sum(state.candidateWeights)-1)>1e-6) return;
+  state.targetWeights=state.candidateWeights.slice(); $("autoResponses").checked=true; renderAll();
+  $("targetWeightsText").classList.add("pulse"); setTimeout(()=>$("targetWeightsText").classList.remove("pulse"),1300);
+});
+$("witnessBtn").addEventListener("click",showWitnessMode);
+
+const simplex=$("simplexSvg");
+simplex.addEventListener("pointerdown",evt=>{ if(state.stage===0){state.dragging=true;simplex.setPointerCapture(evt.pointerId);updateCandidateFromPointer(evt);} });
+simplex.addEventListener("pointermove",evt=>{if(state.dragging)updateCandidateFromPointer(evt);});
+simplex.addEventListener("pointerup",evt=>{state.dragging=false;try{simplex.releasePointerCapture(evt.pointerId);}catch(e){}});
+simplex.addEventListener("pointercancel",()=>state.dragging=false);
+
+qsa(".tab-btn").forEach(btn=>btn.addEventListener("click",()=>{
+  qsa(".tab-btn").forEach(b=>b.classList.toggle("active",b===btn));
+  qsa(".tab-panel").forEach(p=>p.classList.toggle("active",p.id===`tab-${btn.dataset.tab}`));
+}));
+
+$("copyReportBtn").addEventListener("click",async()=>{
+  const txt=JSON.stringify(state.lastReport,null,2);
+  try { await navigator.clipboard.writeText(txt); $("copyReportBtn").textContent="Скопировано"; }
+  catch(e) { const ta=document.createElement("textarea");ta.value=txt;document.body.appendChild(ta);ta.select();document.execCommand("copy");ta.remove();$("copyReportBtn").textContent="Скопировано"; }
+  setTimeout(()=>$("copyReportBtn").textContent="Копировать JSON",1200);
+});
+$("downloadReportBtn").addEventListener("click",()=>{
+  const blob=new Blob([JSON.stringify(state.lastReport,null,2)],{type:"application/json"});
+  const a=document.createElement("a");a.href=URL.createObjectURL(blob);a.download="BC-M-D1-live-BCMReport.json";a.click();setTimeout(()=>URL.revokeObjectURL(a.href),1000);
+});
+
+setReference();
+</script>
+</body>
+</html>
