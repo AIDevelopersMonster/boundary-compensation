@@ -1,0 +1,517 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>BC-Emergence II — Gluing and Topological Shadow Lab</title>
+<style>
+  :root{
+    --bg:#0b1020;
+    --panel:#121a2f;
+    --panel2:#18233e;
+    --text:#eef3ff;
+    --muted:#a9b5d0;
+    --line:#334363;
+    --accent:#71a7ff;
+    --ok:#52d273;
+    --warn:#ffc857;
+    --bad:#ff6b6b;
+    --shadow:0 14px 32px rgba(0,0,0,.28);
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{
+    margin:0;
+    font-family:Inter,Segoe UI,Arial,sans-serif;
+    background:
+      radial-gradient(circle at 15% 10%, rgba(113,167,255,.16), transparent 28rem),
+      radial-gradient(circle at 85% 0%, rgba(139,92,246,.12), transparent 25rem),
+      var(--bg);
+    color:var(--text);
+    line-height:1.5;
+  }
+  .wrap{max-width:1180px;margin:0 auto;padding:24px}
+  header{
+    padding:30px;
+    border:1px solid var(--line);
+    background:linear-gradient(145deg,rgba(24,35,62,.96),rgba(14,22,42,.96));
+    border-radius:20px;
+    box-shadow:var(--shadow);
+  }
+  h1{margin:0 0 8px;font-size:clamp(28px,4vw,48px)}
+  h2{margin:0 0 12px;font-size:26px}
+  h3{margin:0 0 8px;font-size:18px}
+  p{margin:8px 0}
+  .subtitle{color:var(--muted);max-width:850px}
+  .flow{
+    display:grid;
+    grid-template-columns:repeat(5,1fr);
+    gap:8px;
+    margin-top:22px;
+  }
+  .flow button{
+    border:1px solid var(--line);
+    background:#10182b;
+    color:var(--muted);
+    padding:12px 10px;
+    border-radius:12px;
+    cursor:pointer;
+    min-height:68px;
+    font-weight:700;
+  }
+  .flow button.active{
+    color:white;
+    border-color:var(--accent);
+    background:rgba(113,167,255,.16);
+  }
+  .flow button.done{
+    color:var(--ok);
+    border-color:rgba(82,210,115,.5);
+  }
+  main{margin-top:22px}
+  section{
+    display:none;
+    border:1px solid var(--line);
+    background:rgba(18,26,47,.94);
+    border-radius:18px;
+    padding:24px;
+    box-shadow:var(--shadow);
+  }
+  section.active{display:block}
+  .grid{display:grid;grid-template-columns:1.05fr .95fr;gap:20px}
+  .card{
+    border:1px solid var(--line);
+    background:var(--panel2);
+    border-radius:15px;
+    padding:18px;
+  }
+  .cards3{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+  .local{
+    text-align:center;
+    padding:18px 12px;
+    border:1px solid var(--line);
+    border-radius:14px;
+    background:#10182b;
+  }
+  .local .dot{
+    width:54px;height:54px;border-radius:50%;
+    display:grid;place-items:center;
+    margin:0 auto 10px;
+    border:2px solid var(--accent);
+    font-size:21px;font-weight:800;
+  }
+  .status{
+    display:inline-flex;align-items:center;gap:8px;
+    border-radius:999px;padding:7px 11px;
+    font-weight:800;font-size:13px;
+    border:1px solid var(--line);
+  }
+  .status.ok{color:var(--ok);border-color:rgba(82,210,115,.55);background:rgba(82,210,115,.08)}
+  .status.warn{color:var(--warn);border-color:rgba(255,200,87,.55);background:rgba(255,200,87,.08)}
+  .status.bad{color:var(--bad);border-color:rgba(255,107,107,.55);background:rgba(255,107,107,.08)}
+  .formula{
+    font-family:"Cambria Math","Times New Roman",serif;
+    font-size:18px;
+    background:#0e1628;
+    border:1px solid var(--line);
+    border-radius:12px;
+    padding:12px 14px;
+    overflow:auto;
+  }
+  label{display:block;font-weight:700;margin:12px 0 6px}
+  input[type=range]{width:100%}
+  .sliderRow{display:grid;grid-template-columns:1fr 80px;gap:12px;align-items:center}
+  output{
+    text-align:center;
+    padding:7px 9px;
+    background:#0e1628;
+    border:1px solid var(--line);
+    border-radius:9px;
+    font-variant-numeric:tabular-nums;
+  }
+  .matrix{
+    white-space:pre;
+    font-family:Consolas,monospace;
+    font-size:16px;
+    background:#0e1628;
+    border:1px solid var(--line);
+    border-radius:12px;
+    padding:14px;
+    overflow:auto;
+  }
+  .metricGrid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:14px}
+  .metric{
+    border:1px solid var(--line);
+    border-radius:12px;
+    padding:12px;
+    background:#10182b;
+  }
+  .metric b{display:block;font-size:20px;margin-top:4px}
+  .edge-list{display:grid;gap:10px}
+  .edge{
+    display:grid;grid-template-columns:90px 1fr 90px;
+    gap:10px;align-items:center;
+    padding:10px;
+    border:1px solid var(--line);
+    border-radius:12px;
+    background:#10182b;
+  }
+  .edge.ok{border-color:rgba(82,210,115,.55)}
+  .edge.bad{border-color:rgba(255,107,107,.55)}
+  .edge.warn{border-color:rgba(255,200,87,.55)}
+  .signs{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+  .signBtn{
+    border:1px solid var(--line);
+    background:#10182b;color:var(--text);
+    border-radius:12px;padding:14px;
+    cursor:pointer;font-size:18px;font-weight:800;
+  }
+  .signBtn.minus{border-color:var(--bad);background:rgba(255,107,107,.08)}
+  .signBtn.plus{border-color:var(--ok);background:rgba(82,210,115,.08)}
+  .diagram{
+    width:100%;
+    min-height:290px;
+    display:grid;
+    place-items:center;
+  }
+  svg{max-width:100%;height:auto}
+  .legend{color:var(--muted);font-size:14px}
+  .nextbar{display:flex;justify-content:space-between;gap:12px;margin-top:18px}
+  .btn{
+    border:1px solid var(--line);
+    background:#10182b;color:var(--text);
+    border-radius:11px;padding:11px 16px;
+    cursor:pointer;font-weight:800;
+  }
+  .btn.primary{border-color:var(--accent);background:rgba(113,167,255,.15)}
+  .takeaway{
+    border-left:4px solid var(--accent);
+    padding:12px 14px;
+    background:rgba(113,167,255,.08);
+    border-radius:8px;
+    margin-top:16px;
+  }
+  .summary{
+    display:grid;
+    grid-template-columns:repeat(5,1fr);
+    gap:10px;
+  }
+  .summary .card{min-height:150px}
+  footer{color:var(--muted);padding:22px 4px 8px;text-align:center}
+  @media(max-width:900px){
+    .grid,.cards3,.summary{grid-template-columns:1fr}
+    .flow{grid-template-columns:1fr}
+    .metricGrid,.signs{grid-template-columns:1fr}
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <div class="status ok">Интерактивная лекционная демонстрация</div>
+    <h1>BC-Emergence II: Gluing and Topological Shadow Lab</h1>
+    <p class="subtitle">
+      Локальная допустимость → попарная совместимость → глобальная склейка →
+      глобальное препятствие → топологическая тень.
+    </p>
+    <div class="flow" id="flow">
+      <button data-step="0" class="active">1. Локальные данные</button>
+      <button data-step="1">2. Попарная совместимость</button>
+      <button data-step="2">3. Глобальная склейка</button>
+      <button data-step="3">4. Препятствие</button>
+      <button data-step="4">5. Топологическая тень</button>
+    </div>
+  </header>
+
+  <main>
+    <section class="active" data-panel="0">
+      <h2>1. Локальная допустимость</h2>
+      <div class="grid">
+        <div>
+          <p>Каждая область <b>U₁, U₂, U₃</b> несёт собственное локальное значение. На этом уровне глобальная структура ещё не определена.</p>
+          <div class="cards3">
+            <div class="local"><div class="dot">U₁</div><div>s₁ ∈ F(U₁)</div><span class="status ok">локально допустимо</span></div>
+            <div class="local"><div class="dot">U₂</div><div>s₂ ∈ F(U₂)</div><span class="status ok">локально допустимо</span></div>
+            <div class="local"><div class="dot">U₃</div><div>s₃ ∈ F(U₃)</div><span class="status ok">локально допустимо</span></div>
+          </div>
+          <div class="takeaway"><b>Нового глобального свойства пока нет.</b> Есть лишь три независимо допустимых локальных объекта.</div>
+        </div>
+        <div class="card">
+          <h3>Что уже сертифицировано</h3>
+          <p>• локальные пространства определены;</p>
+          <p>• локальные секции существуют;</p>
+          <p>• носитель конечен и комбинаторен.</p>
+          <h3 style="margin-top:18px">Чего ещё нет</h3>
+          <p>• согласования на перекрытиях;</p>
+          <p>• глобальной секции;</p>
+          <p>• коциклического класса;</p>
+          <p>• топологической тени.</p>
+        </div>
+      </div>
+      <div class="nextbar"><span></span><button class="btn primary" data-next="1">Далее: сравнить пары →</button></div>
+    </section>
+
+    <section data-panel="1">
+      <h2>2. Попарная совместимость</h2>
+      <div class="grid">
+        <div>
+          <p>Каждое ребро задаёт отдельное условие перехода. Выберите правые части:</p>
+
+          <label>U₁→U₂: x₂ − x₁ = a₁₂</label>
+          <div class="sliderRow"><input id="a12" type="range" min="-2" max="2" step="1" value="0"><output id="o12">0</output></div>
+
+          <label>U₂→U₃: x₃ − x₂ = a₂₃</label>
+          <div class="sliderRow"><input id="a23" type="range" min="-2" max="2" step="1" value="0"><output id="o23">0</output></div>
+
+          <label>U₃→U₁: x₁ − x₃ = a₃₁</label>
+          <div class="sliderRow"><input id="a31" type="range" min="-2" max="2" step="1" value="1"><output id="o31">1</output></div>
+
+          <div class="formula" style="margin-top:14px">
+            Каждое отдельное уравнение разрешимо. Поэтому каждая пара локально совместима.
+          </div>
+          <div class="takeaway"><b>Попарная совместимость ещё не гарантирует совместимость полного цикла.</b></div>
+        </div>
+        <div>
+          <div class="diagram">
+            <svg viewBox="0 0 420 300" aria-label="Треугольник перекрытий">
+              <line x1="210" y1="45" x2="70" y2="245" stroke="#52d273" stroke-width="8" stroke-linecap="round"/>
+              <line x1="70" y1="245" x2="350" y2="245" stroke="#52d273" stroke-width="8" stroke-linecap="round"/>
+              <line x1="350" y1="245" x2="210" y2="45" stroke="#52d273" stroke-width="8" stroke-linecap="round"/>
+              <circle cx="210" cy="45" r="30" fill="#121a2f" stroke="#71a7ff" stroke-width="4"/>
+              <circle cx="70" cy="245" r="30" fill="#121a2f" stroke="#71a7ff" stroke-width="4"/>
+              <circle cx="350" cy="245" r="30" fill="#121a2f" stroke="#71a7ff" stroke-width="4"/>
+              <text x="210" y="52" text-anchor="middle" fill="#eef3ff" font-size="20" font-weight="700">U₁</text>
+              <text x="70" y="252" text-anchor="middle" fill="#eef3ff" font-size="20" font-weight="700">U₂</text>
+              <text x="350" y="252" text-anchor="middle" fill="#eef3ff" font-size="20" font-weight="700">U₃</text>
+              <text x="118" y="138" fill="#eef3ff" font-size="18">a₁₂</text>
+              <text x="202" y="275" fill="#eef3ff" font-size="18">a₂₃</text>
+              <text x="300" y="138" fill="#eef3ff" font-size="18">a₃₁</text>
+            </svg>
+          </div>
+          <div class="status ok">Все три pairwise conditions допустимы</div>
+        </div>
+      </div>
+      <div class="nextbar"><button class="btn" data-next="0">← Назад</button><button class="btn primary" data-next="2">Далее: проверить цикл →</button></div>
+    </section>
+
+    <section data-panel="2">
+      <h2>3. Глобальная склейка</h2>
+      <div class="grid">
+        <div>
+          <p>Для полного цикла необходимо, чтобы сумма переходов замкнулась:</p>
+          <div class="formula">a₁₂ + a₂₃ + a₃₁ = 0</div>
+          <div class="metricGrid">
+            <div class="metric">Циклический дефект<b id="cycleDefect">1</b></div>
+            <div class="metric">σ₊(D)<b>√3 ≈ 1.732</b></div>
+            <div class="metric">‖D†‖ = 1/σ₊<b>≈ 0.577</b></div>
+          </div>
+          <div id="globalStatus" class="status bad" style="margin-top:14px">NO_GLOBAL_SECTION</div>
+          <div class="takeaway" id="globalText">
+            Каждая пара совместима, но цикл не замыкается. Глобальная секция отсутствует.
+          </div>
+        </div>
+        <div class="card">
+          <h3>Gluing operator</h3>
+          <div class="matrix">D =
+[ -1   1   0 ]
+[  0  -1   1 ]
+[  1   0  -1 ]</div>
+          <p class="legend">Для аффинных условий анализируется система D x = a. Вектор a принадлежит Im(D) тогда и только тогда, когда его компоненты суммируются в ноль.</p>
+          <div class="formula">dist(a, Im D) = |a₁₂+a₂₃+a₃₁| / √3</div>
+          <div class="metric">Расстояние до точной склейки<b id="distExact">0.577</b></div>
+        </div>
+      </div>
+      <div class="nextbar"><button class="btn" data-next="1">← Назад</button><button class="btn primary" data-next="3">Далее: увидеть obstruction →</button></div>
+    </section>
+
+    <section data-panel="3">
+      <h2>4. Глобальное препятствие</h2>
+      <div class="grid">
+        <div>
+          <p>Препятствие определяется не отдельной вершиной и не отдельным ребром. Оно возникает только после обхода всего цикла.</p>
+          <div class="edge-list">
+            <div class="edge ok"><b>U₁↔U₂</b><span>условие разрешимо</span><span class="status ok">OK</span></div>
+            <div class="edge ok"><b>U₂↔U₃</b><span>условие разрешимо</span><span class="status ok">OK</span></div>
+            <div class="edge ok"><b>U₃↔U₁</b><span>условие разрешимо</span><span class="status ok">OK</span></div>
+            <div id="cycleRow" class="edge bad"><b>Цикл</b><span id="cycleExplain">суммарный дефект ≠ 0</span><span id="cycleBadge" class="status bad">OBSTRUCTION</span></div>
+          </div>
+          <div class="takeaway"><b>Это первый чистый local-to-global эффект:</b> глобальное свойство не редуцируется к набору независимых попарных проверок.</div>
+        </div>
+        <div class="card">
+          <h3>Смысл статуса</h3>
+          <p><b>NO_GLOBAL_SECTION</b> — локальная семья не имеет точного глобального продолжения.</p>
+          <p><b>GLUING_MARGIN_LOW</b> — решение близко к стене сертификации.</p>
+          <p><b>GLOBAL_SECTION_CERTIFIED</b> — цикл замкнулся с положительным запасом.</p>
+          <p class="legend">Это математический статус конечной системы данных, а не физическая сингулярность.</p>
+        </div>
+      </div>
+      <div class="nextbar"><button class="btn" data-next="2">← Назад</button><button class="btn primary" data-next="4">Далее: топологическая тень →</button></div>
+    </section>
+
+    <section data-panel="4">
+      <h2>5. Топологическая тень</h2>
+      <div class="grid">
+        <div>
+          <p>Теперь заменим аффинные переходы знаковыми переходами <b>gᵢⱼ ∈ {+1,−1}</b>. Нажмите на ребро, чтобы изменить знак.</p>
+          <div class="signs">
+            <button class="signBtn plus" data-sign="0">g₁₂ = +1</button>
+            <button class="signBtn plus" data-sign="1">g₂₃ = +1</button>
+            <button class="signBtn minus" data-sign="2">g₃₁ = −1</button>
+          </div>
+          <div class="metricGrid">
+            <div class="metric">Произведение по циклу<b id="holonomy">−1</b></div>
+            <div class="metric">Gauge-trivial?<b id="trivial">нет</b></div>
+            <div class="metric">Ненулевая глобальная секция?<b id="nonzeroSection">нет</b></div>
+          </div>
+          <div id="shadowStatus" class="status bad" style="margin-top:14px">NONTRIVIAL_GLUING_CLASS</div>
+          <div class="takeaway" id="shadowText">
+            Ни одна вершина и ни одно ребро отдельно не несут «скрученности». Она возникает только как инвариант полного цикла.
+          </div>
+        </div>
+        <div class="card">
+          <h3>Что именно эмерджентно</h3>
+          <p>Локально все одномерные пространства одинаковы.</p>
+          <p>Каждый переход является допустимым изоморфизмом.</p>
+          <p>Но произведение переходов по замкнутому циклу даёт новый глобальный инвариант:</p>
+          <div class="formula">Ω = g₁₂ g₂₃ g₃₁</div>
+          <p id="omegaMeaning"><b>Ω = −1:</b> структура нетривиальна и не допускает глобального согласованного выбора ориентации.</p>
+          <p class="legend">Нулевая секция при этом существует; препятствие относится к глобальной ненулевой секции и тривиализации.</p>
+        </div>
+      </div>
+
+      <h3 style="margin-top:22px">Полная лестница</h3>
+      <div class="summary">
+        <div class="card"><b>1. Local</b><p>Каждая область допустима сама по себе.</p></div>
+        <div class="card"><b>2. Pairwise</b><p>Каждая пара согласуется на overlap.</p></div>
+        <div class="card"><b>3. Global</b><p>Проверяется существование единой секции.</p></div>
+        <div class="card"><b>4. Obstruction</b><p>Цикл может разрушить глобальную сборку.</p></div>
+        <div class="card"><b>5. Shadow</b><p>Возникает gauge-invariant глобальный класс.</p></div>
+      </div>
+      <div class="nextbar"><button class="btn" data-next="3">← Назад</button><button class="btn primary" id="reset">Сбросить демонстрацию</button></div>
+    </section>
+  </main>
+
+  <footer>
+    BC-Emergence II — конечномерная учебная демонстрация. Не является моделью физического пространства или пространства-времени.
+  </footer>
+</div>
+
+<script>
+(() => {
+  const panels = [...document.querySelectorAll('section[data-panel]')];
+  const flowButtons = [...document.querySelectorAll('#flow button')];
+  let currentStep = 0;
+
+  function showStep(i){
+    currentStep = Math.max(0, Math.min(4, Number(i)));
+    panels.forEach((p,k)=>p.classList.toggle('active', k===currentStep));
+    flowButtons.forEach((b,k)=>{
+      b.classList.toggle('active', k===currentStep);
+      b.classList.toggle('done', k<currentStep);
+    });
+    window.scrollTo({top:0,behavior:'smooth'});
+  }
+
+  flowButtons.forEach(b=>b.addEventListener('click',()=>showStep(b.dataset.step)));
+  document.querySelectorAll('[data-next]').forEach(b=>b.addEventListener('click',()=>showStep(b.dataset.next)));
+
+  const ids = ['a12','a23','a31'];
+  const outs = ['o12','o23','o31'];
+  const sliders = ids.map(id=>document.getElementById(id));
+  const outputs = outs.map(id=>document.getElementById(id));
+
+  function updateGluing(){
+    const vals = sliders.map(s=>Number(s.value));
+    outputs.forEach((o,i)=>o.textContent = String(vals[i]));
+    const sum = vals.reduce((a,b)=>a+b,0);
+    const abs = Math.abs(sum);
+    document.getElementById('cycleDefect').textContent = abs.toFixed(3).replace(/\.000$/,'');
+    document.getElementById('distExact').textContent = (abs/Math.sqrt(3)).toFixed(3);
+
+    const gs = document.getElementById('globalStatus');
+    const gt = document.getElementById('globalText');
+    const row = document.getElementById('cycleRow');
+    const badge = document.getElementById('cycleBadge');
+    const explain = document.getElementById('cycleExplain');
+
+    gs.className='status';
+    row.className='edge';
+    badge.className='status';
+
+    if(abs === 0){
+      gs.textContent='GLOBAL_SECTION_CERTIFIED';
+      gs.classList.add('ok');
+      gt.innerHTML='<b>Цикл замкнулся.</b> Существует семейство локальных значений, образующее точную глобальную секцию.';
+      row.classList.add('ok');
+      badge.classList.add('ok');
+      badge.textContent='CERTIFIED';
+      explain.textContent='суммарный дефект = 0';
+    } else if(abs === 1){
+      gs.textContent='GLUING_MARGIN_LOW';
+      gs.classList.add('warn');
+      gt.innerHTML='<b>Цикл не замкнулся.</b> Система находится на малом, но ненулевом расстоянии от точной склейки.';
+      row.classList.add('warn');
+      badge.classList.add('warn');
+      badge.textContent='MARGIN LOW';
+      explain.textContent='малый ненулевой дефект';
+    } else {
+      gs.textContent='NO_GLOBAL_SECTION';
+      gs.classList.add('bad');
+      gt.innerHTML='<b>Каждая пара совместима, но цикл не замыкается.</b> Глобальная секция отсутствует.';
+      row.classList.add('bad');
+      badge.classList.add('bad');
+      badge.textContent='OBSTRUCTION';
+      explain.textContent='суммарный дефект ≠ 0';
+    }
+  }
+  sliders.forEach(s=>s.addEventListener('input',updateGluing));
+
+  const signButtons = [...document.querySelectorAll('[data-sign]')];
+  let signs = [1,1,-1];
+
+  function updateSigns(){
+    signButtons.forEach((b,i)=>{
+      const plus = signs[i]===1;
+      b.textContent = ['g₁₂','g₂₃','g₃₁'][i] + ' = ' + (plus?'+1':'−1');
+      b.classList.toggle('plus', plus);
+      b.classList.toggle('minus', !plus);
+    });
+    const omega = signs.reduce((a,b)=>a*b,1);
+    document.getElementById('holonomy').textContent = omega===1?'+1':'−1';
+    document.getElementById('trivial').textContent = omega===1?'да':'нет';
+    document.getElementById('nonzeroSection').textContent = omega===1?'да':'нет';
+
+    const st = document.getElementById('shadowStatus');
+    const txt = document.getElementById('shadowText');
+    const meaning = document.getElementById('omegaMeaning');
+    st.className='status';
+
+    if(omega===1){
+      st.textContent='TRIVIAL_GLUING_CLASS';
+      st.classList.add('ok');
+      txt.innerHTML='<b>Полный цикл gauge-тривиален.</b> Переходы допускают глобальный согласованный выбор ориентации.';
+      meaning.innerHTML='<b>Ω = +1:</b> структура тривиализируема; существует глобальная ненулевая секция.';
+    } else {
+      st.textContent='NONTRIVIAL_GLUING_CLASS';
+      st.classList.add('bad');
+      txt.innerHTML='<b>Ни одна вершина и ни одно ребро отдельно не несут «скрученности».</b> Она возникает только как инвариант полного цикла.';
+      meaning.innerHTML='<b>Ω = −1:</b> структура нетривиальна и не допускает глобального согласованного выбора ориентации.';
+    }
+  }
+
+  signButtons.forEach((b,i)=>b.addEventListener('click',()=>{signs[i]*=-1;updateSigns();}));
+
+  document.getElementById('reset').addEventListener('click',()=>{
+    sliders[0].value=0; sliders[1].value=0; sliders[2].value=1;
+    signs=[1,1,-1];
+    updateGluing();
+    updateSigns();
+    showStep(0);
+  });
+
+  updateGluing();
+  updateSigns();
+})();
+</script>
+</body>
+</html>

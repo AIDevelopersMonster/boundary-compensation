@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>BC-Emergence I — Certified Incidence Lab</title>
+<style>
+:root{--blue:#17365d;--gold:#a67c00;--green:#2f6b4f;--red:#8a2f2f;--orange:#9a5b13;--ink:#1b2530;--muted:#5e6a75;--panel:#f3f6f8;--line:#d6dde3;--white:#fff}
+*{box-sizing:border-box} body{margin:0;font-family:Inter,Segoe UI,Arial,sans-serif;color:var(--ink);background:#eef2f5}
+header{background:var(--white);border-bottom:4px solid var(--gold);padding:22px clamp(18px,4vw,52px)}
+header h1{margin:0;color:var(--blue);font-size:clamp(1.5rem,3vw,2.4rem)} header p{margin:.5rem 0 0;color:var(--muted);max-width:980px;line-height:1.5}
+main{max-width:1260px;margin:24px auto;padding:0 18px 40px;display:grid;grid-template-columns:minmax(310px,420px) 1fr;gap:22px}
+.card{background:var(--white);border:1px solid var(--line);border-radius:14px;box-shadow:0 7px 24px rgba(23,54,93,.08);padding:18px}
+h2{margin:0 0 14px;color:var(--blue);font-size:1.2rem} h3{color:var(--blue);font-size:1rem;margin:18px 0 8px}
+.row{display:grid;grid-template-columns:1fr 110px;gap:10px;align-items:center;margin:9px 0}.row label{font-size:.92rem}.row output{font-variant-numeric:tabular-nums;color:var(--blue);font-weight:700;text-align:right}
+input[type=range]{width:100%;accent-color:var(--blue)} .control{border-top:1px solid var(--line);padding-top:10px;margin-top:10px}
+.check{display:flex;align-items:center;gap:9px;margin:12px 0;font-size:.92rem}.check input{width:18px;height:18px;accent-color:var(--blue)}
+.presets{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px} button{border:1px solid var(--blue);background:white;color:var(--blue);border-radius:999px;padding:8px 11px;cursor:pointer;font-weight:650}button:hover{background:var(--blue);color:white}
+.stage{display:grid;grid-template-columns:minmax(420px,1.3fr) minmax(260px,.7fr);gap:18px;align-items:start}
+svg{width:100%;height:auto;background:linear-gradient(180deg,#fbfcfd,#f1f5f8);border:1px solid var(--line);border-radius:12px}
+.edge{stroke-width:8;stroke-linecap:round;transition:.25s}.node{fill:white;stroke:var(--blue);stroke-width:4}.nodeText{font-size:22px;font-weight:800;fill:var(--blue);text-anchor:middle;dominant-baseline:middle}.face{transition:.25s}.edgeLabel{font-size:15px;font-weight:700;fill:var(--ink);paint-order:stroke;stroke:white;stroke-width:5px;stroke-linejoin:round}.legend{font-size:13px;fill:var(--muted)}
+.status{border-left:5px solid var(--blue);background:var(--panel);border-radius:8px;padding:12px;margin:10px 0}.status strong{display:block;color:var(--blue);margin-bottom:4px}.status.good{border-color:var(--green)}.status.bad{border-color:var(--red)}.status.warn{border-color:var(--orange)}
+.metric{display:grid;grid-template-columns:1fr auto;gap:10px;border-bottom:1px solid var(--line);padding:8px 0;font-size:.93rem}.metric b{font-variant-numeric:tabular-nums}.formula{font-family:Cambria Math,Times New Roman,serif;background:#fff;border:1px solid var(--line);border-radius:8px;padding:10px;line-height:1.5;margin:10px 0}
+.note{font-size:.88rem;color:var(--muted);line-height:1.45}.tag{display:inline-block;border-radius:999px;padding:4px 8px;font-size:.76rem;font-weight:800;color:white;margin:2px 4px 2px 0}.green{background:var(--green)}.red{background:var(--red)}.orange{background:var(--orange)}.blue{background:var(--blue)}
+footer{max-width:1260px;margin:0 auto 30px;padding:0 18px;color:var(--muted);font-size:.86rem}
+@media(max-width:940px){main{grid-template-columns:1fr}.stage{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<header>
+<h1>BC-Emergence I — Certified Incidence Lab</h1>
+<p>Interactive demonstration of the distinction between pairwise adjacency, flag completion, and strict joint compatibility. This is a finite certification model, not a model of physical space.</p>
+</header>
+<main>
+<section class="card">
+<h2>Declared protocol</h2>
+<div class="control"><h3>Pairwise defects</h3>
+<div class="row"><label for="d12">d<sub>12</sub></label><output id="o12"></output></div><input id="d12" type="range" min="0" max="1" step="0.01" value="0.18">
+<div class="row"><label for="d23">d<sub>23</sub></label><output id="o23"></output></div><input id="d23" type="range" min="0" max="1" step="0.01" value="0.22">
+<div class="row"><label for="d31">d<sub>31</sub></label><output id="o31"></output></div><input id="d31" type="range" min="0" max="1" step="0.01" value="0.20">
+<div class="row"><label for="te">edge threshold τ<sub>e</sub></label><output id="ote"></output></div><input id="te" type="range" min="0.05" max="1" step="0.01" value="0.40">
+</div>
+<div class="control"><h3>Joint triple test</h3>
+<div class="row"><label for="dt">cyclic defect Δ<sub>123</sub></label><output id="odt"></output></div><input id="dt" type="range" min="0" max="1.5" step="0.01" value="0.15">
+<div class="row"><label for="tt">triple threshold τ<sub>123</sub></label><output id="ott"></output></div><input id="tt" type="range" min="0.05" max="1.5" step="0.01" value="0.45">
+<label class="check"><input id="unavailable" type="checkbox"> triple carrier unavailable</label>
+</div>
+<div class="control"><h3>Presets</h3><div class="presets">
+<button data-preset="stable">Stable 2-simplex</button><button data-preset="pairwise">Pairwise only</button><button data-preset="wall">Threshold wall</button><button data-preset="empty">Empty incidence</button>
+</div></div>
+<div class="formula">Edge: d<sub>ij</sub> &lt; τ<sub>e</sub><br>Strict triangle: max(d<sub>12</sub>, d<sub>23</sub>, d<sub>31</sub>, Δ<sub>123</sub>) &lt; τ<sub>123</sub></div>
+<p class="note">The flag complex fills every three-clique. The strict complex fills the triangle only after the declared triple-overlap test is available and passes.</p>
+</section>
+<section class="stage">
+<div class="card"><h2>Certified carrier</h2>
+<svg viewBox="0 0 680 520" role="img" aria-label="Interactive certified triangle">
+<polygon id="face" class="face" points="340,82 105,425 575,425" fill="rgba(47,107,79,.22)" stroke="none"/>
+<line id="e12" class="edge" x1="340" y1="82" x2="105" y2="425"/>
+<line id="e23" class="edge" x1="105" y1="425" x2="575" y2="425"/>
+<line id="e31" class="edge" x1="575" y1="425" x2="340" y2="82"/>
+<text id="l12" class="edgeLabel" x="190" y="245"></text><text id="l23" class="edgeLabel" x="340" y="455"></text><text id="l31" class="edgeLabel" x="490" y="245"></text>
+<circle class="node" cx="340" cy="82" r="34"/><circle class="node" cx="105" cy="425" r="34"/><circle class="node" cx="575" cy="425" r="34"/>
+<text class="nodeText" x="340" y="82">1</text><text class="nodeText" x="105" y="425">2</text><text class="nodeText" x="575" y="425">3</text>
+<text class="legend" x="20" y="28">green edge = certified · red edge = rejected · orange = wall</text>
+</svg>
+<div id="visualTags" style="margin-top:12px"></div>
+</div>
+<div class="card"><h2>Certification report</h2>
+<div id="edgeStatus" class="status"></div><div id="flagStatus" class="status"></div><div id="strictStatus" class="status"></div>
+<h3>Margins</h3><div class="metric"><span>global edge wall margin</span><b id="edgeMargin"></b></div><div class="metric"><span>joint defect</span><b id="jointDefect"></b></div><div class="metric"><span>strict triple margin</span><b id="tripleMargin"></b></div>
+<h3>Claim discipline</h3><p class="note">A filled polygon means only <em>strictly certified 2-simplex under this declared protocol</em>. It does not mean physical surface, spacetime cell, curvature, or field.</p>
+</div>
+</section>
+</main>
+<footer>BC-Emergence I demonstration module · finite-dimensional certification only · no physical ontology claim.</footer>
+<script>
+const ids=['d12','d23','d31','te','dt','tt'];
+const $=id=>document.getElementById(id); const fmt=x=>Number(x).toFixed(2);
+function edgeState(d,t){const eps=1e-9;if(Math.abs(d-t)<eps)return 'wall';return d<t?'good':'bad'}
+function setStatus(el,kind,title,text){el.className='status '+kind;el.innerHTML='<strong>'+title+'</strong>'+text}
+function update(){
+ const d12=+$('d12').value,d23=+$('d23').value,d31=+$('d31').value,te=+$('te').value,dt=+$('dt').value,tt=+$('tt').value,un=$('unavailable').checked;
+ $('o12').value=fmt(d12);$('o23').value=fmt(d23);$('o31').value=fmt(d31);$('ote').value=fmt(te);$('odt').value=fmt(dt);$('ott').value=fmt(tt);
+ const ds=[d12,d23,d31], states=ds.map(d=>edgeState(d,te)), allEdges=states.every(s=>s==='good'), anyWall=states.some(s=>s==='wall');
+ [['e12',states[0],d12],['e23',states[1],d23],['e31',states[2],d31]].forEach(([id,s,d],k)=>{const el=$(id);el.style.stroke=s==='good'?'var(--green)':s==='bad'?'var(--red)':'var(--orange)';$('l'+['12','23','31'][k]).textContent='d='+fmt(d)});
+ const joint=Math.max(...ds,dt), strict=allEdges&&!un&&joint<tt, strictWall=!un&&Math.abs(joint-tt)<1e-9;
+ $('face').style.opacity=strict?'1':'.06';$('face').style.fill=strict?'rgba(47,107,79,.22)':'rgba(138,47,47,.15)';
+ const edgeMin=Math.min(...ds.map(d=>Math.abs(d-te))); $('edgeMargin').textContent=fmt(edgeMin);$('jointDefect').textContent=un?'unavailable':fmt(joint);$('tripleMargin').textContent=un?'unavailable':fmt(tt-joint);
+ if(allEdges)setStatus($('edgeStatus'),'good','GRAPH CERTIFIED','All three pairwise relations pass.'); else if(anyWall)setStatus($('edgeStatus'),'warn','INCIDENCE WALL','At least one edge lies exactly on its threshold.'); else setStatus($('edgeStatus'),'bad','GRAPH INCOMPLETE','At least one pairwise relation is rejected.');
+ if(allEdges)setStatus($('flagStatus'),'good','FLAG COMPLEX CONSTRUCTED','The three-clique is filled by clique completion, without a joint-compatibility claim.'); else setStatus($('flagStatus'),'bad','NO FLAG TRIANGLE','The certified graph is not a three-clique.');
+ if(un)setStatus($('strictStatus'),'warn','TRIPLE OVERLAP UNAVAILABLE','Strict 2-simplex status is inconclusive.'); else if(strict)setStatus($('strictStatus'),'good','STRICT 2-SIMPLEX CERTIFIED','All pairwise and declared joint tests pass.'); else if(strictWall)setStatus($('strictStatus'),'warn','TRIPLE WALL','The joint defect equals the triple threshold.'); else setStatus($('strictStatus'),'bad','STRICT 2-SIMPLEX REJECTED','Pairwise adjacency does not imply joint compatibility.');
+ const tags=[];if(allEdges)tags.push('<span class="tag green">GRAPH_ONLY</span>');if(allEdges)tags.push('<span class="tag blue">FLAG_COMPLEX</span>');if(strict)tags.push('<span class="tag green">STRICT_SIMPLEX</span>');if(un)tags.push('<span class="tag orange">INCONCLUSIVE</span>');if(anyWall||strictWall)tags.push('<span class="tag orange">WALL</span>');if(!allEdges)tags.push('<span class="tag red">EDGE_REJECTED</span>');$('visualTags').innerHTML=tags.join('');
+}
+ids.forEach(id=>$(id).addEventListener('input',update));$('unavailable').addEventListener('change',update);
+document.querySelectorAll('[data-preset]').forEach(b=>b.addEventListener('click',()=>{const p=b.dataset.preset;const v={stable:[.18,.22,.20,.40,.15,.45,false],pairwise:[.18,.22,.20,.40,.78,.45,false],wall:[.18,.22,.40,.40,.15,.45,false],empty:[.72,.68,.61,.40,.15,.45,false]}[p];['d12','d23','d31','te','dt','tt'].forEach((id,i)=>$(id).value=v[i]);$('unavailable').checked=v[6];update()}));
+update();
+</script>
+</body>
+</html>
