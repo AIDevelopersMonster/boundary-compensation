@@ -1,0 +1,156 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>BC-Emergence VII — Conditional Synergy Lab</title>
+<style>
+:root{--bg:#f4f6f8;--panel:#fff;--ink:#17212b;--muted:#5e6a75;--blue:#17365d;--gold:#a67c00;--green:#2f6b4f;--red:#8a2f2f;--orange:#9a5b13;--purple:#5a3d73;--line:#d5dde5}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font-family:Inter,Segoe UI,Arial,sans-serif;line-height:1.45}
+header{background:linear-gradient(135deg,#17365d,#294f7d);color:white;padding:24px 28px 20px;box-shadow:0 3px 14px #0002}
+header h1{margin:0 0 6px;font-size:clamp(24px,4vw,38px)}header p{margin:0;max-width:1000px;color:#e8eef5}
+.toolbar{display:flex;gap:10px;flex-wrap:wrap;margin-top:16px}.toolbar button{background:#fff;color:var(--blue);border:0;border-radius:8px;padding:9px 14px;font-weight:700;cursor:pointer}.toolbar button.active{background:#ffd56a;color:#3e2a00}
+main{max-width:1240px;margin:20px auto;padding:0 16px 40px}.grid{display:grid;grid-template-columns:repeat(12,1fr);gap:16px}.card{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:17px;box-shadow:0 3px 14px #0000000a}.span12{grid-column:span 12}.span7{grid-column:span 7}.span5{grid-column:span 5}.span6{grid-column:span 6}.span4{grid-column:span 4}.span8{grid-column:span 8}@media(max-width:850px){.span7,.span5,.span6,.span4,.span8{grid-column:span 12}}
+h2{margin:0 0 12px;color:var(--blue);font-size:21px}h3{margin:15px 0 8px;color:var(--blue)}label{display:block;font-size:13px;font-weight:700;color:var(--muted);margin:8px 0 4px}input,select,textarea{width:100%;border:1px solid #b9c4ce;border-radius:8px;padding:9px;background:#fff;color:var(--ink);font:inherit}textarea{font-family:Consolas,monospace;min-height:105px;resize:vertical}.row{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}.row3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}@media(max-width:650px){.row,.row3{grid-template-columns:1fr}}
+.primary{border:0;background:var(--blue);color:#fff;border-radius:8px;padding:10px 14px;font-weight:700;cursor:pointer;margin-top:12px}.secondary{border:1px solid var(--blue);background:#fff;color:var(--blue);border-radius:8px;padding:8px 12px;font-weight:700;cursor:pointer}.primary:hover,.secondary:hover{filter:brightness(.96)}
+.metrics{display:grid;grid-template-columns:repeat(3,1fr);gap:9px;margin-top:12px}@media(max-width:650px){.metrics{grid-template-columns:1fr 1fr}}.metric{border:1px solid var(--line);border-radius:9px;padding:10px;background:#f9fbfc}.metric b{font-size:22px;color:var(--blue);display:block}.metric small{color:var(--muted)}
+.status{padding:10px 12px;border-radius:8px;font-family:Consolas,monospace;font-weight:700;margin-top:10px;overflow-wrap:anywhere}.ok{background:#eaf6ef;color:var(--green);border:1px solid #a8d2b8}.warn{background:#fff4e5;color:var(--orange);border:1px solid #e4c08b}.bad{background:#faeaea;color:var(--red);border:1px solid #d9a4a4}.info{background:#eef3fa;color:var(--blue);border:1px solid #afc3dc}
+.math{font-family:"Times New Roman",serif;font-size:18px;background:#f7f9fb;border-left:4px solid var(--gold);padding:10px 12px;margin:10px 0;overflow:auto}.mono{font-family:Consolas,monospace}.small{font-size:13px;color:var(--muted)}
+table{width:100%;border-collapse:collapse;font-size:14px}th,td{text-align:left;border-bottom:1px solid var(--line);padding:7px 6px}th{color:var(--blue);background:#f4f7fa}.matrix{display:inline-block;border-left:2px solid var(--ink);border-right:2px solid var(--ink);padding:3px 8px;margin:3px;font-family:Consolas,monospace;white-space:pre}
+canvas{width:100%;height:340px;border:1px solid var(--line);border-radius:10px;background:#fff}.edge-list{display:flex;gap:7px;flex-wrap:wrap;margin-top:9px}.edge-btn{border:1px solid #9aabb9;border-radius:16px;padding:6px 10px;background:#fff;cursor:pointer}.edge-btn.off{background:#eee;color:#888;text-decoration:line-through}.pill{display:inline-block;border-radius:20px;padding:3px 9px;font-size:12px;font-weight:700;background:#e8eef5;color:var(--blue);margin:2px}
+.callout{border-left:5px solid var(--purple);padding:10px 13px;background:#f7f2fa;border-radius:7px;margin:10px 0}.firewall{border-left-color:var(--red);background:#fff2f2}.footer{color:var(--muted);font-size:12px;text-align:center;margin-top:24px}.hidden{display:none!important}
+</style>
+</head>
+<body>
+<header>
+  <h1>BC-Emergence VII — Conditional Synergy Lab</h1>
+  <p data-i18n="subtitle">Интерактивный аудит условного ранга синергии, точного бюджета зондов, графового incidence benchmark и границ нелинейного/динамического расширения.</p>
+  <div class="toolbar"><button id="langRu" class="active">Русский</button><button id="langEn">English</button><button id="loadPreset" data-i18n="presetBtn">Загрузить пример</button></div>
+</header>
+<main>
+<div class="grid">
+<section class="card span7">
+  <h2 data-i18n="linearTitle">1. Линейный аудит A|B</h2>
+  <div class="row3">
+    <div><label data-i18n="fieldLabel">Простое поле q</label><select id="q"><option>2</option><option>3</option><option>5</option><option>7</option></select></div>
+    <div><label data-i18n="presetLabel">Пресет</label><select id="matrixPreset"><option value="basic">Basic hidden XOR</option><option value="factor">Factorization</option><option value="redundant">Redundant channels</option><option value="support">Support order</option></select></div>
+    <div><label data-i18n="noiseLabel">Encoding tolerance η</label><input id="eta" type="number" min="0" step="0.05" value="0.2"></div>
+  </div>
+  <div class="row">
+    <div><label data-i18n="bLabel">Матрица B — lower descriptor</label><textarea id="B">1 0 0 0
+0 1 0 0</textarea></div>
+    <div><label data-i18n="aLabel">Матрица A — interaction map</label><textarea id="A">1 0 1 0
+0 1 0 1
+1 1 1 1</textarea></div>
+  </div>
+  <button class="primary" id="compute" data-i18n="computeBtn">Вычислить сертификат</button>
+  <div id="linearError" class="status bad hidden"></div>
+  <div class="metrics">
+    <div class="metric"><b id="rankB">–</b><small>rank B</small></div>
+    <div class="metric"><b id="rankBA">–</b><small>rank [B;A]</small></div>
+    <div class="metric"><b id="synergy">–</b><small>s(A|B)</small></div>
+    <div class="metric"><b id="mult">–</b><small data-i18n="multLabel">fiber multiplicity</small></div>
+    <div class="metric"><b id="budget">–</b><small data-i18n="budgetLabel">q-ary probe budget</small></div>
+    <div class="metric"><b id="complexity">–</b><small data-i18n="complexityLabel">dense arithmetic ceiling</small></div>
+  </div>
+  <div id="factorStatus" class="status info">—</div>
+</section>
+<section class="card span5">
+  <h2 data-i18n="witnessTitle">2. Свидетель и quotient basis</h2>
+  <div class="math">s(A|B) = rank([B;A]) − rank(B)</div>
+  <div id="matrixView" class="small"></div>
+  <h3 data-i18n="witnessHead">Witness direction v</h3><div id="witness" class="status info">—</div>
+  <h3 data-i18n="probeHead">Минимальный probe completion</h3><div id="probeBasis" class="status info">—</div>
+  <div class="callout"><b data-i18n="polyHead">Полиномиальный подкласс.</b> <span data-i18n="polyText">В линейном пакете минимум строится исключением Гаусса; это не переносится на общий Set Cover из BC-M V.</span></div>
+</section>
+<section class="card span6">
+  <h2 data-i18n="supportTitle">3. Support-order audit</h2>
+  <label data-i18n="readCoords">Прочитанные координаты S (через запятую, начиная с 1)</label><input id="coords" value="1,2">
+  <button class="secondary" id="supportCompute" data-i18n="supportBtn">Проверить остаточный ранг</button>
+  <div class="metrics">
+    <div class="metric"><b id="resRank">–</b><small>s(A|B<sub>S</sub>) = rank A<sub>Sᶜ</sub></small></div>
+    <div class="metric"><b id="unread">–</b><small data-i18n="unreadLabel">unread coordinates</small></div>
+    <div class="metric"><b id="rowSupports">–</b><small data-i18n="rowSupportLabel">declared row supports</small></div>
+  </div>
+  <div id="supportStatus" class="status info">—</div>
+  <p class="small" data-i18n="supportWarn">Support order зависит от объявленного channel basis. Row reduction может менять support отдельных строк, не меняя s(A|B).</p>
+</section>
+<section class="card span6">
+  <h2 data-i18n="marginTitle">4. Finite-resolution encoding margin</h2>
+  <label data-i18n="sepLabel">Минимальное разделение кодов Δenc</label><input id="deltaEnc" type="number" min="0" step="0.1" value="1">
+  <button class="secondary" id="marginCompute" data-i18n="marginBtn">Рассчитать margin</button>
+  <div class="math">μ<sub>syn</sub> = Δ<sub>enc</sub> − 2η</div>
+  <div id="marginStatus" class="status info">—</div>
+  <p class="small" data-i18n="marginNote">Положительный margin защищает readout фиксированной architecture, но не защищает от удаления channels или изменения topology.</p>
+</section>
+<section class="card span8">
+  <h2 data-i18n="graphTitle">5. Graph-incidence benchmark</h2>
+  <div class="row3">
+    <div><label data-i18n="graphPreset">Граф</label><select id="graphPreset"><option value="path4">Path P4</option><option value="cycle4">Cycle C4</option><option value="diag4">Square + diagonal</option><option value="twoEdges">Two disjoint edges</option><option value="triangle">Triangle C3</option></select></div>
+    <div><label data-i18n="graphField">Поле q</label><select id="gq"><option>2</option><option>3</option><option>5</option></select></div>
+    <div><label data-i18n="graphAction">Действие</label><button class="secondary" id="resetGraph" data-i18n="resetEdges">Восстановить рёбра</button></div>
+  </div>
+  <canvas id="graphCanvas" width="760" height="340"></canvas>
+  <div id="edgeList" class="edge-list"></div>
+</section>
+<section class="card span4">
+  <h2 data-i18n="graphCertTitle">6. Графовый сертификат</h2>
+  <div class="metrics">
+    <div class="metric"><b id="gN">–</b><small>|V|</small></div>
+    <div class="metric"><b id="gC">–</b><small>c(G)</small></div>
+    <div class="metric"><b id="gRank">–</b><small>rank D<sub>G</sub></small></div>
+    <div class="metric"><b id="gMult">–</b><small>q<sup>|V|-c</sup></small></div>
+    <div class="metric"><b id="gBudget">–</b><small data-i18n="forestBudget">forest probe budget</small></div>
+    <div class="metric"><b id="gLoss">–</b><small data-i18n="deletionLoss">deletion rank loss</small></div>
+  </div>
+  <div id="graphStatus" class="status info">—</div>
+  <p class="small" data-i18n="graphHint">Нажимайте на рёбра: удаление bridge создаёт rank wall; удаление cycle-redundant edge оставляет ранг.</p>
+</section>
+<section class="card span12">
+  <h2 data-i18n="frontierTitle">7. Claim Firewall и открытые фронтиры</h2>
+  <div class="row">
+    <div class="callout"><b>NONLINEAR_CONDITIONAL_SYNERGY_OPEN</b><br><span data-i18n="nonlinearText">Jacobian rank rank(dQ|ker dΠ) — только локальный differential candidate. Он не заменяет глобальный fiber-count theorem.</span></div>
+    <div class="callout firewall"><b>DYNAMIC_ASCENT_NOT_YET_SPECIFIED</b><br><span data-i18n="dynamicText">Статическая карта A не задаёт время, причинность, память или autonomous macro-update. Нужен отдельный certified dynamic package.</span></div>
+  </div>
+  <div class="status ok">STATIC_RELATIONAL_ASCENT_CERTIFIED</div>
+</section>
+</div>
+<div class="footer" data-i18n="footer">Автономная демонстрация к BC-Emergence VII v0.1.1 reviewed. Вычисления выполняются локально в браузере.</div>
+</main>
+<script>
+'use strict';
+const T={ru:{subtitle:'Интерактивный аудит условного ранга синергии, точного бюджета зондов, графового incidence benchmark и границ нелинейного/динамического расширения.',presetBtn:'Загрузить пример',linearTitle:'1. Линейный аудит A|B',fieldLabel:'Простое поле q',presetLabel:'Пресет',noiseLabel:'Encoding tolerance η',bLabel:'Матрица B — lower descriptor',aLabel:'Матрица A — interaction map',computeBtn:'Вычислить сертификат',multLabel:'fiber multiplicity',budgetLabel:'q-ary probe budget',complexityLabel:'dense arithmetic ceiling',witnessTitle:'2. Свидетель и quotient basis',witnessHead:'Witness direction v',probeHead:'Минимальный probe completion',polyHead:'Полиномиальный подкласс.',polyText:'В линейном пакете минимум строится исключением Гаусса; это не переносится на общий Set Cover из BC-M V.',supportTitle:'3. Support-order audit',readCoords:'Прочитанные координаты S (через запятую, начиная с 1)',supportBtn:'Проверить остаточный ранг',unreadLabel:'unread coordinates',rowSupportLabel:'declared row supports',supportWarn:'Support order зависит от объявленного channel basis. Row reduction может менять support отдельных строк, не меняя s(A|B).',marginTitle:'4. Finite-resolution encoding margin',sepLabel:'Минимальное разделение кодов Δenc',marginBtn:'Рассчитать margin',marginNote:'Положительный margin защищает readout фиксированной architecture, но не защищает от удаления channels или изменения topology.',graphTitle:'5. Graph-incidence benchmark',graphPreset:'Граф',graphField:'Поле q',graphAction:'Действие',resetEdges:'Восстановить рёбра',graphCertTitle:'6. Графовый сертификат',forestBudget:'forest probe budget',deletionLoss:'deletion rank loss',graphHint:'Нажимайте на рёбра: удаление bridge создаёт rank wall; удаление cycle-redundant edge оставляет ранг.',frontierTitle:'7. Claim Firewall и открытые фронтиры',nonlinearText:'Jacobian rank rank(dQ|ker dΠ) — только локальный differential candidate. Он не заменяет глобальный fiber-count theorem.',dynamicText:'Статическая карта A не задаёт время, причинность, память или autonomous macro-update. Нужен отдельный certified dynamic package.',footer:'Автономная демонстрация к BC-Emergence VII v0.1.1 reviewed. Вычисления выполняются локально в браузере.',factorYes:'FACTORIZATION_CERTIFIED: interaction macro-map уже содержится в lower descriptor.',factorNo:'RELATIONAL_NONFACTORIZATION_CERTIFIED: найден descriptor-blind relational sector.',noWitness:'Witness отсутствует: ker(B) ⊆ ker(A).',probeNone:'Дополнительные probes не нужны.',supportOk:'SUPPORT_ORDER_CERTIFIED: выбранный coordinate readout устраняет conditional synergy.',supportOpen:'Остаточная relational ambiguity сохраняется.',marginOk:'ROBUST_RELATIONAL_CLASSIFICATION_CERTIFIED',marginLow:'MARGIN_LOW / INCONCLUSIVE',graphRedundant:'CHANNEL_REDUNDANCY_CERTIFIED: удаление не изменило relational rank.',graphWall:'INTERACTION_RANK_WALL: число компонент выросло.',graphBase:'GRAPH_RELATIONAL_RANK_CERTIFIED'},en:{subtitle:'Interactive audit of conditional synergy rank, exact probe budgets, the graph-incidence benchmark, and the nonlinear/dynamic frontiers.',presetBtn:'Load example',linearTitle:'1. Linear A|B audit',fieldLabel:'Prime field q',presetLabel:'Preset',noiseLabel:'Encoding tolerance η',bLabel:'Matrix B — lower descriptor',aLabel:'Matrix A — interaction map',computeBtn:'Compute certificate',multLabel:'fiber multiplicity',budgetLabel:'q-ary probe budget',complexityLabel:'dense arithmetic ceiling',witnessTitle:'2. Witness and quotient basis',witnessHead:'Witness direction v',probeHead:'Minimum probe completion',polyHead:'Polynomial-time subclass.',polyText:'For linear packages the minimum is constructed by Gaussian elimination; this does not transfer to general Set Cover in BC-M V.',supportTitle:'3. Support-order audit',readCoords:'Read coordinates S (comma-separated, starting at 1)',supportBtn:'Check residual rank',unreadLabel:'unread coordinates',rowSupportLabel:'declared row supports',supportWarn:'Support order depends on the declared channel basis. Row reduction may change row supports without changing s(A|B).',marginTitle:'4. Finite-resolution encoding margin',sepLabel:'Minimum code separation Δenc',marginBtn:'Compute margin',marginNote:'A positive margin protects readout of a fixed architecture, not channel deletion or topology changes.',graphTitle:'5. Graph-incidence benchmark',graphPreset:'Graph',graphField:'Field q',graphAction:'Action',resetEdges:'Restore edges',graphCertTitle:'6. Graph certificate',forestBudget:'forest probe budget',deletionLoss:'deletion rank loss',graphHint:'Click edges: deleting a bridge creates a rank wall; deleting a cycle-redundant edge preserves rank.',frontierTitle:'7. Claim Firewall and open frontiers',nonlinearText:'The Jacobian rank rank(dQ|ker dΠ) is only a local differential candidate. It does not replace a global fiber-count theorem.',dynamicText:'A static map A defines no time, causality, memory, or autonomous macro-update. A separate certified dynamic package is required.',footer:'Self-contained demonstration for BC-Emergence VII v0.1.1 reviewed. All computations run locally in the browser.',factorYes:'FACTORIZATION_CERTIFIED: the interaction macro-map is already contained in the lower descriptor.',factorNo:'RELATIONAL_NONFACTORIZATION_CERTIFIED: a descriptor-blind relational sector was found.',noWitness:'No witness: ker(B) ⊆ ker(A).',probeNone:'No additional probes are required.',supportOk:'SUPPORT_ORDER_CERTIFIED: the selected coordinate readout removes conditional synergy.',supportOpen:'Residual relational ambiguity remains.',marginOk:'ROBUST_RELATIONAL_CLASSIFICATION_CERTIFIED',marginLow:'MARGIN_LOW / INCONCLUSIVE',graphRedundant:'CHANNEL_REDUNDANCY_CERTIFIED: deletion preserved the relational rank.',graphWall:'INTERACTION_RANK_WALL: the component count increased.',graphBase:'GRAPH_RELATIONAL_RANK_CERTIFIED'}};
+let lang='ru';
+function tr(k){return (T[lang]&&T[lang][k])||k}
+function setLang(x){lang=x;document.documentElement.lang=x;document.querySelectorAll('[data-i18n]').forEach(el=>{const k=el.dataset.i18n;if(T[x][k])el.textContent=T[x][k]});document.getElementById('langRu').classList.toggle('active',x==='ru');document.getElementById('langEn').classList.toggle('active',x==='en');computeAll();renderGraph()}
+document.getElementById('langRu').onclick=()=>setLang('ru');document.getElementById('langEn').onclick=()=>setLang('en');
+function mod(a,p){a%=p;return a<0?a+p:a}function inv(a,p){a=mod(a,p);for(let x=1;x<p;x++)if(mod(a*x,p)===1)return x;throw Error('non-invertible')}
+function parseMatrix(s,p){const rows=s.trim().split(/\n|;/).map(r=>r.trim()).filter(Boolean).map(r=>r.split(/[ ,]+/).filter(Boolean).map(Number));if(!rows.length)return[];const n=rows[0].length;if(!n||rows.some(r=>r.length!==n)||rows.flat().some(x=>!Number.isFinite(x)))throw Error(lang==='ru'?'Некорректная матрица':'Invalid matrix');return rows.map(r=>r.map(x=>mod(x,p)))}
+function clone(M){return M.map(r=>r.slice())}
+function rref(M,p){const A=clone(M);const m=A.length,n=m?A[0].length:0,piv=[];let row=0;for(let col=0;col<n&&row<m;col++){let sel=row;while(sel<m&&mod(A[sel][col],p)===0)sel++;if(sel===m)continue;[A[row],A[sel]]=[A[sel],A[row]];const z=inv(A[row][col],p);A[row]=A[row].map(v=>mod(v*z,p));for(let i=0;i<m;i++)if(i!==row&&A[i][col]){const f=A[i][col];A[i]=A[i].map((v,j)=>mod(v-f*A[row][j],p))}piv.push(col);row++}return{R:A,piv,rank:piv.length}}
+function rank(M,p){return rref(M,p).rank}
+function stack(B,A){return B.concat(A)}
+function matVec(M,v,p){return M.map(r=>mod(r.reduce((s,x,i)=>s+x*v[i],0),p))}
+function nullBasis(M,p,nOverride){const n=M.length?M[0].length:nOverride||0;const {R,piv}=rref(M,p);const free=[];for(let j=0;j<n;j++)if(!piv.includes(j))free.push(j);return free.map(f=>{const v=Array(n).fill(0);v[f]=1;piv.forEach((pc,i)=>{v[pc]=mod(-R[i][f],p)});return v})}
+function independentRowsModulo(A,B,p){let basis=clone(B),r=rank(basis,p),out=[];for(const row of A){const nr=rank(basis.concat([row]),p);if(nr>r){out.push(row.slice());basis.push(row.slice());r=nr}}return out}
+function fmtVec(v){return '['+v.join(' ')+']'}function fmtMat(M){return M.map(r=>r.join(' ')).join('\n')}
+const presets={basic:{q:2,B:'1 0 0 0\n0 1 0 0',A:'1 0 1 0\n0 1 0 1\n1 1 1 1'},factor:{q:3,B:'1 0 1\n0 1 1',A:'1 1 2',},redundant:{q:2,B:'0 0 0',A:'1 1 0\n0 1 1\n1 0 1'},support:{q:2,B:'1 0 0 0',A:'1 1 1 0\n0 0 1 1'}};
+function loadMatrixPreset(){const p=presets[document.getElementById('matrixPreset').value];document.getElementById('q').value=p.q;document.getElementById('B').value=p.B;document.getElementById('A').value=p.A;computeAll()}
+document.getElementById('matrixPreset').onchange=loadMatrixPreset;document.getElementById('loadPreset').onclick=loadMatrixPreset;
+let last={};
+function computeLinear(){const err=document.getElementById('linearError');err.classList.add('hidden');try{const p=+document.getElementById('q').value,B=parseMatrix(document.getElementById('B').value,p),A=parseMatrix(document.getElementById('A').value,p);const n=(B[0]||A[0]||[]).length;if(!n||B.some(r=>r.length!==n)||A.some(r=>r.length!==n))throw Error(lang==='ru'?'A и B должны иметь одинаковое число столбцов':'A and B must have the same number of columns');const rB=rank(B,p),rBA=rank(stack(B,A),p),s=rBA-rB,mult=(BigInt(p)**BigInt(s)).toString(),N=Math.max(n,B.length+A.length),nullB=nullBasis(B,p,n);let wit=null;for(const v of nullB)if(matVec(A,v,p).some(x=>x!==0)){wit=v;break}const probes=independentRowsModulo(A,B,p);last={p,B,A,n,rB,rBA,s,mult,wit,probes};document.getElementById('rankB').textContent=rB;document.getElementById('rankBA').textContent=rBA;document.getElementById('synergy').textContent=s;document.getElementById('mult').textContent=mult;document.getElementById('budget').textContent=s;document.getElementById('complexity').textContent='O('+N+'³)';const fs=document.getElementById('factorStatus');fs.textContent=s===0?tr('factorYes'):tr('factorNo');fs.className='status '+(s===0?'ok':'warn');document.getElementById('witness').textContent=wit?('v = '+fmtVec(wit)+';  Bv = '+fmtVec(matVec(B,wit,p))+';  Av = '+fmtVec(matVec(A,wit,p))):tr('noWitness');document.getElementById('probeBasis').textContent=probes.length?probes.map((r,i)=>'p'+(i+1)+' = '+fmtVec(r)).join('  |  '):tr('probeNone');document.getElementById('matrixView').innerHTML='<div><span class="pill">B</span><span class="matrix">'+fmtMat(B)+'</span></div><div><span class="pill">A</span><span class="matrix">'+fmtMat(A)+'</span></div>';computeSupport();computeMargin()}catch(e){err.textContent=e.message;err.classList.remove('hidden')}}
+function computeSupport(){if(!last.A)return;const set=new Set(document.getElementById('coords').value.split(',').map(x=>parseInt(x.trim(),10)-1).filter(x=>Number.isInteger(x)&&x>=0&&x<last.n));const unread=[];for(let i=0;i<last.n;i++)if(!set.has(i))unread.push(i);const sub=last.A.map(r=>unread.map(j=>r[j]));const rr=unread.length?rank(sub,last.p):0;document.getElementById('resRank').textContent=rr;document.getElementById('unread').textContent=unread.map(i=>i+1).join(',')||'∅';document.getElementById('rowSupports').textContent=last.A.map(r=>r.filter(x=>x!==0).length).join(',');const st=document.getElementById('supportStatus');st.textContent=rr===0?tr('supportOk'):tr('supportOpen')+' s='+rr;st.className='status '+(rr===0?'ok':'warn')}
+function computeMargin(){const d=+document.getElementById('deltaEnc').value,e=+document.getElementById('eta').value,mu=d-2*e,el=document.getElementById('marginStatus');el.textContent=(mu>0?tr('marginOk'):tr('marginLow'))+'; μsyn = '+mu.toFixed(3);el.className='status '+(mu>0?'ok':'bad')}
+function computeAll(){computeLinear()}
+document.getElementById('compute').onclick=computeAll;document.getElementById('supportCompute').onclick=computeSupport;document.getElementById('marginCompute').onclick=computeMargin;document.getElementById('eta').oninput=computeMargin;document.getElementById('deltaEnc').oninput=computeMargin;
+const graphDefs={path4:{n:4,edges:[[0,1],[1,2],[2,3]]},cycle4:{n:4,edges:[[0,1],[1,2],[2,3],[3,0]]},diag4:{n:4,edges:[[0,1],[1,2],[2,3],[3,0],[0,2]]},twoEdges:{n:4,edges:[[0,1],[2,3]]},triangle:{n:3,edges:[[0,1],[1,2],[2,0]]}};let gstate={key:'path4',active:[]},baseRank=0;
+function components(n,edges){const p=Array.from({length:n},(_,i)=>i);function f(x){while(p[x]!==x){p[x]=p[p[x]];x=p[x]}return x}function u(a,b){a=f(a);b=f(b);if(a!==b)p[b]=a}edges.forEach(e=>u(e[0],e[1]));return new Set(Array.from({length:n},(_,i)=>f(i))).size}
+function incidence(n,edges,p){return edges.map(([u,v])=>{const r=Array(n).fill(0);r[u]=mod(-1,p);r[v]=1;return r})}
+function resetGraph(){const d=graphDefs[document.getElementById('graphPreset').value];gstate={key:document.getElementById('graphPreset').value,active:d.edges.map(()=>true)};baseRank=d.n-components(d.n,d.edges);renderGraph()}
+document.getElementById('graphPreset').onchange=resetGraph;document.getElementById('gq').onchange=renderGraph;document.getElementById('resetGraph').onclick=resetGraph;
+function graphPos(n,w,h){const out=[];for(let i=0;i<n;i++){const a=-Math.PI/2+2*Math.PI*i/n;out.push([w/2+Math.cos(a)*Math.min(w,h)*.34,h/2+Math.sin(a)*Math.min(w,h)*.34])}return out}
+function renderGraph(){const d=graphDefs[gstate.key]||graphDefs.path4;if(gstate.active.length!==d.edges.length)gstate.active=d.edges.map(()=>true);const edges=d.edges.filter((e,i)=>gstate.active[i]),p=+document.getElementById('gq').value,c=components(d.n,edges),r=rank(incidence(d.n,edges,p),p),s=d.n-c,m=(BigInt(p)**BigInt(s)).toString();document.getElementById('gN').textContent=d.n;document.getElementById('gC').textContent=c;document.getElementById('gRank').textContent=r;document.getElementById('gMult').textContent=m;document.getElementById('gBudget').textContent=s;document.getElementById('gLoss').textContent=Math.max(0,baseRank-r);const gst=document.getElementById('graphStatus');if(gstate.active.every(Boolean)){gst.textContent=tr('graphBase')+'; rank = |V|-c = '+s;gst.className='status ok'}else if(r===baseRank){gst.textContent=tr('graphRedundant');gst.className='status ok'}else{gst.textContent=tr('graphWall')+' Δrank='+(baseRank-r);gst.className='status bad'}const list=document.getElementById('edgeList');list.innerHTML='';d.edges.forEach((e,i)=>{const b=document.createElement('button');b.className='edge-btn '+(gstate.active[i]?'':'off');b.textContent='e'+(i+1)+': '+(e[0]+1)+'–'+(e[1]+1);b.onclick=()=>{gstate.active[i]=!gstate.active[i];renderGraph()};list.appendChild(b)});const cv=document.getElementById('graphCanvas'),ctx=cv.getContext('2d'),pos=graphPos(d.n,cv.width,cv.height);ctx.clearRect(0,0,cv.width,cv.height);ctx.lineWidth=4;d.edges.forEach((e,i)=>{ctx.strokeStyle=gstate.active[i]?'#a67c00':'#c9ced3';ctx.setLineDash(gstate.active[i]?[]:[8,7]);ctx.beginPath();ctx.moveTo(...pos[e[0]]);ctx.lineTo(...pos[e[1]]);ctx.stroke()});ctx.setLineDash([]);pos.forEach((xy,i)=>{ctx.fillStyle='#17365d';ctx.beginPath();ctx.arc(xy[0],xy[1],21,0,Math.PI*2);ctx.fill();ctx.fillStyle='#fff';ctx.font='bold 16px sans-serif';ctx.textAlign='center';ctx.textBaseline='middle';ctx.fillText(String(i+1),xy[0],xy[1])})}
+resetGraph();loadMatrixPreset();
+</script>
+</body>
+</html>
