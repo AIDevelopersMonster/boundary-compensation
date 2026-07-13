@@ -1,0 +1,224 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>BC-Layers IV — Hidden-Sector Response Lab</title>
+<style>
+:root{--bg:#06101c;--panel:#0d1b2e;--panel2:#12233a;--ink:#edf5ff;--muted:#9eb2cb;--line:#29415f;--accent:#66b7ff;--accent2:#bd93ff;--good:#46d7a5;--warn:#ffd166;--bad:#ff7386;--cyan:#55d7e8;--shadow:0 18px 50px rgba(0,0,0,.3)}
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;min-height:100vh;color:var(--ink);font:15px/1.55 Inter,Segoe UI,Arial,sans-serif;background:radial-gradient(circle at 12% 0%,#12345a 0,#07111f 38%,#040a12 100%)}
+.wrap{max-width:1320px;margin:auto;padding:26px 20px 64px}.hero{position:relative;overflow:hidden;border:1px solid var(--line);border-radius:25px;padding:34px;background:linear-gradient(135deg,rgba(18,50,86,.95),rgba(9,23,42,.98));box-shadow:var(--shadow)}.hero:after{content:"Σ(z) ↔ K(t)";position:absolute;right:-24px;top:-28px;font-size:92px;font-weight:900;letter-spacing:-5px;color:rgba(102,183,255,.055)}
+.hero h1{font-size:clamp(31px,5vw,54px);line-height:1.02;margin:12px 0 8px;max-width:980px}.eyebrow{color:var(--accent);text-transform:uppercase;letter-spacing:.13em;font-size:12px;font-weight:850}.subtitle{font-size:18px;color:#cad9ed;max-width:980px}.intro{max-width:980px;color:var(--muted);margin-top:17px}.toplink{position:absolute;right:22px;top:18px;z-index:2}
+.button,a.button{display:inline-flex;align-items:center;justify-content:center;gap:7px;border:1px solid #3b5a81;border-radius:11px;background:#11243d;color:var(--ink);padding:9px 13px;font-weight:750;cursor:pointer;text-decoration:none;transition:.18s}.button:hover{transform:translateY(-1px);border-color:var(--accent);background:#17304f}.button.primary{border-color:transparent;background:linear-gradient(135deg,#247dc8,#735ed5)}.button.small{font-size:12px;padding:7px 10px}
+.grid{display:grid;grid-template-columns:repeat(12,1fr);gap:18px;margin-top:18px}.card{grid-column:span 12;background:linear-gradient(180deg,rgba(15,31,53,.98),rgba(8,20,36,.98));border:1px solid var(--line);border-radius:19px;padding:21px;box-shadow:var(--shadow)}.half{grid-column:span 6}.third{grid-column:span 4}.twoThird{grid-column:span 8}.card h2{margin:0 0 14px;font-size:20px}.card h3{font-size:13px;color:#d9e7f7;margin:18px 0 8px;text-transform:uppercase;letter-spacing:.08em}
+.controls{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}.control{background:#09182a;border:1px solid #29425f;border-radius:12px;padding:11px}.control label{display:flex;justify-content:space-between;gap:8px;color:var(--muted);font-size:12px;font-weight:800;text-transform:uppercase;letter-spacing:.06em}.control output{color:var(--ink);font-size:13px}.control input[type=range]{width:100%;accent-color:#70bdff;margin-top:8px}.selectrow{display:grid;grid-template-columns:1fr 1fr;gap:12px}.label{display:block;color:var(--muted);font-size:11px;text-transform:uppercase;letter-spacing:.08em;font-weight:850;margin-bottom:6px}select{width:100%;background:#071527;color:var(--ink);border:1px solid #304a6d;border-radius:10px;padding:10px 11px}
+.presets{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}.formula{font-family:Cambria Math,STIX Two Math,serif;background:#061527;border:1px solid #29425f;border-radius:12px;padding:12px 14px;text-align:center;color:#e1edff;font-size:17px;margin:12px 0}.stats{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px}.stat{background:#08172a;border:1px solid #2b4260;border-radius:13px;padding:12px;min-width:0}.stat .k{font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:.07em}.stat .v{font-size:18px;font-weight:850;margin-top:5px;overflow-wrap:anywhere}.chip{display:inline-flex;align-items:center;border:1px solid currentColor;border-radius:999px;padding:5px 9px;font-size:10px;font-weight:900;letter-spacing:.045em}.good{color:var(--good)}.warn{color:var(--warn)}.bad{color:var(--bad)}.neutral{color:#b2c4dc}.note{border-left:3px solid var(--accent);padding:10px 13px;background:rgba(102,183,255,.075);border-radius:0 10px 10px 0;color:#cad9ed}.firewall{border:1px solid rgba(255,115,134,.55);background:linear-gradient(135deg,rgba(105,18,40,.38),rgba(47,17,37,.52));border-radius:15px;padding:16px}.firewall h3{margin-top:0;color:#ffc1ca}.interface{border:1px solid rgba(70,215,165,.45);background:rgba(34,118,91,.13);border-radius:14px;padding:14px}.warning{border:1px solid rgba(255,209,102,.45);background:rgba(120,86,18,.14);border-radius:14px;padding:14px}.muted{color:var(--muted)}
+.canvas-wrap{background:#061426;border:1px solid #29415e;border-radius:14px;padding:10px;margin-top:11px}canvas{display:block;width:100%;height:300px}.canvas-small canvas{height:245px}.legend{display:flex;gap:14px;flex-wrap:wrap;color:var(--muted);font-size:12px;margin-top:8px}.swatch{display:inline-block;width:10px;height:10px;border-radius:3px;margin-right:5px;vertical-align:-1px}.split{display:grid;grid-template-columns:1fr 1fr;gap:14px}.matrix-grid{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:14px}.matrix-card{background:#071629;border:1px solid #2a4362;border-radius:14px;padding:14px;text-align:center}.matrix{display:inline-grid;gap:5px;border-left:2px solid #9eb8dc;border-right:2px solid #9eb8dc;padding:5px 10px;font:17px Cambria Math,serif;min-width:150px}.matrix.two{grid-template-columns:repeat(2,1fr)}.matrix.three{grid-template-columns:repeat(3,1fr)}.arrow{font-size:25px;color:var(--accent)}
+.table-wrap{overflow:auto}.audit-table{width:100%;border-collapse:collapse;min-width:720px}.audit-table th,.audit-table td{padding:10px 8px;border-bottom:1px solid #243b58;text-align:left;vertical-align:top}.audit-table th{color:var(--muted);font-size:10px;text-transform:uppercase;letter-spacing:.07em}.code{background:#040d19;border:1px solid #263e5b;border-radius:12px;padding:13px;white-space:pre-wrap;overflow:auto;font:12px/1.5 ui-monospace,SFMono-Regular,Consolas,monospace;color:#cfe2fa;max-height:420px}.footer{text-align:center;color:#7d94b1;margin-top:30px;font-size:12px}.lossgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:11px}.losscol{background:#071629;border:1px solid #29425f;border-radius:13px;padding:13px}.losscol ul{margin:8px 0 0;padding-left:18px}.losscol li{margin:4px 0}.eqline{font:14px/1.5 ui-monospace,Consolas,monospace;background:#071629;border:1px solid #29415f;border-radius:9px;padding:9px;overflow-wrap:anywhere}.statuslist{display:flex;gap:7px;flex-wrap:wrap}.mini{font-size:12px}.nowrap{white-space:nowrap}
+@media(max-width:980px){.half,.third,.twoThird{grid-column:span 12}.controls{grid-template-columns:repeat(2,1fr)}.stats{grid-template-columns:repeat(2,1fr)}.lossgrid{grid-template-columns:1fr}.hero:after{font-size:62px}.toplink{position:static;margin-bottom:12px}.split{grid-template-columns:1fr}}
+@media(max-width:590px){.wrap{padding:12px}.hero,.card{padding:17px}.controls,.stats,.selectrow{grid-template-columns:1fr}.matrix-grid{grid-template-columns:1fr}.arrow{transform:rotate(90deg)}canvas{height:260px}.hero h1{font-size:31px}}
+</style>
+</head>
+<body><div class="wrap">
+<section class="hero">
+  <div class="toplink"><a class="button small" id="langLink"></a></div>
+  <div class="eyebrow">Boundary Compensation · BC-Layers IV</div>
+  <h1 data-t="title"></h1>
+  <div class="subtitle" data-t="subtitle"></div>
+  <p class="intro" data-t="intro"></p>
+  <div class="formula">H<sub>eff</sub>(z)=A−B* (M−zI)<sup>−1</sup>B &nbsp; · &nbsp; K(t)=B*e<sup>−itM</sup>B</div>
+  <div class="muted" data-t="companion"></div>
+</section>
+
+<div class="grid">
+<section class="card">
+  <h2 data-t="controlsTitle"></h2>
+  <div class="selectrow">
+    <div><span class="label" data-t="taskLabel"></span><select id="task"></select></div>
+    <div><span class="label" data-t="modelLabel"></span><select id="modelMode"></select></div>
+  </div>
+  <div class="controls" id="controls"></div>
+  <h3 data-t="presetsTitle"></h3>
+  <div class="presets">
+    <button class="button small" onclick="preset('identity')" data-t="presetIdentity"></button>
+    <button class="button small" onclick="preset('pole')" data-t="presetPole"></button>
+    <button class="button small" onclick="preset('dynamic')" data-t="presetDynamic"></button>
+    <button class="button small" onclick="preset('invisible')" data-t="presetInvisible"></button>
+    <button class="button small" onclick="preset('twoPole')" data-t="presetTwoPole"></button>
+  </div>
+</section>
+
+<section class="card half">
+  <h2 data-t="exactTitle"></h2>
+  <div class="stats">
+    <div class="stat"><div class="k" data-t="sfStatus"></div><div class="v" id="sfStatus"></div></div>
+    <div class="stat"><div class="k" data-t="poleMargin"></div><div class="v" id="poleMargin"></div></div>
+    <div class="stat"><div class="k">H<sub>eff</sub>(z)</div><div class="v" id="heffValue"></div></div>
+    <div class="stat"><div class="k" data-t="taskStatus"></div><div class="v" id="taskStatus"></div></div>
+  </div>
+  <div class="canvas-wrap"><canvas id="responseCanvas"></canvas></div>
+  <div class="legend" id="responseLegend"></div>
+</section>
+
+<section class="card half">
+  <h2 data-t="kernelTitle"></h2>
+  <div class="matrix-grid">
+    <div class="matrix-card"><span class="label" data-t="fullOperator"></span><div class="matrix two" id="matrix2"></div></div>
+    <div class="arrow">⇄</div>
+    <div class="matrix-card"><span class="label" data-t="schurEquation"></span><div class="formula" id="schurFormula"></div></div>
+  </div>
+  <div class="stats" style="margin-top:12px">
+    <div class="stat"><div class="k">λ−</div><div class="v" id="lambdaMinus"></div></div>
+    <div class="stat"><div class="k">λ+</div><div class="v" id="lambdaPlus"></div></div>
+    <div class="stat"><div class="k" data-t="detResidual"></div><div class="v" id="detResidual"></div></div>
+    <div class="stat"><div class="k" data-t="kernelResidual"></div><div class="v" id="kernelResidual"></div></div>
+  </div>
+  <div class="note" style="margin-top:12px" data-t="kernelNote"></div>
+</section>
+
+<section class="card half">
+  <h2 data-t="frozenTitle"></h2>
+  <div class="stats">
+    <div class="stat"><div class="k">H<sub>fr</sub>(z₀)</div><div class="v" id="frozenValue"></div></div>
+    <div class="stat"><div class="k" data-t="frozenError"></div><div class="v" id="frozenError"></div></div>
+    <div class="stat"><div class="k" data-t="frozenStatus"></div><div class="v" id="frozenStatus"></div></div>
+    <div class="stat"><div class="k" data-t="conditioning"></div><div class="v" id="conditioning"></div></div>
+  </div>
+  <div class="canvas-wrap canvas-small"><canvas id="frozenCanvas"></canvas></div>
+  <div class="warning" style="margin-top:12px" data-t="frozenWarning"></div>
+</section>
+
+<section class="card half">
+  <h2 data-t="dynamicTitle"></h2>
+  <div class="stats">
+    <div class="stat"><div class="k" data-t="maxDrift"></div><div class="v" id="maxDrift"></div></div>
+    <div class="stat"><div class="k" data-t="visibleLeakage"></div><div class="v" id="leakageValue"></div></div>
+    <div class="stat"><div class="k" data-t="dynamicStatus"></div><div class="v" id="dynamicStatus"></div></div>
+    <div class="stat"><div class="k" data-t="dynamicHandoff"></div><div class="v" id="dynamicHandoff"></div></div>
+  </div>
+  <div class="canvas-wrap canvas-small"><canvas id="dynamicsCanvas"></canvas></div>
+  <div class="legend" id="dynamicsLegend"></div>
+  <div class="firewall" style="margin-top:13px"><h3 data-t="firewallTitle"></h3><div class="formula">P<sub>V</sub>e<sup>−itℍ</sup>P<sub>V</sub> ≠ e<sup>−itH<sub>fr</sub>(z₀)</sup></div><div data-t="firewallText"></div></div>
+</section>
+
+<section class="card half">
+  <h2 data-t="memoryTitle"></h2>
+  <div class="controls" style="grid-template-columns:1fr"><div class="control"><label><span>η</span><output id="etaOut"></output></label><input id="eta" type="range" min="0.05" max="2" step="0.05" value="0.4"></div></div>
+  <div class="canvas-wrap canvas-small"><canvas id="memoryCanvas"></canvas></div>
+  <div class="stats" style="margin-top:12px">
+    <div class="stat"><div class="k">Σ(z+iη)</div><div class="v mini" id="sigmaComplex"></div></div>
+    <div class="stat"><div class="k" data-t="laplaceApprox"></div><div class="v mini" id="laplaceApprox"></div></div>
+    <div class="stat"><div class="k" data-t="dualityResidual"></div><div class="v" id="dualityResidual"></div></div>
+    <div class="stat"><div class="k" data-t="dualityStatus"></div><div class="v" id="dualityStatus"></div></div>
+  </div>
+  <div class="note" style="margin-top:12px" data-t="dualityNote"></div>
+</section>
+
+<section class="card half">
+  <h2 data-t="nonidTitle"></h2>
+  <div class="matrix-grid">
+    <div class="matrix-card"><span class="label" data-t="baseLift"></span><div class="matrix two" id="baseMatrix"></div><div class="mini muted" data-t="hiddenDim1"></div></div>
+    <div class="arrow">≡<sub>response</sub></div>
+    <div class="matrix-card"><span class="label" data-t="enlargedLift"></span><div class="matrix three" id="largeMatrix"></div><div class="mini muted" data-t="hiddenDim2"></div></div>
+  </div>
+  <div class="canvas-wrap canvas-small"><canvas id="nonidCanvas"></canvas></div>
+  <div class="stats" style="margin-top:12px">
+    <div class="stat"><div class="k" data-t="responseDifference"></div><div class="v" id="responseDifference"></div></div>
+    <div class="stat"><div class="k" data-t="activeDim"></div><div class="v" id="activeDim"></div></div>
+    <div class="stat"><div class="k" data-t="invisibleDim"></div><div class="v" id="invisibleDim"></div></div>
+    <div class="stat"><div class="k" data-t="liftStatus"></div><div class="v" id="liftStatus"></div></div>
+  </div>
+  <div class="note" style="margin-top:12px" id="nonidNote"></div>
+</section>
+
+<section class="card">
+  <h2 data-t="lossTitle"></h2>
+  <div class="lossgrid">
+    <div class="losscol"><strong data-t="stage1"></strong><ul id="lossStage1"></ul></div>
+    <div class="losscol"><strong data-t="stage2"></strong><ul id="lossStage2"></ul></div>
+    <div class="losscol"><strong data-t="stage3"></strong><ul id="lossStage3"></ul></div>
+  </div>
+</section>
+
+<section class="card half">
+  <h2 data-t="reportTitle"></h2>
+  <div class="statuslist" id="statusList"></div>
+  <pre class="code" id="report"></pre>
+  <div class="presets"><button class="button primary" onclick="downloadReport()" data-t="downloadReport"></button><button class="button" id="copyBtn" onclick="copyReport()" data-t="copyReport"></button></div>
+</section>
+
+<section class="card half">
+  <h2 data-t="conclusionsTitle"></h2>
+  <div class="interface"><strong data-t="proofOneTitle"></strong><div class="formula">static Schur reduction ≠ exact reduced dynamics</div><div data-t="proofOneText"></div></div>
+  <div class="interface" style="margin-top:12px"><strong data-t="proofTwoTitle"></strong><div class="formula">exact effective response ≠ unique hidden realization</div><div data-t="proofTwoText"></div></div>
+  <div class="warning" style="margin-top:12px" data-t="scopeWarning"></div>
+</section>
+</div>
+<div class="footer">BC-Layers IV Interactive Companion · v0.1.1 reviewed · A. A. Malachevsky · July 2026</div>
+</div>
+<script>
+'use strict';
+const LANG='en';
+const I18N={
+en:{
+ title:'BC-Layers IV — Hidden-Sector Response Lab',subtitle:'Schur–Feshbach reduction · pole margins · frozen error · memory kernels · hidden-lift non-identifiability',intro:'Explore a retained channel coupled to one or two hidden modes. The laboratory separates naive compression, exact energy-dependent response, frozen approximation and actual compressed dynamics.',companion:'Interactive companion to BC-Layers IV v0.1.1 reviewed clean',controlsTitle:'1. Registered reduction protocol',taskLabel:'Declared downstream task Q',modelLabel:'Hidden model',presetsTitle:'Guided experiments',presetIdentity:'Exact kernel identity',presetPole:'Approach a hidden pole',presetDynamic:'Static-to-dynamic firewall',presetInvisible:'Invisible hidden enlargement',presetTwoPole:'Activate two hidden poles',exactTitle:'2. Exact Schur–Feshbach response',sfStatus:'Reduction status',poleMargin:'Pole margin',taskStatus:'Task sufficiency',kernelTitle:'3. Exact kernel correspondence',fullOperator:'Full operator ℍ',schurEquation:'Schur equation S(z)=0',detResidual:'Determinant identity residual',kernelResidual:'Root residual',kernelNote:'On z ∈ ρ(M), the full eigenvalue equation and the Schur equation have the same visible roots. This is spectral correspondence, not hidden-sector reconstruction.',frozenTitle:'4. Frozen response and pole sensitivity',frozenError:'Current frozen error',frozenStatus:'Approximation status',conditioning:'Forward conditioning',frozenWarning:'A frozen operator is a second compression step. Near a hidden pole its error and perturbation sensitivity grow rapidly.',dynamicTitle:'5. Exact compressed dynamics versus frozen exponential',maxDrift:'Maximum drift on [0,T]',visibleLeakage:'Maximum visible leakage',dynamicStatus:'Dynamic status',dynamicHandoff:'Inter-branch handoff',firewallTitle:'Claim Firewall',firewallText:'Exact hidden elimination produces a hidden-initial-state term and a memory kernel. A scalar frozen phase remains unit-modulus, while the exact visible amplitude generally leaks into the hidden sector.',memoryTitle:'6. Memory kernel and resolvent duality',laplaceApprox:'Finite-horizon transform',dualityResidual:'Transform residual',dualityStatus:'Duality status',dualityNote:'For Im ζ>0, Σ(ζ)=i∫₀∞e^{iζt}K(t)dt. The finite-horizon integral converges to the resolvent response as T grows.',nonidTitle:'7. Hidden-sector non-identifiability and active Krylov space',baseLift:'Base realization',enlargedLift:'Enlarged realization',hiddenDim1:'hidden dimension = 1',hiddenDim2:'hidden dimension = 2',responseDifference:'Maximum response difference',activeDim:'Active Krylov dimension',invisibleDim:'Invisible hidden dimension',liftStatus:'Hidden-lift status',lossTitle:'8. Three-stage loss ledger',stage1:'Stage 1 — retained/hidden split',stage2:'Stage 2 — Schur compression',stage3:'Stage 3 — recording rule',reportTitle:'9. Machine-readable SFReport',downloadReport:'Download JSON report',copyReport:'Copy report',copied:'Copied',conclusionsTitle:'10. Computational conclusions',proofOneTitle:'Firewall demonstrated',proofOneText:'For nonzero coupling, the exact projected amplitude and the exponential of the frozen operator separate over time. The drift curve is computed directly from the exact 2×2 propagator.',proofTwoTitle:'Non-identifiability demonstrated',proofTwoText:'When the second hidden mode is decoupled, its energy and the total hidden dimension change while the effective response remains identical on the common resolvent domain.',scopeWarning:'Finite-dimensional deterministic demonstration. It does not establish Markovianity, reconstruct a physical hidden sector or extend automatically to unbounded operators and continuum baths.',taskSpectral:'Visible spectral compatibility at z',taskHiddenDim:'Total hidden dimension',taskDynamics:'Exact visible dynamics',modelOne:'One active hidden mode',modelTwo:'Two-mode hidden carrier',paramA:'visible block a',paramG:'coupling g',paramM:'hidden energy M',paramZ:'probe z',paramZ0:'freeze point z₀',paramN:'second hidden energy N',paramH:'second coupling h',paramT:'time horizon T',valid:'EXACT_SF_VALID',poleLow:'POLE_MARGIN_LOW',domainViolation:'RESOLVENT_DOMAIN_VIOLATION',taskSufficient:'TASK_SUFFICIENT_ON_DOMAIN',taskInsufficient:'TASK_INSUFFICIENT',frozenBound:'FROZEN_APPROX_BOUND',frozenUnverified:'FROZEN_APPROX_UNVERIFIED',conditioningLow:'FORWARD_CONDITIONING_LOW',conditioningOk:'CONDITIONING_ACCEPTABLE',memoryRequired:'MEMORY_KERNEL_REQUIRED',dynamicExact:'DYNAMIC_DECOUPLED_EXACT',handoffBlocked:'DYNAMIC_HANDOFF_BLOCKED',handoffReady:'READY_FOR_BCM',nonidentifiable:'HIDDEN_LIFT_NONIDENTIFIABLE',twoActive:'TWO_ACTIVE_HIDDEN_MODES',dualityCertified:'LAPLACE_DUALITY_NUMERICALLY_VERIFIED',dualityFinite:'FINITE_HORIZON_RESIDUAL',responseSame:'The added hidden mode is exactly invisible because h=0. Changing N changes the full realization, while H_eff(z) is unchanged on the common resolvent domain.',responseChanged:'The second mode is coupled (h≠0), so it becomes active and changes the response.',stage1Items:['Choice of V ⊕ K','Alternative retained/hidden decompositions','Interpretation of hidden coordinates'],stage2Items:['Hidden basis','Decoupled hidden summands','Preferred minimal realization','Hidden initial state'],stage3Items:['Unrecorded z-dependence','Poles and residues outside the window','Projectors, phases and derivative data']
+},
+ru:{
+ title:'BC-Layers IV — Лаборатория отклика скрытого сектора',subtitle:'Редукция Шура–Фешбаха · резольвентный запас · frozen-ошибка · ядро памяти · неидентифицируемость hidden lift',intro:'Исследуйте видимый канал, связанный с одной или двумя скрытыми модами. Лаборатория строго разделяет наивное сжатие, точный энергетически-зависимый отклик, замороженное приближение и реальную сжатую динамику.',companion:'Интерактивное приложение к BC-Layers IV v0.1.1 reviewed clean',controlsTitle:'1. Зарегистрированный протокол редукции',taskLabel:'Объявленная downstream-задача Q',modelLabel:'Скрытая модель',presetsTitle:'Направляемые эксперименты',presetIdentity:'Точное тождество ядра',presetPole:'Приближение к скрытому полюсу',presetDynamic:'Статико-динамический файрвол',presetInvisible:'Невидимое расширение hidden-сектора',presetTwoPole:'Активировать два скрытых полюса',exactTitle:'2. Точный отклик Шура–Фешбаха',sfStatus:'Статус редукции',poleMargin:'Запас до полюса',taskStatus:'Достаточность для задачи',kernelTitle:'3. Точное соответствие ядер',fullOperator:'Полный оператор ℍ',schurEquation:'Уравнение Шура S(z)=0',detResidual:'Невязка тождества определителей',kernelResidual:'Невязка корней',kernelNote:'При z ∈ ρ(M) полное уравнение на собственные значения и уравнение Шура имеют одинаковые видимые корни. Это спектральное соответствие, а не реконструкция hidden-сектора.',frozenTitle:'4. Замороженный отклик и чувствительность к полюсу',frozenError:'Текущая frozen-ошибка',frozenStatus:'Статус приближения',conditioning:'Обусловленность forward map',frozenWarning:'Замороженный оператор — второй этап сжатия. Возле скрытого полюса ошибка и чувствительность к возмущениям быстро растут.',dynamicTitle:'5. Точная сжатая динамика и frozen-экспонента',maxDrift:'Максимальный дрейф на [0,T]',visibleLeakage:'Максимальная утечка из V',dynamicStatus:'Динамический статус',dynamicHandoff:'Межветвевой handoff',firewallTitle:'Claim Firewall',firewallText:'Точное исключение hidden-сектора порождает член начального скрытого состояния и ядро памяти. Frozen-фаза сохраняет единичный модуль, тогда как точная видимая амплитуда обычно утекает в скрытый сектор.',memoryTitle:'6. Ядро памяти и резольвентная дуальность',laplaceApprox:'Конечновременное преобразование',dualityResidual:'Невязка преобразования',dualityStatus:'Статус дуальности',dualityNote:'Для Im ζ>0 выполняется Σ(ζ)=i∫₀∞e^{iζt}K(t)dt. Конечновременной интеграл сходится к резольвентному отклику при росте T.',nonidTitle:'7. Неидентифицируемость hidden-сектора и активное пространство Крылова',baseLift:'Базовая реализация',enlargedLift:'Расширенная реализация',hiddenDim1:'скрытая размерность = 1',hiddenDim2:'скрытая размерность = 2',responseDifference:'Максимальное различие откликов',activeDim:'Размерность active Krylov',invisibleDim:'Невидимая скрытая размерность',liftStatus:'Статус hidden lift',lossTitle:'8. Трёхступенчатый реестр потерь',stage1:'Этап 1 — разбиение retained/hidden',stage2:'Этап 2 — Schur-компрессия',stage3:'Этап 3 — правило записи',reportTitle:'9. Машиночитаемый SFReport',downloadReport:'Скачать JSON-отчёт',copyReport:'Копировать отчёт',copied:'Скопировано',conclusionsTitle:'10. Вычислительные выводы',proofOneTitle:'Файрвол продемонстрирован',proofOneText:'При ненулевой связи точная проецированная амплитуда и экспонента frozen-оператора расходятся во времени. Кривая дрейфа вычисляется непосредственно из точного пропагатора 2×2.',proofTwoTitle:'Неидентифицируемость продемонстрирована',proofTwoText:'Когда вторая hidden-мода развязана, её энергия и полная скрытая размерность меняются, но эффективный отклик остаётся неизменным на общей резольвентной области.',scopeWarning:'Конечномерная детерминированная демонстрация. Она не доказывает марковость, не реконструирует физически истинный hidden-сектор и не переносится автоматически на неограниченные операторы и континуальные baths.',taskSpectral:'Видимая спектральная совместимость при z',taskHiddenDim:'Полная скрытая размерность',taskDynamics:'Точная видимая динамика',modelOne:'Одна активная hidden-мода',modelTwo:'Двухмодовый hidden-носитель',paramA:'видимый блок a',paramG:'связь g',paramM:'скрытая энергия M',paramZ:'probe z',paramZ0:'точка заморозки z₀',paramN:'вторая скрытая энергия N',paramH:'вторая связь h',paramT:'временной горизонт T',valid:'EXACT_SF_VALID',poleLow:'POLE_MARGIN_LOW',domainViolation:'RESOLVENT_DOMAIN_VIOLATION',taskSufficient:'TASK_SUFFICIENT_ON_DOMAIN',taskInsufficient:'TASK_INSUFFICIENT',frozenBound:'FROZEN_APPROX_BOUND',frozenUnverified:'FROZEN_APPROX_UNVERIFIED',conditioningLow:'FORWARD_CONDITIONING_LOW',conditioningOk:'CONDITIONING_ACCEPTABLE',memoryRequired:'MEMORY_KERNEL_REQUIRED',dynamicExact:'DYNAMIC_DECOUPLED_EXACT',handoffBlocked:'DYNAMIC_HANDOFF_BLOCKED',handoffReady:'READY_FOR_BCM',nonidentifiable:'HIDDEN_LIFT_NONIDENTIFIABLE',twoActive:'TWO_ACTIVE_HIDDEN_MODES',dualityCertified:'LAPLACE_DUALITY_NUMERICALLY_VERIFIED',dualityFinite:'FINITE_HORIZON_RESIDUAL',responseSame:'Добавленная hidden-мода точно невидима, поскольку h=0. Изменение N меняет полную реализацию, тогда как H_eff(z) остаётся неизменным на общей резольвентной области.',responseChanged:'Вторая мода связана (h≠0), поэтому становится активной и изменяет отклик.',stage1Items:['Выбор V ⊕ K','Альтернативные retained/hidden-разбиения','Интерпретация скрытых координат'],stage2Items:['Скрытый базис','Развязанные скрытые слагаемые','Предпочтительная минимальная реализация','Начальное hidden-состояние'],stage3Items:['Незаписанная z-зависимость','Полюса и вычеты вне окна','Проекторы, фазы и производные данные']
+}}
+const T=I18N[LANG];
+const COLORS={blue:'#66b7ff',purple:'#bd93ff',green:'#46d7a5',yellow:'#ffd166',red:'#ff7386',cyan:'#55d7e8',gray:'#9eb2cb'};
+const P={a:.4,g:1.2,M:3.2,z:0,z0:0,N:-2.5,h:0,T:12};
+const ranges={a:[-3,3,.05],g:[0,3,.05],M:[-5,5,.05],z:[-6,6,.05],z0:[-6,6,.05],N:[-5,5,.05],h:[0,3,.05],T:[2,30,.5]};
+const labels={a:'paramA',g:'paramG',M:'paramM',z:'paramZ',z0:'paramZ0',N:'paramN',h:'paramH',T:'paramT'};
+function q(id){return document.getElementById(id)}
+function f(x,n=5){if(!Number.isFinite(x))return '—';if(Math.abs(x)<1e-12)return '0';return Number(x).toFixed(n).replace(/\.?0+$/,'')}
+function cfmt(z,n=4){const re=f(z.re,n),im=f(Math.abs(z.im),n);return z.im>=0?`${re} + ${im}i`:`${re} − ${im}i`}
+function chip(text,kind='neutral'){return `<span class="chip ${kind}">${text}</span>`}
+function heff(x,second=false){let v=P.a-P.g*P.g/(P.M-x);if(second&&Math.abs(P.h)>1e-12)v-=P.h*P.h/(P.N-x);return v}
+function schur(x){return heff(x,false)-x}
+function eigen2(){const c=(P.a+P.M)/2,d=(P.a-P.M)/2,o=Math.hypot(d,P.g);return [c-o,c+o]}
+function mul(a,b){return {re:a.re*b.re-a.im*b.im,im:a.re*b.im+a.im*b.re}}
+function add(a,b){return {re:a.re+b.re,im:a.im+b.im}}
+function sub(a,b){return {re:a.re-b.re,im:a.im-b.im}}
+function scale(a,s){return {re:a.re*s,im:a.im*s}}
+function expi(theta){return {re:Math.cos(theta),im:Math.sin(theta)}}
+function absC(a){return Math.hypot(a.re,a.im)}
+function divC(a,b){const d=b.re*b.re+b.im*b.im;return {re:(a.re*b.re+a.im*b.im)/d,im:(a.im*b.re-a.re*b.im)/d}}
+function exactVisible(t){const c=(P.a+P.M)/2,d=(P.a-P.M)/2,o=Math.hypot(d,P.g);const phase=expi(-c*t);if(o<1e-13)return phase;const core={re:Math.cos(o*t),im:-(d/o)*Math.sin(o*t)};return mul(phase,core)}
+function frozenVisible(t){if(Math.abs(P.M-P.z0)<1e-8)return {re:NaN,im:NaN};return expi(-heff(P.z0,false)*t)}
+function memory(t){return scale(expi(-P.M*t),P.g*P.g)}
+function sigmaComplex(){const den={re:P.M-P.z,im:-Number(q('eta').value)};return divC({re:P.g*P.g,im:0},den)}
+function finiteLaplace(){const eta=Number(q('eta').value),alpha={re:-eta,im:P.z-P.M},Tt=P.T;const e=scale(expi(alpha.im*Tt),Math.exp(alpha.re*Tt));const num=sub(e,{re:1,im:0});const quotient=divC(num,alpha);return mul({re:0,im:P.g*P.g},quotient)}
+function activeRank(){const tol=1e-9;if(Math.hypot(P.g,P.h)<tol)return 0;const det=P.g*P.h*(P.N-P.M);return Math.abs(det)>tol?2:1}
+function jacobiEigen3(A){A=A.map(r=>r.slice());for(let it=0;it<60;it++){let p=0,r=1,m=Math.abs(A[0][1]);for(const [i,j] of [[0,2],[1,2]])if(Math.abs(A[i][j])>m){m=Math.abs(A[i][j]);p=i;r=j}if(m<1e-13)break;const phi=.5*Math.atan2(2*A[p][r],A[r][r]-A[p][p]),c=Math.cos(phi),s=Math.sin(phi);const app=c*c*A[p][p]-2*s*c*A[p][r]+s*s*A[r][r],arr=s*s*A[p][p]+2*s*c*A[p][r]+c*c*A[r][r];for(let k=0;k<3;k++)if(k!==p&&k!==r){const akp=A[k][p],akr=A[k][r];A[k][p]=A[p][k]=c*akp-s*akr;A[k][r]=A[r][k]=s*akp+c*akr}A[p][p]=app;A[r][r]=arr;A[p][r]=A[r][p]=0}return [A[0][0],A[1][1],A[2][2]].sort((x,y)=>x-y)}
+function setupI18n(){document.documentElement.lang=LANG;document.title=T.title;document.querySelectorAll('[data-t]').forEach(el=>el.textContent=T[el.dataset.t]);q('langLink').textContent=LANG==='en'?'Русская версия':'English version';q('langLink').href=LANG==='en'?'BC-Layers-IV-hidden-sector-lab-ru.html':'BC-Layers-IV-hidden-sector-lab-en.html';q('task').innerHTML=`<option value="spectral">${T.taskSpectral}</option><option value="hidden">${T.taskHiddenDim}</option><option value="dynamics">${T.taskDynamics}</option>`;q('modelMode').innerHTML=`<option value="one">${T.modelOne}</option><option value="two">${T.modelTwo}</option>`;for(const [id,[mn,mx,st]] of Object.entries(ranges)){const d=document.createElement('div');d.className='control';d.innerHTML=`<label><span>${T[labels[id]]}</span><output id="${id}Out"></output></label><input id="${id}" type="range" min="${mn}" max="${mx}" step="${st}" value="${P[id]}">`;q('controls').appendChild(d);q(id).addEventListener('input',()=>{P[id]=Number(q(id).value);update()})}q('eta').addEventListener('input',update);q('task').addEventListener('change',update);q('modelMode').addEventListener('change',update);T.stage1Items.forEach(x=>q('lossStage1').insertAdjacentHTML('beforeend',`<li>${x}</li>`));T.stage2Items.forEach(x=>q('lossStage2').insertAdjacentHTML('beforeend',`<li>${x}</li>`));T.stage3Items.forEach(x=>q('lossStage3').insertAdjacentHTML('beforeend',`<li>${x}</li>`))}
+function preset(name){const sets={identity:{a:.4,g:1.2,M:3.2,z:0,z0:0,N:-2.5,h:0,T:12,task:'spectral',mode:'one'},pole:{a:.4,g:1.1,M:2.2,z:2.05,z0:0,N:-2.5,h:0,T:12,task:'spectral',mode:'one'},dynamic:{a:0,g:1.35,M:2.8,z:0,z0:0,N:-2.5,h:0,T:18,task:'dynamics',mode:'one'},invisible:{a:.5,g:1.15,M:3.1,z:.2,z0:0,N:-4,h:0,T:14,task:'hidden',mode:'two'},twoPole:{a:.3,g:1.1,M:3.4,z:0,z0:0,N:-2.2,h:.9,T:16,task:'spectral',mode:'two'}}[name];for(const k of Object.keys(P)){P[k]=sets[k];q(k).value=P[k]}q('task').value=sets.task;q('modelMode').value=sets.mode;update()}
+function canvasSize(canvas,height){const r=canvas.getBoundingClientRect(),dpr=window.devicePixelRatio||1;canvas.width=Math.max(10,r.width*dpr);canvas.height=height*dpr;const ctx=canvas.getContext('2d');ctx.setTransform(dpr,0,0,dpr,0,0);return {ctx,W:r.width,H:height}}
+function drawAxes(ctx,W,H,xmin,xmax,ymin,ymax,title){const p={l:52,r:18,t:28,b:38};ctx.clearRect(0,0,W,H);ctx.fillStyle='#061426';ctx.fillRect(0,0,W,H);ctx.strokeStyle='#263e5a';ctx.lineWidth=1;ctx.fillStyle='#91a7c2';ctx.font='11px Segoe UI';for(let i=0;i<=5;i++){let x=p.l+(W-p.l-p.r)*i/5;ctx.beginPath();ctx.moveTo(x,p.t);ctx.lineTo(x,H-p.b);ctx.stroke();ctx.fillText(f(xmin+(xmax-xmin)*i/5,2),x-12,H-13)}for(let i=0;i<=5;i++){let y=p.t+(H-p.t-p.b)*i/5;ctx.beginPath();ctx.moveTo(p.l,y);ctx.lineTo(W-p.r,y);ctx.stroke();ctx.fillText(f(ymax-(ymax-ymin)*i/5,2),4,y+4)}ctx.fillStyle='#dce9fa';ctx.font='12px Segoe UI';ctx.fillText(title,p.l,17);return {p,X:x=>p.l+(x-xmin)/(xmax-xmin)*(W-p.l-p.r),Y:y=>H-p.b-(y-ymin)/(ymax-ymin)*(H-p.t-p.b)}}
+function line(ctx,pts,X,Y,color,width=2,dash=[]){ctx.save();ctx.strokeStyle=color;ctx.lineWidth=width;ctx.setLineDash(dash);ctx.beginPath();let open=false;for(const [x,y] of pts){if(!Number.isFinite(y)){open=false;continue}if(!open){ctx.moveTo(X(x),Y(y));open=true}else ctx.lineTo(X(x),Y(y))}ctx.stroke();ctx.restore()}
+function vline(ctx,x,X,p,H,color,dash=[5,5]){ctx.save();ctx.strokeStyle=color;ctx.setLineDash(dash);ctx.beginPath();ctx.moveTo(X(x),p.t);ctx.lineTo(X(x),H-p.b);ctx.stroke();ctx.restore()}
+function dot(ctx,x,y,X,Y,color){if(!Number.isFinite(y))return;ctx.fillStyle=color;ctx.beginPath();ctx.arc(X(x),Y(y),4.5,0,Math.PI*2);ctx.fill()}
+function responseSamples(second){const pts=[];for(let i=0;i<=420;i++){const x=-6+12*i/420;let y;if(Math.abs(x-P.M)<.045||(second&&Math.abs(x-P.N)<.045))y=NaN;else y=heff(x,second);pts.push([x,y])}return pts}
+function drawResponse(){const c=canvasSize(q('responseCanvas'),300),base=responseSamples(false),second=responseSamples(true),vals=base.concat(q('modelMode').value==='two'?second:[]).map(x=>Math.abs(x[1])).filter(Number.isFinite).sort((a,b)=>a-b),cap=Math.min(18,Math.max(3,vals[Math.floor(vals.length*.92)]||3));const a=drawAxes(c.ctx,c.W,c.H,-6,6,-cap,cap,'H_eff(z)');line(c.ctx,base,a.X,a.Y,COLORS.blue,2.5);if(q('modelMode').value==='two')line(c.ctx,second,a.X,a.Y,COLORS.purple,2);line(c.ctx,[[-6,P.a],[6,P.a]],a.X,a.Y,COLORS.gray,1,[6,5]);vline(c.ctx,P.M,a.X,a.p,c.H,COLORS.red);if(q('modelMode').value==='two')vline(c.ctx,P.N,a.X,a.p,c.H,COLORS.yellow);vline(c.ctx,P.z,a.X,a.p,c.H,COLORS.cyan,[2,4]);dot(c.ctx,P.z,Math.abs(P.M-P.z)<1e-8?NaN:heff(P.z,q('modelMode').value==='two'),a.X,a.Y,COLORS.cyan);q('responseLegend').innerHTML=`<span><i class="swatch" style="background:${COLORS.blue}"></i>one-mode H_eff</span>${q('modelMode').value==='two'?`<span><i class="swatch" style="background:${COLORS.purple}"></i>two-mode H_eff</span>`:''}<span><i class="swatch" style="background:${COLORS.gray}"></i>naive A=a</span><span><i class="swatch" style="background:${COLORS.red}"></i>pole M</span>`}
+function drawFrozen(){const c=canvasSize(q('frozenCanvas'),245),pts=[],second=q('modelMode').value==='two',d0=second?Math.min(Math.abs(P.M-P.z0),Math.abs(P.N-P.z0)):Math.abs(P.M-P.z0),fr=d0<1e-8?NaN:heff(P.z0,second);let max=1;for(let i=0;i<=420;i++){const x=-6+12*i/420,near=Math.abs(x-P.M)<.045||(second&&Math.abs(x-P.N)<.045),y=near||!Number.isFinite(fr)?NaN:Math.abs(heff(x,second)-fr);pts.push([x,y]);if(Number.isFinite(y)&&y<30)max=Math.max(max,y)}max=Math.min(15,max);const a=drawAxes(c.ctx,c.W,c.H,-6,6,0,max,'|H_eff(z) − H_fr(z₀)|');line(c.ctx,pts,a.X,a.Y,COLORS.yellow,2.5);vline(c.ctx,P.M,a.X,a.p,c.H,COLORS.red);if(second)vline(c.ctx,P.N,a.X,a.p,c.H,COLORS.yellow);vline(c.ctx,P.z0,a.X,a.p,c.H,COLORS.purple,[2,4]);const dz=second?Math.min(Math.abs(P.M-P.z),Math.abs(P.N-P.z)):Math.abs(P.M-P.z);dot(c.ctx,P.z,dz<1e-8||!Number.isFinite(fr)?NaN:Math.abs(heff(P.z,second)-fr),a.X,a.Y,COLORS.cyan)}
+function drawDynamics(){const c=canvasSize(q('dynamicsCanvas'),245),amp=[],frz=[],dr=[],leak=[];let maxD=0,maxL=0;for(let i=0;i<=360;i++){const t=P.T*i/360,u=exactVisible(t),v=frozenVisible(t),d=absC(sub(u,v)),l=Math.max(0,1-absC(u)*absC(u));amp.push([t,absC(u)]);frz.push([t,absC(v)]);dr.push([t,d]);leak.push([t,l]);maxD=Math.max(maxD,d);maxL=Math.max(maxL,l)}const a=drawAxes(c.ctx,c.W,c.H,0,P.T,0,2,'compressed dynamics');line(c.ctx,amp,a.X,a.Y,COLORS.blue,2.4);line(c.ctx,frz,a.X,a.Y,COLORS.purple,1.8,[6,4]);line(c.ctx,dr,a.X,a.Y,COLORS.red,2.2);line(c.ctx,leak,a.X,a.Y,COLORS.green,1.8);q('maxDrift').textContent=f(maxD,5);q('leakageValue').textContent=f(maxL,5);q('dynamicsLegend').innerHTML=`<span><i class="swatch" style="background:${COLORS.blue}"></i>|P_V e^{-itℍ} P_V|</span><span><i class="swatch" style="background:${COLORS.purple}"></i>|e^{-itH_fr}|</span><span><i class="swatch" style="background:${COLORS.red}"></i>drift</span><span><i class="swatch" style="background:${COLORS.green}"></i>leakage</span>`}
+function drawMemory(){const c=canvasSize(q('memoryCanvas'),245),re=[],im=[],ab=[];for(let i=0;i<=360;i++){const t=P.T*i/360,k=memory(t);re.push([t,k.re]);im.push([t,k.im]);ab.push([t,absC(k)])}const max=Math.max(.5,P.g*P.g*1.15),a=drawAxes(c.ctx,c.W,c.H,0,P.T,-max,max,'K(t)=g²e^{-iMt}');line(c.ctx,re,a.X,a.Y,COLORS.blue,2.1);line(c.ctx,im,a.X,a.Y,COLORS.purple,2.1);line(c.ctx,ab,a.X,a.Y,COLORS.green,1.7,[5,4])}
+function drawNonid(){const c=canvasSize(q('nonidCanvas'),245),base=responseSamples(false),large=responseSamples(true),vals=base.concat(large).map(x=>Math.abs(x[1])).filter(Number.isFinite).sort((a,b)=>a-b),cap=Math.min(16,Math.max(3,vals[Math.floor(vals.length*.9)]||3)),a=drawAxes(c.ctx,c.W,c.H,-6,6,-cap,cap,'response-equivalent lifts');line(c.ctx,base,a.X,a.Y,COLORS.blue,3);line(c.ctx,large,a.X,a.Y,COLORS.purple,1.8,[7,4]);vline(c.ctx,P.M,a.X,a.p,c.H,COLORS.red);if(Math.abs(P.h)>1e-10)vline(c.ctx,P.N,a.X,a.p,c.H,COLORS.yellow)}
+function maxResponseDiff(){if(Math.abs(P.h)<1e-12)return 0;let m=0;for(let i=0;i<600;i++){const x=-6+12*i/599;if(Math.abs(x-P.M)<.05||Math.abs(x-P.N)<.05)continue;m=Math.max(m,Math.abs(heff(x,true)-heff(x,false)))}return m}
+function updateMatrices(){q('matrix2').innerHTML=`<span>${f(P.a,2)}</span><span>${f(P.g,2)}</span><span>${f(P.g,2)}</span><span>${f(P.M,2)}</span>`;q('baseMatrix').innerHTML=q('matrix2').innerHTML;q('largeMatrix').innerHTML=`<span>${f(P.a,2)}</span><span>${f(P.g,2)}</span><span>${f(P.h,2)}</span><span>${f(P.g,2)}</span><span>${f(P.M,2)}</span><span>0</span><span>${f(P.h,2)}</span><span>0</span><span>${f(P.N,2)}</span>`}
+function taskStatus(domainValid){const task=q('task').value;if(task==='spectral')return domainValid?chip(T.taskSufficient,'good'):chip(T.taskInsufficient,'bad');if(task==='hidden')return chip(T.taskInsufficient,'bad');return Math.abs(P.g)<1e-12?chip(T.taskSufficient,'good'):chip(T.taskInsufficient,'bad')}
+function update(){for(const k of Object.keys(P))q(k+'Out').textContent=f(P[k],2);q('etaOut').textContent=f(Number(q('eta').value),2);const second=q('modelMode').value==='two',dM=Math.abs(P.M-P.z),dN=Math.abs(P.N-P.z),d=second?Math.min(dM,dN):dM,domain=d>1e-6;let sf=d<=1e-6?chip(T.domainViolation,'bad'):d<.35?chip(T.poleLow,'warn'):chip(T.valid,'good');q('sfStatus').innerHTML=sf;q('poleMargin').textContent=f(d,5);q('heffValue').textContent=domain?f(heff(P.z,second),5):'—';q('taskStatus').innerHTML=taskStatus(domain);
+ const [lm,lp]=eigen2();q('lambdaMinus').textContent=f(lm,6);q('lambdaPlus').textContent=f(lp,6);q('schurFormula').innerHTML=`${f(P.a,2)} − z − ${f(P.g*P.g,3)}/(${f(P.M,2)} − z) = 0`;const det=(P.a-P.z)*(P.M-P.z)-P.g*P.g,prod=domain?(P.M-P.z)*schur(P.z):NaN;q('detResidual').textContent=f(Math.abs(det-prod),10);let kr=0;for(const x of [lm,lp])if(Math.abs(P.M-x)>1e-8)kr=Math.max(kr,Math.abs(schur(x)));q('kernelResidual').textContent=f(kr,10);
+ const d0=second?Math.min(Math.abs(P.M-P.z0),Math.abs(P.N-P.z0)):Math.abs(P.M-P.z0),frValid=d0>1e-6,fr=frValid?heff(P.z0,second):NaN,err=domain&&frValid?Math.abs(heff(P.z,second)-fr):NaN;q('frozenValue').textContent=f(fr,5);q('frozenError').textContent=f(err,5);q('frozenStatus').innerHTML=frValid&&domain?chip(T.frozenBound,err<.25?'good':'warn'):chip(T.frozenUnverified,'bad');q('conditioning').innerHTML=d<.35?chip(T.conditioningLow,'warn'):chip(T.conditioningOk,'good');
+ const coupled=Math.abs(P.g)>1e-12;q('dynamicStatus').innerHTML=coupled?chip(T.memoryRequired,'warn'):chip(T.dynamicExact,'good');q('dynamicHandoff').innerHTML=coupled?chip(T.handoffBlocked,'bad'):chip(T.handoffReady,'good');
+ const sig=sigmaComplex(),lap=finiteLaplace(),res=absC(sub(sig,lap));q('sigmaComplex').textContent=cfmt(sig);q('laplaceApprox').textContent=cfmt(lap);q('dualityResidual').textContent=f(res,6);q('dualityStatus').innerHTML=res<1e-3?chip(T.dualityCertified,'good'):chip(T.dualityFinite,'warn');
+ const rank=activeRank(),diff=maxResponseDiff();q('responseDifference').textContent=f(diff,6);q('activeDim').textContent=rank;q('invisibleDim').textContent=2-rank;q('liftStatus').innerHTML=Math.abs(P.h)<1e-12?chip(T.nonidentifiable,'warn'):chip(T.twoActive,'good');q('nonidNote').textContent=Math.abs(P.h)<1e-12?T.responseSame:T.responseChanged;
+ updateMatrices();drawResponse();drawFrozen();drawDynamics();drawMemory();drawNonid();buildReport(domain,d,fr,err,rank,diff,res)}
+function buildReport(domain,margin,fr,err,rank,diff,laplaceResidual){const statuses=[];statuses.push(domain?(margin<.35?T.poleLow:T.valid):T.domainViolation);statuses.push(Number.isFinite(err)?T.frozenBound:T.frozenUnverified);statuses.push(Math.abs(P.g)>1e-12?T.memoryRequired:T.dynamicExact);statuses.push(Math.abs(P.h)<1e-12?T.nonidentifiable:T.twoActive);statuses.push(T.handoffReady);q('statusList').innerHTML=statuses.map((x,i)=>chip(x,i===0&&!domain?'bad':i===2&&Math.abs(P.g)>1e-12?'warn':i===3&&Math.abs(P.h)<1e-12?'warn':'good')).join('');const report={schema:'BC-Layers-IV/SFReport/v0.1.1',language:LANG,parameters:{...P,eta:Number(q('eta').value)},protocol:{retained_dimension:1,hidden_dimension:q('modelMode').value==='two'?2:1,task:q('task').value,reduction_domain:'z not in spectrum(M)',recording_rule:['H_eff(z)','frozen H_eff(z0)','compressed propagator','memory kernel']},validity:{exact_sf:domain,pole_margin:margin,frozen_value:Number.isFinite(fr)?fr:null,frozen_error:Number.isFinite(err)?err:null,laplace_finite_horizon_residual:laplaceResidual},identifiability:{comparison_active_krylov_dimension:rank,comparison_invisible_hidden_dimension:2-rank,max_base_vs_enlarged_response_difference:diff,hidden_lift_unique:false},dynamics:{status:Math.abs(P.g)>1e-12?'MEMORY_KERNEL_REQUIRED':'DYNAMIC_DECOUPLED_EXACT',handoff:Math.abs(P.g)>1e-12?'DYNAMIC_HANDOFF_BLOCKED':'READY_FOR_BCM'},claims:{static_reduction_equals_exact_dynamics:false,effective_response_identifies_unique_hidden_realization:false},statuses};window.reportJSON=JSON.stringify(report,null,2);q('report').textContent=window.reportJSON}
+function downloadReport(){const b=new Blob([window.reportJSON||'{}'],{type:'application/json'}),u=URL.createObjectURL(b),a=document.createElement('a');a.href=u;a.download=`BC-Layers-IV-SFReport-${LANG}.json`;a.click();setTimeout(()=>URL.revokeObjectURL(u),500)}
+function copyReport(){navigator.clipboard.writeText(window.reportJSON||'').then(()=>{const b=q('copyBtn'),old=b.textContent;b.textContent=T.copied;setTimeout(()=>b.textContent=old,1000)}).catch(()=>{})}
+window.preset=preset;window.downloadReport=downloadReport;window.copyReport=copyReport;
+document.addEventListener('DOMContentLoaded',()=>{setupI18n();preset('dynamic');window.addEventListener('resize',update)});
+</script>
+</body></html>

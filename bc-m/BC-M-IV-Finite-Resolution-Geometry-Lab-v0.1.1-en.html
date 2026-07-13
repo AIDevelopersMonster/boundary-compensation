@@ -1,0 +1,319 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>BC-M IV Finite-Resolution Geometry Lab</title>
+<style>
+:root{
+  --blue:#17365d;--gold:#b38a3e;--light:#eef3f8;--ink:#1f2933;
+  --muted:#5c6770;--green:#2f6f5e;--red:#8a3a3a;--purple:#5e4b78;
+  --orange:#a85e26;--panel:#ffffff;--line:#d7e0e8;--shadow:0 12px 30px rgba(23,54,93,.10)
+}
+*{box-sizing:border-box}
+body{margin:0;font-family:Inter,Segoe UI,Arial,sans-serif;color:var(--ink);background:#f6f8fb;line-height:1.45}
+header{background:linear-gradient(135deg,#102b4f,#274e79);color:white;padding:34px 24px 28px}
+.header-inner{max-width:1200px;margin:auto}
+h1{font-family:Georgia,serif;margin:0;font-size:clamp(28px,4vw,48px);line-height:1.08}
+.subtitle{margin-top:10px;font-size:18px;opacity:.92;max-width:900px}
+.badges{display:flex;flex-wrap:wrap;gap:8px;margin-top:18px}
+.badge{padding:6px 10px;border:1px solid rgba(255,255,255,.35);border-radius:999px;background:rgba(255,255,255,.10);font:600 12px ui-monospace,SFMono-Regular,Consolas,monospace}
+main{max-width:1200px;margin:0 auto;padding:22px}
+.tabs{display:flex;gap:8px;flex-wrap:wrap;margin:0 0 18px}
+.tab-btn{border:1px solid var(--line);background:white;color:var(--blue);padding:10px 14px;border-radius:10px;cursor:pointer;font-weight:700}
+.tab-btn.active{background:var(--blue);color:white;border-color:var(--blue)}
+.tab{display:none}.tab.active{display:block}
+.grid{display:grid;grid-template-columns:repeat(12,1fr);gap:16px}
+.card{grid-column:span 6;background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:18px;box-shadow:var(--shadow)}
+.card.full{grid-column:1/-1}.card.third{grid-column:span 4}
+@media(max-width:850px){.card,.card.third{grid-column:1/-1}}
+h2{font-family:Georgia,serif;color:var(--blue);margin:0 0 8px;font-size:27px}
+h3{color:var(--blue);margin:0 0 8px;font-size:18px}
+.math{font-family:Cambria Math,Georgia,serif;background:#fbfcfe;border-left:4px solid var(--gold);padding:12px 14px;border-radius:8px;margin:12px 0;overflow:auto}
+.controls{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+@media(max-width:600px){.controls{grid-template-columns:1fr}}
+.control label{display:flex;justify-content:space-between;font-size:13px;font-weight:700;color:var(--muted);margin-bottom:5px}
+.control input[type=range]{width:100%}.control select,.control input[type=number]{width:100%;padding:8px;border:1px solid var(--line);border-radius:8px;background:white}
+.metric-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:12px}
+@media(max-width:700px){.metric-grid{grid-template-columns:repeat(2,1fr)}}
+.metric{background:var(--light);border-radius:12px;padding:12px}.metric b{display:block;color:var(--blue);font-size:12px;text-transform:uppercase;letter-spacing:.04em}.metric span{font-size:23px;font-weight:800}
+.status{padding:10px 12px;border-radius:10px;font:700 12px ui-monospace,SFMono-Regular,Consolas,monospace;margin-top:10px;overflow-wrap:anywhere}
+.status.ok{background:#e8f5ef;color:#205846;border:1px solid #b9decf}.status.warn{background:#fff4e8;color:#7b451d;border:1px solid #edc79f}.status.bad{background:#fbecec;color:#7a2e2e;border:1px solid #e5b7b7}.status.info{background:#edf3fa;color:#17365d;border:1px solid #b9cce0}
+canvas{width:100%;height:320px;border:1px solid var(--line);border-radius:12px;background:white}
+.legend{display:flex;gap:14px;flex-wrap:wrap;margin-top:8px;font-size:13px}.swatch{display:inline-block;width:12px;height:12px;border-radius:3px;margin-right:5px;vertical-align:-1px}
+.pipeline{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin:14px 0}.node{padding:10px 12px;border:1px solid var(--blue);border-radius:10px;background:var(--light);font-weight:700}.arrow{color:var(--gold);font-size:24px;font-weight:900}.node.off{opacity:.34;text-decoration:line-through}.node.cut{border-color:var(--red);background:#fff5f5}
+.matrix{width:100%;border-collapse:collapse;font-size:13px}.matrix th,.matrix td{border:1px solid var(--line);padding:8px;vertical-align:top}.matrix th{background:var(--blue);color:white}.matrix tr:nth-child(even) td{background:#fafbfd}
+pre{background:#101b2c;color:#e8edf5;border-radius:12px;padding:14px;overflow:auto;min-height:320px;font:12px/1.45 ui-monospace,SFMono-Regular,Consolas,monospace}
+button.action{border:0;background:var(--gold);color:#17202a;font-weight:800;padding:10px 14px;border-radius:9px;cursor:pointer}.small{font-size:13px;color:var(--muted)}
+.checks{display:grid;gap:8px}.checks label{display:flex;gap:8px;align-items:flex-start;padding:8px;background:#fafbfd;border:1px solid var(--line);border-radius:8px}
+.footer{max-width:1200px;margin:0 auto;padding:0 22px 32px;color:var(--muted);font-size:13px}
+</style>
+</head>
+<body>
+<header><div class="header-inner">
+  <div class="small" style="color:#dbe7f4">Boundary Compensation Mathematics IV</div>
+  <h1>Finite-Resolution Geometry Lab</h1>
+  <div class="subtitle">An interactive companion to BC-M IV: solution tubes, quotient geometry, two-scale metric-entropy profiles, wall resets, and transcript-capacity lower bounds.</div>
+  <div class="badges"><span class="badge">v0.1.1 reviewed</span><span class="badge">δ = data tolerance</span><span class="badge">ε = reconstruction scale</span><span class="badge">NO SHANNON CLAIM</span></div>
+</div></header>
+<main>
+<nav class="tabs" aria-label="Lab sections">
+  <button class="tab-btn active" data-tab="linear">Two-scale linear model</button>
+  <button class="tab-btn" data-tab="quotient">Raw vs quotient</button>
+  <button class="tab-btn" data-tab="tower">Tower atlas gate</button>
+  <button class="tab-btn" data-tab="task">Task-relative entropy</button>
+  <button class="tab-btn" data-tab="capacity">Transcript capacity</button>
+  <button class="tab-btn" data-tab="report">Live BCM4Report</button>
+</nav>
+
+<section id="linear" class="tab active">
+<div class="grid">
+  <div class="card">
+    <h2>Two independent scales</h2>
+    <div class="math">H(ε,δ;d) = log N<sub>ε</sub>(M<sub>d</sub><sup>(δ)</sup>)</div>
+    <p>Change the data tolerance <b>δ</b> independently from the reconstruction scale <b>ε</b>. The linear benchmark uses a rank-<i>r</i> map on R<sup>n</sup>, kernel dimension <i>k=n-r</i>, kernel radius <i>R</i>, and a geometric singular-value profile.</p>
+    <div class="controls">
+      <div class="control"><label>Ambient dimension n <span id="nVal"></span></label><input id="n" type="range" min="2" max="12" value="6" step="1"></div>
+      <div class="control"><label>Rank r <span id="rVal"></span></label><input id="r" type="range" min="1" max="6" value="3" step="1"></div>
+      <div class="control"><label>Data tolerance δ <span id="deltaVal"></span></label><input id="delta" type="range" min="0" max="1" value="0.08" step="0.005"></div>
+      <div class="control"><label>Reconstruction scale ε <span id="epsilonVal"></span></label><input id="epsilon" type="range" min="-3.2" max="0" value="-1.2" step="0.02"></div>
+      <div class="control"><label>Kernel radius R <span id="radiusVal"></span></label><input id="radius" type="range" min="0.2" max="4" value="1.5" step="0.05"></div>
+      <div class="control"><label>Smallest singular value σᵣ <span id="sigmaVal"></span></label><input id="sigmaMin" type="range" min="-2" max="0" value="-0.8" step="0.02"></div>
+    </div>
+    <div id="linearStatus" class="status info"></div>
+  </div>
+  <div class="card">
+    <h2>Current entropy budget</h2>
+    <div class="metric-grid">
+      <div class="metric"><b>kernel dimension</b><span id="kMetric">-</span></div>
+      <div class="metric"><b>log cover upper</b><span id="hMetric">-</span></div>
+      <div class="metric"><b>cover upper</b><span id="nMetric">-</span></div>
+      <div class="metric"><b>transcript bits</b><span id="bitsMetric">-</span></div>
+    </div>
+    <div class="math" id="boundFormula"></div>
+    <p class="small">The displayed value is the theorem-level upper bound. It is not asserted to be the exact covering number.</p>
+  </div>
+  <div class="card full">
+    <h2>Entropy profile across ε</h2>
+    <canvas id="entropyCanvas" width="1100" height="360"></canvas>
+    <div class="legend"><span><i class="swatch" style="background:#17365d"></i>raw tube upper bound</span><span><i class="swatch" style="background:#a85e26"></i>quotient visible ellipsoid</span><span><i class="swatch" style="background:#2f6f5e"></i>exact-fiber kernel baseline</span></div>
+  </div>
+</div>
+</section>
+
+<section id="quotient" class="tab">
+<div class="grid">
+  <div class="card">
+    <h2>Trace-determinant tube</h2>
+    <p>For a real symmetric 2×2 matrix with fixed trace, the exact raw fiber is a circle. A determinant tolerance creates an annulus. Orthogonal conjugacy collapses angular ambiguity, leaving a radial interval.</p>
+    <div class="controls">
+      <div class="control"><label>Target radius r₀ <span id="r0Val"></span></label><input id="r0" type="range" min="0.5" max="2.5" value="1.5" step="0.02"></div>
+      <div class="control"><label>Determinant tolerance δ <span id="annDeltaVal"></span></label><input id="annDelta" type="range" min="0" max="1.5" value="0.25" step="0.01"></div>
+      <div class="control"><label>Cover scale ε <span id="annEpsVal"></span></label><input id="annEps" type="range" min="0.01" max="0.8" value="0.12" step="0.01"></div>
+    </div>
+    <div id="annulusStatus" class="status info"></div>
+  </div>
+  <div class="card">
+    <h2>Raw and quotient geometry</h2>
+    <canvas id="annulusCanvas" width="520" height="360"></canvas>
+  </div>
+  <div class="card full">
+    <table class="matrix">
+      <thead><tr><th>Regime</th><th>Raw geometry</th><th>Quotient geometry</th><th>Fine-scale slope</th></tr></thead>
+      <tbody>
+        <tr><td>δ = 0</td><td>circle</td><td>singleton</td><td>raw 1, quotient 0</td></tr>
+        <tr><td>δ &gt; 0</td><td>annulus</td><td>radial interval</td><td>raw 2, quotient 1</td></tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+</section>
+
+<section id="tower" class="tab">
+<div class="grid">
+  <div class="card full">
+    <h2>Realization-tower atlas gate</h2>
+    <div class="pipeline">
+      <div class="node">base ambiguity B</div><div class="arrow">×</div><div class="node">lift fiber L</div><div class="arrow">→</div><div class="node">local chart Uⱼ</div><div class="arrow">→</div><div class="node cut" id="globalNode">global entropy bound</div>
+    </div>
+    <div class="checks">
+      <label><input type="checkbox" id="finiteAtlas" checked> Finite atlas covers the declared compact region.</label>
+      <label><input type="checkbox" id="uniformCharts" checked> Chart bi-Lipschitz constants admit a common bound L.</label>
+      <label><input type="checkbox" id="uniformTransitions" checked> Transition-map distortions admit the same declared bound.</label>
+      <label><input type="checkbox" id="stableFiber" checked> Fiber type and stabilizer dimension remain constant on the region.</label>
+    </div>
+    <div id="towerStatus" class="status ok"></div>
+    <div class="math">H<sub>ε</sub>(S) ≤ log J + sup<sub>j</sub>[H<sub>ε/L</sub>(B<sub>j</sub>) + H<sub>ε/L</sub>(L<sub>j</sub>)]</div>
+  </div>
+</div>
+</section>
+
+<section id="task" class="tab">
+<div class="grid">
+  <div class="card">
+    <h2>Structural vs task ambiguity</h2>
+    <p>Full reconstruction may require distinguishing many quotient classes even when a target task takes only a few values.</p>
+    <div class="controls">
+      <div class="control"><label>Structural classes <span id="structVal"></span></label><input id="structClasses" type="range" min="1" max="256" value="64" step="1"></div>
+      <div class="control"><label>Task values <span id="taskVal"></span></label><input id="taskClasses" type="range" min="1" max="64" value="2" step="1"></div>
+      <div class="control"><label>Task map Lipschitz constant LQ <span id="lqVal"></span></label><input id="lq" type="range" min="0.25" max="4" value="1" step="0.05"></div>
+    </div>
+    <div id="taskStatus" class="status info"></div>
+  </div>
+  <div class="card">
+    <h2>Entropy comparison</h2>
+    <div class="metric-grid">
+      <div class="metric"><b>structural entropy</b><span id="structH"></span></div>
+      <div class="metric"><b>task entropy</b><span id="taskH"></span></div>
+      <div class="metric"><b>saved nats</b><span id="savedH"></span></div>
+      <div class="metric"><b>saved bits</b><span id="savedBits"></span></div>
+    </div>
+    <div class="math">H<sup>Q</sup><sub>LQ ε</sub>(M) ≤ H<sub>ε</sub>(M)</div>
+  </div>
+</div>
+</section>
+
+<section id="capacity" class="tab">
+<div class="grid">
+  <div class="card">
+    <h2>Transcript-capacity lower bound</h2>
+    <div class="controls">
+      <div class="control"><label>Certified cover Nε <span id="coverVal"></span></label><input id="coverCount" type="range" min="1" max="4096" value="128" step="1"></div>
+      <div class="control"><label>Number of probes q <span id="probeVal"></span></label><input id="probeCount" type="range" min="1" max="20" value="5" step="1"></div>
+      <div class="control"><label>Alphabet size per probe b <span id="alphabetVal"></span></label><input id="alphabet" type="range" min="2" max="32" value="4" step="1"></div>
+    </div>
+    <div id="capacityStatus" class="status info"></div>
+  </div>
+  <div class="card">
+    <h2>Budget audit</h2>
+    <div class="metric-grid">
+      <div class="metric"><b>required nats</b><span id="reqNats"></span></div>
+      <div class="metric"><b>available nats</b><span id="availNats"></span></div>
+      <div class="metric"><b>required bits</b><span id="reqBits"></span></div>
+      <div class="metric"><b>transcripts</b><span id="transcripts"></span></div>
+    </div>
+    <p class="small">Passing the budget gate is necessary, not sufficient. It does not construct a separating probe family or certify computational feasibility.</p>
+  </div>
+</div>
+</section>
+
+<section id="report" class="tab">
+<div class="grid">
+  <div class="card full">
+    <h2>Live BCM4Report</h2>
+    <p>The report reflects the current settings of all labs and preserves the claim ceiling.</p>
+    <button class="action" id="copyReport">Copy JSON</button>
+    <span id="copyState" class="small" style="margin-left:10px"></span>
+    <pre id="reportOut"></pre>
+  </div>
+</div>
+</section>
+</main>
+<div class="footer">BC-M IV interactive companion. Covering entropy is metric, deterministic, and protocol-relative. It is not Shannon entropy, thermodynamic entropy, or a universal recovery theorem.</div>
+<script>
+(() => {
+'use strict';
+const $ = id => document.getElementById(id);
+const state = {};
+const fmt = (x,d=3) => Number(x).toLocaleString(undefined,{maximumFractionDigits:d});
+const clamp = (x,a,b)=>Math.max(a,Math.min(b,x));
+
+function switchTabs(){
+  document.querySelectorAll('.tab-btn').forEach(btn=>btn.addEventListener('click',()=>{
+    document.querySelectorAll('.tab-btn').forEach(b=>b.classList.toggle('active',b===btn));
+    document.querySelectorAll('.tab').forEach(t=>t.classList.toggle('active',t.id===btn.dataset.tab));
+    if(btn.dataset.tab==='report') updateReport();
+    if(btn.dataset.tab==='linear') drawEntropy();
+    if(btn.dataset.tab==='quotient') drawAnnulus();
+  }));
+}
+function singularValues(r,smin){
+  if(r===1) return [1];
+  return Array.from({length:r},(_,i)=>Math.exp(Math.log(smin)*i/(r-1)));
+}
+function linearH(n,r,delta,eps,R,smin,quotient=false){
+  const k=n-r, sig=singularValues(r,smin);
+  let h=quotient?0:k*Math.log(1+2*R/eps);
+  for(const s of sig) h += Math.log(1+2*delta/(s*eps));
+  return h;
+}
+function updateLinear(){
+  const n=+$('n').value;
+  $('r').max=n-1; if(+$('r').value>=n) $('r').value=n-1;
+  const r=+$('r').value,k=n-r,delta=+$('delta').value,eps=Math.pow(10,+$('epsilon').value),R=+$('radius').value,smin=Math.pow(10,+$('sigmaMin').value);
+  const h=linearH(n,r,delta,eps,R,smin,false), N=Math.exp(Math.min(h,35));
+  $('nVal').textContent=n;$('rVal').textContent=r;$('deltaVal').textContent=fmt(delta,3);$('epsilonVal').textContent=fmt(eps,4);$('radiusVal').textContent=fmt(R,2);$('sigmaVal').textContent=fmt(smin,3);
+  $('kMetric').textContent=k;$('hMetric').textContent=fmt(h,2);$('nMetric').textContent=h>35?'> 10¹⁵':fmt(N,0);$('bitsMetric').textContent=fmt(h/Math.log(2),2);
+  $('boundFormula').innerHTML=`N<sub>ε</sub> ≤ (1+2R/ε)<sup>${k}</sup> × ∏<sub>i=1</sub><sup>${r}</sup>(1+2δ/(σ<sub>i</sub>ε))`;
+  const threshold=delta/smin;
+  const status=$('linearStatus');
+  if(delta===0){status.className='status ok';status.textContent='EXACT_FIBER_REGIME — visible thickness vanishes; the asymptotic slope is the kernel dimension k.'}
+  else if(eps>=threshold){status.className='status ok';status.textContent='KERNEL_REGIME — ε ≥ δ/σᵣ, so the visible ellipsoid fits inside one ε-cell.'}
+  else {status.className='status warn';status.textContent='FINE_SCALE_AMBIENT_REGIME — ε < δ/σᵣ. At fixed nonzero δ, the fine-scale slope can approach n rather than k.'}
+  Object.assign(state,{n,r,k,delta,epsilon:eps,R,sigmaMin:smin,linearEntropyUpper:h,linearStatus:status.textContent.split(' — ')[0]});
+  drawEntropy();updateReport();
+}
+function drawAxes(ctx,w,h,x0,y0,x1,y1){ctx.strokeStyle='#8a98a8';ctx.lineWidth=1;ctx.beginPath();ctx.moveTo(x0,y0);ctx.lineTo(x0,y1);ctx.lineTo(x1,y1);ctx.stroke();}
+function drawEntropy(){
+  const c=$('entropyCanvas'); if(!c) return; const ctx=c.getContext('2d'),w=c.width,h=c.height;ctx.clearRect(0,0,w,h);ctx.fillStyle='white';ctx.fillRect(0,0,w,h);
+  const n=state.n||6,r=state.r||3,delta=state.delta??.08,R=state.R||1.5,smin=state.sigmaMin||.158,k=n-r;
+  const xs=Array.from({length:121},(_,i)=>-3.2+i*3.2/120), raw=xs.map(x=>linearH(n,r,delta,10**x,R,smin,false)), quo=xs.map(x=>linearH(n,r,delta,10**x,R,smin,true)), exact=xs.map(x=>k*Math.log(1+2*R/(10**x)));
+  const maxY=Math.max(...raw,1)*1.08,margin={l:64,r:20,t:18,b:48};drawAxes(ctx,w,h,margin.l,margin.t,w-margin.r,h-margin.b);
+  ctx.fillStyle='#465463';ctx.font='14px Segoe UI';ctx.fillText('log covering upper bound',12,18);ctx.fillText('log10 ε',w/2-25,h-12);
+  for(let j=0;j<=4;j++){const yy=margin.t+(h-margin.t-margin.b)*j/4;ctx.strokeStyle='#e5eaf0';ctx.beginPath();ctx.moveTo(margin.l,yy);ctx.lineTo(w-margin.r,yy);ctx.stroke();ctx.fillStyle='#6b7785';ctx.fillText(fmt(maxY*(1-j/4),1),18,yy+4)}
+  function plot(arr,color){ctx.strokeStyle=color;ctx.lineWidth=3;ctx.beginPath();arr.forEach((v,i)=>{const x=margin.l+(w-margin.l-margin.r)*i/(arr.length-1),y=h-margin.b-(h-margin.t-margin.b)*v/maxY;i?ctx.lineTo(x,y):ctx.moveTo(x,y)});ctx.stroke()}
+  plot(raw,'#17365d');plot(quo,'#a85e26');plot(exact,'#2f6f5e');
+  const ex=Math.log10(state.epsilon||.063);const px=margin.l+(w-margin.l-margin.r)*(ex+3.2)/3.2;ctx.strokeStyle='#8a3a3a';ctx.setLineDash([6,5]);ctx.beginPath();ctx.moveTo(px,margin.t);ctx.lineTo(px,h-margin.b);ctx.stroke();ctx.setLineDash([]);
+}
+function updateAnnulus(){
+  const r0=+$('r0').value,d=+$('annDelta').value,eps=+$('annEps').value;const maxD=Math.max(.001,r0*r0*.95);$('annDelta').max=maxD;if(d>maxD){$('annDelta').value=maxD}const dd=+$('annDelta').value;
+  const rminus=Math.sqrt(Math.max(0,r0*r0-dd)),rplus=Math.sqrt(r0*r0+dd),width=rplus-rminus;
+  $('r0Val').textContent=fmt(r0,2);$('annDeltaVal').textContent=fmt(dd,3);$('annEpsVal').textContent=fmt(eps,2);
+  const rawSlope=dd===0?1:(eps<width?2:1),qSlope=dd===0?0:(eps<width?1:0);const st=$('annulusStatus');st.className=dd===0?'status ok':'status info';st.textContent=`RAW_SLOPE_${rawSlope} / QUOTIENT_SLOPE_${qSlope} — radial thickness ${fmt(width,3)} at ε=${fmt(eps,2)}.`;
+  Object.assign(state,{r0,annulusDelta:dd,annulusEpsilon:eps,rawSlope,quotientSlope:qSlope});drawAnnulus();updateReport();
+}
+function drawAnnulus(){
+  const c=$('annulusCanvas');if(!c)return;const ctx=c.getContext('2d'),w=c.width,h=c.height;ctx.clearRect(0,0,w,h);ctx.fillStyle='#fff';ctx.fillRect(0,0,w,h);const r0=state.r0||1.5,d=state.annulusDelta??.25,rm=Math.sqrt(Math.max(0,r0*r0-d)),rp=Math.sqrt(r0*r0+d),scale=115/rp,cx=150,cy=175;
+  ctx.fillStyle='rgba(23,54,93,.17)';ctx.beginPath();ctx.arc(cx,cy,rp*scale,0,Math.PI*2);ctx.fill();ctx.globalCompositeOperation='destination-out';ctx.beginPath();ctx.arc(cx,cy,rm*scale,0,Math.PI*2);ctx.fill();ctx.globalCompositeOperation='source-over';ctx.strokeStyle='#17365d';ctx.lineWidth=2;ctx.beginPath();ctx.arc(cx,cy,rp*scale,0,Math.PI*2);ctx.stroke();ctx.beginPath();ctx.arc(cx,cy,rm*scale,0,Math.PI*2);ctx.stroke();ctx.fillStyle='#17365d';ctx.font='bold 15px Segoe UI';ctx.fillText('raw annulus',95,335);
+  const x0=320,x1=475,y=175;ctx.strokeStyle='#a85e26';ctx.lineWidth=8;ctx.lineCap='round';ctx.beginPath();ctx.moveTo(x0,y);ctx.lineTo(x1,y);ctx.stroke();ctx.fillStyle='#a85e26';ctx.font='bold 15px Segoe UI';ctx.fillText('radial quotient',330,215);ctx.fillStyle='#5c6770';ctx.font='13px Segoe UI';ctx.fillText(`r−=${fmt(rm,2)}`,315,155);ctx.fillText(`r+=${fmt(rp,2)}`,430,155);
+}
+function updateTower(){
+  const flags=['finiteAtlas','uniformCharts','uniformTransitions','stableFiber'].map(id=>$(id).checked),ok=flags.every(Boolean),st=$('towerStatus'),node=$('globalNode');
+  if(ok){st.className='status ok';st.textContent='GLOBAL_ENTROPY_BOUND_CERTIFIED — finite atlas and uniform distortion permit controlled gluing.';node.classList.remove('off')}
+  else{st.className='status bad';st.textContent='ATLAS_DISTORTION_NOT_UNIFORM / GLOBAL_ENTROPY_NOT_CERTIFIED — local product estimates cannot be promoted globally.';node.classList.add('off')}
+  state.tower={finite_atlas:flags[0],uniform_chart_distortion:flags[1],uniform_transition_distortion:flags[2],stable_fiber_type:flags[3],status:ok?'GLOBAL_ENTROPY_BOUND_CERTIFIED':'GLOBAL_ENTROPY_NOT_CERTIFIED'};updateReport();
+}
+function updateTask(){
+  let s=+$('structClasses').value,t=+$('taskClasses').value;if(t>s){t=s;$('taskClasses').value=t}$('taskClasses').max=s;const lq=+$('lq').value,hs=Math.log(s),ht=Math.log(t),saved=hs-ht;
+  $('structVal').textContent=s;$('taskVal').textContent=t;$('lqVal').textContent=fmt(lq,2);$('structH').textContent=fmt(hs,2);$('taskH').textContent=fmt(ht,2);$('savedH').textContent=fmt(saved,2);$('savedBits').textContent=fmt(saved/Math.log(2),2);
+  const st=$('taskStatus');if(t===1){st.className='status ok';st.textContent='TASK_RELATIVE_ENTROPY_ZERO — the target is constant even though structural ambiguity may remain.'}else if(t<s){st.className='status info';st.textContent='TASK_COMPLETION_CHEAPER_THAN_FULL_RECONSTRUCTION — the task image has fewer distinguishable values.'}else{st.className='status warn';st.textContent='NO_TASK_COMPRESSION — the selected target distinguishes every structural class.'}
+  state.task={structural_classes:s,task_values:t,L_Q:lq,structural_entropy:hs,task_entropy:ht,status:st.textContent.split(' — ')[0]};updateReport();
+}
+function updateCapacity(){
+  const N=+$('coverCount').value,q=+$('probeCount').value,b=+$('alphabet').value,req=Math.log(N),avail=q*Math.log(b),T=b**q;
+  $('coverVal').textContent=N;$('probeVal').textContent=q;$('alphabetVal').textContent=b;$('reqNats').textContent=fmt(req,2);$('availNats').textContent=fmt(avail,2);$('reqBits').textContent=fmt(req/Math.log(2),2);$('transcripts').textContent=T>1e9?T.toExponential(2):fmt(T,0);
+  const st=$('capacityStatus');if(avail+1e-12>=req){st.className='status ok';st.textContent='TRANSCRIPT_CAPACITY_NECESSARY_BOUND_PASSED — enough nominal transcript states exist, but separation is not certified.'}else{st.className='status bad';st.textContent='TRANSCRIPT_CAPACITY_INSUFFICIENT — the declared alphabets cannot cover the quotient tube at the target scale.'}
+  state.capacity={covering_number:N,probe_count:q,alphabet_size:b,required_nats:req,available_nats:avail,status:st.textContent.split(' — ')[0]};updateReport();
+}
+function reportObject(){return {
+ schema:'BCM4Report',version:'0.1.1-reviewed',module:'BC-M IV',language:'en',
+ protocol:{data_tolerance_delta:state.delta,reconstruction_scale_epsilon:state.epsilon,ambient_dimension:state.n,rank:state.r,kernel_dimension:state.k,smallest_singular_value:state.sigmaMin},
+ entropy_profile:{linear_covering_upper_nats:state.linearEntropyUpper,working_status:state.linearStatus,fixed_delta_warning:'AMBIENT_DIMENSION_MAY_DOMINATE'},
+ quotient_example:{model:'trace_determinant_2x2',raw_slope:state.rawSlope,quotient_slope:state.quotientSlope},
+ atlas:state.tower||{},task_relative_entropy:state.task||{},transcript_capacity:state.capacity||{},
+ claim_ceiling:['NO_TRUE_REALIZATION_SELECTION','NO_SHANNON_OR_THERMODYNAMIC_ENTROPY_CLAIM','NO_UNIVERSAL_RECOVERY_THEOREM','NO_EMERGENCE_FROM_ENTROPY_ALONE']
+}}
+function updateReport(){const el=$('reportOut');if(el)el.textContent=JSON.stringify(reportObject(),null,2)}
+function bind(ids,fn){ids.forEach(id=>$(id).addEventListener('input',fn));}
+switchTabs();
+bind(['n','r','delta','epsilon','radius','sigmaMin'],updateLinear);
+bind(['r0','annDelta','annEps'],updateAnnulus);
+['finiteAtlas','uniformCharts','uniformTransitions','stableFiber'].forEach(id=>$(id).addEventListener('change',updateTower));
+bind(['structClasses','taskClasses','lq'],updateTask);bind(['coverCount','probeCount','alphabet'],updateCapacity);
+$('copyReport').addEventListener('click',async()=>{try{await navigator.clipboard.writeText($('reportOut').textContent);$('copyState').textContent='Copied.'}catch(e){$('copyState').textContent='Copy blocked by browser; select the JSON manually.'}});
+updateLinear();updateAnnulus();updateTower();updateTask();updateCapacity();updateReport();
+window.addEventListener('resize',()=>{drawEntropy();drawAnnulus()});
+})();
+</script>
+</body>
+</html>

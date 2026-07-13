@@ -1,0 +1,316 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>BC-M VII Identification Games Lab</title>
+<style>
+:root{
+  --blue:#17365d;--gold:#b38a3e;--light:#eef3f8;--ink:#1f2933;--muted:#5c6770;
+  --green:#2f6f5e;--red:#8a3a3a;--purple:#5e4b78;--orange:#a85e26;--cyan:#287a86;
+  --panel:#fff;--line:#d7e0e8;--shadow:0 12px 30px rgba(23,54,93,.10)
+}
+*{box-sizing:border-box}
+body{margin:0;font-family:Inter,Segoe UI,Arial,sans-serif;color:var(--ink);background:#f6f8fb;line-height:1.45}
+header{background:linear-gradient(135deg,#102b4f,#274e79);color:#fff;padding:34px 24px 28px}
+.header-inner{max-width:1220px;margin:auto}
+h1{font-family:Georgia,serif;margin:0;font-size:clamp(28px,4vw,48px);line-height:1.08}
+.subtitle{margin-top:10px;font-size:18px;opacity:.92;max-width:980px}
+.badges{display:flex;gap:8px;flex-wrap:wrap;margin-top:18px}
+.badge{padding:6px 10px;border:1px solid rgba(255,255,255,.35);border-radius:999px;background:rgba(255,255,255,.1);font:600 12px ui-monospace,Consolas,monospace}
+main{max-width:1220px;margin:auto;padding:22px}
+.tabs{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:18px}
+.tab-btn{border:1px solid var(--line);background:#fff;color:var(--blue);padding:10px 14px;border-radius:10px;cursor:pointer;font-weight:750}
+.tab-btn.active{background:var(--blue);color:#fff;border-color:var(--blue)}
+.tab{display:none}.tab.active{display:block}
+.grid{display:grid;grid-template-columns:repeat(12,1fr);gap:16px}
+.card{grid-column:span 6;background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:18px;box-shadow:var(--shadow)}
+.card.full{grid-column:1/-1}.card.third{grid-column:span 4}
+@media(max-width:850px){.card,.card.third{grid-column:1/-1}}
+h2{font-family:Georgia,serif;color:var(--blue);margin:0 0 8px;font-size:27px}
+h3{color:var(--blue);margin:0 0 8px;font-size:18px}
+.math{font-family:Cambria Math,Georgia,serif;background:#fbfcfe;border-left:4px solid var(--gold);padding:12px 14px;border-radius:8px;margin:12px 0;overflow:auto}
+.controls{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+@media(max-width:620px){.controls{grid-template-columns:1fr}}
+.control label{display:flex;justify-content:space-between;font-size:13px;font-weight:700;color:var(--muted);margin-bottom:5px}
+.control input[type=range]{width:100%}.control input[type=number],.control select{width:100%;padding:8px;border:1px solid var(--line);border-radius:8px;background:#fff}
+.metric-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:12px}
+@media(max-width:720px){.metric-grid{grid-template-columns:repeat(2,1fr)}}
+.metric{background:var(--light);border-radius:12px;padding:12px}.metric b{display:block;color:var(--blue);font-size:11px;text-transform:uppercase;letter-spacing:.04em}.metric span{font-size:23px;font-weight:800}
+.status{padding:10px 12px;border-radius:10px;font:700 12px ui-monospace,Consolas,monospace;margin-top:10px;overflow-wrap:anywhere}
+.status.ok{background:#e8f5ef;color:#205846;border:1px solid #b9decf}.status.warn{background:#fff4e8;color:#7b451d;border:1px solid #edc79f}.status.bad{background:#fbecec;color:#7a2e2e;border:1px solid #e5b7b7}.status.info{background:#edf3fa;color:#17365d;border:1px solid #b9cce0}
+canvas{width:100%;height:330px;border:1px solid var(--line);border-radius:12px;background:#fff}
+button.action{border:0;background:var(--gold);color:#17202a;font-weight:800;padding:10px 14px;border-radius:9px;cursor:pointer}
+button.secondary{border:1px solid var(--blue);background:#fff;color:var(--blue);font-weight:750;padding:9px 12px;border-radius:9px;cursor:pointer}
+.small{font-size:13px;color:var(--muted)}
+.tree{display:flex;gap:14px;align-items:flex-start;overflow:auto;padding:8px 2px 12px}
+.tree-col{min-width:145px}.tree-node{border:1px solid var(--blue);background:var(--light);border-radius:10px;padding:9px;margin:8px 0;font-size:13px;font-weight:700}.tree-node.term{border-color:var(--green);background:#eef9f4}.tree-node.dead{border-color:var(--red);background:#fff0f0}.tree-node.choice{border-color:var(--gold);background:#fff9eb}
+.pipeline{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin:12px 0}.node{padding:10px 12px;border:1px solid var(--blue);border-radius:10px;background:var(--light);font-weight:700}.arrow{color:var(--gold);font-size:24px;font-weight:900}.node.off{opacity:.35;text-decoration:line-through}.node.alert{border-color:var(--red);background:#fff3f3}
+.matrix{width:100%;border-collapse:collapse;font-size:13px}.matrix th,.matrix td{border:1px solid var(--line);padding:8px;vertical-align:top}.matrix th{background:var(--blue);color:#fff}.matrix tr:nth-child(even) td{background:#fafbfd}
+.checks{display:grid;gap:8px}.checks label{display:flex;gap:8px;align-items:flex-start;padding:8px;background:#fafbfd;border:1px solid var(--line);border-radius:8px}
+pre{background:#101b2c;color:#e8edf5;border-radius:12px;padding:14px;overflow:auto;min-height:340px;font:12px/1.45 ui-monospace,Consolas,monospace}
+.footer{max-width:1220px;margin:auto;padding:0 22px 32px;color:var(--muted);font-size:13px}
+.legend{display:flex;gap:14px;flex-wrap:wrap;margin-top:8px;font-size:13px}.swatch{display:inline-block;width:12px;height:12px;border-radius:3px;margin-right:5px;vertical-align:-1px}
+</style>
+</head>
+<body>
+<header><div class="header-inner">
+  <div class="small" style="color:#dbe7f4">Boundary Compensation Mathematics VII</div>
+  <h1>Identification Games Lab</h1>
+  <div class="subtitle">An interactive companion to BC-M VII: Bellman-optimal policies, reachable-branch adversaries, quantitative progress, cost traps, noisy and Bayesian states, and live BCM7 reporting.</div>
+  <div class="badges"><span class="badge">v0.1.1 reviewed</span><span class="badge">MINIMAX ≠ BAYESIAN</span><span class="badge">GREEDY ≠ GLOBAL</span><span class="badge">REACHABLE BRANCHES ONLY</span></div>
+</div></header>
+<main>
+<nav class="tabs" aria-label="Laboratories">
+  <button class="tab-btn active" data-tab="bellman">Finite Bellman game</button>
+  <button class="tab-btn" data-tab="ordered">Ordered search</button>
+  <button class="tab-btn" data-tab="progress">Continuous progress</button>
+  <button class="tab-btn" data-tab="cost">Cost trap</button>
+  <button class="tab-btn" data-tab="robust">Noise, Bayes, randomization</button>
+  <button class="tab-btn" data-tab="report">Live BCM7Report</button>
+</nav>
+
+<section id="bellman" class="tab active"><div class="grid">
+  <div class="card">
+    <h2>Exact finite minimax game</h2>
+    <div class="math">V*(A)=min<sub>p</sub>[c(p,A)+max<sub>r∈Reach<sub>p</sub>(A)</sub>V*(A<sub>p,r</sub>)]</div>
+    <p>Choose the size of a finite ordered state and a remaining query budget. The lab computes the exact threshold-search depth, the transcript lower bound, and whether the current budget is terminally sufficient.</p>
+    <div class="controls">
+      <div class="control"><label>Initial hypotheses N <span id="bellNVal"></span></label><input id="bellN" type="range" min="2" max="64" value="16" step="1"></div>
+      <div class="control"><label>Remaining budget b <span id="bellBVal"></span></label><input id="bellB" type="range" min="0" max="10" value="4" step="1"></div>
+      <div class="control"><label>Terminal semantics</label><select id="bellTerm"><option value="exact">Exact singleton</option><option value="task">Task-relative two-class target</option><option value="resolution">Resolution: at most 4 cells</option></select></div>
+      <div class="control"><label>State model</label><select id="bellState"><option value="survivor">Survivor interval is sufficient</option><option value="history">History-dependent probe costs</option></select></div>
+    </div>
+    <div id="bellStatus" class="status info"></div>
+  </div>
+  <div class="card">
+    <h2>Current certificate</h2>
+    <div class="metric-grid">
+      <div class="metric"><b>target cells</b><span id="bellCells">-</span></div>
+      <div class="metric"><b>lower bound</b><span id="bellLB">-</span></div>
+      <div class="metric"><b>optimal depth</b><span id="bellOpt">-</span></div>
+      <div class="metric"><b>budget slack</b><span id="bellSlack">-</span></div>
+    </div>
+    <div class="math" id="bellFormula"></div>
+    <p class="small">The exact equality displayed here is library-relative: binary threshold probes on an ordered finite class.</p>
+  </div>
+  <div class="card full">
+    <h2>Reachable decision tree</h2>
+    <canvas id="treeCanvas" width="1120" height="360"></canvas>
+    <div class="legend"><span><i class="swatch" style="background:#17365d"></i>survivor state</span><span><i class="swatch" style="background:#b38a3e"></i>probe split</span><span><i class="swatch" style="background:#2f6f5e"></i>terminal leaf</span></div>
+  </div>
+</div></section>
+
+<section id="ordered" class="tab"><div class="grid">
+  <div class="card">
+    <h2>Adaptive versus static threshold packages</h2>
+    <p>In the threshold library on <i>N</i> ordered objects, an adaptive median policy has logarithmic depth while a fixed complete package must contain every adjacent separator.</p>
+    <div class="controls">
+      <div class="control"><label>N <span id="ordNVal"></span></label><input id="ordN" type="range" min="2" max="256" value="32" step="1"></div>
+      <div class="control"><label>Probe cost</label><select id="ordCost"><option value="1">Unit cost</option><option value="2">Cost 2 per threshold</option><option value="5">Cost 5 per threshold</option></select></div>
+    </div>
+    <div id="ordStatus" class="status ok"></div>
+  </div>
+  <div class="card">
+    <h2>Adaptivity gap</h2>
+    <div class="metric-grid">
+      <div class="metric"><b>adaptive depth</b><span id="ordAdaptive">-</span></div>
+      <div class="metric"><b>static probes</b><span id="ordStatic">-</span></div>
+      <div class="metric"><b>adaptive cost</b><span id="ordACost">-</span></div>
+      <div class="metric"><b>static cost</b><span id="ordSCost">-</span></div>
+    </div>
+    <div class="math">d<sub>adaptive</sub>=⌈log<sub>2</sub>N⌉, &nbsp; |S<sub>static</sub>|=N−1</div>
+  </div>
+  <div class="card full"><h2>Scaling comparison</h2><canvas id="gapCanvas" width="1120" height="350"></canvas></div>
+</div></section>
+
+<section id="progress" class="tab"><div class="grid">
+  <div class="card">
+    <h2>Strict inclusion is not enough</h2>
+    <p>For a continuum, a child may be a strict subset while losing only one point. Finite stopping requires a quantitative decrease of a declared potential.</p>
+    <div class="controls">
+      <div class="control"><label>Initial interval length D <span id="progDVal"></span></label><input id="progD" type="range" min="1" max="100" value="16" step="1"></div>
+      <div class="control"><label>Resolution ε <span id="progEVal"></span></label><input id="progE" type="range" min="0.05" max="5" value="0.5" step="0.05"></div>
+      <div class="control"><label>Worst-child contraction β <span id="progBetaVal"></span></label><input id="progBeta" type="range" min="0.5" max="0.999" value="0.5" step="0.001"></div>
+      <div class="control"><label>Progress model</label><select id="progModel"><option value="contract">Uniform contraction</option><option value="point">Remove one point only</option></select></div>
+    </div>
+    <div id="progStatus" class="status info"></div>
+  </div>
+  <div class="card">
+    <h2>Stopping bound</h2>
+    <div class="metric-grid">
+      <div class="metric"><b>initial cells</b><span id="progCells">-</span></div>
+      <div class="metric"><b>certified depth</b><span id="progDepth">-</span></div>
+      <div class="metric"><b>β</b><span id="progBetaMetric">-</span></div>
+      <div class="metric"><b>status</b><span id="progFlag" style="font-size:14px">-</span></div>
+    </div>
+    <div class="math" id="progFormula"></div>
+  </div>
+  <div class="card full"><h2>Worst-child potential trajectory</h2><canvas id="progressCanvas" width="1120" height="350"></canvas></div>
+</div></section>
+
+<section id="cost" class="tab"><div class="grid">
+  <div class="card">
+    <h2>Immediate-information trap</h2>
+    <p>An exact probe eliminates all ambiguity in one step, but it may be more expensive than a shallow tree of cheap binary probes.</p>
+    <div class="controls">
+      <div class="control"><label>Exact-probe cost <span id="exactCostVal"></span></label><input id="exactCost" type="range" min="1" max="20" value="10" step="1"></div>
+      <div class="control"><label>Cheap-probe cost <span id="cheapCostVal"></span></label><input id="cheapCost" type="range" min="1" max="8" value="1" step="1"></div>
+      <div class="control"><label>Cheap-tree depth <span id="cheapDepthVal"></span></label><input id="cheapDepth" type="range" min="1" max="6" value="2" step="1"></div>
+      <div class="control"><label>Selection rule</label><select id="costRule"><option value="raw">Maximize immediate reduction</option><option value="ratio">Reduction per unit cost</option><option value="global">Exact cumulative cost</option></select></div>
+    </div>
+    <div id="costStatus" class="status warn"></div>
+  </div>
+  <div class="card">
+    <h2>Policy comparison</h2>
+    <div class="metric-grid">
+      <div class="metric"><b>exact probe</b><span id="costExact">-</span></div>
+      <div class="metric"><b>cheap tree</b><span id="costCheap">-</span></div>
+      <div class="metric"><b>chosen</b><span id="costChosen" style="font-size:15px">-</span></div>
+      <div class="metric"><b>global optimum</b><span id="costGlobal" style="font-size:15px">-</span></div>
+    </div>
+    <div class="math">maximum immediate information ≠ minimum cumulative cost</div>
+  </div>
+  <div class="card full"><div class="pipeline"><div class="node alert">Exact identity probe</div><div class="arrow">or</div><div class="node">cheap split</div><div class="arrow">→</div><div class="node">cheap split</div><div class="arrow">→</div><div class="node">terminal</div></div></div>
+</div></section>
+
+<section id="robust" class="tab"><div class="grid">
+  <div class="card">
+    <h2>Robust and stochastic contract</h2>
+    <div class="checks">
+      <label><input id="noiseDeclared" type="checkbox" checked> Response/noise model declared.</label>
+      <label><input id="lieState" type="checkbox" checked> Mismatch layers or equivalent sufficient state retained.</label>
+      <label><input id="posteriorState" type="checkbox" checked> Posterior is the sufficient state for Bayesian expected-cost optimization.</label>
+      <label><input id="submodProof" type="checkbox"> Adaptive monotonicity and adaptive submodularity proved.</label>
+    </div>
+    <div class="control" style="margin-top:12px"><label>Randomization timing regime</label><select id="timing"><option value="none">Undeclared</option><option value="target">Target before seed</option><option value="distribution">Distribution visible</option><option value="realized">Realized action visible</option><option value="kernel">Fixed stochastic kernel</option></select></div>
+    <div id="robustStatus" class="status info"></div>
+  </div>
+  <div class="card">
+    <h2>Bellman operator switch</h2>
+    <div class="control"><label>Objective</label><select id="objective"><option value="minimax">Worst-case minimax</option><option value="bayes">Bayesian expected cost</option></select></div>
+    <div class="math" id="operatorFormula"></div>
+    <div id="operatorStatus" class="status info"></div>
+  </div>
+  <div class="card full">
+    <table class="matrix"><thead><tr><th>Layer</th><th>Required state</th><th>Operator / gate</th><th>Blocked claim when absent</th></tr></thead><tbody>
+      <tr><td>Noiseless minimax</td><td>survivor state, if sufficient</td><td>max over reachable branches</td><td>FINITE_GAME_POLICY_OPTIMAL</td></tr>
+      <tr><td>Bounded lies</td><td>mismatch layers</td><td>robust survivor update</td><td>LIE_BUDGET_STATE_INCOMPLETE</td></tr>
+      <tr><td>Bayesian</td><td>posterior state</td><td>conditional expectation</td><td>BAYESIAN_BELLMAN_CERTIFIED</td></tr>
+      <tr><td>Randomized minimax</td><td>timing regime</td><td>declared move order</td><td>RANDOMIZATION_TIMING_UNDECLARED</td></tr>
+      <tr><td>Adaptive greedy</td><td>probability + partial realization</td><td>adaptive-submodularity proof</td><td>ADAPTIVE_SUBMODULARITY_NOT_ESTABLISHED</td></tr>
+    </tbody></table>
+  </div>
+</div></section>
+
+<section id="report" class="tab"><div class="grid">
+  <div class="card third"><h2>Report controls</h2><p class="small">The report mirrors the current laboratory state. It is a demonstration record, not a replacement for the canonical manuscript JSON.</p><button id="copyReport" class="action">Copy JSON</button><div id="copyStatus" class="status info">READY</div></div>
+  <div class="card" style="grid-column:span 8"><h2>Live BCM7Report</h2><pre id="reportPre"></pre></div>
+</div></section>
+</main>
+<div class="footer">BC-M VII Identification Games Lab · autonomous HTML · no external libraries · claim ceiling preserved.</div>
+<script>
+const $=id=>document.getElementById(id);
+const log2=x=>Math.log(x)/Math.log(2);
+const ceilLog2=x=>Math.ceil(log2(Math.max(1,x)));
+const state={};
+
+document.querySelectorAll('.tab-btn').forEach(btn=>btn.addEventListener('click',()=>{
+  document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
+  document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
+  btn.classList.add('active'); $(btn.dataset.tab).classList.add('active');
+  if(btn.dataset.tab==='report') updateReport();
+}));
+
+function drawTree(N, cells, depth){
+  const c=$('treeCanvas'),ctx=c.getContext('2d'); const W=c.width,H=c.height; ctx.clearRect(0,0,W,H);
+  ctx.font='13px Segoe UI';ctx.textAlign='center';ctx.textBaseline='middle';
+  const maxDepth=Math.min(depth,5); let nodes=[{x:W/2,y:40,n:N}];
+  for(let d=0;d<=maxDepth;d++){
+    const next=[]; const y=40+d*58;
+    nodes.forEach((node,i)=>{
+      node.y=y; const terminal=node.n<=cells || d===depth;
+      ctx.fillStyle=terminal?'#e8f5ef':'#eef3f8';ctx.strokeStyle=terminal?'#2f6f5e':'#17365d';ctx.lineWidth=2;
+      ctx.beginPath();ctx.roundRect(node.x-45,y-17,90,34,8);ctx.fill();ctx.stroke();ctx.fillStyle='#1f2933';ctx.fillText(String(node.n)+' states',node.x,y);
+      if(!terminal && d<maxDepth){
+        const left=Math.ceil(node.n/2),right=Math.floor(node.n/2); const span=W/Math.pow(2,d+2); const lx=node.x-span,rx=node.x+span,ny=y+58;
+        ctx.strokeStyle='#b38a3e';ctx.lineWidth=1.5;ctx.beginPath();ctx.moveTo(node.x,y+17);ctx.lineTo(lx,ny-17);ctx.moveTo(node.x,y+17);ctx.lineTo(rx,ny-17);ctx.stroke();
+        next.push({x:lx,y:ny,n:left},{x:rx,y:ny,n:right});
+      }
+    }); nodes=next;
+  }
+}
+function updateBellman(){
+  const N=+$('bellN').value,b=+$('bellB').value,term=$('bellTerm').value,smodel=$('bellState').value;
+  const cells=term==='exact'?1:term==='task'?2:4; const lb=ceilLog2(Math.ceil(N/cells)); const opt=lb; const slack=b-opt;
+  $('bellNVal').textContent=N;$('bellBVal').textContent=b;$('bellCells').textContent=cells;$('bellLB').textContent=lb;$('bellOpt').textContent=opt;$('bellSlack').textContent=slack;
+  $('bellFormula').innerHTML=`d* = ⌈log<sub>2</sub>(${Math.ceil(N/cells)})⌉ = ${opt}`;
+  let cls='ok',msg='FINITE_GAME_POLICY_OPTIMAL · BELLMAN_STATE_SUFFICIENT';
+  if(smodel==='history'){cls='warn';msg='HISTORY_STATE_REQUIRED · survivor set alone is not Markov-sufficient';}
+  else if(slack<0){cls='warn';msg='BUDGET_EXHAUSTED_INCONCLUSIVE · required depth '+opt+', remaining budget '+b;}
+  $('bellStatus').className='status '+cls;$('bellStatus').textContent=msg; drawTree(N,cells,opt); updateReport();
+}
+function updateOrdered(){
+  const N=+$('ordN').value,cost=+$('ordCost').value,a=ceilLog2(N),s=N-1;
+  $('ordNVal').textContent=N;$('ordAdaptive').textContent=a;$('ordStatic').textContent=s;$('ordACost').textContent=a*cost;$('ordSCost').textContent=s*cost;
+  $('ordStatus').textContent='ADAPTIVE_POLICY_OPTIMAL_CERTIFIED · NONADAPTIVE_ADAPTIVITY_GAP_CERTIFIED'; drawGap(); updateReport();
+}
+function drawGap(){
+  const c=$('gapCanvas'),ctx=c.getContext('2d'),W=c.width,H=c.height;ctx.clearRect(0,0,W,H);const maxN=+$('ordN').value;
+  const pad=55;ctx.strokeStyle='#b9c5d2';ctx.beginPath();ctx.moveTo(pad,20);ctx.lineTo(pad,H-pad);ctx.lineTo(W-20,H-pad);ctx.stroke();
+  function path(fn,color){ctx.strokeStyle=color;ctx.lineWidth=3;ctx.beginPath();for(let i=2;i<=maxN;i++){const x=pad+(i-2)/(maxN-2)*(W-pad-25),y=H-pad-fn(i)/(maxN-1)*(H-pad-30);if(i===2)ctx.moveTo(x,y);else ctx.lineTo(x,y);}ctx.stroke();}
+  path(n=>n-1,'#8a3a3a');path(n=>ceilLog2(n),'#17365d');ctx.fillStyle='#17365d';ctx.fillText('adaptive log depth',90,35);ctx.fillStyle='#8a3a3a';ctx.fillText('static N−1 probes',260,35);
+}
+function updateProgress(){
+  const D=+$('progD').value,e=+$('progE').value,beta=+$('progBeta').value,model=$('progModel').value,cells=Math.ceil(D/e);
+  $('progDVal').textContent=D;$('progEVal').textContent=e.toFixed(2);$('progBetaVal').textContent=beta.toFixed(3);$('progCells').textContent=cells;$('progBetaMetric').textContent=beta.toFixed(3);
+  let depth='∞',flag='UNCERTIFIED',cls='bad',msg='STRICT_SUBSET_PROGRESS_INSUFFICIENT';
+  if(model==='contract'&&beta<1){depth=Math.ceil(Math.log(cells)/Math.log(1/beta));flag='CERTIFIED';cls='ok';msg='QUANTITATIVE_PROGRESS_CERTIFIED';$('progFormula').innerHTML=`t ≥ ⌈log(${cells}) / log(1/${beta.toFixed(3)})⌉ = ${depth}`;}
+  else {$('progFormula').textContent='Removing one point gives strict inclusion but no finite uniform stopping bound.';}
+  $('progDepth').textContent=depth;$('progFlag').textContent=flag;$('progStatus').className='status '+cls;$('progStatus').textContent=msg; drawProgress(cells,beta,model);updateReport();
+}
+function drawProgress(cells,beta,model){
+  const c=$('progressCanvas'),ctx=c.getContext('2d'),W=c.width,H=c.height;ctx.clearRect(0,0,W,H);const pad=55;ctx.strokeStyle='#b9c5d2';ctx.beginPath();ctx.moveTo(pad,20);ctx.lineTo(pad,H-pad);ctx.lineTo(W-20,H-pad);ctx.stroke();
+  const vals=[cells];for(let i=1;i<20;i++)vals.push(model==='contract'?Math.max(1,vals[i-1]*beta):Math.max(1,vals[i-1]-1/Math.max(1,cells)));
+  const max=vals[0];ctx.strokeStyle=model==='contract'?'#2f6f5e':'#8a3a3a';ctx.lineWidth=3;ctx.beginPath();vals.forEach((v,i)=>{const x=pad+i/(vals.length-1)*(W-pad-25),y=H-pad-(v/max)*(H-pad-30);if(i===0)ctx.moveTo(x,y);else ctx.lineTo(x,y)});ctx.stroke();ctx.fillStyle='#5c6770';ctx.fillText('worst-child covering multiplicity',70,35);
+}
+function updateCost(){
+  const ex=+$('exactCost').value,ch=+$('cheapCost').value,d=+$('cheapDepth').value,cheap=ch*d,rule=$('costRule').value;
+  $('exactCostVal').textContent=ex;$('cheapCostVal').textContent=ch;$('cheapDepthVal').textContent=d;$('costExact').textContent=ex;$('costCheap').textContent=cheap;
+  const global=ex<=cheap?'exact':'cheap tree';let chosen;
+  if(rule==='raw')chosen='exact'; else if(rule==='ratio')chosen=(1/ex>=1/cheap?'exact':'cheap tree'); else chosen=global;
+  $('costChosen').textContent=chosen;$('costGlobal').textContent=global;
+  const wrong=chosen!==global;$('costStatus').className='status '+(wrong?'warn':'ok');$('costStatus').textContent=wrong?'MYOPIC_MINIMAX_POLICY_ONLY · selected policy is not globally cost-optimal':'GLOBAL COST COMPARISON CERTIFIED FOR THIS TOY INSTANCE';updateReport();
+}
+function updateRobust(){
+  const noise=$('noiseDeclared').checked,lie=$('lieState').checked,post=$('posteriorState').checked,sub=$('submodProof').checked,timing=$('timing').value,obj=$('objective').value;
+  const problems=[];if(!noise)problems.push('NOISE_MODEL_UNDECLARED');if(!lie)problems.push('LIE_BUDGET_STATE_INCOMPLETE');if(obj==='bayes'&&!post)problems.push('HISTORY_STATE_REQUIRED');if(!sub)problems.push('ADAPTIVE_SUBMODULARITY_NOT_ESTABLISHED');if(timing==='none')problems.push('RANDOMIZATION_TIMING_UNDECLARED');
+  $('robustStatus').className='status '+(problems.length?'warn':'ok');$('robustStatus').textContent=problems.length?problems.join(' · '):'ROBUST RESPONSE CONTRACT COMPLETE';
+  if(obj==='minimax'){$('operatorFormula').innerHTML='V*(s)=min<sub>p</sub>[c(p,s)+max<sub>r∈Reach</sub>V*(s,p,r)]';$('operatorStatus').textContent='MINIMAX WORST-BRANCH OPERATOR';}
+  else {$('operatorFormula').innerHTML='V*<sub>μ</sub>(μ)=min<sub>p</sub>[c(p,μ)+E<sub>r|μ,p</sub>V*<sub>μ</sub>(μ\') ]';$('operatorStatus').textContent=post?'BAYESIAN_BELLMAN_CERTIFIED':'POSTERIOR STATE NOT CERTIFIED';}
+  updateReport();
+}
+function makeReport(){
+  const term=$('bellTerm').value,smodel=$('bellState').value,b=+$('bellB').value,N=+$('bellN').value;
+  const obj=$('objective').value,timing=$('timing').value,problems=[];
+  if(!$('noiseDeclared').checked)problems.push('NOISE_MODEL_UNDECLARED');if(!$('lieState').checked)problems.push('LIE_BUDGET_STATE_INCOMPLETE');if(!$('submodProof').checked)problems.push('ADAPTIVE_SUBMODULARITY_NOT_ESTABLISHED');if(timing==='none')problems.push('RANDOMIZATION_TIMING_UNDECLARED');
+  return {
+    schema:'BCM7Report',version:'0.1.1-reviewed-demo',game_id:'interactive-identification-lab',
+    state_model:{carrier:'ordered_or_continuous_demo',initial_size:N,equivalence:'identity',target:term},
+    protocol:{policy_type:'deterministic_adaptive',response_model:$('noiseDeclared').checked?'declared':'undeclared',adversary_timing:'reachable_branch',randomization_timing:timing,cost_model:'configured',budget_model:b,sufficient_state:smodel==='survivor'?'survivor_state':'full_history_required',terminal_rule:term},
+    certificate:{ordered_threshold_depth:ceilLog2(Math.ceil(N/(term==='exact'?1:term==='task'?2:4))),quantitative_progress:$('progModel').value==='contract',objective:obj},
+    statuses:[smodel==='survivor'?'BELLMAN_STATE_SUFFICIENT':'HISTORY_STATE_REQUIRED',$('progModel').value==='contract'?'QUANTITATIVE_PROGRESS_CERTIFIED':'STRICT_SUBSET_PROGRESS_INSUFFICIENT',obj==='bayes'?'BAYESIAN_BELLMAN_CERTIFIED':'FINITE_GAME_POLICY_OPTIMAL'].concat(problems),
+    claim_ceiling:['DEMONSTRATION_INSTANCE_ONLY','NO_UNIVERSAL_POLICY_SYNTHESIS_CLAIM','NO_AUTOMATIC_THEOREM_PROVER_CLAIM']
+  };
+}
+function updateReport(){$('reportPre').textContent=JSON.stringify(makeReport(),null,2)}
+$('copyReport').addEventListener('click',async()=>{try{await navigator.clipboard.writeText($('reportPre').textContent);$('copyStatus').textContent='COPIED';$('copyStatus').className='status ok'}catch(e){$('copyStatus').textContent='COPY UNAVAILABLE · select text manually';$('copyStatus').className='status warn'}});
+['bellN','bellB','bellTerm','bellState'].forEach(id=>$(id).addEventListener('input',updateBellman));
+['ordN','ordCost'].forEach(id=>$(id).addEventListener('input',updateOrdered));
+['progD','progE','progBeta','progModel'].forEach(id=>$(id).addEventListener('input',updateProgress));
+['exactCost','cheapCost','cheapDepth','costRule'].forEach(id=>$(id).addEventListener('input',updateCost));
+['noiseDeclared','lieState','posteriorState','submodProof','timing','objective'].forEach(id=>$(id).addEventListener('input',updateRobust));
+updateBellman();updateOrdered();updateProgress();updateCost();updateRobust();updateReport();
+</script>
+</body>
+</html>

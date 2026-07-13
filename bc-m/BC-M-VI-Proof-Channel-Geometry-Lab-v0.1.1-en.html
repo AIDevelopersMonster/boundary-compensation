@@ -1,0 +1,232 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>BC-M VI Proof-Channel Geometry Lab v0.1.1</title>
+<style>
+:root{
+  --ink:#17212b;--muted:#5c6770;--blue:#17365d;--gold:#b38a3e;--green:#2f6f5e;
+  --red:#8a3a3a;--purple:#5e4b78;--orange:#a85e26;--cyan:#2d6f7a;
+  --paper:#f7f8fa;--panel:#ffffff;--line:#d8dee6;--soft:#eef3f8;--mono:#15202b;
+}
+*{box-sizing:border-box}
+body{margin:0;font-family:Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif;background:linear-gradient(135deg,#f4f7fb 0%,#fbfaf6 100%);color:var(--ink)}
+header{padding:28px 24px 18px;background:linear-gradient(100deg,var(--blue),#244f80);color:#fff;border-bottom:4px solid var(--gold)}
+header .wrap{max-width:1250px;margin:auto}
+h1{margin:0 0 8px;font-size:clamp(1.7rem,3vw,2.7rem);line-height:1.05}
+.subtitle{max-width:950px;opacity:.92;font-size:1rem;line-height:1.5}
+.badges{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px}.badge{border:1px solid rgba(255,255,255,.35);padding:5px 9px;border-radius:999px;font-size:.78rem;background:rgba(255,255,255,.08)}
+main{max-width:1250px;margin:20px auto 50px;padding:0 18px}
+.nav{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px}.tabbtn{border:1px solid var(--line);background:#fff;color:var(--blue);padding:9px 12px;border-radius:9px;cursor:pointer;font-weight:700}.tabbtn.active{background:var(--blue);color:#fff;border-color:var(--blue)}
+.tab{display:none}.tab.active{display:block}
+.grid{display:grid;grid-template-columns:minmax(0,1.5fr) minmax(280px,.8fr);gap:16px}.grid.equal{grid-template-columns:1fr 1fr}
+@media(max-width:900px){.grid,.grid.equal{grid-template-columns:1fr}}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:16px;box-shadow:0 8px 25px rgba(23,54,93,.06)}
+.card h2,.card h3{margin-top:0;color:var(--blue)}
+.controls{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin:10px 0}.controls label{font-weight:650;font-size:.92rem}.controls select,.controls input[type=number]{padding:7px 8px;border:1px solid var(--line);border-radius:8px;background:#fff}.controls button,.action{border:0;background:var(--blue);color:#fff;padding:8px 11px;border-radius:8px;cursor:pointer;font-weight:700}.controls button.secondary,.action.secondary{background:#fff;color:var(--blue);border:1px solid var(--blue)}
+.status{display:inline-block;font-family:ui-monospace,SFMono-Regular,Consolas,monospace;font-size:.78rem;font-weight:800;padding:6px 8px;border-radius:7px;background:var(--soft);color:var(--blue);border:1px solid #c9d6e4;word-break:break-word}.status.good{background:#e7f3ee;color:var(--green);border-color:#b8d8c9}.status.bad{background:#f7eaea;color:var(--red);border-color:#e6c2c2}.status.warn{background:#fff4df;color:#8b5a12;border-color:#ead3a2}.status.purple{background:#eee9f4;color:var(--purple);border-color:#d7cce5}
+.note{border-left:4px solid var(--gold);padding:10px 12px;background:#fffaf0;border-radius:8px;line-height:1.45}.note.red{border-left-color:var(--red);background:#fff5f5}.note.green{border-left-color:var(--green);background:#f2faf6}
+.object-row{display:flex;flex-wrap:wrap;gap:12px;margin:14px 0}.obj{width:125px;min-height:105px;border:2px solid var(--line);border-radius:12px;padding:10px;background:#fff;position:relative}.obj .name{font-size:1.25rem;font-weight:900}.obj .kv{font-size:.82rem;margin-top:6px;color:var(--muted)}.obj.witness{border-color:var(--red);box-shadow:0 0 0 3px rgba(138,58,58,.1)}
+.pill{display:inline-block;padding:3px 7px;border-radius:999px;font-size:.72rem;font-weight:800;margin:2px 2px 0 0}.p0{background:#e8eef6;color:var(--blue)}.p1{background:#f5ebd8;color:#7a581d}.q0{background:#e9f3ef;color:var(--green)}.q1{background:#f2e8e8;color:var(--red)}
+.pairs{display:flex;flex-wrap:wrap;gap:7px}.pair{padding:6px 8px;border-radius:7px;border:1px solid var(--line);font-family:ui-monospace,monospace;font-size:.78rem}.pair.covered{background:#e7f3ee;border-color:#b8d8c9}.pair.open{background:#f7eaea;border-color:#e6c2c2}
+svg{width:100%;height:auto;min-height:330px;background:linear-gradient(#fff,#fbfcfe);border:1px solid var(--line);border-radius:12px}.node-claim{fill:#eef3f8;stroke:#17365d;stroke-width:2}.node-infer{fill:#fff6e6;stroke:#b38a3e;stroke-width:2}.node-old{fill:#f8eaea;stroke:#8a3a3a;stroke-width:2}.node-oracle{fill:#eee9f4;stroke:#5e4b78;stroke-width:2}.edge{stroke:#5c6770;stroke-width:2;fill:none}.edge.hidden{stroke:#8a3a3a;stroke-dasharray:7 5}.edge.oracle{stroke:#5e4b78;stroke-dasharray:4 4}.svgtext{font-size:13px;font-weight:700;fill:#17212b}.smalltext{font-size:11px;fill:#5c6770}
+.matrix{width:100%;border-collapse:collapse;font-size:.82rem}.matrix th,.matrix td{border:1px solid var(--line);padding:8px;vertical-align:top}.matrix th{background:var(--soft);color:var(--blue)}.matrix td.clickable{cursor:pointer}.matrix td.clickable:hover{outline:2px solid var(--gold);outline-offset:-2px}
+.code{font-family:ui-monospace,SFMono-Regular,Consolas,monospace;background:#101820;color:#dce7ef;border-radius:10px;padding:12px;overflow:auto;white-space:pre-wrap;max-height:360px;font-size:.78rem}
+.legend{display:flex;gap:10px;flex-wrap:wrap;font-size:.78rem}.dot{width:11px;height:11px;border-radius:3px;display:inline-block;margin-right:4px}.footer{color:var(--muted);font-size:.83rem;margin-top:18px;line-height:1.45}
+.metric{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:9px;margin-top:12px}.metric div{background:var(--soft);padding:10px;border-radius:9px}.metric b{display:block;color:var(--blue);font-size:.78rem}.metric span{font-size:1.05rem;font-weight:850}
+.cutlist label,.rewrites label,.probe-list label{display:block;margin:7px 0}.routebox{border:1px solid var(--line);border-radius:10px;padding:10px;margin:8px 0}.routebox strong{color:var(--blue)}
+input[type=checkbox]{transform:translateY(1px)}
+</style>
+</head>
+<body>
+<header><div class="wrap">
+<h1>BC-M VI Proof-Channel Geometry Lab</h1>
+<div class="subtitle">An autonomous interactive companion to <b>BC-M VI v0.1.1 reviewed</b>. The lab visualizes channel blindness, bipartite inference graphs, genealogical imports, quotient mechanisms, minimal auxiliary completion, and bounded proof-channel atlases. It audits structure; it does not prove the theorem.</div>
+<div class="badges"><span class="badge">No external libraries</span><span class="badge">Task-relative completion</span><span class="badge">Branch-relative obstruction</span><span class="badge">Oracle-aware genealogy</span><span class="badge">Machine-readable BCM6Report</span></div>
+</div></header>
+<main>
+<div class="nav">
+<button class="tabbtn active" data-tab="blind">1. Channel Blindness</button>
+<button class="tabbtn" data-tab="graph">2. Inference Graph</button>
+<button class="tabbtn" data-tab="genealogy">3. Genealogy & Cut Sets</button>
+<button class="tabbtn" data-tab="quotient">4. Quotient Mechanisms</button>
+<button class="tabbtn" data-tab="completion">5. Minimal Completion</button>
+<button class="tabbtn" data-tab="atlas">6. Proof-Channel Atlas</button>
+</div>
+
+<section id="blind" class="tab active">
+<div class="grid">
+<div class="card">
+<h2>Witness-based channel obstruction</h2>
+<p>Objects are grouped by a descriptor <i>Π</i>. The target task <i>Q</i> may vary inside a descriptor fiber. Toggle auxiliary probes to refine the fibers.</p>
+<div class="controls">
+<label><input id="blindP1" type="checkbox"> add probe p₁ (task-separating)</label>
+<label><input id="blindP2" type="checkbox"> add probe p₂ (object-separating only)</label>
+<button id="blindReset" class="secondary">Reset</button>
+</div>
+<div id="objectRow" class="object-row"></div>
+<h3>Different-Q ambiguity pairs</h3><div id="blindPairs" class="pairs"></div>
+</div>
+<div class="card">
+<h3>Audit result</h3><div id="blindStatus"></div>
+<div class="metric"><div><b>Open ambiguity pairs</b><span id="blindOpen">0</span></div><div><b>Augmented fibers</b><span id="blindFibers">0</span></div><div><b>Singleton fibers</b><span id="blindSingletons">0</span></div></div>
+<p class="note green"><b>Task-relative rule:</b> completion requires Q-homogeneity of every augmented fiber, not singleton reconstruction of every object.</p>
+<p class="note red"><b>Claim ceiling:</b> one same-descriptor/different-Q witness certifies <span class="status bad">IMPOSSIBLE_AS_COMPLETE_CHANNEL</span> for the declared scope and channel. It does not prove theorem falsity or universal unprovability.</p>
+</div></div>
+</section>
+
+<section id="graph" class="tab">
+<div class="grid">
+<div class="card">
+<h2>Bipartite acyclic inference graph</h2>
+<div class="controls">
+<label><input id="gOld" type="checkbox" checked> include old theorem import</label>
+<label><input id="gOracle" type="checkbox"> include black-box oracle</label>
+<label><input id="gBreak" type="checkbox"> remove mandatory lemma lift</label>
+<label><input id="gSibling" type="checkbox" checked> retain sibling branch</label>
+</div>
+<svg viewBox="0 0 850 410" role="img" aria-label="Bipartite inference graph">
+<defs><marker id="arrow" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto"><polygon points="0 0,10 3.5,0 7" fill="#5c6770"/></marker><marker id="arrowRed" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto"><polygon points="0 0,10 3.5,0 7" fill="#8a3a3a"/></marker></defs>
+<path class="edge" d="M135 95 L220 95" marker-end="url(#arrow)"/><path class="edge" d="M270 95 L355 95" marker-end="url(#arrow)"/><path class="edge" d="M485 95 L565 95" marker-end="url(#arrow)"/><path class="edge" d="M615 95 L710 95" marker-end="url(#arrow)"/>
+<path id="siblingEdge1" class="edge" d="M135 260 C250 260,260 160,355 130" marker-end="url(#arrow)"/><path id="siblingEdge2" class="edge" d="M485 130 C580 170,600 245,710 245" marker-end="url(#arrow)"/>
+<path id="oldEdge" class="edge hidden" d="M435 320 C500 280,525 180,585 130" marker-end="url(#arrowRed)"/>
+<path id="oracleEdge" class="edge oracle" d="M250 335 C305 280,355 205,410 135" marker-end="url(#arrow)"/>
+<rect x="25" y="60" width="110" height="70" rx="12" class="node-claim"/><text x="80" y="88" text-anchor="middle" class="svgtext">Assumptions</text><text x="80" y="108" text-anchor="middle" class="smalltext">claim node</text>
+<polygon points="220,95 245,70 270,95 245,120" class="node-infer"/><text x="245" y="99" text-anchor="middle" class="smalltext">i₁</text>
+<rect id="lemmaNode" x="355" y="60" width="130" height="70" rx="12" class="node-claim"/><text x="420" y="88" text-anchor="middle" class="svgtext">Mandatory lemma</text><text x="420" y="108" text-anchor="middle" class="smalltext">claim node</text>
+<polygon points="565,95 590,70 615,95 590,120" class="node-infer"/><text x="590" y="99" text-anchor="middle" class="smalltext">i₂</text>
+<rect x="710" y="60" width="115" height="70" rx="12" class="node-claim"/><text x="767" y="88" text-anchor="middle" class="svgtext">Target Q</text><text x="767" y="108" text-anchor="middle" class="smalltext">claim node</text>
+<rect x="25" y="225" width="110" height="70" rx="12" class="node-claim"/><text x="80" y="253" text-anchor="middle" class="svgtext">Sibling route</text><text x="80" y="273" text-anchor="middle" class="smalltext">alternative claim</text>
+<rect x="710" y="210" width="115" height="70" rx="12" class="node-claim"/><text x="767" y="238" text-anchor="middle" class="svgtext">Target Q</text><text x="767" y="258" text-anchor="middle" class="smalltext">sibling completion</text>
+<rect id="oldNode" x="365" y="295" width="140" height="60" rx="10" class="node-old"/><text x="435" y="322" text-anchor="middle" class="svgtext">Old theorem core</text><text x="435" y="341" text-anchor="middle" class="smalltext">hidden import</text>
+<rect id="oracleNode" x="175" y="310" width="150" height="55" rx="10" class="node-oracle"/><text x="250" y="334" text-anchor="middle" class="svgtext">External oracle</text><text x="250" y="352" text-anchor="middle" class="smalltext">audit boundary</text>
+</svg>
+<div class="legend"><span><i class="dot" style="background:#eef3f8;border:1px solid #17365d"></i>claim node</span><span><i class="dot" style="background:#fff6e6;border:1px solid #b38a3e"></i>inference node</span><span><i class="dot" style="background:#f8eaea;border:1px solid #8a3a3a"></i>imported core</span><span><i class="dot" style="background:#eee9f4;border:1px solid #5e4b78"></i>oracle</span></div>
+</div>
+<div class="card"><h3>Branch and validity audit</h3><div id="graphStatus"></div><div id="graphDetails" class="routebox"></div><p class="note"><b>Why bipartite?</b> An inference node preserves the conjunction of all premises. A plain edge-only DAG can incorrectly suggest that each premise separately proves the conclusion.</p><p class="note red"><b>Non-resurrection:</b> an empty lift fiber blocks only the audited branch. A surviving sibling branch prevents the leap to <span class="status bad">THEOREM_UNPROVABLE</span>.</p></div>
+</div>
+</section>
+
+<section id="genealogy" class="tab">
+<div class="grid equal">
+<div class="card"><h2>Route registry</h2>
+<div class="routebox"><strong>Route A</strong><br>Input → construction lemma → soundness core S → target</div>
+<div class="routebox"><strong>Route B</strong><br>Input → different top-level reduction → soundness core S → target</div>
+<div class="routebox"><strong>Route C</strong><br>Input → independent certificate → target</div>
+<div class="cutlist">
+<label><input id="cutS" type="checkbox" checked> treat S as a mandatory soundness cut core</label>
+<label><input id="cutComplete" type="checkbox"> registry is complete for the declared channel family</label>
+<label><input id="cutOracle" type="checkbox"> S is imported as a black box</label>
+</div>
+</div>
+<div class="card"><h3>Genealogical result</h3><div id="genStatus"></div><div class="metric"><div><b>Routes represented</b><span>3</span></div><div><b>Routes crossing S</b><span id="genCross">2</span></div><div><b>Surviving disjoint route</b><span id="genDisjoint">yes</span></div></div><div id="genealogyVector" class="code"></div><p class="note green">A shared role-relative minimal cut core certifies a common dependency bottleneck. It does <b>not</b> by itself certify the same quotient mechanism.</p></div>
+</div>
+</section>
+
+<section id="quotient" class="tab">
+<div class="grid equal">
+<div class="card"><h2>Declared proof rewrites</h2><div class="rewrites">
+<label><input id="rwRename" type="checkbox" checked> variable and lemma renaming</label>
+<label><input id="rwReorder" type="checkbox" checked> reorder independent steps</label>
+<label><input id="rwInline" type="checkbox" checked> inline/extract an intermediate lemma</label>
+<label><input id="rwAlias" type="checkbox" checked> bibliographic alias for the same theorem</label>
+<label><input id="rwErase" type="checkbox"> erase source/scope annotations</label>
+</div><p class="note red">Erasing critical provenance may make the equivalence relation fail to preserve genealogy.</p></div>
+<div class="card"><h3>Artifact comparison</h3><p><b>Artifact A:</b> states lemma L explicitly, cites theorem T, then applies L.</p><p><b>Artifact B:</b> inlines the three steps of L, renames variables, and cites an alias of T.</p><div id="quotientStatus"></div><div id="quotientReason" class="routebox"></div></div>
+</div>
+</section>
+
+<section id="completion" class="tab">
+<div class="grid">
+<div class="card"><h2>Finite benchmark pair cover</h2><p>Select probes manually or let the lab find an exact minimum-cost package that covers every different-Q ambiguity pair.</p>
+<div class="probe-list" id="probeList"></div>
+<div class="controls"><button id="solveExact">Exact minimum cost</button><button id="solveGreedy" class="secondary">Greedy</button><button id="clearProbes" class="secondary">Clear</button></div>
+<h3>Ambiguity universe</h3><div id="completionPairs" class="pairs"></div></div>
+<div class="card"><h3>Completion certificate</h3><div id="completionStatus"></div><div class="metric"><div><b>Covered pairs</b><span id="coverCount">0/0</span></div><div><b>Total cost</b><span id="coverCost">0</span></div><div><b>Selected probes</b><span id="coverSelected">0</span></div></div><p class="note green">Full pair coverage certifies Q-homogeneity on this finite benchmark. It remains a <span class="status warn">PROBE_COMPLETION_CANDIDATE</span> until a full-scope factorization proof is supplied.</p></div>
+</div>
+</section>
+
+<section id="atlas" class="tab">
+<div class="card"><div class="controls"><label>Atlas: <select id="atlasSelect"><option value="D2">D2 Poincaré</option><option value="D4">D4 Fermat</option></select></label><button id="copyReport">Copy BCM6Report</button><button id="downloadReport" class="secondary">Download JSON</button></div>
+<h2>Bounded Proof-Channel Atlas and Exclusion Matrix</h2><div id="atlasTable"></div><p class="note">Cells are bounded audit statuses, not theorem proofs. Click a cell to inspect its source rule, claim ceiling, and reason.</p></div>
+<div class="grid equal" style="margin-top:16px"><div class="card"><h3>Selected cell</h3><div id="cellDetail" class="routebox">Select a matrix cell.</div></div><div class="card"><h3>Live BCM6Report</h3><div id="reportJSON" class="code"></div></div></div>
+</section>
+
+<div class="footer"><b>Scientific boundary.</b> This interactive lab is a finite educational and certification companion. It visualizes the internal architecture of BC-M VI but does not establish theorem truth, absolute proof independence, historical priority, completeness of the source registry, or nonexistence of undiscovered arguments.</div>
+</main>
+<script>
+'use strict';
+const $=id=>document.getElementById(id);
+const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+for(const b of document.querySelectorAll('.tabbtn')) b.addEventListener('click',()=>{document.querySelectorAll('.tabbtn').forEach(x=>x.classList.remove('active'));document.querySelectorAll('.tab').forEach(x=>x.classList.remove('active'));b.classList.add('active');$(b.dataset.tab).classList.add('active')});
+
+// 1 Channel blindness
+const objects=[{n:'a',pi:0,q:0,p1:0,p2:0},{n:'b',pi:1,q:0,p1:0,p2:1},{n:'c',pi:0,q:1,p1:1,p2:0},{n:'d',pi:1,q:1,p1:1,p2:1}];
+function blindKey(o){return [o.pi,$('blindP1').checked?o.p1:'-', $('blindP2').checked?o.p2:'-'].join('|')}
+function updateBlind(){
+ const groups={}; for(const o of objects)(groups[blindKey(o)]??=[]).push(o);
+ const pairs=[]; for(let i=0;i<objects.length;i++)for(let j=i+1;j<objects.length;j++)if(objects[i].q!==objects[j].q)pairs.push([objects[i],objects[j]]);
+ const open=pairs.filter(([a,b])=>blindKey(a)===blindKey(b)); const witnessNames=new Set(open.flat().map(x=>x.n));
+ $('objectRow').innerHTML=objects.map(o=>`<div class="obj ${witnessNames.has(o.n)?'witness':''}"><div class="name">${o.n}</div><div class="kv"><span class="pill p${o.pi}">Π=${o.pi}</span><span class="pill q${o.q}">Q=${o.q}</span>${$('blindP1').checked?`<span class="pill p${o.p1}">p₁=${o.p1}</span>`:''}${$('blindP2').checked?`<span class="pill p${o.p2}">p₂=${o.p2}</span>`:''}</div></div>`).join('');
+ $('blindPairs').innerHTML=pairs.map(([a,b])=>`<span class="pair ${blindKey(a)===blindKey(b)?'open':'covered'}">{${a.n},${b.n}} ${blindKey(a)===blindKey(b)?'open':'separated'}</span>`).join('');
+ const singleton=Object.values(groups).filter(g=>g.length===1).length;
+ $('blindOpen').textContent=open.length; $('blindFibers').textContent=Object.keys(groups).length; $('blindSingletons').textContent=singleton;
+ if(open.length) $('blindStatus').innerHTML=`<span class="status bad">IMPOSSIBLE_AS_COMPLETE_CHANNEL</span><p>${open.length} different-Q pair(s) remain inside the same augmented descriptor fiber.</p>`;
+ else $('blindStatus').innerHTML=`<span class="status good">Q_CHANNEL_COMPLETE_ON_BENCHMARK</span><p>Every augmented fiber is Q-homogeneous.${singleton<Object.keys(groups).length?' Object reconstruction is still non-unique.':''}</p>`;
+}
+['blindP1','blindP2'].forEach(id=>$(id).addEventListener('change',updateBlind));$('blindReset').onclick=()=>{$('blindP1').checked=false;$('blindP2').checked=false;updateBlind()};
+
+// 2 Graph
+function updateGraph(){const old=$('gOld').checked,oracle=$('gOracle').checked,broken=$('gBreak').checked,sibling=$('gSibling').checked;
+ $('oldNode').style.display=$('oldEdge').style.display=old?'':'none';$('oracleNode').style.display=$('oracleEdge').style.display=oracle?'':'none';$('siblingEdge1').style.display=$('siblingEdge2').style.display=sibling?'':'none';$('lemmaNode').style.opacity=broken?.28:1;
+ const statuses=[]; if(broken)statuses.push('<span class="status bad">CHANNEL_LIFT_OBSTRUCTED</span>'); if(broken&&sibling)statuses.push('<span class="status good">PARTIAL_PROOF_BRANCH_SURVIVES</span>'); if(old)statuses.push('<span class="status warn">GENEALOGICALLY_DEPENDENT</span>'); if(oracle)statuses.push('<span class="status purple">ORACLE_DEPENDENT</span>'); if(!broken&&!old&&!oracle)statuses.push('<span class="status good">STRUCTURALLY_COMPLETE_IN_DECLARED_GRAPH</span>');
+ $('graphStatus').innerHTML=statuses.join(' ');
+ const detail=[];detail.push(broken?'The mandatory lemma has no admissible lift in the main branch.':'The main branch retains its mandatory lemma.');detail.push(sibling?'A sibling branch remains represented.':'No sibling branch is represented in this registry.');if(old)detail.push('The critical inference imports an older theorem core.');if(oracle)detail.push('An external oracle lies outside the internal audit boundary.');$('graphDetails').innerHTML=detail.map(x=>'• '+esc(x)).join('<br>');
+}
+['gOld','gOracle','gBreak','gSibling'].forEach(id=>$(id).addEventListener('change',updateGraph));
+
+// 3 Genealogy
+function updateGenealogy(){const mandatory=$('cutS').checked,complete=$('cutComplete').checked,oracle=$('cutOracle').checked;const crossing=mandatory?2:0;const disjoint=true;$('genCross').textContent=crossing;$('genDisjoint').textContent=disjoint?'yes':'no';let st='';if(mandatory&&disjoint)st='<span class="status warn">SHARED_CUT_CORE</span> <span class="status good">DEPENDENCY_DISJOINT_ROUTE_SURVIVES</span>';else if(mandatory&&complete)st='<span class="status bad">GENEALOGICALLY_DEPENDENT_IN_DECLARED_REGISTRY</span>';else st='<span class="status warn">GENEALOGY_INCONCLUSIVE</span>';if(oracle)st+=' <span class="status purple">BLACK_BOX_IMPORT</span>';$('genStatus').innerHTML=st;
+ const vector={statement:'DISJOINT_IN_REGISTRY',mechanism:mandatory?'SHARED':'UNKNOWN',termination:'UNKNOWN',soundness:mandatory?'SHARED':'UNKNOWN',completeness:complete?'AUDITED':'UNKNOWN',foundation:oracle?'SHARED_ORACLE':'UNKNOWN'};$('genealogyVector').textContent=JSON.stringify(vector,null,2)}
+['cutS','cutComplete','cutOracle'].forEach(id=>$(id).addEventListener('change',updateGenealogy));
+
+// 4 Quotient
+function updateQuotient(){const ren=$('rwRename').checked,reorder=$('rwReorder').checked,inline=$('rwInline').checked,alias=$('rwAlias').checked,erase=$('rwErase').checked;if(erase){$('quotientStatus').innerHTML='<span class="status bad">PROOF_EQUIVALENCE_NOT_DEPENDENCY_PRESERVING</span>';$('quotientReason').textContent='The rewrite system may erase critical source or scope metadata, so genealogy cannot descend to the quotient.';return}const same=ren&&inline&&alias;if(same){$('quotientStatus').innerHTML='<span class="status good">SAME_QUOTIENT_MECHANISM</span>';$('quotientReason').textContent='The differences are absorbed by the declared admissible rewrites. Reordering is optional because the compared steps are independent.'}else{$('quotientStatus').innerHTML='<span class="status warn">DIFFERENT_ARTIFACTS_UNDER_CURRENT_QUOTIENT</span>';$('quotientReason').textContent='At least one required rewrite is not admitted. This does not prove deep mechanism difference; it only reports the current quotient convention.'}}
+['rwRename','rwReorder','rwInline','rwAlias','rwErase'].forEach(id=>$(id).addEventListener('change',updateQuotient));
+
+// 5 Completion
+const universe=['ac','ad','bc','bd'];
+const probes=[{id:'p1',name:'p₁ target-class probe',cost:3,covers:['ac','ad','bc','bd']},{id:'p2',name:'p₂ parity probe',cost:1,covers:['ad','bc']},{id:'p3',name:'p₃ endpoint certificate',cost:2,covers:['ac','bd']},{id:'p4',name:'p₄ oracle lemma',cost:2.5,covers:['ac','ad']},{id:'p5',name:'p₅ symmetry breaker',cost:2,covers:['bc','bd']}];
+function selectedProbes(){return probes.filter(p=>$(p.id).checked)}
+function updateCompletion(){const sel=selectedProbes(),covered=new Set(sel.flatMap(p=>p.covers));$('completionPairs').innerHTML=universe.map(u=>`<span class="pair ${covered.has(u)?'covered':'open'}">{${u[0]},${u[1]}} ${covered.has(u)?'covered':'open'}</span>`).join('');$('coverCount').textContent=`${covered.size}/${universe.length}`;$('coverCost').textContent=sel.reduce((a,p)=>a+p.cost,0).toFixed(1);$('coverSelected').textContent=sel.length;if(covered.size===universe.length)$('completionStatus').innerHTML='<span class="status good">PROBE_COMPLETION_CANDIDATE</span><p>The finite benchmark is Q-homogeneous under the selected package.</p>';else $('completionStatus').innerHTML='<span class="status bad">RESIDUAL_Q_AMBIGUITY</span><p>At least one different-Q pair remains uncovered.</p>'}
+$('probeList').innerHTML=probes.map(p=>`<label><input id="${p.id}" type="checkbox"> <b>${p.name}</b> — cost ${p.cost}; covers ${p.covers.map(x=>'{'+x[0]+','+x[1]+'}').join(', ')}</label>`).join('');probes.forEach(p=>$(p.id).addEventListener('change',updateCompletion));
+$('clearProbes').onclick=()=>{probes.forEach(p=>$(p.id).checked=false);updateCompletion()};
+$('solveExact').onclick=()=>{let best=null;for(let mask=0;mask<(1<<probes.length);mask++){const s=probes.filter((_,i)=>mask>>i&1),cov=new Set(s.flatMap(p=>p.covers));if(cov.size===universe.length){const cost=s.reduce((a,p)=>a+p.cost,0);if(!best||cost<best.cost||(cost===best.cost&&s.length<best.s.length))best={s,cost}}}probes.forEach(p=>$(p.id).checked=best.s.includes(p));updateCompletion()};
+$('solveGreedy').onclick=()=>{probes.forEach(p=>$(p.id).checked=false);const open=new Set(universe),chosen=[];while(open.size){let best=null;for(const p of probes.filter(x=>!chosen.includes(x))){const gain=p.covers.filter(x=>open.has(x)).length;const score=gain/p.cost;if(gain&&(best===null||score>best.score))best={p,score}}if(!best)break;chosen.push(best.p);best.p.covers.forEach(x=>open.delete(x))}chosen.forEach(p=>$(p.id).checked=true);updateCompletion()};
+
+// 6 Atlas
+const atlases={
+D2:{title:'D2 Poincaré Proof-Channel Atlas',task:'Recognize S³ among closed connected oriented finitely triangulated 3-manifolds',rows:[
+{name:'Integral homology',cells:{Witness:'BLIND',Scope:'IN_SCOPE',Genealogy:'DISJOINT_IN_REGISTRY',Algorithm:'EFFECTIVE_DESCRIPTOR'}},
+{name:'Fundamental-group criterion',cells:{Witness:'SEPARATES',Scope:'IN_SCOPE',Genealogy:'GENEALOGICALLY_DEPENDENT',Algorithm:'ALGORITHMIC_GAP'}},
+{name:'Normal / almost-normal surfaces',cells:{Witness:'SEPARATES',Scope:'IN_SCOPE',Genealogy:'DIFFERENT_TOP_LEVEL_ROUTE',Algorithm:'EFFECTIVE_CHANNEL_CERTIFIED'}},
+{name:'Ricci flow / geometrization',cells:{Witness:'SEPARATES',Scope:'IN_SCOPE',Genealogy:'SHARED_FOUNDATIONAL_LIBRARIES',Algorithm:'THEOREM_ROUTE_CERTIFIED'}},
+{name:'Specified TQFT invariant family',cells:{Witness:'INCONCLUSIVE',Scope:'PROTOCOL_UNDERSPECIFIED',Genealogy:'UNKNOWN',Algorithm:'OPEN_CANDIDATE'}}]},
+D4:{title:'D4 Fermat Proof-Dependency Mini-Atlas',task:"Audit proof genealogies for Fermat's Last Theorem",rows:[
+{name:'Selected-exponent classical routes',cells:{Witness:'PARTIAL_EXPONENT_CHANNEL',Scope:'NARROW_SCOPE',Genealogy:'HISTORICALLY_DISTINCT',Algorithm:'CASE_SPECIFIC'}},
+{name:'Kummer regular-prime route',cells:{Witness:'PARTIAL_EXPONENT_CHANNEL',Scope:'REGULAR_PRIMES',Genealogy:'SHARED_ARITHMETIC_CORE',Algorithm:'SCOPE_LIMITED'}},
+{name:'Frey–Ribet–Wiles / Taylor–Wiles',cells:{Witness:'COMPLETE_CHANNEL',Scope:'FULL_FLT_SCOPE',Genealogy:'CANONICAL_MODERN_SPINE',Algorithm:'THEOREM_ROUTE_CERTIFIED'}},
+{name:'Derived stronger-modularity route',cells:{Witness:'COMPLETE_DERIVED_CHANNEL',Scope:'FULL_FLT_SCOPE',Genealogy:'SHARED_CORE_MECHANISM',Algorithm:'THEOREM_ROUTE_CERTIFIED'}},
+{name:'Hypothetical elementary route',cells:{Witness:'NO_WITNESS_FOUND',Scope:'UNDECLARED',Genealogy:'UNKNOWN',Algorithm:'OPEN_CANDIDATE'}}]}}
+const cols=['Witness','Scope','Genealogy','Algorithm'];let selectedCell=null;
+function classFor(s){if(/BLIND|OBSTRUCT|GAP|UNDECLARED/.test(s))return'bad';if(/CERTIFIED|SEPARATES|COMPLETE|IN_SCOPE/.test(s))return'good';if(/OPEN|UNKNOWN|INCONCLUSIVE|PARTIAL|NARROW|LIMITED/.test(s))return'warn';return'purple'}
+function renderAtlas(){const key=$('atlasSelect').value,a=atlases[key];let html=`<h3>${esc(a.title)}</h3><table class="matrix"><thead><tr><th>Channel</th>${cols.map(c=>`<th>${c}</th>`).join('')}</tr></thead><tbody>`;a.rows.forEach((r,ri)=>{html+=`<tr><th>${esc(r.name)}</th>`+cols.map(c=>`<td class="clickable" data-r="${ri}" data-c="${c}"><span class="status ${classFor(r.cells[c])}">${esc(r.cells[c])}</span></td>`).join('')+'</tr>'});html+='</tbody></table>';$('atlasTable').innerHTML=html;document.querySelectorAll('#atlasTable td.clickable').forEach(td=>td.onclick=()=>{selectedCell={key,row:+td.dataset.r,col:td.dataset.c};showCell();updateReport()});selectedCell=null;$('cellDetail').textContent='Select a matrix cell.';updateReport()}
+function showCell(){const a=atlases[selectedCell.key],r=a.rows[selectedCell.row],s=r.cells[selectedCell.col];const explanation={BLIND:'A source-backed same-descriptor/different-target witness blocks channel completeness.',SEPARATES:'The channel distinguishes the registered witness family.',ALGORITHMIC_GAP:'The semantic criterion is recorded, but the effective procedure is not fully certified in this bounded cell.',OPEN_CANDIDATE:'No completeness theorem or blocking witness is registered under the current protocol.',INCONCLUSIVE:'Source or validity coverage is insufficient.',COMPLETE_CHANNEL:'The declared channel family covers the stated FLT target in the bounded genealogy.',SHARED_CORE_MECHANISM:'A derived route shares a registered lower-level arithmetic mechanism core.'}[s]||'This is a bounded atlas status under the declared scope, source registry, and quotient convention.';$('cellDetail').innerHTML=`<b>${esc(r.name)} × ${esc(selectedCell.col)}</b><br><span class="status ${classFor(s)}">${esc(s)}</span><p>${esc(explanation)}</p>`}
+function report(){const key=$('atlasSelect').value,a=atlases[key];return{protocol:{atlas_id:key,task:a.task,scope:key==='D2'?'bounded 3-manifold recognition benchmark':'bounded FLT genealogy registry',source_registry_id:'demo:embedded-v0.1.1',proof_equivalence:'dependency-preserving admissible rewrites',claim_ceiling:'structural audit only'},atlas:{title:a.title,rows:a.rows},selected_cell:selectedCell,final_status:'BOUNDED_PROOF_CHANNEL_ATLAS_RENDERED',failure_states:['REGISTRY_COMPLETENESS_NOT_CLAIMED']}}
+function updateReport(){$('reportJSON').textContent=JSON.stringify(report(),null,2)}
+$('atlasSelect').addEventListener('change',renderAtlas);$('copyReport').onclick=async()=>{try{await navigator.clipboard.writeText(JSON.stringify(report(),null,2));$('copyReport').textContent='Copied';setTimeout(()=>$('copyReport').textContent='Copy BCM6Report',1000)}catch(e){alert('Clipboard access is unavailable in this browser context.')}};$('downloadReport').onclick=()=>{const blob=new Blob([JSON.stringify(report(),null,2)],{type:'application/json'}),url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download='BCM6Report-demo.json';a.click();setTimeout(()=>URL.revokeObjectURL(url),500)};
+
+updateBlind();updateGraph();updateGenealogy();updateQuotient();updateCompletion();renderAtlas();
+</script>
+</body></html>

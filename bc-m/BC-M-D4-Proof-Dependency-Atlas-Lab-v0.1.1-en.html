@@ -1,0 +1,286 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>BC-M-D4 Proof-Dependency Atlas Lab</title>
+<style>
+:root{
+  --blue:#17365d; --gold:#b38a3e; --light:#eef3f8; --ink:#1f2933;
+  --gray:#5c6770; --green:#2f6f5e; --red:#8a3a3a; --purple:#5e4b78;
+  --orange:#a85e26; --cyan:#2d6f7a; --border:#cfd8e2; --bg:#f7f9fc;
+  --shadow:0 10px 28px rgba(23,54,93,.10);
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:Inter,Segoe UI,Arial,sans-serif;line-height:1.45}
+header{background:linear-gradient(135deg,#102b4f,#234d7c);color:#fff;padding:28px 22px 22px;box-shadow:var(--shadow)}
+.header-inner{max-width:1220px;margin:auto}
+h1{font-size:clamp(26px,3vw,42px);margin:0 0 6px;letter-spacing:-.02em}
+.subtitle{font-size:16px;opacity:.9;max-width:980px}
+.badges{display:flex;gap:8px;flex-wrap:wrap;margin-top:14px}
+.badge{font-family:ui-monospace,SFMono-Regular,Consolas,monospace;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.25);padding:5px 9px;border-radius:999px;font-size:12px}
+main{max-width:1220px;margin:22px auto;padding:0 16px 40px}
+.notice{background:white;border-left:5px solid var(--gold);padding:15px 16px;border-radius:10px;box-shadow:var(--shadow);margin-bottom:18px}
+.notice strong{color:var(--blue)}
+.tabs{display:flex;gap:8px;flex-wrap:wrap;margin:14px 0 18px}
+.tab{border:1px solid var(--border);background:white;color:var(--blue);padding:10px 14px;border-radius:10px;font-weight:700;cursor:pointer;transition:.18s}
+.tab:hover{transform:translateY(-1px);box-shadow:0 6px 16px rgba(23,54,93,.08)}
+.tab.active{background:var(--blue);color:white;border-color:var(--blue)}
+.panel{display:none}.panel.active{display:block}
+.grid{display:grid;grid-template-columns:repeat(12,1fr);gap:16px}
+.card{background:white;border:1px solid var(--border);border-radius:14px;padding:16px;box-shadow:var(--shadow)}
+.card h2,.card h3{color:var(--blue);margin:0 0 10px}.card h2{font-size:22px}.card h3{font-size:17px}
+.col-4{grid-column:span 4}.col-5{grid-column:span 5}.col-6{grid-column:span 6}.col-7{grid-column:span 7}.col-8{grid-column:span 8}.col-12{grid-column:span 12}
+@media(max-width:900px){.col-4,.col-5,.col-6,.col-7,.col-8{grid-column:span 12}}
+label{font-weight:700;color:var(--blue);display:block;margin:10px 0 5px}
+select,input[type=range]{width:100%}
+select{padding:9px;border:1px solid var(--border);border-radius:9px;background:white}
+.range-row{display:grid;grid-template-columns:1fr auto;gap:10px;align-items:center}
+.value{font-family:ui-monospace,monospace;background:var(--light);padding:4px 8px;border-radius:8px;min-width:44px;text-align:center}
+.status{display:inline-flex;align-items:center;padding:5px 9px;border-radius:999px;font-family:ui-monospace,SFMono-Regular,Consolas,monospace;font-size:12px;font-weight:800;border:1px solid transparent;white-space:nowrap}
+.s-blue{background:#e9f0f8;color:var(--blue);border-color:#b8cadf}.s-green{background:#e9f5f1;color:var(--green);border-color:#b9d9cf}.s-red{background:#f8eaea;color:var(--red);border-color:#dfb8b8}.s-gold{background:#f8f1e3;color:#7a5b1f;border-color:#dec99e}.s-purple{background:#f0ebf6;color:var(--purple);border-color:#cfc0df}.s-gray{background:#eef0f2;color:#4c5964;border-color:#cfd5da}
+.status-line{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin:8px 0}
+.kv{display:grid;grid-template-columns:160px 1fr;gap:8px;margin:7px 0}.kv b{color:var(--blue)}
+.small{font-size:13px;color:var(--gray)}
+.eq{font-family:Cambria Math,STIX Two Math,serif;background:var(--light);padding:10px 12px;border-radius:10px;text-align:center;margin:10px 0}
+.channel-list{display:grid;gap:8px}
+.channel-btn{padding:10px;border:1px solid var(--border);border-radius:10px;background:white;text-align:left;cursor:pointer;font-weight:700;color:var(--blue)}
+.channel-btn.active{border-color:var(--blue);background:var(--light)}
+.case-table,.matrix{width:100%;border-collapse:collapse;font-size:13px}.case-table th,.case-table td,.matrix th,.matrix td{border:1px solid var(--border);padding:8px;vertical-align:top}.case-table th,.matrix th{background:var(--light);color:var(--blue);text-align:left}
+.matrix td{min-width:120px}.matrix .route{font-weight:800;color:var(--blue);min-width:190px}
+.checkrow{display:flex;align-items:center;gap:8px;margin:8px 0}.checkrow input{transform:scale(1.15)}
+svg{width:100%;height:auto;background:#fbfcfe;border:1px solid var(--border);border-radius:12px}
+.node rect{rx:10;ry:10;stroke-width:2}.node text{font-size:13px;font-weight:700;fill:var(--ink);text-anchor:middle;dominant-baseline:middle}.edge{stroke:var(--gray);stroke-width:2.2;fill:none;marker-end:url(#arrow)}.edge.dead{stroke:#c8ced6;stroke-dasharray:7 5}.node.off rect{fill:#f2f3f5;stroke:#c8ced6}.node.off text{fill:#8b949e}.node.on rect{fill:#eef3f8;stroke:#17365d}.node.core rect{fill:#f8f1e3;stroke:#b38a3e}.node.sink rect{fill:#e9f5f1;stroke:#2f6f5e}
+.cut-controls{display:grid;grid-template-columns:repeat(2,1fr);gap:8px}.cut-btn{border:1px solid var(--border);border-radius:10px;background:white;padding:10px;cursor:pointer;text-align:left}.cut-btn.off{opacity:.55;background:#f2f3f5}.cut-btn b{color:var(--blue)}
+.vector{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}@media(max-width:700px){.vector{grid-template-columns:1fr}}
+.vector div{background:var(--light);padding:9px;border-radius:10px}.vector b{display:block;color:var(--blue);font-size:12px;text-transform:uppercase;letter-spacing:.04em}.vector span{font-family:ui-monospace,monospace}
+.zone{border:1px solid var(--border);border-radius:12px;padding:13px;margin:10px 0}.zone h3{margin:0 0 6px}.zone.open{border-left:5px solid var(--orange)}
+pre{background:#0f1e2d;color:#dce8f5;border-radius:12px;padding:14px;overflow:auto;max-height:520px;font-size:12px;line-height:1.45}
+button.primary{background:var(--blue);color:white;border:0;border-radius:10px;padding:10px 14px;font-weight:800;cursor:pointer}button.secondary{background:white;color:var(--blue);border:1px solid var(--border);border-radius:10px;padding:10px 14px;font-weight:800;cursor:pointer}
+footer{max-width:1220px;margin:0 auto 30px;padding:0 16px;color:var(--gray);font-size:12px}
+</style>
+</head>
+<body>
+<header>
+  <div class="header-inner">
+    <h1>BC-M-D4 Proof-Dependency Atlas Lab</h1>
+    <div class="subtitle">Interactive companion to <b>Fermat Proof-Dependency Mini-Atlas v0.1.1 reviewed</b>. Explore exponent scope, case walls, mandatory dependency cuts, genealogy overlap, and open research zones without promoting a bounded route to a new proof of FLT.</div>
+    <div class="badges">
+      <span class="badge">DEPENDENCY_ATLAS_NOT_NEW_FLT_PROOF</span>
+      <span class="badge">TWO_REVIEWS_INCORPORATED</span>
+      <span class="badge">PROOF_EMERGENCE_NOT_CLAIMED</span>
+    </div>
+  </div>
+</header>
+<main>
+  <div class="notice"><strong>Central audit rule.</strong> A proof for one exponent, a first-case criterion, a complete regular-prime theorem, a reduction to modularity, and a universal contradiction route are different certification objects.</div>
+  <div class="tabs" role="tablist">
+    <button class="tab active" data-tab="scope">1. Exponent Scope</button>
+    <button class="tab" data-tab="cases">2. Case Walls</button>
+    <button class="tab" data-tab="cuts">3. 1995 Cut Graph</button>
+    <button class="tab" data-tab="genealogy">4. Genealogy</button>
+    <button class="tab" data-tab="matrix">5. Dependency Matrix</button>
+    <button class="tab" data-tab="report">6. Live BCM6Report</button>
+  </div>
+
+  <section id="scope" class="panel active">
+    <div class="grid">
+      <div class="card col-4">
+        <h2>Channel selector</h2>
+        <div class="channel-list" id="channelList"></div>
+        <label for="primeRange">Test odd prime p</label>
+        <div class="range-row"><input id="primeRange" type="range" min="3" max="43" step="2" value="5"><span id="primeValue" class="value">5</span></div>
+        <div class="checkrow"><input id="regularToggle" type="checkbox" checked><label for="regularToggle" style="margin:0">Treat p as Kummer-regular</label></div>
+        <div class="checkrow"><input id="germainToggle" type="checkbox"><label for="germainToggle" style="margin:0">Auxiliary-prime certificate available</label></div>
+      </div>
+      <div class="card col-8">
+        <h2 id="scopeTitle">Selected-exponent descent</h2>
+        <div id="scopeStatus"></div>
+        <div class="kv"><b>Exponent support</b><span id="scopeSupport"></span></div>
+        <div class="kv"><b>Case geometry</b><span id="scopeCases"></span></div>
+        <div class="kv"><b>Mandatory import</b><span id="scopeImport"></span></div>
+        <div class="kv"><b>Claim ceiling</b><span id="scopeCeiling"></span></div>
+        <div class="eq">n &gt; 2  ⇒  reduce to n = 4 or an odd prime exponent</div>
+        <p id="scopeExplanation" class="small"></p>
+      </div>
+      <div class="card col-12">
+        <h3>Scope classification at the selected prime</h3>
+        <table class="case-table">
+          <thead><tr><th>Channel</th><th>Result at p</th><th>Why</th></tr></thead>
+          <tbody id="scopeTable"></tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <section id="cases" class="panel">
+    <div class="grid">
+      <div class="card col-5">
+        <h2>First / second-case wall</h2>
+        <p>For an odd prime p:</p>
+        <div class="eq">Case I: p ∤ abc &nbsp;&nbsp;&nbsp; | &nbsp;&nbsp;&nbsp; Case II: p | abc</div>
+        <label for="caseChannel">Choose channel</label>
+        <select id="caseChannel"></select>
+        <div id="caseResult" style="margin-top:12px"></div>
+      </div>
+      <div class="card col-7">
+        <h2>Why the modular route is different</h2>
+        <table class="case-table">
+          <thead><tr><th>Route</th><th>Case I</th><th>Case II</th><th>Architecture</th></tr></thead>
+          <tbody>
+            <tr><td>Sophie Germain</td><td><span class="status s-green">CONDITIONALLY_CLOSED</span></td><td><span class="status s-red">UNRESOLVED</span></td><td>Auxiliary-prime first-case channel</td></tr>
+            <tr><td>Kummer regular prime</td><td><span class="status s-green">CLOSED</span></td><td><span class="status s-green">CLOSED</span></td><td>Complete on regular-prime scope</td></tr>
+            <tr><td>Frey-Ribet-Wiles</td><td colspan="2"><span class="status s-blue">CASE_SPLIT_NOT_REQUIRED</span></td><td>One semistable modular contradiction mechanism</td></tr>
+          </tbody>
+        </table>
+        <div class="notice" style="box-shadow:none;margin-top:14px"><strong>Firewall:</strong> closing Case I never closes FLT for p unless Case II is independently closed or reduced.</div>
+      </div>
+    </div>
+  </section>
+
+  <section id="cuts" class="panel">
+    <div class="grid">
+      <div class="card col-4">
+        <h2>Toggle role blocks</h2>
+        <div id="cutControls" class="cut-controls"></div>
+        <div id="cutVerdict" style="margin-top:14px"></div>
+        <p class="small">Each block is a cut only relative to the declared 1995 source-to-contradiction graph. No global minimality over every conceivable proof is claimed.</p>
+      </div>
+      <div class="card col-8">
+        <h2>Frey-Serre-Ribet-Wiles-Taylor-Wiles route</h2>
+        <svg viewBox="0 0 980 330" aria-label="dependency graph">
+          <defs><marker id="arrow" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto"><path d="M0,0 L0,6 L9,3 z" fill="#5c6770"/></marker></defs>
+          <path id="e0" class="edge" d="M125 165 H230"/>
+          <path id="e1" class="edge" d="M360 165 H455"/>
+          <path id="e2" class="edge" d="M585 165 H680"/>
+          <path id="e3" class="edge" d="M810 165 H900"/>
+          <g id="n0" class="node on"><rect x="20" y="125" width="105" height="80"/><text x="72" y="165">Hypothetical<tspan x="72" dy="18">solution</tspan></text></g>
+          <g id="n1" class="node core"><rect x="230" y="110" width="130" height="110"/><text x="295" y="145">K1<tspan x="295" dy="18">Frey curve</tspan><tspan x="295" dy="18">minimal model</tspan><tspan x="295" dy="18">semistability</tspan></text></g>
+          <g id="n2" class="node core"><rect x="455" y="110" width="130" height="110"/><text x="520" y="145">K2<tspan x="520" dy="18">Serre-Ribet</tspan><tspan x="520" dy="18">level lowering</tspan><tspan x="520" dy="18">obstruction</tspan></text></g>
+          <g id="n3" class="node core"><rect x="680" y="110" width="130" height="110"/><text x="745" y="145">K3<tspan x="745" dy="18">Wiles</tspan><tspan x="745" dy="18">modularity</tspan><tspan x="745" dy="18">lifting</tspan></text></g>
+          <g id="n4" class="node core"><rect x="820" y="245" width="140" height="65"/><text x="890" y="268">K4 Taylor-Wiles<tspan x="890" dy="18">R=T patching</tspan></text></g>
+          <path id="e4" class="edge" d="M890 245 V205 H810"/>
+          <g id="n5" class="node sink"><rect x="900" y="125" width="70" height="80"/><text x="935" y="165">Contradiction</text></g>
+        </svg>
+      </div>
+    </div>
+  </section>
+
+  <section id="genealogy" class="panel">
+    <div class="grid">
+      <div class="card col-4">
+        <h2>Compare routes</h2>
+        <label for="routeA">Route A</label><select id="routeA"></select>
+        <label for="routeB">Route B</label><select id="routeB"></select>
+        <p class="small">Values are registry-relative: DISJOINT, OVERLAP, IMPORT, or UNKNOWN.</p>
+      </div>
+      <div class="card col-8">
+        <h2>Genealogy vector Γ(A,B)</h2>
+        <div id="geneVector" class="vector"></div>
+        <div id="geneConclusion" class="notice" style="box-shadow:none;margin-top:14px"></div>
+      </div>
+      <div class="card col-12">
+        <h3>Open search zones</h3>
+        <div class="zone open">
+          <h3>Nonabelian Chabauty-Kim</h3>
+          <div class="status-line"><span class="status s-gold">OPEN_CANDIDATE</span><span class="status s-purple">FIXED_OR_BOUNDED_CURVE_SCOPE</span></div>
+          <div class="checkrow"><input id="chabautyUniform" type="checkbox"><label for="chabautyUniform" style="margin:0">Uniform exponent completion certified</label></div>
+          <p id="chabautyVerdict" class="small"></p>
+        </div>
+        <div class="zone open">
+          <h3>abc / IUT stronger-theorem route</h3>
+          <div class="status-line"><span class="status s-gold">OPEN_CANDIDATE</span><span class="status s-purple">ASYMPTOTIC_FLT_INTERFACE</span></div>
+          <div class="checkrow"><input id="abcAccepted" type="checkbox"><label for="abcAccepted" style="margin:0">Theorem input accepted under the declared registry policy</label></div>
+          <div class="checkrow"><input id="abcResidual" type="checkbox"><label for="abcResidual" style="margin:0">Finite residual exponent scope closed</label></div>
+          <p id="abcVerdict" class="small"></p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="matrix" class="panel">
+    <div class="card">
+      <h2>Exclusion and dependency matrix</h2>
+      <div style="overflow:auto">
+        <table class="matrix" id="depMatrix"></table>
+      </div>
+    </div>
+  </section>
+
+  <section id="report" class="panel">
+    <div class="grid">
+      <div class="card col-4">
+        <h2>Report controls</h2>
+        <p>The live report reflects channel, cut, and open-zone state from the other laboratories.</p>
+        <button id="copyJson" class="primary">Copy JSON</button>
+        <button id="resetAll" class="secondary">Reset</button>
+        <div id="copyStatus" class="small" style="margin-top:10px"></div>
+      </div>
+      <div class="card col-8">
+        <h2>BCM6Report</h2>
+        <pre id="jsonReport"></pre>
+      </div>
+    </div>
+  </section>
+</main>
+<footer>BC-M-D4 Proof-Dependency Atlas Lab v0.1.1 - standalone educational demonstration. No network requests, external libraries, or theorem-proving claims.</footer>
+<script>
+const channels={
+  local:{name:'Selected-exponent descent',support:'Finite or explicitly listed exponents',cases:'Channel-specific',imp:'Exponent-specific lemmas',ceiling:'EXPONENT_LOCAL_PROOF_CHANNEL',status:'FINITE_SCOPE_CERTIFIED',ex:'Exact local proofs do not provide a uniform mechanism for all odd primes.'},
+  germain:{name:'Sophie Germain auxiliary-prime method',support:'Odd primes satisfying a declared auxiliary-prime certificate',cases:'First case conditionally closed; second case unresolved',imp:'Auxiliary-prime theorem',ceiling:'FIRST_CASE_CONDITIONAL_CHANNEL',status:'AUXILIARY_PRIME_CERTIFICATE_REQUIRED',ex:'The method becomes active only after an explicit residue certificate is supplied.'},
+  kummer:{name:'Kummer regular-prime channel',support:'All odd regular primes',cases:'Both cases closed on regular-prime scope',imp:'Class-group regularity + Kummer lemma',ceiling:'COMPLETE_ON_REGULAR_PRIME_SCOPE',status:'IRREGULAR_PRIME_SCOPE_UNCOVERED',ex:'Irregularity blocks the baseline Kummer gate; it is not a counterexample to FLT.'},
+  frey:{name:'Frey-Serre-Ribet reduction',support:'Hypothetical prime counterexamples p>3',cases:'Unified reduction layer',imp:'Semistable Frey construction + level lowering',ceiling:'REDUCTION_NOT_STANDALONE_PROOF',status:'MODULARITY_INPUT_MISSING',ex:'The bridge produces a semistable nonmodular curve; a modularity theorem is still required.'},
+  wtw:{name:'Wiles-Taylor-Wiles route',support:'All prime p>3 plus classical base cases',cases:'No first/second-case split',imp:'K1-K4 mandatory cuts',ceiling:'COMPLETE_UNIVERSAL_PROOF_CHANNEL',status:'CASE_SPLIT_NOT_REQUIRED_BY_THIS_CHANNEL',ex:'The final contradiction route combines Frey construction, Ribet level lowering, modularity lifting, and Taylor-Wiles R=T patching.'},
+  derived:{name:'Full modularity / Serre modularity',support:'Derived universal routes after the Frey-Ribet bridge',cases:'No case split after the bridge',imp:'BCDT or Khare-Wintenberger plus modularity-lifting ancestry',ceiling:'DERIVED_STRONGER_THEOREM_ROUTE',status:'BRIDGE_STRENGTHENED_BUT_GENEALOGY_RETAINED',ex:'A stronger theorem expands scope without erasing genealogy.'}
+};
+const routeNames={local:'Selected-exponent descent',germain:'Sophie Germain',kummer:'Kummer',frey:'Frey-Serre-Ribet',wtw:'Wiles-Taylor-Wiles',derived:'Full/Serre modularity',chabauty:'Nonabelian Chabauty-Kim',abc:'abc/IUT'};
+const gene={
+  'local|kummer':['OVERLAP','DISJOINT','DISJOINT','OVERLAP','DISJOINT','OVERLAP','Shared FLT statement; dominant mechanisms differ. Absolute disjointness is not claimed.'],
+  'germain|kummer':['OVERLAP','OVERLAP','OVERLAP','OVERLAP','IMPORT','OVERLAP','Congruence and cyclotomic culture overlap; Kummer supplies a stronger complete regular-prime core.'],
+  'kummer|wtw':['OVERLAP','DISJOINT','DISJOINT','OVERLAP','DISJOINT','OVERLAP','Distinct dominant cores with broad algebraic-number-theory ancestry.'],
+  'frey|wtw':['OVERLAP','IMPORT','IMPORT','IMPORT','IMPORT','OVERLAP','Complementary mandatory cuts inside one final contradiction route.'],
+  'wtw|derived':['IMPORT','OVERLAP','IMPORT','IMPORT','IMPORT','IMPORT','The stronger route retains direct modularity-lifting genealogy.'],
+  'wtw|chabauty':['OVERLAP','DISJOINT','UNKNOWN','UNKNOWN','UNKNOWN','OVERLAP','Different dominant interface; universal FLT completion and absolute disjointness remain uncertified.'],
+  'wtw|abc':['OVERLAP','DISJOINT','UNKNOWN','UNKNOWN','UNKNOWN','UNKNOWN','A stronger-theorem interface differs, but acceptance and residual-scope closure remain open.']
+};
+const cuts={K1:true,K2:true,K3:true,K4:true};
+let selected='local';
+const regularPrimes=new Set([3,5,7,11,13,17,19,23,29,31,37,41,43]);
+
+function chip(text,cls='s-blue'){return `<span class="status ${cls}">${text}</span>`}
+function classForStatus(s){if(/COMPLETE|CLOSED|CERTIFIED/.test(s))return's-green';if(/MISSING|UNRESOLVED|INCOMPLETE|RISK|UNCOVERED/.test(s))return's-red';if(/OPEN|CONDITIONAL|FINITE|BOUND/.test(s))return's-gold';if(/DERIVED|OVERLAP|IMPORT|RETAINED/.test(s))return's-purple';return's-blue'}
+function tabs(){document.querySelectorAll('.tab').forEach(b=>b.addEventListener('click',()=>{document.querySelectorAll('.tab').forEach(x=>x.classList.remove('active'));document.querySelectorAll('.panel').forEach(x=>x.classList.remove('active'));b.classList.add('active');document.getElementById(b.dataset.tab).classList.add('active');updateReport()}))}
+function buildChannelList(){const box=document.getElementById('channelList');box.innerHTML='';Object.entries(channels).forEach(([k,c])=>{const b=document.createElement('button');b.className='channel-btn'+(k===selected?' active':'');b.textContent=c.name;b.onclick=()=>{selected=k;buildChannelList();renderScope()};box.appendChild(b)})}
+function renderScope(){const c=channels[selected];document.getElementById('scopeTitle').textContent=c.name;document.getElementById('scopeStatus').innerHTML=chip(c.ceiling,classForStatus(c.ceiling))+' '+chip(c.status,classForStatus(c.status));document.getElementById('scopeSupport').textContent=c.support;document.getElementById('scopeCases').textContent=c.cases;document.getElementById('scopeImport').textContent=c.imp;document.getElementById('scopeCeiling').textContent=c.ceiling;document.getElementById('scopeExplanation').textContent=c.ex;renderScopeTable();updateReport()}
+function renderScopeTable(){const p=+document.getElementById('primeRange').value;const reg=document.getElementById('regularToggle').checked;const germ=document.getElementById('germainToggle').checked;document.getElementById('primeValue').textContent=p;const rows=[];
+ rows.push(['Selected-exponent descent',p<=7?'FINITE_SCOPE_CERTIFIED':'UNIFORM_EXTENSION_NOT_CERTIFIED',p<=7?'Classical exponent-specific proof represented in the bounded atlas.':'No uniform propagation theorem from the listed local proofs.']);
+ rows.push(['Sophie Germain',germ?'FIRST_CASE_CONDITIONALLY_CLOSED':'AUXILIARY_PRIME_NOT_CERTIFIED',germ?'The declared auxiliary-prime predicate is available; Case II remains open.':'No auxiliary-prime certificate has been supplied.']);
+ rows.push(['Kummer',reg?'COMPLETE_ON_REGULAR_PRIME_SCOPE':'IRREGULAR_PRIME_SCOPE_UNCOVERED',reg?'Regularity opens the class-group gate and closes both cases.':'Failure of regularity kills only the baseline Kummer branch.']);
+ rows.push(['Frey-Ribet-Wiles','COMPLETE_UNIVERSAL_PROOF_CHANNEL','For prime p>3, the modular contradiction route is independent of this regular/auxiliary toggle.']);
+ document.getElementById('scopeTable').innerHTML=rows.map(r=>`<tr><td><b>${r[0]}</b></td><td>${chip(r[1],classForStatus(r[1]))}</td><td>${r[2]}</td></tr>`).join('')}
+function buildCaseSelect(){const s=document.getElementById('caseChannel');['germain','kummer','wtw'].forEach(k=>{const o=document.createElement('option');o.value=k;o.textContent=channels[k].name;s.appendChild(o)});s.onchange=renderCase;renderCase()}
+function renderCase(){const k=document.getElementById('caseChannel').value;let html='';if(k==='germain')html=`${chip('FIRST_CASE_CONDITIONAL_CHANNEL','s-gold')} ${chip('SECOND_CASE_UNRESOLVED','s-red')}<p>The auxiliary-prime criterion closes only p ∤ abc. A full exponent theorem requires an independent second-case argument.</p>`;if(k==='kummer')html=`${chip('FIRST_AND_SECOND_CASES_CLOSED','s-green')}<p>For a regular prime, ideal-factorization, class-group, and unit-control nodes close both branches.</p>`;if(k==='wtw')html=`${chip('CASE_SPLIT_NOT_REQUIRED_BY_THIS_CHANNEL','s-blue')}<p>After primitive normalization and certified Frey semistability, both divisibility branches enter one modular contradiction route.</p>`;document.getElementById('caseResult').innerHTML=html;updateReport()}
+function buildCutControls(){const names={K1:'Frey construction & semistability',K2:'Serre-Ribet level lowering',K3:'Wiles modularity lifting',K4:'Taylor-Wiles R=T patching'};const box=document.getElementById('cutControls');box.innerHTML='';Object.keys(cuts).forEach(k=>{const b=document.createElement('button');b.className='cut-btn'+(cuts[k]?'':' off');b.innerHTML=`<b>${k}</b><br>${names[k]}`;b.onclick=()=>{cuts[k]=!cuts[k];buildCutControls();renderCutGraph()};box.appendChild(b)});renderCutGraph()}
+function renderCutGraph(){Object.keys(cuts).forEach((k,i)=>{const n=document.getElementById('n'+(i+1));n.classList.toggle('off',!cuts[k]);n.classList.toggle('core',cuts[k])});const all=Object.values(cuts).every(Boolean);['e0','e1','e2','e3','e4'].forEach((id,i)=>{const ok=i===0?cuts.K1:i===1?cuts.K1&&cuts.K2:i===2?cuts.K2&&cuts.K3:i===3?cuts.K3&&cuts.K4:cuts.K4;document.getElementById(id).classList.toggle('dead',!ok)});document.getElementById('cutVerdict').innerHTML=all?chip('SOURCE_TO_CONTRADICTION_PATH_CERTIFIED','s-green'):`${chip('MANDATORY_DEPENDENCY_CUT_REMOVED','s-red')}<p class="small">The declared 1995 route is broken. This does not imply that FLT is unprovable by every conceivable route.</p>`;updateReport()}
+function buildGenealogy(){const a=document.getElementById('routeA'),b=document.getElementById('routeB');Object.entries(routeNames).forEach(([k,v])=>{a.add(new Option(v,k));b.add(new Option(v,k))});a.value='frey';b.value='wtw';a.onchange=renderGene;b.onchange=renderGene;document.getElementById('chabautyUniform').onchange=renderOpen;document.getElementById('abcAccepted').onchange=renderOpen;document.getElementById('abcResidual').onchange=renderOpen;renderGene();renderOpen()}
+function renderGene(){let a=document.getElementById('routeA').value,b=document.getElementById('routeB').value;if(a===b){document.getElementById('geneVector').innerHTML='<div><b>Status</b><span>SAME_ROUTE</span></div>';document.getElementById('geneConclusion').textContent='Choose two different routes.';return}let key=a+'|'+b,data=gene[key];if(!data){key=b+'|'+a;data=gene[key]}if(!data)data=['OVERLAP','UNKNOWN','UNKNOWN','UNKNOWN','UNKNOWN','OVERLAP','No reviewed pair-specific conclusion is encoded; return registry-relative INCONCLUSIVE.'];const labels=['statement','mechanism','bridge','soundness','completeness','foundation'];document.getElementById('geneVector').innerHTML=labels.map((l,i)=>`<div><b>${l}</b><span>${data[i]}</span></div>`).join('');document.getElementById('geneConclusion').textContent=data[6];updateReport()}
+function renderOpen(){const cu=document.getElementById('chabautyUniform').checked;document.getElementById('chabautyVerdict').innerHTML=cu?chip('UNIFORM_COMPLETION_ASSERTED_BUT_NOT_IN_REGISTRY','s-red')+' The demonstration does not promote this toggle to a theorem.':chip('CHABAUTY_UNIFORM_EXPONENT_COMPLETION_NOT_CERTIFIED','s-gold')+' Correct bounded status.';const a=document.getElementById('abcAccepted').checked,r=document.getElementById('abcResidual').checked;document.getElementById('abcVerdict').innerHTML=(a&&r)?chip('DERIVED_ROUTE_INPUTS_DECLARED','s-purple')+' A full source-to-contradiction audit would still be required.':chip(!a?'REGISTRY_ACCEPTANCE_NOT_CERTIFIED':'ABC_RESIDUAL_SCOPE_UNCLOSED',!a||!r?'s-red':'s-gold')+' Open-candidate ceiling retained.';updateReport()}
+function buildMatrix(){const rows=[
+['Selected-exponent descent','finite/listed','channel-specific','descent or congruence','EXPONENT_LOCAL_PROOF_CHANNEL'],
+['Sophie Germain','certified auxiliary primes','Case I only','residue nonconsecutivity','FIRST_CASE_CONDITIONAL_CHANNEL'],
+['Kummer regular-prime','odd regular primes','both cases','class-group and unit contradiction','COMPLETE_ON_REGULAR_PRIME_SCOPE'],
+['Frey-Serre-Ribet','prime counterexamples p>3','unified reduction','semistable curve + level lowering','REDUCTION_NOT_STANDALONE_PROOF'],
+['Wiles-Taylor-Wiles','universal after bridge','no case split','K1-K4 modular contradiction','COMPLETE_UNIVERSAL_PROOF_CHANNEL'],
+['Full/Serre modularity','derived universal route','no case split','stronger modularity theorem','BRIDGE_STRENGTHENED_BUT_GENEALOGY_RETAINED'],
+['Nonabelian Chabauty-Kim','fixed/bounded curves','rational-point analysis','Selmer / fundamental-group constraints','OPEN_CANDIDATE'],
+['abc/IUT','asymptotic + finite residue','not historical split','height inequality','OPEN_CANDIDATE'],
+['Faltings finiteness','each fixed n≥4','neither emptiness case','finite rational-point set','FINITENESS_NOT_EMPTINESS'],
+['Finite computation','p≤B','as implemented','explicit finite certificates','FINITE_BOUND_ONLY']];
+ document.getElementById('depMatrix').innerHTML='<thead><tr><th>Channel</th><th>Exponent scope</th><th>Case geometry</th><th>Main certificate</th><th>Final status</th></tr></thead><tbody>'+rows.map(r=>`<tr><td class="route">${r[0]}</td><td>${r[1]}</td><td>${r[2]}</td><td>${r[3]}</td><td>${chip(r[4],classForStatus(r[4]))}</td></tr>`).join('')+'</tbody>'}
+function reportObject(){return {schema:'BCM6Report',demonstration:'BC-M-D4',version:'0.1.1-reviewed',language:'en',selected_channel:selected,reduction_scope:['n=4','odd prime exponents'],test_prime:+document.getElementById('primeRange').value,channel_state:{regular_prime_gate:document.getElementById('regularToggle').checked,auxiliary_prime_certificate:document.getElementById('germainToggle').checked},mandatory_cuts:Object.entries(cuts).filter(x=>x[1]).map(x=>x[0]),route_status:Object.values(cuts).every(Boolean)?'COMPLETE_UNIVERSAL_PROOF_CHANNEL':'MANDATORY_DEPENDENCY_CUT_REMOVED',open_research_zones:{nonabelian_chabauty_kim:document.getElementById('chabautyUniform').checked?'UNVERIFIED_UNIFORM_COMPLETION_ASSERTED':'OPEN_CANDIDATE',abc_iut:{registry_acceptance:document.getElementById('abcAccepted').checked,residual_scope_closed:document.getElementById('abcResidual').checked,status:'OPEN_CANDIDATE'}},proof_emergence:'NOT_CLAIMED',claim_ceiling:'DEPENDENCY_ATLAS_NOT_NEW_FLT_PROOF'} }
+function updateReport(){const el=document.getElementById('jsonReport');if(el)el.textContent=JSON.stringify(reportObject(),null,2)}
+function controls(){document.getElementById('primeRange').oninput=renderScope;document.getElementById('regularToggle').onchange=renderScope;document.getElementById('germainToggle').onchange=renderScope;document.getElementById('copyJson').onclick=async()=>{try{await navigator.clipboard.writeText(JSON.stringify(reportObject(),null,2));document.getElementById('copyStatus').textContent='JSON copied.'}catch(e){document.getElementById('copyStatus').textContent='Clipboard unavailable; select the JSON manually.'}};document.getElementById('resetAll').onclick=()=>{selected='local';document.getElementById('primeRange').value=5;document.getElementById('regularToggle').checked=true;document.getElementById('germainToggle').checked=false;Object.keys(cuts).forEach(k=>cuts[k]=true);document.getElementById('chabautyUniform').checked=false;document.getElementById('abcAccepted').checked=false;document.getElementById('abcResidual').checked=false;buildChannelList();renderScope();buildCutControls();renderOpen();updateReport()}}
+tabs();buildChannelList();buildCaseSelect();buildCutControls();buildGenealogy();buildMatrix();controls();renderScope();updateReport();
+</script>
+</body>
+</html>
