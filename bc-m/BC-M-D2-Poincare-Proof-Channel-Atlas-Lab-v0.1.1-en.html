@@ -1,0 +1,156 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>BC-M-D2 Poincare Proof-Channel Atlas Lab v0.1.1</title>
+<style>
+:root{
+  --ink:#17212b;--muted:#5c6770;--blue:#17365d;--gold:#b38a3e;--green:#2f6f5e;
+  --red:#8a3a3a;--purple:#5e4b78;--orange:#a85e26;--cyan:#2d6f7a;
+  --paper:#f6f8fb;--panel:#fff;--line:#d7dee7;--soft:#eef3f8;
+}
+*{box-sizing:border-box}body{margin:0;font-family:Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif;background:linear-gradient(135deg,#f3f7fb,#fbfaf5);color:var(--ink)}
+header{padding:28px 24px 19px;background:linear-gradient(100deg,var(--blue),#244f80);color:#fff;border-bottom:4px solid var(--gold)}
+.wrap,main{max-width:1260px;margin:auto}h1{margin:0 0 8px;font-size:clamp(1.7rem,3vw,2.75rem);line-height:1.06}.subtitle{max-width:1000px;line-height:1.5;opacity:.93}.badges{display:flex;gap:8px;flex-wrap:wrap;margin-top:14px}.badge{border:1px solid rgba(255,255,255,.34);border-radius:999px;padding:5px 9px;font-size:.78rem;background:rgba(255,255,255,.08)}
+main{padding:20px 18px 48px}.nav{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:14px}.tabbtn{border:1px solid var(--line);background:#fff;color:var(--blue);padding:9px 12px;border-radius:9px;cursor:pointer;font-weight:750}.tabbtn.active{background:var(--blue);color:#fff;border-color:var(--blue)}.tab{display:none}.tab.active{display:block}
+.grid{display:grid;grid-template-columns:minmax(0,1.5fr) minmax(290px,.8fr);gap:16px}.grid.equal{grid-template-columns:1fr 1fr}@media(max-width:900px){.grid,.grid.equal{grid-template-columns:1fr}}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:16px;box-shadow:0 8px 25px rgba(23,54,93,.06)}.card h2,.card h3{margin-top:0;color:var(--blue)}
+.controls{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin:10px 0}.controls label{font-weight:650;font-size:.91rem}.controls select,.controls input[type=number],.controls input[type=range]{accent-color:var(--blue)}.controls select,.controls input[type=number]{padding:7px 8px;border:1px solid var(--line);border-radius:8px;background:#fff}.action,.controls button{border:0;background:var(--blue);color:#fff;padding:8px 11px;border-radius:8px;cursor:pointer;font-weight:750}.action.secondary,.controls button.secondary{background:#fff;color:var(--blue);border:1px solid var(--blue)}
+.status{display:inline-block;font:800 .77rem ui-monospace,SFMono-Regular,Consolas,monospace;padding:6px 8px;border-radius:7px;background:var(--soft);color:var(--blue);border:1px solid #c9d6e4;word-break:break-word}.status.good{background:#e7f3ee;color:var(--green);border-color:#b8d8c9}.status.bad{background:#f7eaea;color:var(--red);border-color:#e6c2c2}.status.warn{background:#fff4df;color:#8b5a12;border-color:#ead3a2}.status.purple{background:#eee9f4;color:var(--purple);border-color:#d7cce5}
+.note{border-left:4px solid var(--gold);padding:10px 12px;background:#fffaf0;border-radius:8px;line-height:1.45}.note.red{border-left-color:var(--red);background:#fff5f5}.note.green{border-left-color:var(--green);background:#f2faf6}.note.blue{border-left-color:var(--blue);background:#f3f7fb}
+.object-row{display:flex;gap:14px;flex-wrap:wrap;margin:14px 0}.obj{flex:1;min-width:220px;border:2px solid var(--line);border-radius:12px;padding:12px;background:#fff}.obj.witness{border-color:var(--red);box-shadow:0 0 0 3px rgba(138,58,58,.08)}.obj .name{font-size:1.22rem;font-weight:900;color:var(--blue)}.kv{font-size:.84rem;color:var(--muted);margin-top:6px}.pill{display:inline-block;border-radius:999px;padding:3px 7px;font-size:.72rem;font-weight:800;margin:3px 3px 0 0}.pblue{background:#e8eef6;color:var(--blue)}.pgold{background:#f5ebd8;color:#75561f}.pgreen{background:#e7f3ee;color:var(--green)}.pred{background:#f7eaea;color:var(--red)}
+.metric{display:grid;grid-template-columns:repeat(auto-fit,minmax(145px,1fr));gap:9px;margin:12px 0}.metric div{background:var(--soft);padding:10px;border-radius:9px}.metric b{display:block;color:var(--blue);font-size:.76rem}.metric span{font-size:1.05rem;font-weight:850}.matrix{width:100%;border-collapse:collapse;font-size:.81rem}.matrix th,.matrix td{border:1px solid var(--line);padding:8px;vertical-align:top}.matrix th{background:var(--soft);color:var(--blue)}.matrix td.click{cursor:pointer}.matrix td.click:hover{outline:2px solid var(--gold);outline-offset:-2px}
+svg{width:100%;height:auto;min-height:360px;background:linear-gradient(#fff,#fbfcfe);border:1px solid var(--line);border-radius:12px}.node{stroke-width:2}.node.desc{fill:#eef3f8;stroke:#17365d}.node.rec{fill:#e7f3ee;stroke:#2f6f5e}.node.proof{fill:#f8eaea;stroke:#8a3a3a}.node.dep{fill:#eee9f4;stroke:#5e4b78}.node.open{fill:#fff4df;stroke:#b38a3e}.edge{fill:none;stroke:#5c6770;stroke-width:2}.edge.hidden{stroke:#8a3a3a;stroke-dasharray:7 5}.edge.dep{stroke:#5e4b78;stroke-dasharray:5 4}.svgtext{font-size:13px;font-weight:800;fill:#17212b}.smalltext{font-size:11px;fill:#5c6770}
+.route{border:1px solid var(--line);border-radius:10px;padding:10px;margin:8px 0}.route strong{color:var(--blue)}.code{font: .78rem ui-monospace,SFMono-Regular,Consolas,monospace;background:#101820;color:#dce7ef;border-radius:10px;padding:12px;overflow:auto;white-space:pre-wrap;max-height:410px}.footer{color:var(--muted);font-size:.83rem;margin-top:18px;line-height:1.45}input[type=checkbox]{transform:translateY(1px)}
+</style>
+</head>
+<body>
+<header><div class="wrap">
+<h1>BC-M-D2 Poincare Proof-Channel Atlas Lab</h1>
+<div class="subtitle">Interactive companion to <b>BC-M-D2 v0.1.1 reviewed</b>. It distinguishes descriptor blindness, post-theorem criteria, recognition algorithms, universal proof channels, genealogical imports, and finite-census quantum search. It audits proof architecture; it does not reprove the Poincare theorem.</div>
+<div class="badges"><span class="badge">Witness pair: S3 vs Poincare sphere</span><span class="badge">Recognition != proof</span><span class="badge">Registry-relative genealogy</span><span class="badge">Tetrahedral census ceiling</span><span class="badge">Live BCM6Report</span></div>
+</div></header>
+<main>
+<div class="nav">
+<button class="tabbtn active" data-tab="witness">1. Witness Fiber</button>
+<button class="tabbtn" data-tab="roles">2. Recognition vs Proof</button>
+<button class="tabbtn" data-tab="genealogy">3. Genealogy Graph</button>
+<button class="tabbtn" data-tab="matrix">4. Exclusion Matrix</button>
+<button class="tabbtn" data-tab="census">5. Quantum Census</button>
+<button class="tabbtn" data-tab="report">6. BCM6Report</button>
+</div>
+
+<section id="witness" class="tab active"><div class="grid">
+<div class="card"><h2>Same descriptor, different target</h2>
+<p>Choose a descriptor package. The lab compares the standard sphere with the Poincare homology sphere.</p>
+<div class="controls"><label><input id="usePi" type="checkbox"> exact fundamental group</label><label><input id="useRep" type="checkbox"> irreducible SL(2,C) representation probe</label><button id="resetWitness" class="secondary">Reset</button></div>
+<div class="object-row">
+<div class="obj witness"><div class="name">S3</div><div class="kv">H*: sphere homology</div><div class="kv">pi1: trivial</div><div class="kv">irreducible SL(2,C) rep: no</div><span class="pill pgreen">Q=1</span></div>
+<div class="obj witness"><div class="name">Sigma(2,3,5)</div><div class="kv">H*: sphere homology</div><div class="kv">pi1: binary icosahedral group</div><div class="kv">irreducible SL(2,C) rep: yes</div><span class="pill pred">Q=0</span></div>
+</div>
+<div id="fiberView"></div></div>
+<div class="card"><h3>Audit result</h3><div id="witnessStatus"></div>
+<div class="metric"><div><b>Descriptor fibers</b><span id="fiberCount">1</span></div><div><b>Different-Q pairs open</b><span id="openPairs">1</span></div><div><b>Object reconstruction</b><span id="reconstruction">No</span></div></div>
+<p class="note green"><b>Task-relative completion:</b> it is enough that every refined fiber is Q-homogeneous. The object itself need not be reconstructed uniquely.</p>
+<p class="note red"><b>Bounded claim:</b> homology blindness blocks channels that factor through ordinary integral homology. It does not block richer descriptors.</p></div>
+</div></section>
+
+<section id="roles" class="tab"><div class="grid equal">
+<div class="card"><h2>Channel role classifier</h2>
+<div class="controls"><label>Channel <select id="roleSelect"><option value="hom">Ordinary homology</option><option value="pi">Exact fundamental group</option><option value="normal">Normal/almost-normal surfaces</option><option value="pachner">Pachner bounded search</option><option value="ricci">Ricci flow with surgery</option><option value="sl2">SL(2,C) representation variety</option><option value="tqft">Specified WRT/TV family</option></select></label></div>
+<div id="roleCard"></div></div>
+<div class="card"><h2>Post-theorem criterion audit</h2>
+<div class="controls"><label><input id="assumePoincare" type="checkbox" checked> import Poincare theorem</label><label><input id="groupProcedure" type="checkbox"> certify a terminating group-triviality procedure</label><label><input id="claimNewProof" type="checkbox"> claim an independent new proof</label></div>
+<div id="criterionStatus"></div>
+<p class="note blue"><b>Separation rule:</b> logical sufficiency after a theorem, an effective recognition procedure, and a universal proof channel are three different certification layers.</p></div>
+</div></section>
+
+<section id="genealogy" class="tab"><div class="grid">
+<div class="card"><h2>Source-bounded genealogy graph</h2>
+<div class="controls"><label><input id="showImports" type="checkbox" checked> show hidden imports</label><label><input id="showPachner" type="checkbox" checked> show Pachner route</label><label><input id="showQuantum" type="checkbox" checked> show quantum candidate</label></div>
+<svg viewBox="0 0 920 500" aria-label="Poincare proof-channel genealogy">
+<defs><marker id="arr" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto"><polygon points="0 0,10 3.5,0 7" fill="#5c6770"/></marker><marker id="arrRed" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto"><polygon points="0 0,10 3.5,0 7" fill="#8a3a3a"/></marker></defs>
+<path class="edge" d="M170 95 L315 95" marker-end="url(#arr)"/><path class="edge" d="M445 95 L600 95" marker-end="url(#arr)"/><path class="edge" d="M730 95 L835 95" marker-end="url(#arr)"/>
+<path class="edge" d="M170 230 L315 230" marker-end="url(#arr)"/><path class="edge" d="M445 230 L600 230" marker-end="url(#arr)"/><path class="edge" d="M730 230 L835 230" marker-end="url(#arr)"/>
+<path id="pachnerEdge" class="edge dep" d="M440 265 C500 340,610 350,680 280" marker-end="url(#arr)"/>
+<path id="geoEdge" class="edge hidden" d="M680 390 C645 330,660 285,680 265" marker-end="url(#arrRed)"/>
+<path id="quantumEdge" class="edge dep" d="M170 400 L315 400" marker-end="url(#arr)"/>
+<rect class="node desc" x="35" y="65" width="135" height="60" rx="12"/><text class="svgtext" x="102" y="90" text-anchor="middle">Triangulation</text><text class="smalltext" x="102" y="109" text-anchor="middle">input carrier</text>
+<rect class="node rec" x="315" y="65" width="130" height="60" rx="12"/><text class="svgtext" x="380" y="90" text-anchor="middle">Normal surfaces</text><text class="smalltext" x="380" y="109" text-anchor="middle">recognition core</text>
+<rect class="node rec" x="600" y="65" width="130" height="60" rx="12"/><text class="svgtext" x="665" y="90" text-anchor="middle">Almost-normal test</text><text class="smalltext" x="665" y="109" text-anchor="middle">recognition node</text>
+<rect class="node desc" x="835" y="65" width="70" height="60" rx="12"/><text class="svgtext" x="870" y="100" text-anchor="middle">Verdict</text>
+<rect class="node proof" x="35" y="200" width="135" height="60" rx="12"/><text class="svgtext" x="102" y="225" text-anchor="middle">Hamilton flow</text><text class="smalltext" x="102" y="244" text-anchor="middle">analytic foundation</text>
+<rect class="node proof" x="315" y="200" width="130" height="60" rx="12"/><text class="svgtext" x="380" y="225" text-anchor="middle">Entropy / surgery</text><text class="smalltext" x="380" y="244" text-anchor="middle">Perelman core</text>
+<rect class="node proof" x="600" y="200" width="130" height="60" rx="12"/><text class="svgtext" x="665" y="225" text-anchor="middle">Finite extinction</text><text class="smalltext" x="665" y="244" text-anchor="middle">mandatory cut node</text>
+<rect class="node desc" x="835" y="200" width="70" height="60" rx="12"/><text class="svgtext" x="870" y="235" text-anchor="middle">S3</text>
+<g id="pachnerGroup"><rect class="node rec" x="565" y="325" width="165" height="60" rx="12"/><text class="svgtext" x="647" y="350" text-anchor="middle">Pachner bounded search</text><text class="smalltext" x="647" y="369" text-anchor="middle">imports normal core</text></g>
+<rect class="node dep" x="565" y="390" width="165" height="60" rx="12"/><text class="svgtext" x="647" y="415" text-anchor="middle">Geometrization core</text><text class="smalltext" x="647" y="434" text-anchor="middle">correctness import</text>
+<rect class="node rec" x="315" y="390" width="155" height="60" rx="12"/><text class="svgtext" x="392" y="415" text-anchor="middle">SL(2,C) variety</text><text class="smalltext" x="392" y="434" text-anchor="middle">algebraic interface</text>
+<g id="quantumGroup"><rect class="node open" x="35" y="370" width="135" height="60" rx="12"/><text class="svgtext" x="102" y="395" text-anchor="middle">WRT / TV protocol</text><text class="smalltext" x="102" y="414" text-anchor="middle">open candidate</text></g>
+</svg></div>
+<div class="card"><h3>Genealogy reading</h3><div id="genealogyStatus"></div>
+<div class="route"><strong>Normal surfaces</strong><br>Complete recognition genealogy; no Ricci import found in the declared registry.</div>
+<div class="route"><strong>Pachner route</strong><br>Different top-level carrier, but the proved global bound imports normal/almost-normal machinery.</div>
+<div class="route"><strong>SL(2,C) route</strong><br>New algebraic interface; correctness theorem imports geometrization.</div>
+<p class="note red"><b>Registry ceiling:</b> absence of a dependency edge is not a proof of absolute logical independence.</p></div>
+</div></section>
+
+<section id="matrix" class="tab"><div class="grid">
+<div class="card"><h2>D2 Exclusion Matrix</h2><div id="matrixTable"></div></div>
+<div class="card"><h3>Selected cell</h3><div id="matrixDetail">Select a cell.</div><p class="note blue"><b>Reading discipline:</b> BLIND requires a witness; SEPARATES does not imply completeness; COMPLETE_RECOGNITION_CHANNEL does not imply an independent universal proof.</p></div>
+</div></section>
+
+<section id="census" class="tab"><div class="grid equal">
+<div class="card"><h2>Finite tetrahedral census protocol</h2>
+<div class="controls"><label>Maximum minimal tetrahedra N <input id="censusN" type="number" min="1" max="30" value="9"></label><label>Quantum levels |R| <input id="levelCount" type="number" min="1" max="30" value="4"></label></div>
+<div class="controls"><label><input id="auditDedup" type="checkbox"> duplicate-removal audit</label><label><input id="auditHomeo" type="checkbox"> homeomorphism audit</label><label><input id="auditMinimal" type="checkbox"> minimality audit</label><label><input id="auditComplete" type="checkbox"> census completeness audit</label></div>
+<div class="controls"><label><input id="s3Collision" type="checkbox"> exact nonsphere/S3 collision found</label><label><input id="generalCollision" type="checkbox" checked> only nonsphere/nonsphere collisions known</label></div>
+<div id="censusStatus"></div></div>
+<div class="card"><h2>Claim ceiling</h2><div class="metric"><div><b>N</b><span id="nMetric">9</span></div><div><b>Levels</b><span id="rMetric">4</span></div><div><b>Audits passed</b><span id="auditMetric">0/4</span></div></div>
+<p class="note green">If every nonsphere in a certified manifold census B_N differs from S3 under the preregistered protocol, the strongest allowed status is <span class="status good">BENCHMARK_SEPARATES_S3_UP_TO_N</span>.</p>
+<p class="note red">A finite census never upgrades itself to a universal theorem. A collision between two nonspherical manifolds does not by itself refute S3 detection.</p></div>
+</div></section>
+
+<section id="report" class="tab"><div class="grid">
+<div class="card"><h2>Live BCM6Report</h2><div class="controls"><button id="copyReport">Copy JSON</button><button id="downloadReport" class="secondary">Save JSON</button></div><pre id="reportJSON" class="code"></pre></div>
+<div class="card"><h2>Current top-level status</h2><div id="overallStatus"></div><p class="note blue">The report is a demonstration record. The reviewed manuscript and its standalone canonical JSON remain the authoritative research artifacts.</p></div>
+</div></section>
+
+<div class="footer">BC-M-D2 Poincare Proof-Channel Atlas Lab v0.1.1. Autonomous HTML; no network requests, external libraries, or theorem-proving claims.</div>
+</main>
+<script>
+const $=id=>document.getElementById(id), esc=s=>String(s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+document.querySelectorAll('.tabbtn').forEach(b=>b.onclick=()=>{document.querySelectorAll('.tabbtn').forEach(x=>x.classList.remove('active'));document.querySelectorAll('.tab').forEach(x=>x.classList.remove('active'));b.classList.add('active');$(b.dataset.tab).classList.add('active');updateReport()});
+const state={witness:{pi:false,rep:false},role:'hom',criterion:{theorem:true,procedure:false,newProof:false},genealogy:{imports:true,pachner:true,quantum:true},matrixCell:null,census:{N:9,R:4,dedup:false,homeo:false,minimal:false,complete:false,s3Collision:false,generalCollision:true}};
+function badge(s){let c=/COMPLETE|SEPARATES|CERTIFIED|Q_COMPLETE/.test(s)?'good':/BLIND|IMPOSSIBLE|RISK|COLLISION/.test(s)?'bad':/OPEN|INCONCLUSIVE|REQUIRED|PROHIBITIVE|BENCHMARK/.test(s)?'warn':'purple';return `<span class="status ${c}">${esc(s)}</span>`}
+function updateWitness(){state.witness.pi=$('usePi').checked;state.witness.rep=$('useRep').checked;let fibers,open,status,recon='No';if(state.witness.pi){fibers=2;open=0;status='Q_COMPLETE_AFTER_THEOREM';recon='Only group class'}else if(state.witness.rep){fibers=2;open=0;status='PROBE_COMPLETION_CANDIDATE';recon='No'}else{fibers=1;open=1;status='IMPOSSIBLE_AS_COMPLETE_CHANNEL';recon='No'}$('fiberCount').textContent=fibers;$('openPairs').textContent=open;$('reconstruction').textContent=recon;$('witnessStatus').innerHTML=badge(status)+`<p>${status==='IMPOSSIBLE_AS_COMPLETE_CHANNEL'?'The two manifolds remain in the same integral-homology fiber while Q differs.':status==='Q_COMPLETE_AFTER_THEOREM'?'The exact group separates the pair, but global Q-completeness uses the already proved Poincare theorem.':'The representation probe separates the witness pair on the homology-sphere fiber; this is task-relative completion, not unique reconstruction.'}</p>`;$('fiberView').innerHTML=state.witness.pi?'<div class="note green"><b>Refined fibers:</b> {S3} and {Sigma(2,3,5)} under exact pi1.</div>':state.witness.rep?'<div class="note green"><b>Refined fibers:</b> separated by existence of an irreducible SL(2,C) representation.</div>':'<div class="note red"><b>Homology fiber:</b> {S3, Sigma(2,3,5)} with nonconstant Q.</div>';updateReport()}
+['usePi','useRep'].forEach(id=>$(id).addEventListener('change',updateWitness));$('resetWitness').onclick=()=>{$('usePi').checked=false;$('useRep').checked=false;updateWitness()};
+const roles={hom:{kind:'Descriptor',main:'IMPOSSIBLE_AS_COMPLETE_CHANNEL',extra:'Witness-blocked by S3 versus the Poincare homology sphere.',proof:'No'},pi:{kind:'Post-theorem descriptor',main:'Q_COMPLETE_AFTER_THEOREM',extra:'Requires a declared triviality procedure for algorithmic use.',proof:'Not independently'},normal:{kind:'Recognition channel',main:'COMPLETE_RECOGNITION_CHANNEL',extra:'Rubinstein-Thompson normal/almost-normal genealogy.',proof:'NOT_A_POINCARE_PROOF_BY_ITSELF'},pachner:{kind:'Derived recognition channel',main:'COMPLETE_RECOGNITION_CHANNEL',extra:'Imports the normal-surface core; certified bound is prohibitive.',proof:'NOT_A_POINCARE_PROOF_BY_ITSELF'},ricci:{kind:'Universal proof channel',main:'COMPLETE_PROOF_CHANNEL',extra:'Hamilton-Perelman entropy, surgery, extinction, and topological decoding.',proof:'Yes'},sl2:{kind:'Derived recognition channel',main:'COMPLETE_RECOGNITION_CHANNEL',extra:'New algebraic interface; correctness imports geometrization.',proof:'Genealogically dependent'},tqft:{kind:'Protocol-specific candidate',main:'OPEN_CANDIDATE',extra:'Family, category, levels, normalization, precision, and decision rule must be preregistered.',proof:'Not certified'}};
+function updateRole(){state.role=$('roleSelect').value;const r=roles[state.role];$('roleCard').innerHTML=`<div class="route"><strong>${esc(r.kind)}</strong><p>${badge(r.main)}</p><p>${esc(r.extra)}</p><b>Proof status:</b> ${esc(r.proof)}</div>`;updateCriterion();updateReport()}
+$('roleSelect').addEventListener('change',updateRole);
+function updateCriterion(){state.criterion.theorem=$('assumePoincare').checked;state.criterion.procedure=$('groupProcedure').checked;state.criterion.newProof=$('claimNewProof').checked;let out=[];if(state.criterion.theorem)out.push('Q_COMPLETE_AFTER_THEOREM');else out.push('DESCRIPTOR_COMPLETENESS_NOT_AVAILABLE');if(state.criterion.procedure)out.push('TRIVIALITY_PROCEDURE_DECLARED');else out.push('INPUT_MODEL_AND_TRIVIALITY_PROCEDURE_REQUIRED');if(state.criterion.newProof&&state.criterion.theorem)out.push('CIRCULAR_CHANNEL_RISK');$('criterionStatus').innerHTML=out.map(badge).join(' ')+'<p>'+((state.criterion.newProof&&state.criterion.theorem)?'The target theorem is being reused as an unregistered correctness step.':'No independent proof claim is inferred from the post-theorem criterion.')+'</p>';updateReport()}
+['assumePoincare','groupProcedure','claimNewProof'].forEach(id=>$(id).addEventListener('change',updateCriterion));
+function updateGenealogy(){state.genealogy.imports=$('showImports').checked;state.genealogy.pachner=$('showPachner').checked;state.genealogy.quantum=$('showQuantum').checked;$('geoEdge').style.display=state.genealogy.imports?'':'none';$('pachnerEdge').style.display=state.genealogy.pachner?'':'none';$('pachnerGroup').style.display=state.genealogy.pachner?'':'none';$('quantumEdge').style.display=state.genealogy.quantum?'':'none';$('quantumGroup').style.display=state.genealogy.quantum?'':'none';let s=[badge('NORMAL_SURFACE_ROUTE_DISJOINT_FROM_RICCI_IN_DECLARED_REGISTRY')];if(state.genealogy.pachner)s.push(badge('PACHNER_IMPORTS_NORMAL_SURFACE_CORE'));if(state.genealogy.imports)s.push(badge('SL2C_ROUTE_IMPORTS_GEOMETRIZATION'));if(state.genealogy.quantum)s.push(badge('QUANTUM_CHANNEL_OPEN_CANDIDATE'));$('genealogyStatus').innerHTML=s.join(' ');updateReport()}
+['showImports','showPachner','showQuantum'].forEach(id=>$(id).addEventListener('change',updateGenealogy));
+const cols=['Witness pair','Concrete recognition','Universal proof','Genealogy','D2 verdict'];
+const rows=[
+{name:'Ordinary homology',v:['BLIND','Fast obstruction only','No','No import needed','IMPOSSIBLE_AS_COMPLETE_CHANNEL']},
+{name:'Exact pi1',v:['SEPARATES','Procedure required','Post-theorem only','Imports theorem for completeness','Q_COMPLETE_AFTER_THEOREM']},
+{name:'Normal/almost-normal',v:['SEPARATES','Yes','No','Disjoint from Ricci in registry','COMPLETE_RECOGNITION_CHANNEL']},
+{name:'Pachner bounded search',v:['SEPARATES','Yes in principle','No','Imports normal-surface core','WORST_CASE_BOUND_PROHIBITIVE']},
+{name:'Ricci flow + surgery',v:['SEPARATES','Theorem-level route','Yes','Defining Hamilton-Perelman core','COMPLETE_PROOF_CHANNEL']},
+{name:'SL(2,C) variety',v:['SEPARATES','Yes','No independent proof','Imports geometrization','RECOGNITION_BUT_GENEALOGICALLY_DEPENDENT']},
+{name:'Specified WRT/TV',v:['PROTOCOL_DEPENDENT','Finite computation possible','Not certified','No fixed verdict','OPEN_CANDIDATE']}
+];
+function renderMatrix(){let h='<table class="matrix"><thead><tr><th>Channel</th>'+cols.map(c=>`<th>${c}</th>`).join('')+'</tr></thead><tbody>';rows.forEach((r,ri)=>{h+=`<tr><th>${esc(r.name)}</th>`+r.v.map((v,ci)=>`<td class="click" data-r="${ri}" data-c="${ci}">${badge(v)}</td>`).join('')+'</tr>'});h+='</tbody></table>';$('matrixTable').innerHTML=h;document.querySelectorAll('#matrixTable td.click').forEach(td=>td.onclick=()=>{state.matrixCell={r:+td.dataset.r,c:+td.dataset.c};const r=rows[state.matrixCell.r],v=r.v[state.matrixCell.c];$('matrixDetail').innerHTML=`<b>${esc(r.name)} x ${esc(cols[state.matrixCell.c])}</b><p>${badge(v)}</p><p>${matrixExplanation(v)}</p>`;updateReport()})}
+function matrixExplanation(v){if(v==='BLIND')return'An explicit same-descriptor/different-Q witness blocks completeness.';if(v==='SEPARATES')return'The channel distinguishes the registered witness pair; this alone does not prove global completeness.';if(/COMPLETE_RECOGNITION/.test(v))return'A terminating decision route is certified on the declared encoded input model.';if(/COMPLETE_PROOF/.test(v))return'A universal inference route is certified in the declared source registry.';if(/DEPENDENT/.test(v)||/imports/i.test(v))return'The top-level interface is distinct, but a mandatory correctness or termination core is imported.';if(/OPEN/.test(v))return'The protocol is sufficiently specified for search, but neither completeness nor a blocking S3 witness is certified.';return'This is a bounded cell status under the declared scope and registry.'}
+function updateCensus(){const c=state.census;c.N=+$('censusN').value;c.R=+$('levelCount').value;c.dedup=$('auditDedup').checked;c.homeo=$('auditHomeo').checked;c.minimal=$('auditMinimal').checked;c.complete=$('auditComplete').checked;c.s3Collision=$('s3Collision').checked;c.generalCollision=$('generalCollision').checked;const passed=[c.dedup,c.homeo,c.minimal,c.complete].filter(Boolean).length;$('nMetric').textContent=c.N;$('rMetric').textContent=c.R;$('auditMetric').textContent=passed+'/4';let out=[];if(c.s3Collision)out=['S3_COLLISION_WITNESS_CERTIFIED','IMPOSSIBLE_AS_COMPLETE_CHANNEL'];else if(passed===4)out=['BENCHMARK_SEPARATES_S3_UP_TO_N','FINITE_BENCHMARK_ONLY'];else out=['CENSUS_AUDIT_INCOMPLETE','INCONCLUSIVE'];if(c.generalCollision&&!c.s3Collision)out.push('GENERAL_NONINJECTIVITY_KNOWN_BUT_S3_DETECTION_UNRESOLVED');$('censusStatus').innerHTML=out.map(badge).join(' ')+`<p>Protocol: N=${c.N}, |R|=${c.R}. ${passed===4?'The finite manifold census is declared fully audited.':'The benchmark cannot be promoted until all four census audits pass.'}</p>`;updateReport()}
+['censusN','levelCount','auditDedup','auditHomeo','auditMinimal','auditComplete','s3Collision','generalCollision'].forEach(id=>$(id).addEventListener('input',updateCensus));
+function report(){return{schema:'BCM6Report-D2-demo-0.1.1',module:'BC-M-D2',target:'Q(M)=1 iff M is homeomorphic to S3',scope:{objects:'closed connected orientable 3-manifolds',encoded_inputs:'pairs (M,T) with finite triangulation T'},witness_lab:{descriptor_package:{integral_homology:true,exact_pi1:state.witness.pi,sl2c_probe:state.witness.rep},status:state.witness.pi?'Q_COMPLETE_AFTER_THEOREM':state.witness.rep?'PROBE_COMPLETION_CANDIDATE':'IMPOSSIBLE_AS_COMPLETE_CHANNEL'},selected_channel:{id:state.role,...roles[state.role]},criterion_audit:state.criterion,genealogy_display:state.genealogy,selected_matrix_cell:state.matrixCell,census_protocol:state.census,cross_branch_status:'PROOF_EMERGENCE_NOT_CLAIMED',overall_status:'POINCARE_PROOF_CHANNEL_ATLAS_INTERACTIVE_DEMO',claim_ceiling:['NO_NEW_POINCARE_PROOF','NO_ABSOLUTE_INDEPENDENCE_CLAIM','NO_TQFT_COMPLETENESS_CLAIM']}}
+function updateReport(){$('reportJSON').textContent=JSON.stringify(report(),null,2);$('overallStatus').innerHTML=badge('POINCARE_PROOF_CHANNEL_ATLAS_REVIEWED')+' '+badge('INTERACTIVE_DEMO_ONLY')}
+$('copyReport').onclick=async()=>{try{await navigator.clipboard.writeText(JSON.stringify(report(),null,2));$('copyReport').textContent='Copied';setTimeout(()=>$('copyReport').textContent='Copy JSON',900)}catch(e){alert('Clipboard access is unavailable in this browser context.')}};
+$('downloadReport').onclick=()=>{const blob=new Blob([JSON.stringify(report(),null,2)],{type:'application/json'}),url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download='BC-M-D2-demo-BCM6Report.json';a.click();setTimeout(()=>URL.revokeObjectURL(url),500)};
+renderMatrix();updateWitness();updateRole();updateCriterion();updateGenealogy();updateCensus();updateReport();
+</script>
+</body></html>

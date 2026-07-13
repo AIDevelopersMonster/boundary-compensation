@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Self-contained interactive demonstration for BC-M V: pair covering, robust probe completion, adaptive thresholds, tangent-basis completion, and descriptor-blind transformations.">
+<title>BC-M V Probe Completion Lab v0.1.1</title>
+<style>
+:root{
+  --ink:#172433;--muted:#5f6c78;--blue:#17365d;--blue2:#285786;--gold:#b38a3e;
+  --light:#eef3f8;--panel:#ffffff;--line:#d9e1e8;--green:#2f6f5e;--red:#8a3a3a;
+  --orange:#a85e26;--purple:#5e4b78;--shadow:0 12px 30px rgba(23,54,93,.10);
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:linear-gradient(180deg,#f7f9fc 0,#eef3f8 100%);color:var(--ink);font:15px/1.5 system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif}
+button,input,select{font:inherit}
+button{cursor:pointer}
+header{background:linear-gradient(135deg,var(--blue),#244f7b);color:white;padding:28px 22px 24px;border-bottom:4px solid var(--gold)}
+header .wrap{max-width:1500px;margin:auto}
+.kicker{font-size:12px;letter-spacing:.18em;text-transform:uppercase;opacity:.85;font-weight:700}
+h1{margin:.25rem 0 .35rem;font-size:clamp(28px,4vw,48px);line-height:1.08}
+.subtitle{max-width:1000px;opacity:.9;font-size:16px}
+.badges{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px}
+.badge{padding:5px 10px;border-radius:999px;border:1px solid rgba(255,255,255,.28);background:rgba(255,255,255,.09);font-size:12px;font-weight:700}
+main{max-width:1500px;margin:22px auto;padding:0 16px 40px}
+.toolbar,.panel{background:var(--panel);border:1px solid var(--line);border-radius:16px;box-shadow:var(--shadow)}
+.toolbar{padding:13px;display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-bottom:16px;position:sticky;top:8px;z-index:5}
+.tabs{display:flex;gap:7px;flex-wrap:wrap;flex:1}
+.tab{border:1px solid var(--line);background:#fff;color:var(--blue);padding:8px 12px;border-radius:10px;font-weight:750}
+.tab.active{background:var(--blue);color:#fff;border-color:var(--blue)}
+.action{border:0;border-radius:10px;padding:9px 13px;font-weight:750;background:var(--blue);color:#fff}
+.action.secondary{background:#fff;color:var(--blue);border:1px solid var(--line)}
+.action.gold{background:var(--gold)}
+.grid{display:grid;grid-template-columns:minmax(300px,420px) minmax(450px,1fr) minmax(300px,420px);gap:16px;align-items:start}
+.panel{padding:16px;min-width:0}
+.panel h2,.panel h3{margin:.1rem 0 .8rem;color:var(--blue)}
+.panel h2{font-size:21px}.panel h3{font-size:16px}
+.small{font-size:12px;color:var(--muted)}
+.controls{display:grid;gap:12px}
+.control{display:grid;gap:5px}
+.control label{font-weight:750;color:var(--blue)}
+input[type=range]{width:100%}
+input[type=number],select{width:100%;padding:8px;border:1px solid var(--line);border-radius:9px;background:white;color:var(--ink)}
+.checkrow{display:flex;align-items:center;gap:8px;padding:8px 10px;border:1px solid var(--line);border-radius:10px;background:#fbfcfe}
+.checkrow strong{color:var(--blue)}
+.metric-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+.metric{border:1px solid var(--line);background:#fbfcfe;border-radius:11px;padding:10px}
+.metric .v{font-size:20px;font-weight:850;color:var(--blue);word-break:break-word}
+.metric .k{font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.08em}
+.status{border-radius:11px;padding:11px 12px;font-weight:800;border:1px solid var(--line);background:var(--light);color:var(--blue)}
+.status.good{background:#eef8f4;color:var(--green);border-color:#bcd9cf}
+.status.bad{background:#fbefef;color:var(--red);border-color:#e2bcbc}
+.status.warn{background:#fff7eb;color:var(--orange);border-color:#efd4a9}
+.legend{display:flex;gap:14px;flex-wrap:wrap;font-size:12px;color:var(--muted);margin:8px 0}
+.dot{width:10px;height:10px;border-radius:50%;display:inline-block;margin-right:5px}
+.visual{min-height:500px}
+svg{width:100%;height:auto;display:block}
+.table-wrap{overflow:auto;border:1px solid var(--line);border-radius:12px}
+table{width:100%;border-collapse:collapse;font-size:13px;background:#fff}
+th,td{padding:8px 9px;border-bottom:1px solid var(--line);text-align:center}
+th{background:var(--light);color:var(--blue);font-weight:800;position:sticky;top:0}
+tr:last-child td{border-bottom:0}
+.pairchip{display:inline-flex;align-items:center;gap:5px;border:1px solid var(--line);border-radius:999px;padding:4px 8px;margin:3px;font-size:12px;background:white}
+.pairchip.covered{border-color:#add3c5;background:#edf8f3;color:var(--green)}
+.pairchip.uncovered{border-color:#e1b6b6;background:#fbeeee;color:var(--red)}
+.report{background:#0f1d2b;color:#d9e9f7;border-radius:12px;padding:12px;overflow:auto;max-height:650px;font:12px/1.45 ui-monospace,SFMono-Regular,Consolas,monospace;white-space:pre}
+.notice{padding:10px 12px;border-left:4px solid var(--gold);background:#fffaf0;border-radius:8px;color:#5a4725;font-size:13px}
+.firewall{display:grid;gap:8px;margin-top:12px}
+.fire{border:1px solid #e4c6c6;background:#fff8f8;border-left:4px solid var(--red);border-radius:9px;padding:9px;font-size:12px}
+.hidden{display:none!important}
+.canvasbox{border:1px solid var(--line);border-radius:12px;background:linear-gradient(#fff,#fafcff);overflow:hidden}
+.progress{height:12px;background:#e8edf2;border-radius:999px;overflow:hidden}.progress>span{display:block;height:100%;background:var(--blue2)}
+.tree{display:flex;flex-direction:column;gap:8px}.step{padding:8px;border-left:4px solid var(--blue);background:var(--light);border-radius:6px;font-size:13px}
+.prereg{display:grid;grid-template-columns:1fr auto;gap:8px;align-items:center;border:1px solid var(--line);border-radius:11px;padding:10px;background:#fbfcfe}
+.hash{font:11px ui-monospace,monospace;color:var(--muted);word-break:break-all}
+footer{max-width:1500px;margin:0 auto 30px;padding:0 16px;color:var(--muted);font-size:12px}
+@media(max-width:1180px){.grid{grid-template-columns:360px 1fr}.report-panel{grid-column:1/-1}}
+@media(max-width:780px){.grid{grid-template-columns:1fr}.toolbar{position:static}.metric-grid{grid-template-columns:1fr 1fr}.visual{min-height:0}}
+</style>
+</head>
+<body>
+<header>
+  <div class="wrap">
+    <div class="kicker">Boundary Compensation Mathematics V</div>
+    <h1>Probe Completion Lab</h1>
+    <div class="subtitle">A self-contained interactive companion to <b>BC-M V: Minimal Probe Completion, Separating Families, and Certified Identifiability Budgets</b>. Explore exact pair cover, task-relative completion, robust margins, adaptive thresholds, tangent-basis selection, and descriptor-blind transformations.</div>
+    <div class="badges">
+      <span class="badge">v0.1.1 reviewed</span><span class="badge">offline</span><span class="badge">no external libraries</span><span class="badge">machine-readable BCM5Report</span>
+    </div>
+  </div>
+</header>
+<main>
+  <div class="toolbar">
+    <div class="tabs" role="tablist" aria-label="Demonstration scenarios">
+      <button class="tab active" data-tab="pair">Pair Cover</button>
+      <button class="tab" data-tab="robust">Robust Completion</button>
+      <button class="tab" data-tab="adaptive">Adaptive Thresholds</button>
+      <button class="tab" data-tab="tangent">Tangent Basis</button>
+      <button class="tab" data-tab="blind">Blind Transformations</button>
+    </div>
+    <button class="action gold" id="lockBtn">Lock preregistration</button>
+    <button class="action secondary" id="resetBtn">Reset</button>
+  </div>
+
+  <div class="grid">
+    <section class="panel">
+      <h2 id="controlTitle">Protocol controls</h2>
+      <div class="prereg">
+        <div><b>Design record</b><div class="hash" id="preHash">not locked</div></div>
+        <span id="lockState" class="badge" style="background:#eef3f8;color:#17365d;border-color:#d9e1e8">OPEN</span>
+      </div>
+
+      <div id="pairControls" class="controls scenario-controls">
+        <div class="control"><label for="taskMode">Completion target</label><select id="taskMode"><option value="full">Full quotient identification</option><option value="q">Q-only task completion</option></select></div>
+        <div class="control"><label>Selected probe package</label>
+          <label class="checkrow"><input type="checkbox" class="probeCheck" value="p1"><strong>p1</strong> cost 1.0 - class split AB | CD</label>
+          <label class="checkrow"><input type="checkbox" class="probeCheck" value="p2"><strong>p2</strong> cost 1.4 - class split AC | BD</label>
+          <label class="checkrow"><input type="checkbox" class="probeCheck" value="p3"><strong>p3</strong> cost 1.1 - class split AD | BC</label>
+        </div>
+        <div style="display:flex;gap:8px;flex-wrap:wrap"><button class="action" id="greedyBtn">Run greedy</button><button class="action secondary" id="exactBtn">Find exact optimum</button><button class="action secondary" id="pruneBtn">Backward prune</button></div>
+        <div class="notice">For full identification, every inequivalent pair must be covered. For the declared task Q, only pairs with different Q-values belong to the universe.</div>
+      </div>
+
+      <div id="robustControls" class="controls scenario-controls hidden">
+        <div class="control"><label for="noiseDelta">Response uncertainty radius δ: <span id="noiseVal">0.20</span></label><input id="noiseDelta" type="range" min="0" max="0.75" step="0.01" value="0.20"></div>
+        <div class="control"><label for="objectEta">Object-space resolution η: <span id="etaVal">0.25</span></label><input id="objectEta" type="range" min="0.05" max="1" step="0.05" value="0.25"></div>
+        <div class="notice">With binary responses, a pair is robustly separated when the response gap 1 exceeds 2δ. Exact completion can survive after the robust certificate fails.</div>
+      </div>
+
+      <div id="adaptiveControls" class="controls scenario-controls hidden">
+        <div class="control"><label for="nRange">Target-set size N: <span id="nVal">16</span></label><input id="nRange" type="range" min="4" max="64" step="1" value="16"></div>
+        <div class="control"><label for="targetRange">Hidden target x: <span id="targetVal">11</span></label><input id="targetRange" type="range" min="1" max="16" step="1" value="11"></div>
+        <div style="display:flex;gap:8px;flex-wrap:wrap"><button class="action" id="stepSearchBtn">Next threshold query</button><button class="action secondary" id="autoSearchBtn">Run to leaf</button><button class="action secondary" id="restartSearchBtn">Restart search</button></div>
+        <div class="notice">The same threshold library requires all N−1 probes in a fixed package, but an adaptive binary-search policy has worst-case depth ⌈log₂N⌉.</div>
+      </div>
+
+      <div id="tangentControls" class="controls scenario-controls hidden">
+        <div class="control"><label>Candidate scalar probes (covectors)</label>
+          <label class="checkrow"><input type="checkbox" class="tangentCheck" value="l1"><strong>ℓ1=(1,0)</strong> cost 1.0</label>
+          <label class="checkrow"><input type="checkbox" class="tangentCheck" value="l2"><strong>ℓ2=(0,1)</strong> cost 1.2</label>
+          <label class="checkrow"><input type="checkbox" class="tangentCheck" value="l3"><strong>ℓ3=(1,1)</strong> cost 0.8</label>
+          <label class="checkrow"><input type="checkbox" class="tangentCheck" value="l4"><strong>ℓ4=(2,0)</strong> cost 0.7</label>
+        </div>
+        <button class="action" id="basisBtn">Select minimum-cost basis</button>
+        <div class="notice">The local scalar problem is a vector-matroid basis problem. Rank two removes tangent ambiguity, but it does not exclude remote aliases.</div>
+      </div>
+
+      <div id="blindControls" class="controls scenario-controls hidden">
+        <div class="control"><label>Descriptor-blind symmetry T</label>
+          <label class="checkrow"><input type="checkbox" class="blindCheck" value="inv"><strong>p_inv</strong> T-invariant, cost 0.5</label>
+          <label class="checkrow"><input type="checkbox" class="blindCheck" value="break"><strong>p_break</strong> symmetry-breaking, cost 1.0</label>
+          <label class="checkrow"><input type="checkbox" class="blindCheck" value="aux"><strong>p_aux</strong> separates another orbit, cost 0.7</label>
+        </div>
+        <div class="notice">If p∘T=p, the probe has zero gain on every T-generated witness pair. Breaking one orbit is not yet a global completion certificate.</div>
+      </div>
+
+      <div class="firewall">
+        <div class="fire"><b>Claim ceiling:</b> library-relative and task-relative minimality only.</div>
+        <div class="fire"><b>No retrofitting:</b> changing the protocol after locking the record triggers <code>PROBE_RETROFITTING_RISK</code>.</div>
+      </div>
+    </section>
+
+    <section class="panel visual">
+      <h2 id="visualTitle">Finite pair-cover laboratory</h2>
+      <div id="pairView" class="scenario-view">
+        <div class="table-wrap"><table id="probeTable"></table></div>
+        <div class="legend"><span><i class="dot" style="background:#2f6f5e"></i>covered</span><span><i class="dot" style="background:#8a3a3a"></i>uncovered</span><span><i class="dot" style="background:#b38a3e"></i>Q-relevant</span></div>
+        <div id="pairChips"></div>
+        <div class="canvasbox" style="margin-top:12px"><svg id="pairSvg" viewBox="0 0 760 360" aria-label="Ambiguity pair graph"></svg></div>
+      </div>
+
+      <div id="robustView" class="scenario-view hidden">
+        <div class="canvasbox"><svg id="robustSvg" viewBox="0 0 760 420" aria-label="Robust response intervals"></svg></div>
+        <div id="robustNarrative" class="notice" style="margin-top:12px"></div>
+      </div>
+
+      <div id="adaptiveView" class="scenario-view hidden">
+        <div class="metric-grid"><div class="metric"><div class="k">fixed budget</div><div class="v" id="fixedBudget">15</div></div><div class="metric"><div class="k">adaptive worst-case</div><div class="v" id="adaptiveBudget">4</div></div></div>
+        <div style="margin:14px 0"><div class="progress"><span id="intervalProgress" style="width:100%"></span></div></div>
+        <div class="tree" id="searchTree"></div>
+      </div>
+
+      <div id="tangentView" class="scenario-view hidden">
+        <div class="canvasbox"><svg id="tangentSvg" viewBox="0 0 760 520" aria-label="Tangent covectors"></svg></div>
+        <div id="tangentNarrative" class="notice" style="margin-top:12px"></div>
+      </div>
+
+      <div id="blindView" class="scenario-view hidden">
+        <div class="canvasbox"><svg id="blindSvg" viewBox="0 0 760 440" aria-label="Descriptor-blind transformation diagram"></svg></div>
+        <div id="blindNarrative" class="notice" style="margin-top:12px"></div>
+      </div>
+    </section>
+
+    <section class="panel report-panel">
+      <h2>Certificates and BCM5Report</h2>
+      <div class="metric-grid" id="metrics"></div>
+      <div id="mainStatus" class="status" style="margin:10px 0">INCONCLUSIVE</div>
+      <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:10px"><button class="action" id="copyBtn">Copy JSON</button><button class="action secondary" id="downloadBtn">Download JSON</button></div>
+      <pre id="report" class="report"></pre>
+    </section>
+  </div>
+</main>
+<footer>
+All calculations run locally in this file. This supplement illustrates the certification architecture of BC-M V; it does not claim universal optimal design, physical tomography, or ontological emergence.
+</footer>
+<script>
+(() => {
+'use strict';
+const $=id=>document.getElementById(id);
+const qsa=s=>Array.from(document.querySelectorAll(s));
+const classes=['A','B','C','D'];
+const Q={A:0,B:0,C:1,D:1};
+const probes={
+ p1:{values:{A:0,B:0,C:1,D:1},cost:1.0,label:'AB | CD'},
+ p2:{values:{A:0,B:1,C:0,D:1},cost:1.4,label:'AC | BD'},
+ p3:{values:{A:0,B:1,C:1,D:0},cost:1.1,label:'AD | BC'}
+};
+const tangentProbes={l1:{v:[1,0],cost:1.0},l2:{v:[0,1],cost:1.2},l3:{v:[1,1],cost:.8},l4:{v:[2,0],cost:.7}};
+const state={tab:'pair',task:'full',selected:[],delta:.2,eta:.25,N:16,target:11,lo:1,hi:16,history:[],tangent:[],blind:[],locked:false,hash:null,lockSnapshot:null,retrofitting:false,lastExact:null};
+const allPairs=[];for(let i=0;i<classes.length;i++)for(let j=i+1;j<classes.length;j++)allPairs.push([classes[i],classes[j]]);
+const pairKey=p=>p.join('-');
+const relevantPairs=()=>state.task==='full'?allPairs:allPairs.filter(([a,b])=>Q[a]!==Q[b]);
+const separates=(pid,[a,b])=>probes[pid].values[a]!==probes[pid].values[b];
+const selectedSet=()=>new Set(state.selected);
+const packageCost=arr=>arr.reduce((s,p)=>s+probes[p].cost,0);
+const coveredBy=(pair,arr)=>arr.filter(p=>separates(p,pair));
+const coverage=(arr,robust=false)=>{
+ const U=relevantPairs();
+ const covered=U.filter(pair=>arr.some(p=>{
+   if(!separates(p,pair))return false;
+   return !robust || 1>2*state.delta;
+ }));
+ return {covered,total:U.length,uncovered:U.filter(p=>!covered.includes(p))};
+};
+const isComplete=arr=>coverage(arr).covered.length===coverage(arr).total;
+const subsets=arr=>{const out=[];for(let m=0;m<(1<<arr.length);m++)out.push(arr.filter((_,i)=>m&(1<<i)));return out};
+const exactOpt=()=>{
+ const feasible=subsets(Object.keys(probes)).filter(isComplete);
+ if(!feasible.length)return null;
+ feasible.sort((a,b)=>packageCost(a)-packageCost(b)||a.length-b.length||a.join().localeCompare(b.join()));
+ const minCost=packageCost(feasible[0]);
+ const costOpts=feasible.filter(s=>Math.abs(packageCost(s)-minCost)<1e-9);
+ const minCard=Math.min(...feasible.map(s=>s.length));
+ return {cost:costOpts[0],minCost,card:feasible.find(s=>s.length===minCard),minCard};
+};
+const greedy=()=>{
+ let chosen=[],U=relevantPairs().slice();
+ while(U.length){
+   let best=null,bestScore=-1;
+   for(const p of Object.keys(probes).filter(x=>!chosen.includes(x))){
+     const gain=U.filter(pair=>separates(p,pair)).length;
+     const score=gain/probes[p].cost;
+     if(score>bestScore+1e-12){best=p;bestScore=score}
+   }
+   if(!best||bestScore<=0)break;
+   chosen.push(best);U=U.filter(pair=>!separates(best,pair));
+ }
+ return chosen;
+};
+const backwardPrune=arr=>{
+ let out=arr.slice(),changed=true;
+ while(changed){changed=false;for(const p of out.slice()){
+   const t=out.filter(x=>x!==p);if(isComplete(t)){out=t;changed=true;break}
+ }}return out;
+};
+function fnv1a(str){let h=0x811c9dc5;for(let i=0;i<str.length;i++){h^=str.charCodeAt(i);h=Math.imul(h,0x01000193)}return ('00000000'+(h>>>0).toString(16)).slice(-8)}
+function protocolSnapshot(){return JSON.stringify({task:state.task,library:Object.keys(probes),costs:Object.fromEntries(Object.entries(probes).map(([k,v])=>[k,v.cost])),delta:state.delta,eta:state.eta,N:state.N,tangentLibrary:tangentProbes,blindLibrary:['p_inv','p_break','p_aux']})}
+function noteMutation(){if(state.locked&&protocolSnapshot()!==state.lockSnapshot)state.retrofitting=true}
+function setTab(tab){state.tab=tab;qsa('.tab').forEach(b=>b.classList.toggle('active',b.dataset.tab===tab));qsa('.scenario-controls').forEach(x=>x.classList.add('hidden'));qsa('.scenario-view').forEach(x=>x.classList.add('hidden'));$(tab+'Controls').classList.remove('hidden');$(tab+'View').classList.remove('hidden');const titles={pair:'Finite pair-cover laboratory',robust:'Robust finite-resolution completion',adaptive:'Adaptive threshold protocol',tangent:'Local tangent-basis completion',blind:'Design against blind transformations'};$('visualTitle').textContent=titles[tab];render()}
+function svgEl(tag,attrs={},text=''){const e=document.createElementNS('http://www.w3.org/2000/svg',tag);Object.entries(attrs).forEach(([k,v])=>e.setAttribute(k,v));if(text)e.textContent=text;return e}
+function renderPair(){
+ const table=$('probeTable');let html='<thead><tr><th>class</th><th>Q</th>'+Object.keys(probes).map(p=>`<th>${p}<br><span class="small">cost ${probes[p].cost}</span></th>`).join('')+'</tr></thead><tbody>';
+ for(const c of classes)html+=`<tr><td><b>${c}</b></td><td>${Q[c]}</td>`+Object.keys(probes).map(p=>`<td>${probes[p].values[c]}</td>`).join('')+'</tr>';table.innerHTML=html+'</tbody>';
+ const U=relevantPairs(),sel=state.selected;$('pairChips').innerHTML=U.map(pair=>{const cov=coveredBy(pair,sel);return `<span class="pairchip ${cov.length?'covered':'uncovered'}">${pairKey(pair)} ${cov.length?'✓ '+cov.join(','):'uncovered'}</span>`}).join('');
+ const svg=$('pairSvg');svg.innerHTML='';const pos={A:[150,80],B:[610,80],C:[610,280],D:[150,280]};
+ for(const pair of U){const [a,b]=pair,cov=coveredBy(pair,sel);svg.appendChild(svgEl('line',{x1:pos[a][0],y1:pos[a][1],x2:pos[b][0],y2:pos[b][1],stroke:cov.length?'#2f6f5e':'#8a3a3a','stroke-width':cov.length?5:4,'stroke-dasharray':cov.length?'':'10 8','opacity':.8}));const mx=(pos[a][0]+pos[b][0])/2,my=(pos[a][1]+pos[b][1])/2;svg.appendChild(svgEl('text',{x:mx,y:my-7,'text-anchor':'middle',fill:'#5f6c78','font-size':14},cov.join('+')||'uncovered'))}
+ for(const c of classes){svg.appendChild(svgEl('circle',{cx:pos[c][0],cy:pos[c][1],r:38,fill:Q[c]?'#fff2dd':'#eef3f8',stroke:Q[c]?'#b38a3e':'#17365d','stroke-width':4}));svg.appendChild(svgEl('text',{x:pos[c][0],y:pos[c][1]+7,'text-anchor':'middle',fill:'#17365d','font-size':24,'font-weight':800},c));svg.appendChild(svgEl('text',{x:pos[c][0],y:pos[c][1]+60,'text-anchor':'middle',fill:'#5f6c78','font-size':13},'Q='+Q[c]))}
+}
+function renderRobust(){
+ const svg=$('robustSvg');svg.innerHTML='';const x0=90,x1=690,scale=x=>x0+x*(x1-x0);const selected=state.selected.length?state.selected:['p1','p2'];let y=70;
+ svg.appendChild(svgEl('line',{x1:x0,y1:35,x2:x1,y2:35,stroke:'#17365d','stroke-width':2}));for(let t=0;t<=1;t+=.25){svg.appendChild(svgEl('line',{x1:scale(t),y1:30,x2:scale(t),y2:40,stroke:'#17365d'}));svg.appendChild(svgEl('text',{x:scale(t),y:22,'text-anchor':'middle',fill:'#5f6c78','font-size':12},t.toFixed(2)))}
+ for(const p of selected){svg.appendChild(svgEl('text',{x:25,y:y+7,fill:'#17365d','font-size':15,'font-weight':800},p));for(const c of classes){const v=probes[p].values[c],lo=Math.max(0,v-state.delta),hi=Math.min(1,v+state.delta),yy=y+(classes.indexOf(c)-1.5)*18;svg.appendChild(svgEl('line',{x1:scale(lo),y1:yy,x2:scale(hi),y2:yy,stroke:Q[c]?'#b38a3e':'#285786','stroke-width':8,'stroke-linecap':'round',opacity:.78}));svg.appendChild(svgEl('text',{x:scale(v)+(v?12:-12),y:yy+4,'text-anchor':v?'start':'end',fill:'#172433','font-size':12},c))}y+=125}
+ const rob=coverage(selected,true),exact=coverage(selected,false);const margin=state.delta>0?(exact.total?1/(2*state.delta):Infinity):Infinity;$('robustNarrative').innerHTML=`Selected package <b>${selected.join(', ')}</b> covers ${exact.covered.length}/${exact.total} exact pairs and ${rob.covered.length}/${rob.total} robust pairs. Normalized binary-gap margin: <b>${Number.isFinite(margin)?margin.toFixed(2):'∞'}</b>. ${exact.covered.length===exact.total&&rob.covered.length<rob.total?'<b>EXACT_BUT_NOT_ROBUST</b>':'Robust and exact statuses agree at this tolerance.'}`;
+}
+function resetSearch(){state.lo=1;state.hi=state.N;state.history=[]}
+function stepSearch(){if(state.lo>=state.hi)return;const t=Math.floor((state.lo+state.hi)/2);const ans=state.target<=t?1:0;state.history.push({threshold:t,response:ans,before:[state.lo,state.hi]});if(ans)state.hi=t;else state.lo=t+1}
+function renderAdaptive(){
+ $('fixedBudget').textContent=state.N-1;$('adaptiveBudget').textContent=Math.ceil(Math.log2(state.N));const width=100*(state.hi-state.lo+1)/state.N;$('intervalProgress').style.width=width+'%';let html=`<div class="step"><b>Surviving interval:</b> [${state.lo}, ${state.hi}] (${state.hi-state.lo+1} candidates)</div>`;for(const [i,s] of state.history.entries())html+=`<div class="step">${i+1}. Ask p<sub>${s.threshold}</sub>(x)=1{x≤${s.threshold}} → response <b>${s.response}</b>; interval [${s.before[0]},${s.before[1]}]</div>`;if(state.lo===state.hi)html+=`<div class="step" style="border-left-color:#2f6f5e;background:#eef8f4"><b>Leaf certified:</b> x=${state.lo}</div>`;$('searchTree').innerHTML=html;
+}
+function rank2(vs){if(!vs.length)return 0;if(vs.some(v=>Math.hypot(...v)>1e-12)){for(let i=0;i<vs.length;i++)for(let j=i+1;j<vs.length;j++)if(Math.abs(vs[i][0]*vs[j][1]-vs[i][1]*vs[j][0])>1e-10)return 2;return 1}return 0}
+function sigmaMin2(vs){if(rank2(vs)<2)return 0;let a=0,b=0,d=0;for(const [x,y] of vs){a+=x*x;b+=x*y;d+=y*y}const tr=a+d,det=a*d-b*b;const lmin=(tr-Math.sqrt(Math.max(0,tr*tr-4*det)))/2;return Math.sqrt(Math.max(0,lmin))}
+function minCostBasis(){const order=Object.entries(tangentProbes).sort((a,b)=>a[1].cost-b[1].cost);let chosen=[],vs=[];for(const [k,o] of order){const r0=rank2(vs),r1=rank2(vs.concat([o.v]));if(r1>r0){chosen.push(k);vs.push(o.v)}if(r1===2)break}return chosen}
+function renderTangent(){
+ const svg=$('tangentSvg');svg.innerHTML='';const cx=380,cy=260,S=130;for(let i=-2;i<=2;i++){svg.appendChild(svgEl('line',{x1:cx-280,y1:cy+i*S/2,x2:cx+280,y2:cy+i*S/2,stroke:'#e3e8ee'}));svg.appendChild(svgEl('line',{x1:cx+i*S/2,y1:cy-220,x2:cx+i*S/2,y2:cy+220,stroke:'#e3e8ee'}))}svg.appendChild(svgEl('line',{x1:cx-300,y1:cy,x2:cx+300,y2:cy,stroke:'#17365d','stroke-width':2}));svg.appendChild(svgEl('line',{x1:cx,y1:cy+230,x2:cx,y2:cy-230,stroke:'#17365d','stroke-width':2}));const colors={l1:'#285786',l2:'#2f6f5e',l3:'#b38a3e',l4:'#8a3a3a'};for(const k of Object.keys(tangentProbes)){const [x,y]=tangentProbes[k].v,sel=state.tangent.includes(k);svg.appendChild(svgEl('line',{x1:cx,y1:cy,x2:cx+x*S,y2:cy-y*S,stroke:colors[k],'stroke-width':sel?8:3,'stroke-linecap':'round','marker-end':'' ,opacity:sel?1:.35}));svg.appendChild(svgEl('text',{x:cx+x*S+8,y:cy-y*S-8,fill:colors[k],'font-size':15,'font-weight':800},k))}
+ const vs=state.tangent.map(k=>tangentProbes[k].v),r=rank2(vs),sig=sigmaMin2(vs),cost=state.tangent.reduce((s,k)=>s+tangentProbes[k].cost,0);$('tangentNarrative').innerHTML=`Selected rank: <b>${r}/2</b>; cost: <b>${cost.toFixed(2)}</b>; σ<sub>min</sub>: <b>${sig.toFixed(3)}</b>. ${r===2?'LOCAL_COMPLETION_CERTIFIED. A separate remote-alias audit is still required.':'Tangent ambiguity remains.'}`;
+}
+function renderBlind(){
+ const svg=$('blindSvg');svg.innerHTML='';const nodes={x:[150,115],Tx:[610,115],y:[150,325],Ty:[610,325]};const pairs=[['x','Tx'],['y','Ty']];for(const [a,b] of pairs){svg.appendChild(svgEl('line',{x1:nodes[a][0],y1:nodes[a][1],x2:nodes[b][0],y2:nodes[b][1],stroke:'#b38a3e','stroke-width':5,'stroke-dasharray':'12 8'}));svg.appendChild(svgEl('text',{x:380,y:nodes[a][1]-12,'text-anchor':'middle',fill:'#a85e26','font-size':14},'T orbit / same base descriptor'))}
+ for(const [n,[x,y]] of Object.entries(nodes)){svg.appendChild(svgEl('circle',{cx:x,cy:y,r:42,fill:'#eef3f8',stroke:'#17365d','stroke-width':4}));svg.appendChild(svgEl('text',{x,y:y+7,'text-anchor':'middle',fill:'#17365d','font-size':22,'font-weight':800},n))}
+ const inv=state.blind.includes('inv'),br=state.blind.includes('break'),aux=state.blind.includes('aux');if(inv)svg.appendChild(svgEl('text',{x:380,y:210,'text-anchor':'middle',fill:'#8a3a3a','font-size':15,'font-weight':800},'p_inv: equal on both T-orbits (zero gain)'));if(br){svg.appendChild(svgEl('text',{x:380,y:238,'text-anchor':'middle',fill:'#2f6f5e','font-size':15,'font-weight':800},'p_break: separates x and Tx'));svg.appendChild(svgEl('line',{x1:270,y1:95,x2:490,y2:135,stroke:'#2f6f5e','stroke-width':6}))}if(aux){svg.appendChild(svgEl('text',{x:380,y:266,'text-anchor':'middle',fill:'#5e4b78','font-size':15,'font-weight':800},'p_aux: separates y and Ty'));svg.appendChild(svgEl('line',{x1:270,y1:305,x2:490,y2:345,stroke:'#5e4b78','stroke-width':6}))}
+ const cov=(br?1:0)+(aux?1:0);$('blindNarrative').innerHTML=`T-generated witness pairs covered: <b>${cov}/2</b>. ${inv?'The invariant probe contributes zero gain. ':''}${cov===2?'The declared witness family is covered; this remains family-relative, not a universal global certificate.':'At least one blind-transformation witness remains unresolved.'}`;
+}
+function buildReport(){
+ const exact=exactOpt();const cov=coverage(state.selected),rob=coverage(state.selected,true);const relevant=relevantPairs();let status='INCONCLUSIVE',robustStatus='NOT_AUDITED',minimal='NOT_CERTIFIED',synergy='NOT_AUDITED',failure=[];
+ if(state.tab==='pair'||state.tab==='robust'){
+   if(cov.covered.length===cov.total){status=state.task==='q'?'Q_COMPLETION_CERTIFIED':'GLOBAL_COMPLETION_CERTIFIED';const pruned=backwardPrune(state.selected);if(pruned.length===state.selected.length)minimal='INCLUSION_MINIMAL_ONLY';if(exact&&Math.abs(packageCost(state.selected)-exact.minCost)<1e-9)minimal='COST_MINIMAL_CERTIFIED';if(state.task==='q'&&state.selected.length>=2&&pruned.length===state.selected.length)synergy='STRONG_SYNERGY_CERTIFIED'}else{failure.push('LIBRARY_NOT_SEPARATED_BY_SELECTED_PACKAGE')}
+   if(cov.covered.length===cov.total){robustStatus=rob.covered.length===rob.total?'ROBUST_COMPLETION_CERTIFIED':'EXACT_BUT_NOT_ROBUST'}
+ }
+ if(state.tab==='adaptive')status=state.lo===state.hi?'ADAPTIVE_COMPLETION_CERTIFIED':'INCONCLUSIVE';
+ if(state.tab==='tangent'){const r=rank2(state.tangent.map(k=>tangentProbes[k].v));status=r===2?'LOCAL_COMPLETION_CERTIFIED':'INCONCLUSIVE';if(r<2)failure.push('PROBE_DEPENDENCE')}
+ if(state.tab==='blind'){const covn=(state.blind.includes('break')?1:0)+(state.blind.includes('aux')?1:0);status=covn===2?'Q_COMPLETION_CERTIFIED':'NO_COMPLETION_IN_SELECTED_PACKAGE';if(covn<2)failure.push('BLIND_WITNESS_UNCOVERED')}
+ if(!state.locked)failure.push('DESIGN_PROTOCOL_NOT_PREREGISTERED');if(state.retrofitting)failure.push('PROBE_RETROFITTING_RISK');
+ const report={module:'BC-M V',version:'v0.1.1',scenario:state.tab,protocol:{task:state.task==='full'?'FULL_QUOTIENT_ID':'Q_ONLY',probe_library:Object.keys(probes),adaptive:state.tab==='adaptive',cost_model:'additive',tolerance_model:{delta:state.delta,eta:state.eta},preregistration:{record_id:state.hash?`fnv1a:${state.hash}`:null,design_timestamp:state.locked?state.lockedAt:null,selection_rule_preregistered:state.locked,retrofitting_risk:state.retrofitting}},completion:{selected_probes:state.tab==='tangent'?state.tangent:state.tab==='blind'?state.blind:state.selected,scope:state.tab==='tangent'?'LOCAL':'UNIFORM',exact_status:status,robust_status:robustStatus,pair_coverage:{covered:cov.covered.length,total:cov.total},reachable_response_words:state.selected.length?new Set(classes.map(c=>state.selected.map(p=>probes[p].values[c]).join(''))).size:1,separation_margin:state.delta>0?1/(2*state.delta):null,synergy_status:synergy},minimality:{type:minimal,upper_bound:state.tab==='pair'||state.tab==='robust'?packageCost(state.selected):null,lower_bound:exact?exact.minCost:null,certificate:exact?'EXHAUSTIVE_ENUMERATION':null},local_rank:{ambiguity_dimension:2,selected_rank:rank2(state.tangent.map(k=>tangentProbes[k].v)),sigma_min:sigmaMin2(state.tangent.map(k=>tangentProbes[k].v))},adaptive_tree:state.tab==='adaptive'?{objective:'WORST_CASE_DEPTH',depth:state.history.length,theoretical_depth:Math.ceil(Math.log2(state.N)),surviving_interval:[state.lo,state.hi],status:state.lo===state.hi?'ADAPTIVE_COMPLETION_CERTIFIED':'IN_PROGRESS'}:null,failure_states:failure,claim_ceiling:'library-relative, task-relative'};
+ return report;
+}
+function renderMetrics(report){
+ let items=[];if(state.tab==='pair'||state.tab==='robust'){items=[['coverage',`${report.completion.pair_coverage.covered}/${report.completion.pair_coverage.total}`],['cost',packageCost(state.selected).toFixed(2)],['reachable words',report.completion.reachable_response_words],['robust margin',state.delta>0?(1/(2*state.delta)).toFixed(2):'∞']]}else if(state.tab==='adaptive'){items=[['interval',`${state.lo}–${state.hi}`],['queries',state.history.length],['fixed budget',state.N-1],['adaptive bound',Math.ceil(Math.log2(state.N))]]}else if(state.tab==='tangent'){items=[['rank',`${report.local_rank.selected_rank}/2`],['σmin',report.local_rank.sigma_min.toFixed(3)],['selected',state.tangent.length],['cost',state.tangent.reduce((s,k)=>s+tangentProbes[k].cost,0).toFixed(2)]]}else{items=[['witness cover',`${(state.blind.includes('break')?1:0)+(state.blind.includes('aux')?1:0)}/2`],['invariant selected',state.blind.includes('inv')?'yes':'no'],['breaking probes',[state.blind.includes('break'),state.blind.includes('aux')].filter(Boolean).length],['status',report.completion.exact_status]]}
+ $('metrics').innerHTML=items.map(([k,v])=>`<div class="metric"><div class="k">${k}</div><div class="v">${v}</div></div>`).join('');const s=report.completion.exact_status,el=$('mainStatus');el.textContent=s;el.className='status '+(s.includes('CERTIFIED')?'good':s.includes('NO_')||s.includes('EMPTY')?'bad':'warn')
+}
+function render(){
+ state.task=$('taskMode').value;state.selected=qsa('.probeCheck:checked').map(x=>x.value);state.delta=+$('noiseDelta').value;state.eta=+$('objectEta').value;state.N=+$('nRange').value;state.target=+$('targetRange').value;state.tangent=qsa('.tangentCheck:checked').map(x=>x.value);state.blind=qsa('.blindCheck:checked').map(x=>x.value);$('noiseVal').textContent=state.delta.toFixed(2);$('etaVal').textContent=state.eta.toFixed(2);$('nVal').textContent=state.N;$('targetVal').textContent=state.target;
+ renderPair();renderRobust();renderAdaptive();renderTangent();renderBlind();const report=buildReport();renderMetrics(report);$('report').textContent=JSON.stringify(report,null,2)
+}
+qsa('.tab').forEach(b=>b.addEventListener('click',()=>setTab(b.dataset.tab)));
+qsa('input,select').forEach(el=>el.addEventListener('input',()=>{if(el.id==='nRange'){const oldN=state.N;state.N=+el.value;$('targetRange').max=state.N;if(+$('targetRange').value>state.N)$('targetRange').value=state.N;resetSearch()}if(el.id==='targetRange')state.target=+el.value;noteMutation();render()}));
+$('greedyBtn').onclick=()=>{const g=greedy();qsa('.probeCheck').forEach(c=>c.checked=g.includes(c.value));render()};
+$('exactBtn').onclick=()=>{const ex=exactOpt();if(ex){qsa('.probeCheck').forEach(c=>c.checked=ex.cost.includes(c.value));state.lastExact=ex}render()};
+$('pruneBtn').onclick=()=>{const p=backwardPrune(state.selected);qsa('.probeCheck').forEach(c=>c.checked=p.includes(c.value));render()};
+$('basisBtn').onclick=()=>{const b=minCostBasis();qsa('.tangentCheck').forEach(c=>c.checked=b.includes(c.value));render()};
+$('stepSearchBtn').onclick=()=>{stepSearch();render()};
+$('autoSearchBtn').onclick=()=>{while(state.lo<state.hi)stepSearch();render()};
+$('restartSearchBtn').onclick=()=>{resetSearch();render()};
+$('lockBtn').onclick=()=>{state.locked=true;state.lockSnapshot=protocolSnapshot();state.hash=fnv1a(state.lockSnapshot);state.lockedAt=new Date().toISOString();state.retrofitting=false;$('preHash').textContent=`fnv1a:${state.hash} · ${state.lockedAt}`;$('lockState').textContent='LOCKED';$('lockState').style.background='#eef8f4';$('lockState').style.color='#2f6f5e';render()};
+$('resetBtn').onclick=()=>{qsa('input[type=checkbox]').forEach(c=>c.checked=false);$('taskMode').value='full';$('noiseDelta').value='.20';$('objectEta').value='.25';$('nRange').value='16';$('targetRange').max='16';$('targetRange').value='11';Object.assign(state,{tab:'pair',task:'full',selected:[],delta:.2,eta:.25,N:16,target:11,lo:1,hi:16,history:[],tangent:[],blind:[],locked:false,hash:null,lockSnapshot:null,retrofitting:false,lastExact:null});$('preHash').textContent='not locked';$('lockState').textContent='OPEN';$('lockState').style.background='#eef3f8';$('lockState').style.color='#17365d';setTab('pair')};
+$('copyBtn').onclick=async()=>{try{await navigator.clipboard.writeText($('report').textContent);$('copyBtn').textContent='Copied';setTimeout(()=>$('copyBtn').textContent='Copy JSON',1000)}catch(e){const ta=document.createElement('textarea');ta.value=$('report').textContent;document.body.appendChild(ta);ta.select();document.execCommand('copy');ta.remove()}};
+$('downloadBtn').onclick=()=>{const blob=new Blob([$('report').textContent],{type:'application/json'}),a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='BCM5Report.json';a.click();setTimeout(()=>URL.revokeObjectURL(a.href),500)};
+resetSearch();render();
+})();
+</script>
+</body>
+</html>

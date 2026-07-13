@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>BC-Emergence III — Witness and Descriptor-Depth Lab</title>
+<style>
+:root{
+  --bg:#0b1020; --panel:#121a2f; --panel2:#18233e; --ink:#eef3ff;
+  --muted:#aab7d3; --line:#334363; --blue:#72a7ff; --gold:#d7a62a;
+  --ok:#57d17a; --warn:#ffc857; --bad:#ff6f74; --purple:#ab8cff;
+  --shadow:0 16px 38px rgba(0,0,0,.30);
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  margin:0; color:var(--ink); font-family:Inter,Segoe UI,Arial,sans-serif; line-height:1.5;
+  background:
+    radial-gradient(circle at 12% 5%, rgba(114,167,255,.18), transparent 27rem),
+    radial-gradient(circle at 90% 0%, rgba(171,140,255,.14), transparent 25rem),
+    var(--bg);
+}
+.wrap{max-width:1200px;margin:auto;padding:24px}
+header{
+  padding:30px; border:1px solid var(--line); border-radius:22px;
+  background:linear-gradient(145deg,rgba(24,35,62,.98),rgba(13,20,38,.98));
+  box-shadow:var(--shadow);
+}
+h1{font-size:clamp(30px,4.6vw,52px);line-height:1.08;margin:6px 0 10px}
+h2{font-size:27px;margin:0 0 12px} h3{font-size:19px;margin:0 0 8px}
+p{margin:8px 0}.sub{color:var(--muted);max-width:900px}
+.badge{display:inline-flex;padding:7px 11px;border:1px solid var(--line);border-radius:999px;font-size:13px;font-weight:800}
+.badge.ok{color:var(--ok);border-color:rgba(87,209,122,.55);background:rgba(87,209,122,.08)}
+.badge.warn{color:var(--warn);border-color:rgba(255,200,87,.55);background:rgba(255,200,87,.08)}
+.badge.bad{color:var(--bad);border-color:rgba(255,111,116,.55);background:rgba(255,111,116,.08)}
+.nav{display:grid;grid-template-columns:repeat(6,1fr);gap:8px;margin-top:22px}
+.nav button{min-height:70px;padding:11px;border-radius:12px;border:1px solid var(--line);background:#10182b;color:var(--muted);font-weight:800;cursor:pointer}
+.nav button.active{color:#fff;border-color:var(--blue);background:rgba(114,167,255,.17)}
+.nav button.done{color:var(--ok);border-color:rgba(87,209,122,.45)}
+main{margin-top:22px}
+section{display:none;background:rgba(18,26,47,.96);border:1px solid var(--line);border-radius:20px;padding:24px;box-shadow:var(--shadow)}
+section.active{display:block}
+.grid{display:grid;grid-template-columns:1.04fr .96fr;gap:20px}
+.card{background:var(--panel2);border:1px solid var(--line);border-radius:15px;padding:18px}
+.formula{font-family:"Cambria Math","Times New Roman",serif;font-size:18px;background:#0e1628;border:1px solid var(--line);border-radius:12px;padding:12px 14px;overflow:auto}
+.takeaway{margin-top:15px;border-left:4px solid var(--blue);border-radius:8px;padding:12px 14px;background:rgba(114,167,255,.08)}
+.metrics{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:12px}
+.metric{background:#10182b;border:1px solid var(--line);border-radius:12px;padding:12px}.metric b{display:block;font-size:21px;margin-top:4px}
+label{display:block;font-weight:800;margin:13px 0 6px}.row{display:grid;grid-template-columns:1fr 92px;gap:12px;align-items:center}
+input[type=range]{width:100%} output{padding:7px 8px;background:#0e1628;border:1px solid var(--line);border-radius:9px;text-align:center;font-variant-numeric:tabular-nums}
+.btn{border:1px solid var(--line);background:#10182b;color:var(--ink);border-radius:11px;padding:11px 16px;font-weight:800;cursor:pointer}
+.btn.primary{border-color:var(--blue);background:rgba(114,167,255,.15)}
+.btn.danger{border-color:var(--bad);background:rgba(255,111,116,.10)}
+.nextbar{display:flex;justify-content:space-between;gap:12px;margin-top:18px}
+.compare{display:grid;grid-template-columns:1fr 1fr;gap:12px}.system{background:#10182b;border:1px solid var(--line);border-radius:13px;padding:14px}
+.eq{font-family:"Cambria Math","Times New Roman",serif;font-size:17px;line-height:1.75}
+.statusline{margin-top:12px;display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.diagram{display:grid;place-items:center;min-height:330px}.diagram svg{max-width:100%;height:auto}
+.edge-control{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}.edge-btn{width:44px;height:40px;border-radius:9px;border:1px solid var(--line);background:#10182b;color:var(--ink);font-weight:900;cursor:pointer}.edge-btn.neg{border-color:var(--bad);background:rgba(255,111,116,.12)}
+.depthbar{height:18px;border-radius:999px;background:#0e1628;border:1px solid var(--line);overflow:hidden;margin-top:10px}.depthfill{height:100%;background:linear-gradient(90deg,var(--blue),var(--gold));transition:width .2s}
+.table{display:grid;gap:8px}.tr{display:grid;grid-template-columns:1.1fr .9fr .9fr;gap:8px;align-items:center;padding:10px;border:1px solid var(--line);border-radius:10px;background:#10182b}.tr.head{font-weight:900;background:#0e1628}
+.gates{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}.gate{display:flex;gap:10px;align-items:flex-start;background:#10182b;border:1px solid var(--line);border-radius:12px;padding:12px}.gate input{margin-top:4px;transform:scale(1.25)}
+.small{font-size:14px;color:var(--muted)}
+footer{padding:22px 2px 8px;text-align:center;color:var(--muted)}
+@media(max-width:920px){.grid,.compare,.metrics,.gates{grid-template-columns:1fr}.nav{grid-template-columns:1fr 1fr}.tr{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header>
+  <span class="badge ok">Interactive companion to BC-Emergence III v0.1.1</span>
+  <h1>Witness and Descriptor-Depth Lab</h1>
+  <p class="sub">Explore exact witnesses, descriptor-blind mutations, fiber oscillation, local modulus tests, and the exact depth theorem
+  <b>r*(C<sub>N</sub>, Ω) = floor(N/2)</b>.</p>
+  <div class="nav" id="nav">
+    <button data-step="0" class="active">1. Exact witness</button>
+    <button data-step="1">2. Blind mutation</button>
+    <button data-step="2">3. Exact depth</button>
+    <button data-step="3">4. Fiber oscillation</button>
+    <button data-step="4">5. Modulus witness</button>
+    <button data-step="5">6. Strong gate</button>
+  </div>
+</header>
+
+<main>
+<section class="active" data-panel="0">
+  <h2>1. Exact non-factorization witness</h2>
+  <div class="grid">
+    <div>
+      <p>The lower descriptor records only whether every proper two-equation subsystem is solvable.</p>
+      <div class="compare">
+        <div class="system"><h3>System X₀</h3><div class="eq">x₁=x₂<br>x₂=x₃<br>x₃=x₁</div><span class="badge ok">globally solvable</span></div>
+        <div class="system"><h3>System X₁</h3><div class="eq">x₁=x₂<br>x₂=x₃<br>x₃=x₁+1</div><span class="badge bad">globally inconsistent</span></div>
+      </div>
+      <div class="formula" style="margin-top:14px">Π<sub>pair</sub>(X₀)=Π<sub>pair</sub>(X₁)=(1,1,1), &nbsp; but &nbsp; Q(X₀)=1 ≠ 0=Q(X₁).</div>
+      <div class="takeaway"><b>Same lower descriptor, different macro-property.</b> The pair (X₀,X₁) is an exact witness, so Q cannot factor through Π<sub>pair</sub>.</div>
+    </div>
+    <div class="card">
+      <h3>Fiber criterion</h3>
+      <div class="formula">Q = q̄ ∘ Π &nbsp; ⇔ &nbsp; Q is constant on every fiber Π⁻¹(d).</div>
+      <div class="statusline"><span class="badge bad">NONFACTORIZATION_CERTIFIED</span></div>
+      <p class="small">The theorem is elementary; the scientific content lies in preregistering Π and Q, checking the full fiber, and refusing post-hoc descriptor changes.</p>
+    </div>
+  </div>
+  <div class="nextbar"><span></span><button class="btn primary" data-next="1">Next: generate a witness →</button></div>
+</section>
+
+<section data-panel="1">
+  <h2>2. Descriptor-blind edge mutation</h2>
+  <div class="grid">
+    <div>
+      <label>Cycle size N</label><div class="row"><input id="n1" type="range" min="3" max="18" value="9"><output id="n1o">9</output></div>
+      <label>Local radius r</label><div class="row"><input id="r1" type="range" min="0" max="4" value="2"><output id="r1o">2</output></div>
+      <p>Start with all-positive edges and flip one selected edge. The mutation changes Ω but remains invisible to Π<sub>r</sub> while every radius-r ball is a tree.</p>
+      <div class="edge-control" id="edgeControls"></div>
+      <button class="btn danger" id="singleFlip">Create the theorem witness</button>
+      <div class="metrics">
+        <div class="metric">Cycle product Ω<b id="omega1">+1</b></div>
+        <div class="metric">Critical depth r*<b id="rstar1">4</b></div>
+        <div class="metric">Mutation status<b id="blind1">blind</b></div>
+      </div>
+      <div id="blindStatus" class="statusline"><span class="badge ok">DESCRIPTOR_BLIND</span><span class="badge bad">Q_ACTIVE</span></div>
+      <div class="takeaway" id="blindTake">For r&lt;r*, flipping one edge preserves the local gauge descriptor but reverses Ω. This constructs a witness without random search.</div>
+    </div>
+    <div class="card diagram"><svg id="cycleSvg1" viewBox="0 0 480 420" aria-label="signed cycle"></svg></div>
+  </div>
+  <div class="nextbar"><button class="btn" data-next="0">← Back</button><button class="btn primary" data-next="2">Next: compute exact depth →</button></div>
+</section>
+
+<section data-panel="2">
+  <h2>3. Exact descriptor-depth theorem</h2>
+  <div class="grid">
+    <div>
+      <label>Cycle size N</label><div class="row"><input id="n2" type="range" min="3" max="30" value="12"><output id="n2o">12</output></div>
+      <label>Descriptor radius r</label><div class="row"><input id="r2" type="range" min="0" max="6" value="3"><output id="r2o">3</output></div>
+      <div class="depthbar"><div class="depthfill" id="depthFill"></div></div>
+      <div class="metrics">
+        <div class="metric">r* = floor(N/2)<b id="rstar2">6</b></div>
+        <div class="metric">Local ball type<b id="ballType">path/tree</b></div>
+        <div class="metric">Ω readable?<b id="readable">no</b></div>
+      </div>
+      <div class="formula" style="margin-top:14px">r &lt; floor(N/2) ⇒ Π<sub>r</sub>(ε⁺)=Π<sub>r</sub>(ε⁻), while Ω(ε⁺)=+1 and Ω(ε⁻)=−1.</div>
+      <div id="depthStatus" class="statusline"><span class="badge bad">NONFACTORIZATION_CERTIFIED</span></div>
+      <div class="takeaway" id="depthTake">Below the critical depth, every local ball is a tree and every Z₂ signing of that tree is gauge-trivial.</div>
+    </div>
+    <div class="card">
+      <h3>Sharp lower and upper bound</h3>
+      <p><b>Lower bound:</b> for r&lt;r*, a one-edge flip gives an exact witness.</p>
+      <p><b>Upper bound:</b> at r=r*, a radius-r ball contains the whole cycle and its gauge class determines Ω.</p>
+      <div class="formula">r*(C<sub>N</sub>,Ω)=floor(N/2).</div>
+      <p class="small">This is the first hard theorem of the branch: not merely witness existence, but the exact level at which ambiguity disappears.</p>
+    </div>
+  </div>
+  <div class="nextbar"><button class="btn" data-next="1">← Back</button><button class="btn primary" data-next="3">Next: refine the descriptor →</button></div>
+</section>
+
+<section data-panel="3">
+  <h2>4. Fiber oscillation and descriptor refinement</h2>
+  <div class="grid">
+    <div>
+      <p>Compare two graphs with the same degree multiset: C₆ and C₃ ⊔ C₃. Let Q be connectedness with the discrete metric.</p>
+      <div class="table">
+        <div class="tr head"><div>Descriptor</div><div>Fiber contents</div><div>Oscillation E</div></div>
+        <div class="tr"><div>Degree multiset</div><div>connected + disconnected</div><div><b>1</b></div></div>
+        <div class="tr"><div>Full adjacency</div><div>singleton fibers</div><div><b>0</b></div></div>
+      </div>
+      <label>Refinement level</label><div class="row"><input id="refine" type="range" min="0" max="1" step="1" value="0"><output id="refineO">coarse</output></div>
+      <div class="metrics">
+        <div class="metric">Fiber oscillation<b id="oscVal">1</b></div>
+        <div class="metric">Q factors?<b id="factorVal">no</b></div>
+        <div class="metric">Status<b id="refStatus">LOST</b></div>
+      </div>
+      <div class="takeaway" id="refTake">Refinement can remove an emergence status without changing Q. Emergence is therefore descriptor-relative.</div>
+    </div>
+    <div class="card">
+      <h3>Monotonicity</h3>
+      <div class="formula">Π<sub>r</sub> ≼ Π<sub>s</sub> ⇒ E(Π<sub>s</sub>,Q) ≤ E(Π<sub>r</sub>,Q).</div>
+      <p>A richer descriptor splits coarse fibers into smaller ones. Hidden macro-variation cannot increase under refinement.</p>
+      <p class="small">The oscillation is not a universal “amount of emergence”; it depends on the descriptor, admissible class, and macro metric.</p>
+    </div>
+  </div>
+  <div class="nextbar"><button class="btn" data-next="2">← Back</button><button class="btn primary" data-next="4">Next: finite-resolution obstruction →</button></div>
+</section>
+
+<section data-panel="4">
+  <h2>5. Localized modulus witness</h2>
+  <div class="grid">
+    <div>
+      <label>Descriptor distance d<sub>D</sub></label><div class="row"><input id="dd" type="range" min="0" max="2" step="0.05" value="0.4"><output id="ddo">0.40</output></div>
+      <label>Macro distance d<sub>M</sub></label><div class="row"><input id="dm" type="range" min="0" max="3" step="0.05" value="1.2"><output id="dmo">1.20</output></div>
+      <label>Lipschitz constant L in ω(t)=Lt</label><div class="row"><input id="lip" type="range" min="0" max="4" step="0.1" value="2"><output id="lipo">2.0</output></div>
+      <label>Evaluation radius δ<sub>eval</sub></label><div class="row"><input id="deval" type="range" min="0.1" max="2" step="0.1" value="1"><output id="devalo">1.0</output></div>
+      <div class="metrics">
+        <div class="metric">ω(d<sub>D</sub>)<b id="omegaMod">0.80</b></div>
+        <div class="metric">Inside domain?<b id="domainMod">yes</b></div>
+        <div class="metric">Violation?<b id="violMod">yes</b></div>
+      </div>
+      <div id="modStatus" class="statusline"><span class="badge bad">MODULUS_WITNESS_CERTIFIED</span></div>
+      <div class="takeaway" id="modTake">The macro-separation exceeds the declared decoder modulus inside the evaluation radius. No decoder in the declared regularity class can reproduce Q on this pair.</div>
+    </div>
+    <div class="card">
+      <h3>Local test only</h3>
+      <div class="formula">d<sub>D</sub>(ΠX,ΠY) ≤ δ<sub>eval</sub>, &nbsp; d<sub>M</sub>(QX,QY) &gt; ω(d<sub>D</sub>)</div>
+      <p>When the candidate pair lies outside δ<sub>eval</sub>, the theorem is not applicable. The correct output is <b>MODULUS_DOMAIN_EXCEEDED</b>, not non-factorization.</p>
+      <p class="small">Without exact descriptor equality or a declared decoder class, closeness alone does not obstruct an arbitrary discontinuous decoder.</p>
+    </div>
+  </div>
+  <div class="nextbar"><button class="btn" data-next="3">← Back</button><button class="btn primary" data-next="5">Next: strong emergence gate →</button></div>
+</section>
+
+<section data-panel="5">
+  <h2>6. Strong emergence is a gated status</h2>
+  <p>An exact witness proves non-factorization. It does not automatically prove robustness, multiple realization, universality, or physical emergence.</p>
+  <div class="gates" id="gates">
+    <label class="gate"><input type="checkbox" checked><span><b>Descriptor preregistered</b><br><small>Π, Q, admissible class, metrics, equivalence.</small></span></label>
+    <label class="gate"><input type="checkbox" checked><span><b>Assembly certified</b><br><small>Required when Q belongs to a global assembly.</small></span></label>
+    <label class="gate"><input type="checkbox" checked><span><b>Non-factorization witness</b><br><small>Exact or recorded same-descriptor/different-Q pair.</small></span></label>
+    <label class="gate"><input type="checkbox" checked><span><b>Loss status = LOST</b><br><small>The lower descriptor does not retain Q.</small></span></label>
+    <label class="gate"><input type="checkbox"><span><b>Robustness margins</b><br><small>Witness persists away from descriptor and macro walls.</small></span></label>
+    <label class="gate"><input type="checkbox"><span><b>Multiple realization / universality</b><br><small>Several micro-inequivalent realizations support the macro-class.</small></span></label>
+    <label class="gate"><input type="checkbox" checked><span><b>Anti-tautology PASS</b><br><small>Q is not imported through metadata or selection rules.</small></span></label>
+    <label class="gate"><input type="checkbox" checked><span><b>Anti-duplication PASS</b><br><small>The claim is not a renamed BC-M or gluing result.</small></span></label>
+  </div>
+  <div class="metrics">
+    <div class="metric">Passed gates<b id="gateCount">6 / 8</b></div>
+    <div class="metric">Current status<b id="gateStatus">NONFACTORIZATION_CERTIFIED</b></div>
+    <div class="metric">Strong certificate?<b id="strongVal">no</b></div>
+  </div>
+  <div class="takeaway" id="gateTake"><b>Do not over-promote the result.</b> The current evidence supports non-factorization, but not yet a strong emergence certificate.</div>
+  <div class="nextbar"><button class="btn" data-next="4">← Back</button><button class="btn primary" id="reset">Reset laboratory</button></div>
+</section>
+</main>
+<footer>Finite-dimensional educational companion. It does not model physical spacetime, fields, particles, or hidden reality.</footer>
+</div>
+
+<script>
+(() => {
+  const panels=[...document.querySelectorAll('section[data-panel]')];
+  const nav=[...document.querySelectorAll('#nav button')];
+  function show(i){
+    i=Math.max(0,Math.min(5,Number(i)));
+    panels.forEach((p,k)=>p.classList.toggle('active',k===i));
+    nav.forEach((b,k)=>{b.classList.toggle('active',k===i);b.classList.toggle('done',k<i)});
+    window.scrollTo({top:0,behavior:'smooth'});
+  }
+  nav.forEach(b=>b.addEventListener('click',()=>show(b.dataset.step)));
+  document.querySelectorAll('[data-next]').forEach(b=>b.addEventListener('click',()=>show(b.dataset.next)));
+
+  function drawCycle(svg,N,signs){
+    svg.innerHTML=''; const cx=240,cy=205,R=155;
+    const pts=[]; for(let i=0;i<N;i++){const a=-Math.PI/2+2*Math.PI*i/N;pts.push([cx+R*Math.cos(a),cy+R*Math.sin(a)])}
+    for(let i=0;i<N;i++){
+      const j=(i+1)%N, [x1,y1]=pts[i],[x2,y2]=pts[j];
+      const line=document.createElementNS('http://www.w3.org/2000/svg','line');
+      line.setAttribute('x1',x1);line.setAttribute('y1',y1);line.setAttribute('x2',x2);line.setAttribute('y2',y2);
+      line.setAttribute('stroke',signs[i]===1?'#57d17a':'#ff6f74');line.setAttribute('stroke-width','7');line.setAttribute('stroke-linecap','round');svg.appendChild(line);
+      const tx=(x1+x2)/2,ty=(y1+y2)/2;
+      const t=document.createElementNS('http://www.w3.org/2000/svg','text');t.setAttribute('x',tx);t.setAttribute('y',ty-6);t.setAttribute('fill','#eef3ff');t.setAttribute('font-size','16');t.setAttribute('text-anchor','middle');t.textContent=signs[i]===1?'+':'−';svg.appendChild(t);
+    }
+    pts.forEach(([x,y],i)=>{const c=document.createElementNS('http://www.w3.org/2000/svg','circle');c.setAttribute('cx',x);c.setAttribute('cy',y);c.setAttribute('r','14');c.setAttribute('fill','#121a2f');c.setAttribute('stroke','#72a7ff');c.setAttribute('stroke-width','3');svg.appendChild(c);const t=document.createElementNS('http://www.w3.org/2000/svg','text');t.setAttribute('x',x);t.setAttribute('y',y+5);t.setAttribute('fill','#eef3ff');t.setAttribute('font-size','12');t.setAttribute('text-anchor','middle');t.textContent=i+1;svg.appendChild(t)});
+  }
+
+  const n1=document.getElementById('n1'),r1=document.getElementById('r1'),n1o=document.getElementById('n1o'),r1o=document.getElementById('r1o');
+  let signs=[];
+  function rebuildEdges(){
+    const N=+n1.value; signs=Array(N).fill(1); const holder=document.getElementById('edgeControls');holder.innerHTML='';
+    for(let i=0;i<N;i++){const b=document.createElement('button');b.className='edge-btn';b.textContent='e'+(i+1);b.onclick=()=>{signs[i]*=-1;updateBlind()};holder.appendChild(b)}
+    r1.max=Math.floor(N/2); if(+r1.value>+r1.max)r1.value=r1.max; updateBlind();
+  }
+  function updateBlind(){
+    const N=+n1.value,r=+r1.value,rstar=Math.floor(N/2);n1o.textContent=N;r1o.textContent=r;
+    document.getElementById('rstar1').textContent=rstar; const omega=signs.reduce((a,b)=>a*b,1);document.getElementById('omega1').textContent=omega===1?'+1':'−1';
+    const blind=r<rstar;document.getElementById('blind1').textContent=blind?'blind':'readable';
+    [...document.querySelectorAll('.edge-btn')].forEach((b,i)=>b.classList.toggle('neg',signs[i]===-1));
+    drawCycle(document.getElementById('cycleSvg1'),N,signs);
+    const st=document.getElementById('blindStatus'),take=document.getElementById('blindTake');
+    if(blind){st.innerHTML='<span class="badge ok">DESCRIPTOR_BLIND</span><span class="badge bad">Q_ACTIVE WHEN Ω FLIPS</span>';take.innerHTML='<b>For r&lt;r*, local balls are gauge-trivial trees.</b> Any edge mutation is invisible locally, while an odd number of flips reverses Ω.'}
+    else{st.innerHTML='<span class="badge warn">DESCRIPTOR SEES FULL CYCLE</span>';take.innerHTML='<b>At the critical depth, the descriptor contains the full cycle.</b> The gauge class now determines Ω, so the mutation is no longer blind.'}
+  }
+  n1.addEventListener('input',rebuildEdges);r1.addEventListener('input',updateBlind);
+  document.getElementById('singleFlip').onclick=()=>{signs.fill(1);signs[0]=-1;updateBlind()};
+  rebuildEdges();
+
+  const n2=document.getElementById('n2'),r2=document.getElementById('r2');
+  function updateDepth(){
+    const N=+n2.value,rstar=Math.floor(N/2);r2.max=rstar;if(+r2.value>rstar)r2.value=rstar;const r=+r2.value;
+    document.getElementById('n2o').textContent=N;document.getElementById('r2o').textContent=r;document.getElementById('rstar2').textContent=rstar;
+    document.getElementById('depthFill').style.width=(100*r/Math.max(1,rstar))+'%';const ready=r>=rstar;
+    document.getElementById('ballType').textContent=ready?'full cycle':'path/tree';document.getElementById('readable').textContent=ready?'yes':'no';
+    document.getElementById('depthStatus').innerHTML=ready?'<span class="badge ok">FACTORIZATION_CERTIFIED</span><span class="badge ok">EXACT_DEPTH_REACHED</span>':'<span class="badge bad">NONFACTORIZATION_CERTIFIED</span><span class="badge ok">BLIND_MUTATION_EXISTS</span>';
+    document.getElementById('depthTake').innerHTML=ready?'<b>The critical depth has been reached.</b> A local ball contains the entire cycle, so its gauge class reads Ω.':'<b>Below the critical depth, every local ball is a tree.</b> All tree signings are gauge-trivial, so Ω remains hidden.';
+  }
+  n2.addEventListener('input',updateDepth);r2.addEventListener('input',updateDepth);updateDepth();
+
+  function updateRef(){const fine=+document.getElementById('refine').value===1;document.getElementById('refineO').textContent=fine?'refined':'coarse';document.getElementById('oscVal').textContent=fine?'0':'1';document.getElementById('factorVal').textContent=fine?'yes':'no';document.getElementById('refStatus').textContent=fine?'RETAINED':'LOST';document.getElementById('refTake').innerHTML=fine?'<b>Adjacency data split the coarse fiber into singletons.</b> Q now factors through the richer descriptor.':'<b>The degree descriptor merges connected and disconnected graphs.</b> Q varies inside one fiber, so oscillation is 1.'}
+  document.getElementById('refine').addEventListener('input',updateRef);updateRef();
+
+  const modIds=['dd','dm','lip','deval'];
+  function updateMod(){const dd=+document.getElementById('dd').value,dm=+document.getElementById('dm').value,L=+document.getElementById('lip').value,de=+document.getElementById('deval').value;document.getElementById('ddo').textContent=dd.toFixed(2);document.getElementById('dmo').textContent=dm.toFixed(2);document.getElementById('lipo').textContent=L.toFixed(1);document.getElementById('devalo').textContent=de.toFixed(1);const w=L*dd,inside=dd<=de+1e-9,viol=dm>w+1e-9;document.getElementById('omegaMod').textContent=w.toFixed(2);document.getElementById('domainMod').textContent=inside?'yes':'no';document.getElementById('violMod').textContent=inside&&viol?'yes':'no';const st=document.getElementById('modStatus'),take=document.getElementById('modTake');if(!inside){st.innerHTML='<span class="badge warn">MODULUS_DOMAIN_EXCEEDED</span>';take.innerHTML='<b>No theorem applies.</b> The pair lies outside the preregistered local regularity range.'}else if(viol){st.innerHTML='<span class="badge bad">MODULUS_WITNESS_CERTIFIED</span>';take.innerHTML='<b>The declared decoder class is obstructed.</b> Macro-separation exceeds ω(d<sub>D</sub>) inside the evaluation radius.'}else{st.innerHTML='<span class="badge ok">NO MODULUS VIOLATION</span>';take.innerHTML='<b>The pair is compatible with the declared modulus.</b> This does not prove that a decoder exists; it only means this pair is not an obstruction.'}}
+  modIds.forEach(id=>document.getElementById(id).addEventListener('input',updateMod));updateMod();
+
+  function updateGates(){const boxes=[...document.querySelectorAll('#gates input')],count=boxes.filter(x=>x.checked).length,strong=count===boxes.length;document.getElementById('gateCount').textContent=count+' / '+boxes.length;document.getElementById('strongVal').textContent=strong?'yes':'no';document.getElementById('gateStatus').textContent=strong?'STRONG_EMERGENCE_CERTIFIED':(boxes[2].checked?'NONFACTORIZATION_CERTIFIED':'EMERGENCE_NOT_CERTIFIED');document.getElementById('gateTake').innerHTML=strong?'<b>All declared gates are passed.</b> A strong layer-relative emergence certificate is justified within the stated claim ceiling.':'<b>Do not over-promote the result.</b> The currently checked evidence does not justify the full strong-emergence status.'}
+  document.querySelectorAll('#gates input').forEach(x=>x.addEventListener('change',updateGates));updateGates();
+
+  document.getElementById('reset').onclick=()=>{n1.value=9;r1.value=2;rebuildEdges();n2.value=12;r2.value=3;updateDepth();document.getElementById('refine').value=0;updateRef();document.getElementById('dd').value=.4;document.getElementById('dm').value=1.2;document.getElementById('lip').value=2;document.getElementById('deval').value=1;updateMod();const defaults=[true,true,true,true,false,false,true,true];document.querySelectorAll('#gates input').forEach((x,i)=>x.checked=defaults[i]);updateGates();show(0)};
+})();
+</script>
+</body>
+</html>

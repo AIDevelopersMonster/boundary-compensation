@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>BC-Emergence IV — Robust Witness and Universality Lab</title>
+<style>
+:root{
+  --bg:#09101f; --panel:#121b31; --panel2:#182541; --ink:#eef4ff;
+  --muted:#aab8d5; --line:#334866; --blue:#79aaff; --gold:#dfad34;
+  --ok:#59d487; --warn:#ffca62; --bad:#ff7379; --purple:#b395ff;
+  --cyan:#62d4e8; --shadow:0 18px 42px rgba(0,0,0,.32);
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  margin:0;color:var(--ink);font-family:Inter,Segoe UI,Arial,sans-serif;line-height:1.5;
+  background:
+    radial-gradient(circle at 10% 0%,rgba(121,170,255,.18),transparent 28rem),
+    radial-gradient(circle at 92% 3%,rgba(179,149,255,.14),transparent 25rem),
+    var(--bg);
+}
+.wrap{max-width:1220px;margin:auto;padding:24px}
+header{
+  padding:30px;border:1px solid var(--line);border-radius:22px;
+  background:linear-gradient(145deg,rgba(24,37,65,.98),rgba(11,18,34,.98));
+  box-shadow:var(--shadow)
+}
+h1{font-size:clamp(30px,4.8vw,54px);line-height:1.05;margin:8px 0 10px}
+h2{font-size:28px;margin:0 0 12px}h3{font-size:19px;margin:0 0 8px}
+p{margin:8px 0}.sub{color:var(--muted);max-width:960px}
+.badge{display:inline-flex;padding:7px 11px;border:1px solid var(--line);border-radius:999px;font-size:13px;font-weight:800}
+.badge.ok{color:var(--ok);border-color:rgba(89,212,135,.5);background:rgba(89,212,135,.08)}
+.badge.warn{color:var(--warn);border-color:rgba(255,202,98,.5);background:rgba(255,202,98,.08)}
+.badge.bad{color:var(--bad);border-color:rgba(255,115,121,.5);background:rgba(255,115,121,.08)}
+.badge.blue{color:var(--blue);border-color:rgba(121,170,255,.5);background:rgba(121,170,255,.08)}
+.nav{display:grid;grid-template-columns:repeat(6,1fr);gap:8px;margin-top:22px}
+.nav button{min-height:72px;padding:11px;border-radius:12px;border:1px solid var(--line);background:#10182b;color:var(--muted);font-weight:800;cursor:pointer}
+.nav button.active{color:#fff;border-color:var(--blue);background:rgba(121,170,255,.16)}
+.nav button.done{color:var(--ok);border-color:rgba(89,212,135,.45)}
+main{margin-top:22px}
+section{display:none;background:rgba(18,27,49,.97);border:1px solid var(--line);border-radius:20px;padding:24px;box-shadow:var(--shadow)}
+section.active{display:block}
+.grid{display:grid;grid-template-columns:1.04fr .96fr;gap:20px}
+.card{background:var(--panel2);border:1px solid var(--line);border-radius:15px;padding:18px}
+.formula{font-family:"Cambria Math","Times New Roman",serif;font-size:18px;background:#0d1629;border:1px solid var(--line);border-radius:12px;padding:12px 14px;overflow:auto}
+.takeaway{margin-top:15px;border-left:4px solid var(--blue);border-radius:8px;padding:12px 14px;background:rgba(121,170,255,.08)}
+.metrics{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:12px}
+.metric{background:#10182b;border:1px solid var(--line);border-radius:12px;padding:12px;min-height:88px}.metric b{display:block;font-size:21px;margin-top:4px;word-break:break-word}
+label{display:block;font-weight:800;margin:13px 0 6px}.row{display:grid;grid-template-columns:1fr 100px;gap:12px;align-items:center}
+input[type=range]{width:100%} output{padding:7px 8px;background:#0d1629;border:1px solid var(--line);border-radius:9px;text-align:center;font-variant-numeric:tabular-nums}
+select{width:100%;padding:10px 12px;background:#0d1629;border:1px solid var(--line);border-radius:9px;color:var(--ink)}
+.btn{border:1px solid var(--line);background:#10182b;color:var(--ink);border-radius:11px;padding:11px 16px;font-weight:800;cursor:pointer}
+.btn.primary{border-color:var(--blue);background:rgba(121,170,255,.15)}
+.btn.warn{border-color:var(--warn);background:rgba(255,202,98,.10)}
+.nextbar{display:flex;justify-content:space-between;gap:12px;margin-top:18px}
+.statusline{margin-top:12px;display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.diagram{display:grid;place-items:center;min-height:350px}.diagram svg{max-width:100%;height:auto}
+.small{font-size:14px;color:var(--muted)}
+.bits{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
+.bit{width:52px;height:44px;border-radius:10px;border:1px solid var(--line);background:#10182b;color:var(--ink);font-weight:900;cursor:pointer}
+.bit.on{border-color:var(--purple);background:rgba(179,149,255,.15)}
+.classgrid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-top:12px}
+.classcell{border:1px solid var(--line);background:#10182b;border-radius:10px;padding:10px;text-align:center;font-family:monospace}.classcell.active{border-color:var(--gold);box-shadow:0 0 0 2px rgba(223,173,52,.15)}
+.profile{display:flex;align-items:flex-end;gap:10px;height:230px;padding:14px;border:1px solid var(--line);background:#0d1629;border-radius:12px;margin-top:14px}
+.bar{flex:1;min-width:24px;background:linear-gradient(180deg,var(--blue),var(--purple));border-radius:8px 8px 3px 3px;position:relative;transition:height .25s}.bar span{position:absolute;bottom:-26px;left:50%;transform:translateX(-50%);font-size:12px;color:var(--muted)}.bar b{position:absolute;top:-25px;left:50%;transform:translateX(-50%);font-size:13px}
+.gates{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}.gate{display:flex;gap:10px;align-items:flex-start;background:#10182b;border:1px solid var(--line);border-radius:12px;padding:12px}.gate input{margin-top:4px;transform:scale(1.25)}
+.table{display:grid;gap:8px}.tr{display:grid;grid-template-columns:1.2fr .8fr .8fr;gap:8px;align-items:center;padding:10px;border:1px solid var(--line);border-radius:10px;background:#10182b}.tr.head{font-weight:900;background:#0d1629}
+footer{padding:22px 2px 8px;text-align:center;color:var(--muted)}
+@media(max-width:940px){.grid,.metrics,.gates{grid-template-columns:1fr}.nav{grid-template-columns:1fr 1fr}.classgrid{grid-template-columns:1fr 1fr}.tr{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header>
+  <span class="badge ok">Interactive companion to BC-Emergence IV v0.1.1</span>
+  <h1>Robust Witness and Universality Lab</h1>
+  <p class="sub">Explore exact cohomological multiplicity, spanning-tree gauge fixing, the sharp binary-probe budget, refinement profiles, sign-margin robustness, and the class-level universality gate.</p>
+  <div class="nav" id="nav">
+    <button data-step="0" class="active">1. Multiplicity</button>
+    <button data-step="1">2. Gauge fixing</button>
+    <button data-step="2">3. Probe budget</button>
+    <button data-step="3">4. Refinement</button>
+    <button data-step="4">5. Robustness</button>
+    <button data-step="5">6. Universality gate</button>
+  </div>
+</header>
+<main>
+
+<section class="active" data-panel="0">
+  <h2>1. Exact family multiplicity in the high-girth regime</h2>
+  <div class="grid">
+    <div>
+      <label>Graph family</label>
+      <select id="family">
+        <option value="cycle">Cycle</option>
+        <option value="figure8">Figure-eight</option>
+        <option value="regular">d-regular model</option>
+      </select>
+      <label>Number of vertices |V|</label><div class="row"><input id="n" type="range" min="6" max="60" value="18"><output id="no">18</output></div>
+      <label>Degree d (regular model)</label><div class="row"><input id="deg" type="range" min="3" max="8" value="3"><output id="dego">3</output></div>
+      <label>Descriptor radius r</label><div class="row"><input id="r" type="range" min="0" max="10" value="2"><output id="ro">2</output></div>
+      <label>Declared girth g</label><div class="row"><input id="girth" type="range" min="3" max="40" value="12"><output id="girtho">12</output></div>
+      <div class="metrics">
+        <div class="metric">First Betti number β₁<b id="beta">1</b></div>
+        <div class="metric">Blind multiplicity 2<sup>β₁</sup><b id="mult">2</b></div>
+        <div class="metric">High-girth test<b id="hg">PASS</b></div>
+      </div>
+      <div class="formula" style="margin-top:14px">g(G) &gt; 2r+1 ⇒ M₀(r)=2<sup>β₁(G)</sup>, &nbsp; β₁=|E|−|V|+1.</div>
+      <div id="multStatus" class="statusline"><span class="badge ok">COHOMOLOGICAL_MULTIPLICITY_CERTIFIED</span></div>
+      <div class="takeaway" id="multTake">Every radius-r ball is a tree, so local gauge data collapse while the full cohomology quotient remains in one descriptor fiber.</div>
+    </div>
+    <div class="card diagram"><svg id="graphSvg" viewBox="0 0 520 420" aria-label="graph benchmark"></svg></div>
+  </div>
+  <div class="nextbar"><span></span><button class="btn primary" data-next="1">Next: construct all classes →</button></div>
+</section>
+
+<section data-panel="1">
+  <h2>2. Spanning-tree gauge fixing and constructive witness families</h2>
+  <div class="grid">
+    <div>
+      <label>Number of independent cycle bits β₁</label><div class="row"><input id="b2" type="range" min="1" max="8" value="3"><output id="b2o">3</output></div>
+      <p>After all spanning-tree edges are gauge-fixed positive, each chord contributes one independent bit. Toggle the chord bits to select a cohomology class.</p>
+      <div class="bits" id="bits"></div>
+      <div class="metrics">
+        <div class="metric">Current class vector<b id="classVec">000</b></div>
+        <div class="metric">Total classes<b id="classTotal">8</b></div>
+        <div class="metric">Local descriptor<b>constant</b></div>
+      </div>
+      <div class="classgrid" id="classGrid"></div>
+      <div class="takeaway"><b>Witnesses are generated, not guessed.</b> The chord vector runs through every class of H¹(G;Z₂) exactly once.</div>
+    </div>
+    <div class="card">
+      <h3>Gauge-fixed coordinates</h3>
+      <div class="formula">H¹(G;Z₂) ≅ Z₂<sup>β₁</sup>.</div>
+      <p>Tree edges are removable gauge data. Chord signs are the fundamental-cycle holonomies.</p>
+      <div class="formula">p<sub>e</sub>([c]) = Σ<sub>f∈C<sub>e</sub></sub> c<sub>f</sub> mod 2.</div>
+      <p class="small">A different spanning tree changes coordinates, not the number of classes or the probe budget.</p>
+    </div>
+  </div>
+  <div class="nextbar"><button class="btn" data-next="0">← Back</button><button class="btn primary" data-next="2">Next: exact probe budget →</button></div>
+</section>
+
+<section data-panel="2">
+  <h2>3. Exact binary probe budget</h2>
+  <div class="grid">
+    <div>
+      <label>Hidden macrospace dimension β₁</label><div class="row"><input id="b3" type="range" min="1" max="16" value="5"><output id="b3o">5</output></div>
+      <label>Available binary probes k</label><div class="row"><input id="k3" type="range" min="0" max="16" value="4"><output id="k3o">4</output></div>
+      <div class="metrics">
+        <div class="metric">Classes to identify<b id="classes3">32</b></div>
+        <div class="metric">Possible transcripts<b id="transcripts3">16</b></div>
+        <div class="metric">Identification<b id="id3">impossible</b></div>
+      </div>
+      <div class="formula" style="margin-top:14px">2<sup>k</sup> ≥ 2<sup>β₁</sup> ⇔ k ≥ β₁.</div>
+      <div id="probeStatus" class="statusline"><span class="badge bad">INFORMATION_FLOOR_VIOLATED</span></div>
+      <div class="takeaway" id="probeTake">There are more cohomology classes than binary transcripts. No deterministic zero-error protocol of this depth can identify every class.</div>
+    </div>
+    <div class="card">
+      <h3>Lower and upper bounds coincide</h3>
+      <p><b>Lower bound:</b> a binary decision tree of depth k has at most 2<sup>k</sup> leaves.</p>
+      <p><b>Upper bound:</b> β₁ fundamental-cycle probes return a complete coordinate vector.</p>
+      <div class="formula">k<sub>min</sub><sup>binary</sup> = β₁(G).</div>
+      <p class="small">The adaptive lower bound is absolute only for deterministic, zero-error, worst-case binary depth.</p>
+    </div>
+  </div>
+  <div class="nextbar"><button class="btn" data-next="1">← Back</button><button class="btn primary" data-next="3">Next: refinement profile →</button></div>
+</section>
+
+<section data-panel="3">
+  <h2>4. Refinement profile and multiplicity break depth</h2>
+  <div class="grid">
+    <div>
+      <label>Profile type</label>
+      <select id="profileType"><option value="cycle">Cycle: 2 → 1</option><option value="theta">Theta: 4 → 2 → 1</option><option value="custom">Custom exponential decay</option></select>
+      <label>Maximum radius</label><div class="row"><input id="rmax" type="range" min="4" max="14" value="8"><output id="rmaxo">8</output></div>
+      <label>Break radius 1</label><div class="row"><input id="break1" type="range" min="1" max="12" value="3"><output id="break1o">3</output></div>
+      <label>Break radius 2</label><div class="row"><input id="break2" type="range" min="2" max="14" value="6"><output id="break2o">6</output></div>
+      <div class="profile" id="profile"></div>
+      <div class="metrics">
+        <div class="metric">Initial multiplicity<b id="mstart">4</b></div>
+        <div class="metric">First break depth<b id="rbreak">3</b></div>
+        <div class="metric">Monotonicity<b>certified</b></div>
+      </div>
+      <div class="takeaway">Refinement does not create new ambiguity. It splits fibers, so witness multiplicity can only stay constant or decrease.</div>
+    </div>
+    <div class="card">
+      <h3>Why one verdict is insufficient</h3>
+      <div class="formula">Π<sub>r</sub> ≼ Π<sub>s</sub> ⇒ M<sub>ε</sub>(s) ≤ M<sub>ε</sub>(r).</div>
+      <p>A property may be fully invisible, partly readable, and finally retained as the descriptor becomes richer.</p>
+      <div class="formula">r*<sub>ε,m</sub> = min{r : M<sub>ε</sub>(r) &lt; m}.</div>
+      <p class="small">A break in a multiplicity-m certificate does not necessarily mean full factorization.</p>
+    </div>
+  </div>
+  <div class="nextbar"><button class="btn" data-next="2">← Back</button><button class="btn primary" data-next="4">Next: perturbation robustness →</button></div>
+</section>
+
+<section data-panel="4">
+  <h2>5. Sign-margin robustness and perturbation walls</h2>
+  <div class="grid">
+    <div>
+      <label>Minimum edge magnitude μ</label><div class="row"><input id="mu" type="range" min="0" max="2" step="0.05" value="0.8"><output id="muo">0.80</output></div>
+      <label>Allowed perturbation η</label><div class="row"><input id="eta" type="range" min="0" max="2" step="0.05" value="0.4"><output id="etao">0.40</output></div>
+      <label>Number of classes β₁</label><div class="row"><input id="b5" type="range" min="1" max="10" value="4"><output id="b5o">4</output></div>
+      <div class="metrics">
+        <div class="metric">Margin μ−η<b id="margin5">0.40</b></div>
+        <div class="metric">Classes preserved<b id="pres5">16</b></div>
+        <div class="metric">Wall status<b id="wall5">safe</b></div>
+      </div>
+      <div id="robStatus" class="statusline"><span class="badge ok">SIGN_MARGIN_CERTIFIED</span></div>
+      <div class="takeaway" id="robTake">The perturbation is too small to move any edge weight through zero. The sign cochain and all cycle coordinates remain unchanged.</div>
+    </div>
+    <div class="card">
+      <h3>Two different wall mechanisms</h3>
+      <div class="table">
+        <div class="tr head"><div>Wall</div><div>What changes</div><div>Meaning</div></div>
+        <div class="tr"><div>Refinement wall</div><div>descriptor</div><div>epistemic</div></div>
+        <div class="tr"><div>Sign wall</div><div>realization</div><div>model-side</div></div>
+      </div>
+      <p class="small">Crossing a sign wall changes the recorded cohomology class. It is not merely learning more about a fixed signing.</p>
+    </div>
+  </div>
+  <div class="nextbar"><button class="btn" data-next="3">← Back</button><button class="btn primary" data-next="5">Next: universality gate →</button></div>
+</section>
+
+<section data-panel="5">
+  <h2>6. Class-level universality and strong-emergence gate</h2>
+  <p>A large witness family in one graph is not yet a uniform theorem over a class, and a uniform mathematical theorem is not yet physical universality.</p>
+  <div class="gates" id="gates">
+    <label class="gate"><input type="checkbox" checked><span><b>Descriptor preregistered</b><br><small>No post-hoc enrichment or hidden labels.</small></span></label>
+    <label class="gate"><input type="checkbox" checked><span><b>Structural class rule</b><br><small>Connectedness, girth, degree, and β₁ bounds are independent of success.</small></span></label>
+    <label class="gate"><input type="checkbox" checked><span><b>Multiplicity theorem</b><br><small>A uniform lower bound holds over the declared class.</small></span></label>
+    <label class="gate"><input type="checkbox" checked><span><b>Refinement window</b><br><small>The bound persists over a preregistered range.</small></span></label>
+    <label class="gate"><input type="checkbox"><span><b>Positive robustness margin</b><br><small>Perturbation stability is certified.</small></span></label>
+    <label class="gate"><input type="checkbox"><span><b>Independent loss audit</b><br><small>The lower layer is certified to lose Q.</small></span></label>
+    <label class="gate"><input type="checkbox" checked><span><b>Anti-tautology PASS</b><br><small>Class membership does not encode the result.</small></span></label>
+    <label class="gate"><input type="checkbox" checked><span><b>Anti-duplication PASS</b><br><small>The claim is not a renamed BC-M or gluing theorem.</small></span></label>
+  </div>
+  <div class="metrics">
+    <div class="metric">Passed gates<b id="gateCount">6 / 8</b></div>
+    <div class="metric">Current status<b id="gateStatus">UNIFORM MATHEMATICAL SCHEMA</b></div>
+    <div class="metric">Physical universality?<b>not claimed</b></div>
+  </div>
+  <div class="takeaway" id="gateTake"><b>Claim ceiling:</b> a class-level mathematical universality schema is supported, but the strong emergence certificate still lacks robustness and an independent loss audit.</div>
+  <div class="nextbar"><button class="btn" data-next="4">← Back</button><button class="btn primary" id="reset">Reset laboratory</button></div>
+</section>
+
+</main>
+<footer>Finite-dimensional educational companion. It does not model physical spacetime, gauge fields, particles, thermodynamic phases, or hidden reality.</footer>
+</div>
+<script>
+(() => {
+  const $=id=>document.getElementById(id);
+  const panels=[...document.querySelectorAll('section[data-panel]')];
+  const nav=[...document.querySelectorAll('#nav button')];
+  function show(i){i=Math.max(0,Math.min(5,Number(i)));panels.forEach((p,k)=>p.classList.toggle('active',k===i));nav.forEach((b,k)=>{b.classList.toggle('active',k===i);b.classList.toggle('done',k<i)});window.scrollTo({top:0,behavior:'smooth'})}
+  nav.forEach(b=>b.addEventListener('click',()=>show(b.dataset.step)));
+  document.querySelectorAll('[data-next]').forEach(b=>b.addEventListener('click',()=>show(b.dataset.next)));
+  const pow2=b=>b>52?`2^${b}`:Math.pow(2,b).toLocaleString('en-US');
+
+  function line(svg,x1,y1,x2,y2,color='#79aaff',w=4){const e=document.createElementNS('http://www.w3.org/2000/svg','line');Object.entries({x1,y1,x2,y2,stroke:color,'stroke-width':w,'stroke-linecap':'round'}).forEach(([k,v])=>e.setAttribute(k,v));svg.appendChild(e)}
+  function node(svg,x,y,label){const c=document.createElementNS('http://www.w3.org/2000/svg','circle');Object.entries({cx:x,cy:y,r:12,fill:'#121b31',stroke:'#79aaff','stroke-width':3}).forEach(([k,v])=>c.setAttribute(k,v));svg.appendChild(c);const t=document.createElementNS('http://www.w3.org/2000/svg','text');Object.entries({x,y:y+5,fill:'#eef4ff','font-size':11,'text-anchor':'middle'}).forEach(([k,v])=>t.setAttribute(k,v));t.textContent=label;svg.appendChild(t)}
+  function drawCycle(svg,N){svg.innerHTML='';const cx=260,cy=205,R=150,pts=[];for(let i=0;i<N;i++){const a=-Math.PI/2+2*Math.PI*i/N;pts.push([cx+R*Math.cos(a),cy+R*Math.sin(a)])}for(let i=0;i<N;i++){const j=(i+1)%N;line(svg,...pts[i],...pts[j],i===N-1?'#dfad34':'#79aaff',5)}pts.forEach((p,i)=>node(svg,p[0],p[1],i+1))}
+  function drawFigure8(svg,N){svg.innerHTML='';const m=Math.max(3,Math.floor(N/2)),n=Math.max(3,N-m+1);const center=[260,210];const left=[],right=[];for(let i=0;i<m;i++){const a=-Math.PI/2+2*Math.PI*i/m;left.push([175+90*Math.cos(a),210+105*Math.sin(a)])}for(let i=0;i<n;i++){const a=-Math.PI/2+2*Math.PI*i/n;right.push([345+90*Math.cos(a),210+105*Math.sin(a)])}left[0]=center;right[0]=center;for(let i=0;i<m;i++)line(svg,...left[i],...left[(i+1)%m],'#79aaff',5);for(let i=0;i<n;i++)line(svg,...right[i],...right[(i+1)%n],i===n-1?'#dfad34':'#b395ff',5);node(svg,...center,'•');left.slice(1).forEach((p,i)=>node(svg,...p,i+1));right.slice(1).forEach((p,i)=>node(svg,...p,i+m))}
+  function drawRegular(svg,N,d){svg.innerHTML='';const count=Math.min(22,N),cx=260,cy=205,R=155,pts=[];for(let i=0;i<count;i++){const a=-Math.PI/2+2*Math.PI*i/count;pts.push([cx+R*Math.cos(a),cy+R*Math.sin(a)])}for(let i=0;i<count;i++){line(svg,...pts[i],...pts[(i+1)%count],'#79aaff',3);for(let s=2;s<=Math.floor(d/2);s++)line(svg,...pts[i],...pts[(i+s)%count],'#334866',1.5)}pts.forEach((p,i)=>node(svg,...p,i+1))}
+
+  function updateMultiplicity(){
+    const fam=$('family').value,N=+$('n').value,d=+$('deg').value,r=+$('r').value,g=+$('girth').value;$('no').value=N;$('dego').value=d;$('ro').value=r;$('girtho').value=g;
+    let beta,edges;if(fam==='cycle'){edges=N;beta=1;drawCycle($('graphSvg'),Math.min(N,24))}else if(fam==='figure8'){edges=N+1;beta=2;drawFigure8($('graphSvg'),Math.min(N,24))}else{edges=Math.floor(d*N/2);beta=Math.max(0,edges-N+1);drawRegular($('graphSvg'),N,d)}
+    const pass=g>2*r+1;$('beta').textContent=beta;$('mult').textContent=pass?pow2(beta):'not certified';$('hg').textContent=pass?'PASS':'FAIL';$('hg').style.color=pass?'var(--ok)':'var(--bad)';
+    $('multStatus').innerHTML=pass?'<span class="badge ok">COHOMOLOGICAL_MULTIPLICITY_CERTIFIED</span>':'<span class="badge warn">HIGH_GIRTH_CONDITION_FAILED</span>';
+    $('multTake').textContent=pass?'Every radius-r ball is a tree, so local gauge data collapse while the full cohomology quotient remains in one descriptor fiber.':'The theorem cannot be applied: some radius-r balls may already contain cycles. The actual multiplicity needs a separate computation.';
+  }
+  ['family','n','deg','r','girth'].forEach(id=>$(id).addEventListener('input',updateMultiplicity));updateMultiplicity();
+
+  let chordBits=[];
+  function updateBits(reset=false){const b=+$('b2').value;$('b2o').value=b;if(reset||chordBits.length!==b)chordBits=Array(b).fill(0);const holder=$('bits');holder.innerHTML='';chordBits.forEach((v,i)=>{const bt=document.createElement('button');bt.className='bit'+(v?' on':'');bt.textContent=`c${i+1}:${v}`;bt.onclick=()=>{chordBits[i]^=1;updateBits(false)};holder.appendChild(bt)});const vec=chordBits.join('');$('classVec').textContent=vec;$('classTotal').textContent=pow2(b);const grid=$('classGrid');grid.innerHTML='';const max=Math.min(16,2**b);for(let i=0;i<max;i++){const s=i.toString(2).padStart(b,'0');const c=document.createElement('div');c.className='classcell'+(s===vec?' active':'');c.textContent=s;grid.appendChild(c)}if(2**b>16){const c=document.createElement('div');c.className='classcell';c.textContent=`… ${2**b-16} more`;grid.appendChild(c)}}
+  $('b2').addEventListener('input',()=>updateBits(true));updateBits(true);
+
+  function updateProbe(){const b=+$('b3').value,k=+$('k3').value;$('b3o').value=b;$('k3o').value=k;$('classes3').textContent=pow2(b);$('transcripts3').textContent=pow2(k);const ok=k>=b;$('id3').textContent=ok?'possible':'impossible';$('id3').style.color=ok?'var(--ok)':'var(--bad)';$('probeStatus').innerHTML=ok?'<span class="badge ok">EXACT_PROBE_BUDGET_MET</span>':'<span class="badge bad">INFORMATION_FLOOR_VIOLATED</span>';$('probeTake').textContent=ok?'The transcript alphabet is large enough. Choosing β₁ independent fundamental-cycle probes gives a constructive exact decoder.':'There are more cohomology classes than binary transcripts. No deterministic zero-error protocol of this depth can identify every class.'}
+  ['b3','k3'].forEach(id=>$(id).addEventListener('input',updateProbe));updateProbe();
+
+  function updateProfile(){let type=$('profileType').value,R=+$('rmax').value,b1=+$('break1').value,b2=+$('break2').value;if(b2<=b1)b2=b1+1;$('rmaxo').value=R;$('break1o').value=b1;$('break2o').value=b2;const values=[];for(let r=0;r<=R;r++){let m;if(type==='cycle')m=r<b1?2:1;else if(type==='theta')m=r<b1?4:(r<b2?2:1);else m=Math.max(1,Math.ceil(16*Math.pow(.72,r)));values.push(m)}const max=Math.max(...values),box=$('profile');box.innerHTML='';values.forEach((m,r)=>{const d=document.createElement('div');d.className='bar';d.style.height=(30+160*m/max)+'px';d.innerHTML=`<b>${m}</b><span>r=${r}</span>`;box.appendChild(d)});$('mstart').textContent=values[0];let rb=values.findIndex(v=>v<values[0]);$('rbreak').textContent=rb<0?'not reached':rb}
+  ['profileType','rmax','break1','break2'].forEach(id=>$(id).addEventListener('input',updateProfile));updateProfile();
+
+  function updateRobust(){const mu=+$('mu').value,eta=+$('eta').value,b=+$('b5').value;$('muo').value=mu.toFixed(2);$('etao').value=eta.toFixed(2);$('b5o').value=b;const margin=mu-eta,safe=eta<mu;$('margin5').textContent=margin.toFixed(2);$('pres5').textContent=safe?pow2(b):'not certified';$('wall5').textContent=safe?'safe':'wall reachable';$('wall5').style.color=safe?'var(--ok)':'var(--bad)';$('robStatus').innerHTML=safe?'<span class="badge ok">SIGN_MARGIN_CERTIFIED</span>':'<span class="badge warn">SIGN_MARGIN_LOW</span><span class="badge bad">CERTIFICATE_RESET</span>';$('robTake').textContent=safe?'The perturbation is too small to move any edge weight through zero. The sign cochain and all cycle coordinates remain unchanged.':'The declared tolerance reaches a zero crossing. The cohomology class cannot be silently continued across this model-side wall.'}
+  ['mu','eta','b5'].forEach(id=>$(id).addEventListener('input',updateRobust));updateRobust();
+
+  function updateGates(){const xs=[...document.querySelectorAll('#gates input')],count=xs.filter(x=>x.checked).length;$('gateCount').textContent=`${count} / ${xs.length}`;const strong=count===xs.length,uniform=xs.slice(0,4).every(x=>x.checked)&&xs[6].checked&&xs[7].checked;$('gateStatus').textContent=strong?'STRONG EMERGENCE CERTIFIED':(uniform?'UNIFORM MATHEMATICAL SCHEMA':'PARTIAL / INCONCLUSIVE');$('gateStatus').style.color=strong?'var(--ok)':uniform?'var(--blue)':'var(--warn)';$('gateTake').innerHTML=strong?'<b>All gates passed.</b> A strong descriptor-relative mathematical emergence certificate is supported; physical universality remains outside the claim ceiling.':uniform?'<b>Claim ceiling:</b> a class-level mathematical universality schema is supported, but the strong emergence certificate still lacks robustness or an independent loss audit.':'<b>Do not over-promote the result.</b> The available checks do not yet establish a uniform universality schema.'}
+  document.querySelectorAll('#gates input').forEach(x=>x.addEventListener('change',updateGates));updateGates();
+
+  $('reset').addEventListener('click',()=>{location.reload()});
+})();
+</script>
+</body>
+</html>

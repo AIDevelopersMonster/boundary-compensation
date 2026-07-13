@@ -1,0 +1,164 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>BC-M III Exclusion Geometry Lab v0.1.1</title>
+<style>
+:root{--blue:#17365d;--gold:#b38a3e;--green:#2f6f5e;--red:#8a3a3a;--purple:#5e4b78;--orange:#a85e26;--ink:#18212b;--muted:#5c6770;--light:#eef3f8;--line:#d9e0e7;--paper:#fff;--shadow:0 12px 34px rgba(23,54,93,.10)}
+*{box-sizing:border-box} body{margin:0;background:#f7f9fb;color:var(--ink);font-family:Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif;line-height:1.45}
+header{background:linear-gradient(135deg,#102a4a,#224d7d);color:white;padding:28px 24px 22px;box-shadow:var(--shadow)}
+.header-wrap{max-width:1220px;margin:auto}.eyebrow{font-size:.78rem;letter-spacing:.12em;text-transform:uppercase;opacity:.78;font-weight:700}h1{margin:.35rem 0 .4rem;font-size:clamp(1.7rem,3vw,2.8rem);line-height:1.12}.subtitle{max-width:900px;opacity:.9;font-size:1.03rem}.badge-row{display:flex;flex-wrap:wrap;gap:8px;margin-top:15px}.badge{border:1px solid rgba(255,255,255,.28);border-radius:999px;padding:5px 10px;font-size:.78rem;background:rgba(255,255,255,.08)}
+main{max-width:1220px;margin:22px auto 50px;padding:0 18px}.notice{background:#fff;border-left:5px solid var(--gold);padding:13px 16px;border-radius:10px;box-shadow:var(--shadow);margin-bottom:16px}.notice strong{color:var(--blue)}
+.tabs{display:flex;flex-wrap:wrap;gap:8px;margin:16px 0}.tab{border:1px solid var(--line);background:#fff;color:var(--blue);border-radius:10px;padding:9px 13px;font-weight:700;cursor:pointer}.tab.active{background:var(--blue);color:#fff;border-color:var(--blue)}
+.panel{display:none}.panel.active{display:block}.grid{display:grid;grid-template-columns:minmax(0,1.55fr) minmax(300px,.85fr);gap:16px}.card{background:var(--paper);border:1px solid var(--line);border-radius:14px;box-shadow:var(--shadow);padding:16px}.card h2,.card h3{color:var(--blue);margin:.1rem 0 .75rem}.card h2{font-size:1.26rem}.card h3{font-size:1rem}.canvas-wrap{background:linear-gradient(180deg,#fbfdff,#f3f7fa);border:1px solid var(--line);border-radius:12px;overflow:hidden}.canvas-wrap svg{width:100%;height:auto;display:block;min-height:430px}
+.controls{display:grid;gap:12px}.control{display:grid;gap:5px}.control label{font-size:.82rem;font-weight:700;color:var(--muted)}select,input[type=range],input[type=number]{width:100%}select,input[type=number]{border:1px solid var(--line);border-radius:8px;padding:8px;background:white;color:var(--ink)}input[type=range]{accent-color:var(--blue)}.readout{font-family:"DejaVu Sans Mono",ui-monospace,monospace;font-size:.83rem;background:#f3f6f9;border:1px solid var(--line);border-radius:10px;padding:10px;white-space:pre-wrap}.status{font-weight:800;border-radius:10px;padding:10px 12px;border:1px solid}.s-green{color:#235448;background:#e8f3ef;border-color:#bcd9cf}.s-red{color:#712d2d;background:#f7eaea;border-color:#e5bcbc}.s-orange{color:#7a461e;background:#fff0e4;border-color:#e8c4a4}.s-gold{color:#6e5424;background:#fbf4e4;border-color:#dfc995}.s-blue{color:#17365d;background:#edf3f8;border-color:#bfd0df}.metric-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}.metric{border:1px solid var(--line);border-radius:10px;padding:9px;background:#fff}.metric .k{font-size:.72rem;color:var(--muted);text-transform:uppercase;letter-spacing:.06em}.metric .v{font-size:1.08rem;font-weight:800;color:var(--blue);margin-top:2px}.equation{font-family:"Noto Serif",Georgia,serif;background:#fff;border-left:4px solid var(--gold);padding:10px 12px;margin:10px 0;border-radius:6px}.small{font-size:.84rem;color:var(--muted)}.legend{display:flex;flex-wrap:wrap;gap:10px;font-size:.8rem;color:var(--muted);margin-top:8px}.sw{display:inline-block;width:12px;height:12px;border-radius:3px;margin-right:5px;vertical-align:-1px}.btn-row{display:flex;flex-wrap:wrap;gap:8px}.btn{border:0;border-radius:9px;padding:9px 12px;font-weight:750;cursor:pointer;background:var(--blue);color:#fff}.btn.secondary{background:#fff;color:var(--blue);border:1px solid var(--line)}.btn.warn{background:var(--gold)}
+table{width:100%;border-collapse:collapse;font-size:.86rem}th,td{text-align:left;padding:7px 8px;border-bottom:1px solid var(--line)}th{color:var(--blue);background:#f4f7fa}.matrix{font-family:"DejaVu Sans Mono",monospace;white-space:pre;line-height:1.5}.report{min-height:390px;max-height:620px;overflow:auto}.footer{margin-top:22px;color:var(--muted);font-size:.82rem;text-align:center}.two-col{display:grid;grid-template-columns:1fr 1fr;gap:12px}.callout{border-radius:10px;padding:10px 12px;background:#fff8ea;border:1px solid #ead7a9}.danger{background:#f9ecec;border-color:#e2bdbd}.ok{background:#eaf4f0;border-color:#bed8ce}
+@media(max-width:860px){.grid,.two-col{grid-template-columns:1fr}.canvas-wrap svg{min-height:360px}.metric-grid{grid-template-columns:1fr 1fr}}
+</style>
+</head>
+<body>
+<header><div class="header-wrap">
+<div class="eyebrow">Boundary Compensation Mathematics III</div>
+<h1>BC-M III: Exclusion Geometry Lab</h1>
+<div class="subtitle">Interactive companion to <em>Exclusion Geometry, Descriptor Boundaries, and Certified Excluded Regions</em>. The lab separates realizability, boundary membership, closure-only compatibility, strict exclusion, and robust finite-resolution certification.</div>
+<div class="badge-row"><span class="badge">v0.1.1 reviewed</span><span class="badge">offline / no external libraries</span><span class="badge">machine-readable BCM3Report</span><span class="badge">claim-safe visualizations</span></div>
+</div></header>
+<main>
+<div class="notice"><strong>Claim ceiling.</strong> Every status is relative to the declared image, ambient space, metric, and tolerance. A solver failure is never treated as a certificate of exclusion.</div>
+<div class="tabs" role="tablist">
+<button class="tab active" data-tab="regimes">1. Four regimes</button>
+<button class="tab" data-tab="convex">2. Convex certificate</button>
+<button class="tab" data-tab="nonconvex">3. Nonconvex failure</button>
+<button class="tab" data-tab="elliptope">4. Correlation elliptope</button>
+<button class="tab" data-tab="relax">5. Relaxation gap</button>
+<button class="tab" data-tab="report">6. BCM3Report</button>
+</div>
+
+<section id="regimes" class="panel active"><div class="grid">
+<div class="card"><h2>Four canonical regimes</h2><div class="canvas-wrap"><svg id="regimeSvg" viewBox="0 0 760 470" aria-label="Canonical regimes visualization"></svg></div>
+<div class="legend"><span><i class="sw" style="background:#cfe4dc"></i>realizable image</span><span><i class="sw" style="background:#b38a3e"></i>boundary / closure</span><span><i class="sw" style="background:#8a3a3a"></i>target datum</span><span><i class="sw" style="background:#b7c7d6"></i>uncertainty ball</span></div></div>
+<div class="card"><h2>Protocol controls</h2><div class="controls">
+<div class="control"><label for="shape">Declared image I</label><select id="shape"><option value="closedDisk">Closed unit disk</option><option value="openDisk">Open unit disk</option><option value="circle">Unit circle only</option><option value="annulus">Closed annulus 0.55 ≤ r ≤ 1</option></select></div>
+<div class="control"><label>x-coordinate: <span id="xVal"></span></label><input id="xRange" type="range" min="-1.6" max="1.6" step="0.01" value="1.22"></div>
+<div class="control"><label>y-coordinate: <span id="yVal"></span></label><input id="yRange" type="range" min="-1.4" max="1.4" step="0.01" value="0.30"></div>
+<div class="control"><label>data uncertainty η: <span id="etaVal"></span></label><input id="etaRange" type="range" min="0" max="0.50" step="0.01" value="0.10"></div>
+<div class="control"><label>model error εmod: <span id="emVal"></span></label><input id="emRange" type="range" min="0" max="0.35" step="0.01" value="0.05"></div>
+<div id="regimeStatus" class="status"></div>
+<div class="metric-grid"><div class="metric"><div class="k">radius r</div><div class="v" id="rOut"></div></div><div class="metric"><div class="k">exclusion margin μ</div><div class="v" id="muOut"></div></div><div class="metric"><div class="k">interior margin ν</div><div class="v" id="nuOut"></div></div><div class="metric"><div class="k">robust threshold</div><div class="v" id="robOut"></div></div></div>
+<div class="equation">Robust exclusion is certified only when μ(x) &gt; η + ε<sub>mod</sub>.</div>
+<div class="small">For lower-dimensional images, the ambient interior margin may be identically zero. A positive relative margin requires a separately preregistered carrier.</div>
+</div></div></div></section>
+
+<section id="convex" class="panel"><div class="grid">
+<div class="card"><h2>Metric projection and separating certificate</h2><div class="canvas-wrap"><svg id="convexSvg" viewBox="0 0 760 470"></svg></div></div>
+<div class="card"><h2>Closed convex image: unit disk</h2><div class="controls">
+<div class="control"><label>target x: <span id="cxVal"></span></label><input id="cxRange" type="range" min="-1.8" max="1.8" step="0.01" value="1.45"></div>
+<div class="control"><label>target y: <span id="cyVal"></span></label><input id="cyRange" type="range" min="-1.6" max="1.6" step="0.01" value="0.55"></div>
+<div id="convexStatus" class="status"></div>
+<div class="readout" id="convexReadout"></div>
+<div class="equation">p = P<sub>I</sub>(x), u = x − p, and g(u;x) = ⟨u,x⟩ − h<sub>I</sub>(u) = ‖x−p‖².</div>
+<div class="small">The normalized optimal separation gap equals dist(x,I). This exact identity requires a nonempty closed convex image.</div>
+</div></div></div></section>
+
+<section id="nonconvex" class="panel"><div class="grid">
+<div class="card"><h2>Excluded point inside the convex hull</h2><div class="canvas-wrap"><svg id="nonconvexSvg" viewBox="0 0 760 470"></svg></div></div>
+<div class="card"><h2>Unit-circle image</h2><div class="controls">
+<div class="control"><label>target radius r: <span id="nrVal"></span></label><input id="nrRange" type="range" min="0" max="1.6" step="0.01" value="0.00"></div>
+<div class="control"><label>target angle θ: <span id="ntVal"></span> rad</label><input id="ntRange" type="range" min="-3.14" max="3.14" step="0.01" value="0.60"></div>
+<div id="nonconvexStatus" class="status"></div>
+<div class="two-col"><div class="callout"><strong>Linear separator</strong><div id="linearCert" class="small"></div></div><div class="callout ok"><strong>Polynomial certificate</strong><div id="polyCert" class="small"></div></div></div>
+<div class="equation">I = {(a,b): a²+b²=1}. For φ(a,b)=1−a²−b², every image point has φ=0, while an interior point has φ&gt;0.</div>
+<div class="small">Linear separation detects points outside the convex hull. It cannot certify the center of the circle, although the center is not in the image.</div>
+</div></div></div></section>
+
+<section id="elliptope" class="panel"><div class="grid">
+<div class="card"><h2>3×3 correlation elliptope</h2><div class="canvas-wrap"><svg id="elliSvg" viewBox="0 0 760 470"></svg></div><div class="small">The slice plots admissible (a,b) for the selected c. The target point follows the sliders.</div></div>
+<div class="card"><h2>PSD and boundary audit</h2><div class="controls">
+<div class="control"><label>a: <span id="aVal"></span></label><input id="aRange" type="range" min="-1.4" max="1.4" step="0.01" value="0.55"></div>
+<div class="control"><label>b: <span id="bVal"></span></label><input id="bRange" type="range" min="-1.4" max="1.4" step="0.01" value="-0.15"></div>
+<div class="control"><label>c: <span id="cVal"></span></label><input id="cRange" type="range" min="-1.0" max="1.0" step="0.01" value="0.35"></div>
+<div id="elliStatus" class="status"></div>
+<div class="matrix" id="matrixOut"></div>
+<table><thead><tr><th>Check</th><th>Value</th><th>Status</th></tr></thead><tbody id="elliTable"></tbody></table>
+<div class="equation">Interior ⇔ |a|&lt;1, |b|&lt;1, |c|&lt;1, and Δ=1+2abc−a²−b²−c²&gt;0.</div>
+</div></div></div></section>
+
+<section id="relax" class="panel"><div class="grid">
+<div class="card"><h2>Admissibility sensitivity and relaxation gap</h2><div class="canvas-wrap"><svg id="relaxSvg" viewBox="0 0 760 470"></svg></div></div>
+<div class="card"><h2>Scalar model F(y)=y²</h2><div class="controls">
+<div class="control"><label>target datum x: <span id="rxVal"></span></label><input id="rxRange" type="range" min="-1" max="5" step="0.01" value="0.45"></div>
+<div class="control"><label>strict lower bound α: <span id="alphaVal"></span></label><input id="alphaRange" type="range" min="0" max="1.8" step="0.01" value="1.00"></div>
+<div id="relaxStatus" class="status"></div>
+<div class="readout" id="relaxReadout"></div>
+<div class="equation">C<sub>strict</sub>=[α,2] ⊂ C<sub>relaxed</sub>=[0,2], hence I<sub>strict</sub>=[α²,4] ⊂ I<sub>relaxed</sub>=[0,4].</div>
+<div class="small">A datum in I<sub>relaxed</sub>\I<sub>strict</sub> is not structurally impossible. It is excluded only by the stricter admissibility rule.</div>
+</div></div></div></section>
+
+<section id="report" class="panel"><div class="grid">
+<div class="card"><h2>Live machine-readable report</h2><div id="reportText" class="readout report"></div></div>
+<div class="card"><h2>Export</h2><p class="small">The report records the currently active laboratory, declared model, target datum, margins, and status. It is an educational companion format, not a formal proof object.</p><div class="btn-row"><button id="copyBtn" class="btn">Copy JSON</button><button id="downloadBtn" class="btn secondary">Download JSON</button></div><div id="copyMsg" class="small" style="margin-top:10px"></div><hr style="border:0;border-top:1px solid var(--line);margin:16px 0"><h3>Failure-state discipline</h3><ul class="small"><li><code>SOLVER_FAILURE</code> is never promoted to exclusion.</li><li><code>BOUNDARY_SENSITIVE</code> is legitimate when margins are insufficient.</li><li><code>CLOSURE_ONLY_COMPATIBILITY</code> is distinct from exact realizability.</li><li><code>METRIC_RETROFITTING_RISK</code> requires a separate preregistration audit.</li></ul></div>
+</div></section>
+<div class="footer">BC-M III Exclusion Geometry Lab v0.1.1 · A. A. Malachevsky · Boundary Compensation research programme</div>
+</main>
+<script>
+'use strict';
+const NS='http://www.w3.org/2000/svg';
+const colors={blue:'#17365d',gold:'#b38a3e',green:'#2f6f5e',red:'#8a3a3a',purple:'#5e4b78',orange:'#a85e26',light:'#eef3f8',gray:'#5c6770'};
+const $=id=>document.getElementById(id); const fmt=(x,n=3)=>Number.isFinite(x)?x.toFixed(n):'∞';
+function el(tag,attrs={},text=''){const e=document.createElementNS(NS,tag);Object.entries(attrs).forEach(([k,v])=>e.setAttribute(k,v));if(text)e.textContent=text;return e}
+function clear(svg){while(svg.firstChild)svg.removeChild(svg.firstChild)}
+function status(elm,text,cls){elm.className='status '+cls;elm.textContent=text}
+function arrow(svg,x1,y1,x2,y2,color,width=2){svg.append(el('line',{x1,y1,x2,y2,stroke:color,'stroke-width':width,'marker-end':'url(#arrow)'}))}
+function defs(svg){const d=el('defs');const m=el('marker',{id:'arrow',viewBox:'0 0 10 10',refX:'9',refY:'5',markerWidth:'7',markerHeight:'7',orient:'auto-start-reverse'});m.append(el('path',{d:'M 0 0 L 10 5 L 0 10 z',fill:colors.red}));d.append(m);svg.append(d)}
+function axes(svg,box){svg.append(el('rect',{x:box.x,y:box.y,width:box.w,height:box.h,rx:14,fill:'#fbfdff',stroke:'#d9e0e7'}));svg.append(el('line',{x1:box.cx,y1:box.y+20,x2:box.cx,y2:box.y+box.h-20,stroke:'#b9c5d0','stroke-width':1}));svg.append(el('line',{x1:box.x+20,y1:box.cy,x2:box.x+box.w-20,y2:box.cy,stroke:'#b9c5d0','stroke-width':1}))}
+const box={x:45,y:30,w:670,h:390,cx:380,cy:225,scale:170}; const X=x=>box.cx+x*box.scale, Y=y=>box.cy-y*box.scale;
+let activeTab='regimes'; let report={};
+function setReport(data){report={...data,schema:'BCM3Report-demo-v0.1.1',generated_at:new Date().toISOString(),claim_ceiling:'educational visualization only',active_lab:activeTab};$('reportText').textContent=JSON.stringify(report,null,2)}
+function regimeMetrics(shape,x,y){const r=Math.hypot(x,y),tol=1e-6;let exact,mu=0,nu=0,boundary=false,closureOnly=false;
+if(shape==='closedDisk'){if(r<1-tol){exact=true;nu=1-r}else if(Math.abs(r-1)<=tol){exact=true;boundary=true}else{exact=false;mu=r-1}}
+if(shape==='openDisk'){if(r<1-tol){exact=true;nu=1-r}else if(Math.abs(r-1)<=tol){exact=false;closureOnly=true}else{exact=false;mu=r-1}}
+if(shape==='circle'){if(Math.abs(r-1)<=.012){exact=true;boundary=true}else{exact=false;mu=Math.abs(r-1)}nu=0}
+if(shape==='annulus'){if(r>.55+tol&&r<1-tol){exact=true;nu=Math.min(r-.55,1-r)}else if(Math.abs(r-.55)<=.012||Math.abs(r-1)<=.012){exact=true;boundary=true}else{exact=false;mu=r<.55?.55-r:r-1}}
+let st=exact?(boundary?'REALIZED_BOUNDARY_POINT':'INTERIOR_REALIZABILITY_CERTIFIED'):(closureOnly?'CLOSURE_ONLY_COMPATIBILITY':(mu>0?'STRICT_EXTERIOR_EXCLUSION':'INCONCLUSIVE'));
+return{r,mu:Math.max(0,mu),nu:Math.max(0,nu),exact,boundary,closureOnly,status:st}}
+function drawRegimes(){const svg=$('regimeSvg');clear(svg);defs(svg);axes(svg,box);const shape=$('shape').value,x=+$('xRange').value,y=+$('yRange').value,eta=+$('etaRange').value,em=+$('emRange').value;const m=regimeMetrics(shape,x,y);
+const cx=box.cx,cy=box.cy,R=box.scale;
+if(shape==='closedDisk'||shape==='openDisk'){svg.append(el('circle',{cx,cy,r:R,fill:'#cfe4dc','fill-opacity':.75,stroke:colors.green,'stroke-width':3,'stroke-dasharray':shape==='openDisk'?'9 7':''}))}
+if(shape==='circle'){svg.append(el('circle',{cx,cy,r:R,fill:'none',stroke:colors.green,'stroke-width':5}))}
+if(shape==='annulus'){svg.append(el('circle',{cx,cy,r:R,fill:'#cfe4dc','fill-opacity':.75,stroke:colors.green,'stroke-width':3}));svg.append(el('circle',{cx,cy,r:.55*R,fill:'#fbfdff',stroke:colors.green,'stroke-width':3}))}
+svg.append(el('circle',{cx:X(x),cy:Y(y),r:eta*box.scale,fill:'#b7c7d6','fill-opacity':.30,stroke:'#7b93a8','stroke-width':1.5,'stroke-dasharray':'6 5'}));svg.append(el('circle',{cx:X(x),cy:Y(y),r:6,fill:colors.red,stroke:'#fff','stroke-width':2}));svg.append(el('text',{x:X(x)+10,y:Y(y)-10,fill:colors.red,'font-size':15,'font-weight':700},'x'));
+svg.append(el('text',{x:62,y:55,fill:colors.blue,'font-size':15,'font-weight':700},'ambient descriptor space X'));svg.append(el('text',{x:box.cx-65,y:box.cy+5,fill:colors.green,'font-size':17,'font-weight':700},'realizable image I'));
+$('xVal').textContent=fmt(x,2);$('yVal').textContent=fmt(y,2);$('etaVal').textContent=fmt(eta,2);$('emVal').textContent=fmt(em,2);$('rOut').textContent=fmt(m.r);$('muOut').textContent=fmt(m.mu);$('nuOut').textContent=fmt(m.nu);const robust=m.mu>eta+em;$('robOut').textContent=robust?'PASS':'NO';
+let cls=m.status.includes('INTERIOR')?'s-green':m.status.includes('BOUNDARY')?'s-gold':m.status.includes('CLOSURE')?'s-orange':m.status.includes('EXTERIOR')?'s-red':'s-blue';status($('regimeStatus'),m.status+(robust?' · ROBUST_EXCLUSION_CERTIFIED':''),cls);
+setReport({protocol:{image:shape,metric:'Euclidean',data_uncertainty:eta,model_error:em},target:{x,y},geometry:{radius:m.r,exclusion_margin:m.mu,ambient_interior_margin:m.nu},exact_status:m.status,robust_status:robust?'ROBUST_EXCLUSION_CERTIFIED':'NOT_CERTIFIED'});
+}
+function drawConvex(){const svg=$('convexSvg');clear(svg);defs(svg);axes(svg,box);const x=+$('cxRange').value,y=+$('cyRange').value,r=Math.hypot(x,y),inside=r<=1;let px=x,py=y;if(r>1){px=x/r;py=y/r}const dx=x-px,dy=y-py,dist=Math.hypot(dx,dy),gap=dist*dist;
+svg.append(el('circle',{cx:box.cx,cy:box.cy,r:box.scale,fill:'#cfe4dc','fill-opacity':.75,stroke:colors.green,'stroke-width':3}));svg.append(el('circle',{cx:X(px),cy:Y(py),r:5,fill:colors.orange}));svg.append(el('circle',{cx:X(x),cy:Y(y),r:6,fill:colors.red,stroke:'#fff','stroke-width':2}));if(!inside){arrow(svg,X(px),Y(py),X(x),Y(y),colors.red,2.4);const ux=dx/dist,uy=dy/dist;const tx=-uy,ty=ux,L=190;svg.append(el('line',{x1:X(px)-tx*L,y1:Y(py)+ty*L,x2:X(px)+tx*L,y2:Y(py)-ty*L,stroke:colors.gold,'stroke-width':2,'stroke-dasharray':'8 6'}));}
+svg.append(el('text',{x:X(x)+10,y:Y(y)-10,fill:colors.red,'font-size':15,'font-weight':700},'x'));svg.append(el('text',{x:X(px)+8,y:Y(py)+18,fill:colors.orange,'font-size':14,'font-weight':700},'p = P_I(x)'));
+$('cxVal').textContent=fmt(x,2);$('cyVal').textContent=fmt(y,2);status($('convexStatus'),inside?'REALIZABILITY CERTIFIED':'STRICT SEPARATION CERTIFICATE','s-'+(inside?'green':'red'));$('convexReadout').textContent=`radius ||x|| = ${fmt(r)}\nprojection p = (${fmt(px)}, ${fmt(py)})\ndistance ||x-p|| = ${fmt(dist)}\nseparation gap g(u;x) = ${fmt(gap)}\nnormalized gap = ${fmt(dist)}`;
+setReport({protocol:{image:'closed unit disk',certificate_family:'support-function / metric projection'},target:{x,y},projection:{x:px,y:py},metrics:{distance:dist,separation_gap:gap},exact_status:inside?'REALIZABILITY_CERTIFIED':'STRICT_EXTERIOR_EXCLUSION',certificate_status:inside?'NOT_NEEDED':'CONVEX_SEPARATOR_CERTIFIED'});
+}
+function drawNonconvex(){const svg=$('nonconvexSvg');clear(svg);axes(svg,box);const r=+$('nrRange').value,t=+$('ntRange').value,x=r*Math.cos(t),y=r*Math.sin(t),on=Math.abs(r-1)<.012,outHull=r>1+1e-9,phi=1-r*r;
+svg.append(el('circle',{cx:box.cx,cy:box.cy,r:box.scale,fill:'#e8eef4','fill-opacity':.65,stroke:'#9fb0c0','stroke-width':1.5,'stroke-dasharray':'7 6'}));svg.append(el('circle',{cx:box.cx,cy:box.cy,r:box.scale,fill:'none',stroke:colors.green,'stroke-width':5}));svg.append(el('circle',{cx:X(x),cy:Y(y),r:6,fill:colors.red,stroke:'#fff','stroke-width':2}));svg.append(el('text',{x:X(x)+10,y:Y(y)-10,fill:colors.red,'font-size':15,'font-weight':700},'x'));svg.append(el('text',{x:box.cx-55,y:box.cy+5,fill:colors.gray,'font-size':14},'conv(I)'));
+$('nrVal').textContent=fmt(r,2);$('ntVal').textContent=fmt(t,2);let st=on?'REALIZED_BOUNDARY_POINT':'STRICT_EXTERIOR_EXCLUSION';status($('nonconvexStatus'),st,on?'s-gold':'s-red');$('linearCert').textContent=outHull?'Available: x lies outside conv(I).':'Unavailable: x lies inside conv(I), so no strict linear separator can exist.';$('polyCert').textContent=on?'No exclusion needed: φ(x)=0.':`Available: φ(x)=1-r²=${fmt(phi)} differs from the image identity φ=0.`;
+setReport({protocol:{image:'unit circle',ambient:'R^2',certificate_family:['linear separation','polynomial invariant']},target:{radius:r,theta:t,x,y},exact_status:st,linear_separator_status:outHull?'AVAILABLE':'NOT_AVAILABLE',polynomial_certificate:{phi:phi,status:on?'IMAGE_IDENTITY':'EXCLUSION_WITNESS'}});
+}
+function eigSym3(a,b,c){let A=[[1,a,b],[a,1,c],[b,c,1]];for(let it=0;it<30;it++){let p=0,q=1,m=Math.abs(A[0][1]);for(let i=0;i<3;i++)for(let j=i+1;j<3;j++)if(Math.abs(A[i][j])>m){m=Math.abs(A[i][j]);p=i;q=j}if(m<1e-12)break;const phi=.5*Math.atan2(2*A[p][q],A[q][q]-A[p][p]),cs=Math.cos(phi),sn=Math.sin(phi);for(let k=0;k<3;k++){const apk=A[p][k],aqk=A[q][k];A[p][k]=cs*apk-sn*aqk;A[q][k]=sn*apk+cs*aqk}for(let k=0;k<3;k++){const akp=A[k][p],akq=A[k][q];A[k][p]=cs*akp-sn*akq;A[k][q]=sn*akp+cs*akq}}return [A[0][0],A[1][1],A[2][2]].sort((x,y)=>x-y)}
+function drawElliptope(){const svg=$('elliSvg');clear(svg);axes(svg,box);const a=+$('aRange').value,b=+$('bRange').value,c=+$('cRange').value,delta=1+2*a*b*c-a*a-b*b-c*c;const eps=1e-8,inside=Math.abs(a)<1&&Math.abs(b)<1&&Math.abs(c)<1&&delta>eps,boundary=Math.abs(a)<=1+eps&&Math.abs(b)<=1+eps&&Math.abs(c)<=1+eps&&delta>=-eps&&!inside,real=inside||boundary;let path='';const N=260;for(let i=0;i<=N;i++){const aa=-1+2*i/N;const disc=(1-c*c)*(1-aa*aa);if(disc>=0){const ctr=aa*c,rad=Math.sqrt(disc),lo=ctr-rad,hi=ctr+rad;path+=(i===0?'M':'L')+X(aa)+' '+Y(hi)+' '}}for(let i=N;i>=0;i--){const aa=-1+2*i/N;const disc=(1-c*c)*(1-aa*aa);if(disc>=0){const ctr=aa*c,rad=Math.sqrt(disc),lo=ctr-rad;path+='L'+X(aa)+' '+Y(lo)+' '}}path+='Z';svg.append(el('path',{d:path,fill:'#cfe4dc','fill-opacity':.78,stroke:colors.green,'stroke-width':3}));svg.append(el('circle',{cx:X(a),cy:Y(b),r:6,fill:colors.red,stroke:'#fff','stroke-width':2}));svg.append(el('text',{x:X(a)+10,y:Y(b)-10,fill:colors.red,'font-size':15,'font-weight':700},'(a,b)'));
+$('aVal').textContent=fmt(a,2);$('bVal').textContent=fmt(b,2);$('cVal').textContent=fmt(c,2);status($('elliStatus'),inside?'INTERIOR_REALIZABILITY_CERTIFIED':boundary?'REALIZED_BOUNDARY_POINT':'PSD_EXCLUSION_CERTIFIED',inside?'s-green':boundary?'s-gold':'s-red');$('matrixOut').textContent=`R = [ 1       ${fmt(a,2)}    ${fmt(b,2)} ]\n    [ ${fmt(a,2)}    1       ${fmt(c,2)} ]\n    [ ${fmt(b,2)}    ${fmt(c,2)}    1      ]`;
+const eig=eigSym3(a,b,c),checks=[['|a| ≤ 1',1-a*a,Math.abs(a)<=1],['|b| ≤ 1',1-b*b,Math.abs(b)<=1],['|c| ≤ 1',1-c*c,Math.abs(c)<=1],['det R = Δ',delta,delta>=-eps],['λmin(R)',eig[0],eig[0]>=-1e-7]];$('elliTable').innerHTML=checks.map(q=>`<tr><td>${q[0]}</td><td>${fmt(q[1])}</td><td>${q[2]?'PASS':'FAIL'}</td></tr>`).join('');
+setReport({protocol:{image:'3x3 correlation elliptope',slice_parameter_c:c,ambient:'R^3'},target:{a,b,c},invariants:{delta,eigenvalues:eig},exact_status:inside?'INTERIOR_REALIZABILITY_CERTIFIED':boundary?'REALIZED_BOUNDARY_POINT':'STRICT_EXTERIOR_EXCLUSION',certificate_status:real?'PRIMAL_PSD_MEMBERSHIP':'PSD_PRINCIPAL_MINOR_OBSTRUCTION'});
+}
+function drawRelax(){const svg=$('relaxSvg');clear(svg);const x=+$('rxRange').value,alpha=+$('alphaRange').value,s0=alpha*alpha,s1=4,r0=0,r1=4;svg.append(el('rect',{x:60,y:55,width:640,height:330,rx:14,fill:'#fbfdff',stroke:'#d9e0e7'}));const map=v=>100+(v+1)/6*560;const y1=175,y2=290;svg.append(el('line',{x1:map(-1),y1:y1,x2:map(5),y2:y1,stroke:'#aab8c5','stroke-width':2}));svg.append(el('line',{x1:map(-1),y1:y2,x2:map(5),y2:y2,stroke:'#aab8c5','stroke-width':2}));svg.append(el('line',{x1:map(s0),y1:y1,x2:map(s1),y2:y1,stroke:colors.green,'stroke-width':18,'stroke-linecap':'round'}));svg.append(el('line',{x1:map(r0),y1:y2,x2:map(r1),y2:y2,stroke:colors.blue,'stroke-width':18,'stroke-linecap':'round'}));svg.append(el('line',{x1:map(r0),y1:y1,x2:map(s0),y2:y1,stroke:colors.gold,'stroke-width':10,'stroke-linecap':'round','stroke-dasharray':'8 6'}));svg.append(el('text',{x:80,y:y1-28,fill:colors.green,'font-size':16,'font-weight':700},'strict image I_strict'));svg.append(el('text',{x:80,y:y2-28,fill:colors.blue,'font-size':16,'font-weight':700},'relaxed image I_relaxed'));svg.append(el('line',{x1:map(x),y1:120,x2:map(x),y2:335,stroke:colors.red,'stroke-width':3}));svg.append(el('circle',{cx:map(x),cy:y1,r:6,fill:colors.red}));svg.append(el('circle',{cx:map(x),cy:y2,r:6,fill:colors.red}));svg.append(el('text',{x:map(x)+8,y:110,fill:colors.red,'font-size':15,'font-weight':700},'x'));
+const strict=x>=s0&&x<=4,relaxed=x>=0&&x<=4;let st,cls;if(strict){st='REALIZABLE UNDER STRICT RULE';cls='s-green'}else if(relaxed){st='RULE_GENERATED EXCLUSION · RELAXATION_GAP_MEMBER';cls='s-gold'}else{st='STRUCTURAL EXCLUSION IN BOTH CLASSES';cls='s-red'}status($('relaxStatus'),st,cls);$('rxVal').textContent=fmt(x,2);$('alphaVal').textContent=fmt(alpha,2);$('relaxReadout').textContent=`C_strict = [${fmt(alpha,2)}, 2]\nI_strict = [${fmt(s0,2)}, 4]\nC_relaxed = [0, 2]\nI_relaxed = [0, 4]\nrelaxation gap = [0, ${fmt(s0,2)})`;
+setReport({protocol:{map:'F(y)=y^2',strict_class:[alpha,2],relaxed_class:[0,2]},target:{x},images:{strict:[s0,4],relaxed:[0,4]},exact_status:strict?'STRICT_CLASS_REALIZABLE':relaxed?'RELAXATION_GAP_MEMBER':'STRUCTURAL_EXCLUSION'});
+}
+function updateActive(){if(activeTab==='regimes')drawRegimes();if(activeTab==='convex')drawConvex();if(activeTab==='nonconvex')drawNonconvex();if(activeTab==='elliptope')drawElliptope();if(activeTab==='relax')drawRelax();if(activeTab==='report')setReport(report)}
+document.querySelectorAll('.tab').forEach(b=>b.addEventListener('click',()=>{document.querySelectorAll('.tab').forEach(x=>x.classList.remove('active'));document.querySelectorAll('.panel').forEach(x=>x.classList.remove('active'));b.classList.add('active');activeTab=b.dataset.tab;$(activeTab).classList.add('active');updateActive()}));
+['shape','xRange','yRange','etaRange','emRange'].forEach(id=>$(id).addEventListener('input',drawRegimes));['cxRange','cyRange'].forEach(id=>$(id).addEventListener('input',drawConvex));['nrRange','ntRange'].forEach(id=>$(id).addEventListener('input',drawNonconvex));['aRange','bRange','cRange'].forEach(id=>$(id).addEventListener('input',drawElliptope));['rxRange','alphaRange'].forEach(id=>$(id).addEventListener('input',drawRelax));
+$('copyBtn').addEventListener('click',async()=>{try{await navigator.clipboard.writeText(JSON.stringify(report,null,2));$('copyMsg').textContent='Copied.'}catch(e){$('copyMsg').textContent='Clipboard access is unavailable; select the report text manually.'}});
+$('downloadBtn').addEventListener('click',()=>{const blob=new Blob([JSON.stringify(report,null,2)],{type:'application/json'}),a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='BCM3Report-demo.json';a.click();setTimeout(()=>URL.revokeObjectURL(a.href),1000)});
+drawRegimes();
+</script>
+</body></html>
