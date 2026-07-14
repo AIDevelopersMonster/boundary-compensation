@@ -1,0 +1,3 @@
+type_id,topology,domain,codomain,canonical_map,matrix_status,sector_test,scientific_role
+T0_PRODUCT_CYLINDER_PHYSICAL,product cylinder,physical annulus state space,same physical state space,identity,EXACT_BASIS_INDEPENDENT_IDENTITY,TRIVIAL_PASS,positive control only
+T4_RAW_LOCAL_TRANSFER,registered local tensor network,raw carrier,raw carrier,presentation-dependent transfer kernel,OPEN,SECONDARY_OFF_SHELL_TEST,microscopic diagnostic
