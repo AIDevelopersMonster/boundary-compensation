@@ -1,0 +1,13 @@
+index,id,sector,a,b,target,source,raw_boundary_i,raw_boundary_j
+0,E_1_1__1_1,1|1,0,0,0,0,0,0
+1,E_1_sigma__sigma_sigma,1|sigma,0,1,1,1,1,1
+2,E_1_psi__psi_psi,1|psi,0,2,2,2,2,2
+3,E_sigma_1__sigma_sigma,sigma|1,1,0,1,1,1,1
+4,E_sigma_sigma__1_1,sigma|sigma,1,1,0,0,0,0
+5,E_sigma_sigma__1_psi,sigma|sigma,1,1,0,2,2,0
+6,E_sigma_sigma__psi_1,sigma|sigma,1,1,2,0,0,2
+7,E_sigma_sigma__psi_psi,sigma|sigma,1,1,2,2,2,2
+8,E_sigma_psi__sigma_sigma,sigma|psi,1,2,1,1,1,1
+9,E_psi_1__psi_psi,psi|1,2,0,2,2,2,2
+10,E_psi_sigma__sigma_sigma,psi|sigma,2,1,1,1,1,1
+11,E_psi_psi__1_1,psi|psi,2,2,0,0,0,0
