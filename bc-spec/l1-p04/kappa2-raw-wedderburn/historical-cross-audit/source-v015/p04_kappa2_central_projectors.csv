@@ -1,0 +1,10 @@
+sector_id,a,b,fusion_channels,matrix_block_size,algebra_block_dimension,central_projector,chirality_match_candidate
+1|1,0,0,[0],1,1,"[""E_1_1__1_1""]",True
+1|sigma,0,1,[1],1,1,"[""E_1_sigma__sigma_sigma""]",False
+1|psi,0,2,[2],1,1,"[""E_1_psi__psi_psi""]",False
+sigma|1,1,0,[1],1,1,"[""E_sigma_1__sigma_sigma""]",False
+sigma|sigma,1,1,"[0, 2]",2,4,"[""E_sigma_sigma__1_1"", ""E_sigma_sigma__psi_psi""]",True
+sigma|psi,1,2,[1],1,1,"[""E_sigma_psi__sigma_sigma""]",False
+psi|1,2,0,[2],1,1,"[""E_psi_1__psi_psi""]",False
+psi|sigma,2,1,[1],1,1,"[""E_psi_sigma__sigma_sigma""]",False
+psi|psi,2,2,[0],1,1,"[""E_psi_psi__1_1""]",True

@@ -1,0 +1,27 @@
+name: BC-Spec L1-P04 exact audit
+
+on:
+  push:
+    paths:
+      - 'bc-spec/l1-p04/kappa2-raw-wedderburn/**'
+      - '.github/workflows/bc-spec-l1-p04.yml'
+  pull_request:
+    paths:
+      - 'bc-spec/l1-p04/kappa2-raw-wedderburn/**'
+      - '.github/workflows/bc-spec-l1-p04.yml'
+
+jobs:
+  exact-audit:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: bc-spec/l1-p04/kappa2-raw-wedderburn
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python -m pip install -r requirements.txt
+      - run: python scripts/p04_kappa2_raw_wedderburn_transform.py
+      - run: python scripts/p04_kappa2_raw_wedderburn_independent_check.py
+      - run: python scripts/p04_historical_cross_audit_v015_vs_v014r1.py
