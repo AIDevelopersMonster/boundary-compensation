@@ -1,0 +1,13 @@
+id,i,j,x,m
+T_1_1__1_1,0,0,0,0
+T_1_1__sigma_sigma,0,0,1,1
+T_1_1__psi_psi,0,0,2,2
+T_1_psi__sigma_sigma,0,2,1,1
+T_sigma_sigma__1_sigma,1,1,0,1
+T_sigma_sigma__sigma_1,1,1,1,0
+T_sigma_sigma__sigma_psi,1,1,1,2
+T_sigma_sigma__psi_sigma,1,1,2,1
+T_psi_1__sigma_sigma,2,0,1,1
+T_psi_psi__1_psi,2,2,0,2
+T_psi_psi__sigma_sigma,2,2,1,1
+T_psi_psi__psi_1,2,2,2,0
