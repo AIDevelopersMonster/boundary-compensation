@@ -1,0 +1,32 @@
+cff-version: 1.2.0
+message: "If you use this publication or its reproducibility materials, please cite the Zenodo record."
+title: "Curved-Volume Quantization, Ordering Residuals, and Visibility Scaling in SU(2)_k Quantum 6j Geometry"
+type: article
+authors:
+  - family-names: "Malachevsky"
+    given-names: "A. A."
+    orcid: "https://orcid.org/0009-0008-6009-3196"
+version: "0.1.1"
+date-released: "2026-07-15"
+doi: "10.5281/zenodo.21377756"
+url: "https://doi.org/10.5281/zenodo.21377756"
+license: "CC-BY-4.0"
+repository-code: "https://github.com/AIDevelopersMonster/boundary-compensation"
+abstract: >-
+  A synthesis of BC-Spec L1-P04-P/N7--N25 establishing a controlled
+  certification framework for finite-level SU(2)_k quantum-geometric
+  operators, including curved-volume reconstruction, ordering residuals,
+  prospective visibility-scaling tests, absolute-ray-scale audits, and a
+  resolution--deformation identifiability firewall.
+keywords:
+  - Boundary Compensation
+  - BC-Spec
+  - SU(2)_k
+  - quantum 6j symbols
+  - quantum groups
+  - quantum geometry
+  - operator ordering
+  - coherent-state lower symbols
+  - residual-frame inequalities
+  - prospective validation
+  - reproducible research
