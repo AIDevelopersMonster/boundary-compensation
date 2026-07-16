@@ -1,0 +1,52 @@
+{
+  "schema_version": "1.0",
+  "contract": "BC-IDPR-CERT-03",
+  "status": "PREREGISTERED_BEFORE_EVALUATION",
+  "upstream_contract": "BC-IDPR-P3-B-M5",
+  "carrier": {
+    "external_spins": ["1/2", "1", "2", "5/2"],
+    "geometry": "fixed unequal-area tetrahedron with face-area ratios 1:2:4:5"
+  },
+  "domain": {
+    "interval": ["pi/15", "pi/10"],
+    "anchor": "pi/12",
+    "sample_count": 129,
+    "wall_margin": "pi/30"
+  },
+  "observable": {
+    "raw_components": ["G12", "G23"],
+    "negative_control": "G12",
+    "varying_channel": "G23",
+    "differential": "d(theta)=G23(theta)-G23(anchor)",
+    "affine_quotient_coordinate": "u(theta)=(G23(theta)-G23(low))/(G23(high)-G23(low))"
+  },
+  "nuisance_group": {
+    "action": "y(theta) -> a*y(theta)+b",
+    "restriction": "a>0 and constant on the full interval",
+    "invariance_target": "endpoint-normalized coordinate u(theta)"
+  },
+  "decision_rule": {
+    "positive_certificate_requires": [
+      "negative_control_max_abs_derivative <= 1e-12",
+      "endpoint_denominator_abs >= 1e-4",
+      "affine_invariance_residual <= 1e-12",
+      "strict_monotonicity_margin_after_uncertainty > 0",
+      "minimum_adjacent_u_separation_after_uncertainty > 0"
+    ],
+    "uncertainty": {
+      "arithmetic_bound": 5e-14,
+      "finite_difference_steps": [0.0001, 0.00001, 0.000001, 0.0000001],
+      "derivative_reference_step": 0.000001
+    },
+    "stopping_rule": "one frozen evaluation; no predictor, grid, quotient, threshold or exclusion changes after this commit"
+  },
+  "claim_firewall": {
+    "allowed": "affine-calibration-invariant differential ordering and separation on the declared nonuniform carrier interval",
+    "forbidden": [
+      "absolute lower-symbol accuracy",
+      "invariance under theta-dependent or nonlinear calibration",
+      "confirmatory phase law",
+      "physical q dynamics"
+    ]
+  }
+}
