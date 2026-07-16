@@ -1,7 +1,7 @@
 # P3-B Jet Calculus — Preprint Readiness Gate
 
 **Date:** 2026-07-16  
-**Current state:** `MATHEMATICAL_CORE_READY_PACKAGING_OPEN`
+**Current state:** `INTEGRATED_DRAFT_READY_FOR_THEOREM_AUDIT`
 
 ## Publication thesis
 
@@ -21,62 +21,102 @@ The preprint may claim that, inside the declared finite two-channel regular cham
    \]
 8. Claim firewall excluding physical interpretation and universal continuum claims.
 
-## Remaining publication-blocking gates
+## Publication gates
 
-### G1. Integrated manuscript
+### G1. Integrated manuscript — `CLOSED_AT_V0.1.0_DRAFT`
 
-Create one coherent article rather than publishing M10–M12 and the synthesis notes as a bundle. Required structure:
+A coherent 12-page English manuscript has been assembled with:
 
-- problem and scope;
-- finite q-6j regular chamber;
+- problem, scope and non-claims;
+- doubled-spin and channel conventions;
+- the finite q-Racah formula;
 - truncated-Taylor algebra lemma;
 - recoupling-generator recurrence;
 - log-speed jet corollaries;
-- independent atlas and numerical protocol;
-- uniform conditioning theorem;
-- limitations and claim firewall.
+- independent validation atlas and numerical protocol;
+- computer-assisted uniform-conditioning theorem;
+- related-work boundary;
+- reproducibility protocol;
+- claim firewall and appendices.
 
-### G2. Theorem-level proof audit
+The sectioned LaTeX project is stored under:
+
+`bc_idpr/p3/operator_envelope/manuscript/finite_q6j_jet_calculus_v0.1.0/`
+
+### G2. Theorem-level proof audit — `OPEN_NEXT`
 
 Check every assumption and index convention, especially:
 
-- doubled-spin conventions;
-- channel admissibility;
-- branch selection for square roots;
+- doubled-spin conventions and parity;
+- correspondence between channel order and q-6j arguments;
+- phase and gauge conventions;
+- branch selection for all square roots;
 - regularity of the finite Racah expression;
+- proof of coefficient recurrences;
 - distinction between formal all-order recurrence and validated orders;
-- exact meaning of the outer-disk Cauchy remainder.
+- exact status of the order-50 Taylor–Cauchy remainder;
+- classification of analytic versus computer-assisted claims.
 
-### G3. Reproducibility package
+### G3. Reproducibility package — `OPEN`
 
-Run the full repository test suite from a clean checkout and record:
+Run all manuscript-relevant tests from a clean checkout and record:
 
-- Python and NumPy versions;
-- deterministic command line;
+- Python, NumPy and pytest versions;
+- deterministic commands;
+- repository commit;
 - generated certificates;
 - hashes of source, tests and outputs;
-- wall-clock runtime.
+- wall-clock runtime;
+- proof that regenerated certificates equal the committed certificates.
 
-### G4. Bibliography and related-work boundary
+### G4. Bibliography and related-work boundary — `PARTIALLY_CLOSED`
 
-Add primary-source references for quantum 6j symbols, q-Racah formulae, recoupling matrices, analytic perturbation and Cauchy estimates. Explicitly distinguish the result from asymptotic Ponzano–Regge/Regge-calculus claims.
+The draft contains an initial primary-source set covering:
 
-### G5. Publication hygiene
+- angular-momentum recoupling;
+- quantum-group q-6j formulae;
+- Turaev–Viro state sums;
+- Ponzano–Regge and tetrahedral asymptotics;
+- analytic perturbation;
+- Cauchy estimates.
 
-Complete the mandatory project audit:
+Remaining work:
+
+- verify every bibliographic field and DOI;
+- add a direct primary reference for the precise finite q-Racah convention if needed;
+- verify the Taylor–Woodward publication metadata;
+- audit wording that separates the present finite local-jet result from asymptotic geometry.
+
+### G5. Publication hygiene — `PARTIALLY_CLOSED`
+
+Closed at draft level:
 
 - title, abstract and keywords;
 - author and affiliation metadata;
-- theorem, equation and algorithm numbering;
-- DOI/version/date placeholders;
-- bibliography consistency;
-- LaTeX compilation and PDF visual audit;
-- Zenodo metadata and repository archive link.
+- numbered definitions, lemmas, theorem, proposition, corollaries and equations;
+- successful two-pass LaTeX compilation;
+- 12-page PDF render and visual audit;
+- no unresolved references, undefined citations or box warnings.
+
+Still open:
+
+- theorem-audit corrections;
+- final version/date/DOI metadata;
+- clean release build and hash manifest;
+- final bibliography consistency audit;
+- Zenodo metadata, license and repository archive link;
+- final PDF visual audit after corrections.
 
 ## Readiness decision
 
-The mathematical research phase needed for a bounded preprint is complete. Further higher derivatives, absolute maximal-radius proofs, low-dimensional compression and physical interpretation are not publication prerequisites.
+The mathematical research phase required for a bounded preprint is complete, and the integrated v0.1.0 manuscript draft is complete. The next blocking task is the theorem-level proof audit, not additional exploratory research.
 
-The preprint becomes upload-ready when G1–G5 are closed. At the current pace this is approximately **two focused manuscript cycles plus one independent audit cycle**. Operationally, that means a realistic target of **2–4 days of concentrated work**, not additional months of research.
+The preprint becomes upload-ready when G2 and G3 are closed and the remaining portions of G4 and G5 are finalized. At the current pace, the realistic remaining workload is:
+
+1. one theorem-level audit cycle;
+2. one corrected manuscript cycle;
+3. one clean reproducibility and release cycle.
+
+Operational estimate: **1–3 focused working days** from the present state, provided the theorem audit does not reveal a structural defect in the order-50 conditioning proof.
 
 No statement from the Gemini advisory report is used as evidence.
