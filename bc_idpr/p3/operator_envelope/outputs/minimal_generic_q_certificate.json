@@ -1,0 +1,36 @@
+{
+  "schema_version": "1.0",
+  "contract": "BC-IDPR-P3-B-01",
+  "status": "INTRINSIC_DIRECTION_CERTIFIED",
+  "arithmetic": "exact symbolic",
+  "base_point": "pi/4",
+  "regular_real_chamber": ["0", "pi/3"],
+  "wall_distance": "pi/12",
+  "F_anchor": [["sqrt(2)/2", "sqrt(2)/2"], ["sqrt(2)/2", "-sqrt(2)/2"]],
+  "F_orthogonality_residual": [["0", "0"], ["0", "0"]],
+  "X_anchor": [["sqrt(2)", "0"], ["0", "-sqrt(2)"]],
+  "Y_anchor": [["0", "sqrt(2)"], ["sqrt(2)", "0"]],
+  "dX_anchor": [["-sqrt(2)", "0"], ["0", "-3*sqrt(2)"]],
+  "dY_anchor": [["0", "sqrt(2)"], ["sqrt(2)", "-4*sqrt(2)"]],
+  "nuisance_gram": [["4", "0", "0"], ["0", "8", "0"], ["0", "0", "32"]],
+  "projection_coefficients": ["-2*sqrt(2)", "1", "-1/2"],
+  "intrinsic_component": [
+    [["0", "sqrt(2)"], ["sqrt(2)", "0"]],
+    [["sqrt(2)", "0"], ["0", "-sqrt(2)"]]
+  ],
+  "full_tangent_norm_squared": "56",
+  "intrinsic_margin_squared": "8",
+  "intrinsic_margin": "2*sqrt(2)",
+  "relative_margin_squared": "1/7",
+  "relative_margin": "sqrt(7)/7",
+  "invariant_audit": {
+    "value_at_anchor": "0",
+    "derivative_at_anchor": "2",
+    "verified": true
+  },
+  "tests": {
+    "count": 6,
+    "result": "OK"
+  },
+  "claim_status": "OPERATOR_LEVEL_INTRINSIC_DIRECTION_ONLY_CERT_BLOCKED"
+}
