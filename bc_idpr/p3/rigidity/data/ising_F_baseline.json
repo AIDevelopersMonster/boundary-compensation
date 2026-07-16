@@ -1,9 +1,51 @@
 {
-  "schema_version": "1.0",
+  "schema_version": "1.1",
   "contract": "BC-IDPR-P3-A-01",
   "category_id": "SU(2)_2_Ising",
   "convention": "F^{abc}_d maps the left channel e in (a tensor b) tensor c to the right channel f in a tensor (b tensor c).",
   "gauge_id": "standard_real_unitary_ising",
   "coefficient_field": "Q(sqrt(2))",
   "unit_normalization": {
-    "rule": "Every admissible associator block with
+    "rule": "Every admissible associator block with the tensor unit among a,b,c is fixed to the identity map in the canonical ordered bases."
+  },
+  "default_rule": {
+    "scope": "all admissible scalar entries not overridden below",
+    "value": "1"
+  },
+  "overrides": [
+    {
+      "type": "scalar",
+      "a": "sigma",
+      "b": "psi",
+      "c": "sigma",
+      "d": "psi",
+      "e": "sigma",
+      "f": "sigma",
+      "value": "-1"
+    },
+    {
+      "type": "scalar",
+      "a": "psi",
+      "b": "sigma",
+      "c": "psi",
+      "d": "sigma",
+      "e": "sigma",
+      "f": "sigma",
+      "value": "-1"
+    },
+    {
+      "type": "matrix",
+      "a": "sigma",
+      "b": "sigma",
+      "c": "sigma",
+      "d": "sigma",
+      "left_channels": ["1", "psi"],
+      "right_channels": ["1", "psi"],
+      "entries": [
+        ["1/sqrt(2)", "1/sqrt(2)"],
+        ["1/sqrt(2)", "-1/sqrt(2)"]
+      ]
+    }
+  ],
+  "claim_status": "BASELINE_INPUT_PENDING_PENTAGON_VERIFICATION"
+}
