@@ -1,0 +1,43 @@
+{
+  "schema_version": "1.0",
+  "contract": "BC-IDPR-P3-B-04",
+  "carrier": {
+    "external_spins": ["1", "1", "1", "1"],
+    "total_spin": "0",
+    "coupling_channels": ["0", "1", "2"]
+  },
+  "classical_observables": [
+    "g12 = n1 dot n2",
+    "g23 = n2 dot n3"
+  ],
+  "operator_observables": [
+    "G12 = (J1 dot J2)/j(j+1)",
+    "G23(theta) = F(theta) G12 F(theta)^T"
+  ],
+  "coherent_state": "normalized projection of tensor product of four spin-one SU(2) coherent states onto the invariant carrier",
+  "q_convention": "q = exp(i theta)",
+  "anchor": "pi/8",
+  "compact_interval": ["pi/10", "3*pi/20"],
+  "calibration": {
+    "geometry": "regular tetrahedron from M3",
+    "type": "frozen additive offset per channel",
+    "holdout_excluded": true
+  },
+  "holdout": {
+    "type": "anisotropic equifacial disphenoid",
+    "reason": "equal spin-one labels require equal face-area calibration; a generic unequal-area tetrahedron needs a nonuniform-spin carrier"
+  },
+  "error_ledger": [
+    "external geometry leakage",
+    "finite-j symbol mismatch",
+    "q-response",
+    "wall margin"
+  ],
+  "claim_firewall": [
+    "not a unique quantization",
+    "not a semiclassical theorem at j=1",
+    "not a universal tetrahedral symbol map",
+    "not physical q dynamics",
+    "not a confirmatory P1 result"
+  ]
+}
