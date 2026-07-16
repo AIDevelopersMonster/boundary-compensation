@@ -1,0 +1,55 @@
+{
+  "schema_version": "1.0",
+  "contract": "BC-IDPR-P3-B-G2-R",
+  "title": "Rigorous Interval Conditioning for the Finite q-6j Regular Chamber",
+  "date": "2026-07-16",
+  "source_contracts": [
+    "BC-IDPR-P3-B-JET-SYNTHESIS",
+    "BC-IDPR-P3-B-JET-RADIUS",
+    "G2_THEOREM_LEVEL_AUDIT"
+  ],
+  "frozen_before_confirmatory_evaluation": true,
+  "arithmetic": {
+    "backend": "python-flint Arb ball arithmetic",
+    "minimum_python_flint_version": "0.9.0",
+    "primary_precision_bits": 192,
+    "control_precision_bits": 256,
+    "rounding_model": "rigorous midpoint-radius enclosures with outward rounding supplied by Arb"
+  },
+  "declared_class": {
+    "maximum_doubled_spin": 6,
+    "rules": [
+      "external labels are integers 1 through 6",
+      "external-label sum is even",
+      "both recoupling schemes have exactly two admissible channels",
+      "all finite Racah factorial arguments are nonnegative",
+      "the maximum q-number index required by triangle, Racah and dimension factors is 10"
+    ],
+    "forbidden_acceptance_filters": [
+      "floating-point orthogonality threshold",
+      "floating-point nonzero-speed threshold",
+      "carrier-specific radius adjustment"
+    ],
+    "expected_ordered_carrier_count": 283,
+    "expected_family_count": 24
+  },
+  "frozen_proof_family": {
+    "anchor": "theta0=pi/12 represented as an Arb enclosure",
+    "outer_radius": "Rout=pi/120",
+    "confirmatory_radius": "Rcert=Rout/10=pi/1200",
+    "taylor_order": 50,
+    "coefficient_convention": "omega(theta0+h)=sum_k omega_k h^k with omega_k=omega^(k)(theta0)/k!",
+    "carrier_lower_bound": "L_J=lower(abs(omega_0))-sum_{k=1}^N upper(abs(omega_k))*Rcert^k-M_J*q^(N+1)/(1-q), q=Rcert/Rout",
+    "outer_majorant": "M_J is an Arb upper enclosure for sup on the outer disk obtained from q-number, q-factorial, triangle, Racah and dimension-factor majorants",
+    "success_rule": "every carrier lower bound has strictly positive lower endpoint at 192 bits and remains positive at 256 bits"
+  },
+  "stopping_rule": "No change of radius, order, precision, declared class or acceptance rule after confirmatory evaluation. Failure is retained as the module result.",
+  "claim_ceiling": "A rigorous Arb certificate establishes nonvanishing of the angular-speed function and existence of its holomorphic logarithm on the common disk for the declared finite carrier class.",
+  "forbidden_claims": [
+    "absolute maximal radius",
+    "unbounded-label uniformity",
+    "semiclassical or physical interpretation",
+    "proof from ordinary float64 output"
+  ],
+  "evidence_rule": "No statement from the Gemini advisory report is used as evidence."
+}
