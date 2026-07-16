@@ -1,122 +1,68 @@
 # P3-B Jet Calculus — Preprint Readiness Gate
 
 **Date:** 2026-07-16  
-**Current state:** `INTEGRATED_DRAFT_READY_FOR_THEOREM_AUDIT`
+**Current state:** `THEOREM_AUDIT_COMPLETE_INTERVAL_CERTIFICATION_REQUIRED`
 
 ## Publication thesis
 
-The preprint may claim that, inside the declared finite two-channel regular chamber, the finite q-6j recoupling matrix admits a recursive truncated-Taylor jet calculus; the anchor speed, its logarithmic slope and its logarithmic curvature are reproduced analytically on an independent new-label atlas; and a uniform complex disk supports common nonvanishing and Cauchy conditioning bounds.
+The bounded preprint may claim a recursive truncated-Taylor calculus for the declared finite two-channel q-6j class, analytic formulas through matrix derivative order three, and numerical validation on the frozen new-label atlas. A rigorous common nonvanishing complex disk remains conditional on interval-certified arithmetic.
 
-## Closed mathematical gates
-
-1. Exact finite q-6j derivative construction through matrix order three.
-2. Recursive jet calculus replacing three hand-expanded derivative chains.
-3. Independent validation on 208 ordered carriers in 15 new-label families.
-4. Full declared conditioning class: 283 ordered carriers in 24 families.
-5. Uniform q-wall and branch separation.
-6. Uniform nonvanishing of the angular speed on a common disk.
-7. Confirmatory sharp-radius certificate with
-   \[
-   R_{\rm cert}=0.1R_{\rm wall}.
-   \]
-8. Claim firewall excluding physical interpretation and universal continuum claims.
-
-## Publication gates
+## Gate status
 
 ### G1. Integrated manuscript — `CLOSED_AT_V0.1.0_DRAFT`
 
-A coherent 12-page English manuscript has been assembled with:
-
-- problem, scope and non-claims;
-- doubled-spin and channel conventions;
-- the finite q-Racah formula;
-- truncated-Taylor algebra lemma;
-- recoupling-generator recurrence;
-- log-speed jet corollaries;
-- independent validation atlas and numerical protocol;
-- computer-assisted uniform-conditioning theorem;
-- related-work boundary;
-- reproducibility protocol;
-- claim firewall and appendices.
-
-The sectioned LaTeX project is stored under:
+A coherent 12-page English manuscript and bibliography source are present under:
 
 `bc_idpr/p3/operator_envelope/manuscript/finite_q6j_jet_calculus_v0.1.0/`
 
-### G2. Theorem-level proof audit — `OPEN_NEXT`
+### G2. Theorem-level proof audit — `CONDITIONAL_PASS_ONE_PUBLICATION_BLOCKER`
 
-Check every assumption and index convention, especially:
+The following parts passed:
 
-- doubled-spin conventions and parity;
-- correspondence between channel order and q-6j arguments;
-- phase and gauge conventions;
-- branch selection for all square roots;
-- regularity of the finite Racah expression;
-- proof of coefficient recurrences;
-- distinction between formal all-order recurrence and validated orders;
-- exact status of the order-50 Taylor–Cauchy remainder;
-- classification of analytic versus computer-assisted claims.
+- doubled-spin channel combinatorics and parity;
+- finite q-Racah argument ordering;
+- truncated-Taylor reciprocal and square-root recurrences;
+- generator recurrence;
+- formal logarithm recurrence;
+- slope and curvature corollaries;
+- bounded validation ceiling and claim firewall.
 
-### G3. Reproducibility package — `OPEN`
+Required clarifications concern the exact q-6j convention, root-of-unity admissibility, the algebraic carrier class, orthogonality domain, analytic logarithm language, critical q-index derivation, square-root branches and the exact Cauchy-tail formula.
 
-Run all manuscript-relevant tests from a clean checkout and record:
+The publication blocker is the uniform-conditioning theorem. The present radius implementation uses ordinary floating-point arithmetic and pytest self-consistency checks. It does not yet provide outward-rounded interval enclosures. Therefore the claimed positive lower bound on the full complex disk is not a rigorous computer-assisted theorem in its current form.
 
-- Python, NumPy and pytest versions;
-- deterministic commands;
-- repository commit;
-- generated certificates;
-- hashes of source, tests and outputs;
-- wall-clock runtime;
-- proof that regenerated certificates equal the committed certificates.
+Full audit:
+
+`manuscript/finite_q6j_jet_calculus_v0.1.0/G2_THEOREM_LEVEL_AUDIT.md`
+
+### G2-R. Rigorous interval conditioning — `OPEN_NEXT`
+
+Preferred closure path:
+
+1. implement interval or ball arithmetic with directed outward rounding;
+2. enclose all q-number, q-factorial, square-root, Racah and angular-speed operations;
+3. certify the order-50 remainder and every one of the 283 carrier margins;
+4. publish per-carrier interval margins and precision metadata;
+5. rerun the theorem audit against the interval certificate.
+
+Fallback path: downgrade the theorem to an explicitly numerical conditioning experiment and remove rigorous `inf`, `>=` and `computer-assisted proof` language.
+
+### G3. Clean reproducibility package — `OPEN`
+
+Record exact Python, NumPy, pytest and interval-library versions, repository commit, commands, runtimes, generated-certificate hashes and equality with committed outputs.
 
 ### G4. Bibliography and related-work boundary — `PARTIALLY_CLOSED`
 
-The draft contains an initial primary-source set covering:
-
-- angular-momentum recoupling;
-- quantum-group q-6j formulae;
-- Turaev–Viro state sums;
-- Ponzano–Regge and tetrahedral asymptotics;
-- analytic perturbation;
-- Cauchy estimates.
-
-Remaining work:
-
-- verify every bibliographic field and DOI;
-- add a direct primary reference for the precise finite q-Racah convention if needed;
-- verify the Taylor–Woodward publication metadata;
-- audit wording that separates the present finite local-jet result from asymptotic geometry.
+The initial primary-source set exists. Remaining work includes DOI and metadata verification, a direct reference for the exact finite q-Racah convention and a final audit of the asymptotic-geometry boundary.
 
 ### G5. Publication hygiene — `PARTIALLY_CLOSED`
 
-Closed at draft level:
-
-- title, abstract and keywords;
-- author and affiliation metadata;
-- numbered definitions, lemmas, theorem, proposition, corollaries and equations;
-- successful two-pass LaTeX compilation;
-- 12-page PDF render and visual audit;
-- no unresolved references, undefined citations or box warnings.
-
-Still open:
-
-- theorem-audit corrections;
-- final version/date/DOI metadata;
-- clean release build and hash manifest;
-- final bibliography consistency audit;
-- Zenodo metadata, license and repository archive link;
-- final PDF visual audit after corrections.
+Draft compilation and visual audit passed. Final version metadata, theorem corrections, clean build, bibliography audit, license, Zenodo metadata and release PDF audit remain open.
 
 ## Readiness decision
 
-The mathematical research phase required for a bounded preprint is complete, and the integrated v0.1.0 manuscript draft is complete. The next blocking task is the theorem-level proof audit, not additional exploratory research.
+The analytic jet-calculus core is publication-worthy. The preprint is not yet upload-ready while the uniform-disk result is presented as a rigorous theorem without interval-certified arithmetic.
 
-The preprint becomes upload-ready when G2 and G3 are closed and the remaining portions of G4 and G5 are finalized. At the current pace, the realistic remaining workload is:
-
-1. one theorem-level audit cycle;
-2. one corrected manuscript cycle;
-3. one clean reproducibility and release cycle.
-
-Operational estimate: **1–3 focused working days** from the present state, provided the theorem audit does not reveal a structural defect in the order-50 conditioning proof.
+After G2-R is closed, the remaining tasks are one corrected manuscript cycle and one clean reproducibility/release cycle. A realistic estimate is **1–3 focused working days if interval certification succeeds without forcing a smaller radius**. A smaller rigorously certified radius is acceptable and preferable to retaining an uncertified larger one.
 
 No statement from the Gemini advisory report is used as evidence.
