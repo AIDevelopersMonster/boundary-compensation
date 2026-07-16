@@ -1,0 +1,38 @@
+{
+  "schema_version": "1.0",
+  "manuscript": "Recursive Jet Calculus and Rigorous Uniform Conditioning for Finite Quantum 6j Recoupling Matrices",
+  "version": "v0.1.1 reviewed",
+  "status": "V0_1_1_REVIEWED_COMPILED_G2_CLOSED",
+  "pages": 15,
+  "gates": {
+    "G1_integrated_manuscript": "CLOSED",
+    "G2_theorem_level_audit": "CLOSED",
+    "G2_R_rigorous_interval_conditioning": "CLOSED",
+    "G3_clean_checkout_reproducibility": "OPEN_NEXT",
+    "G4_bibliography_final_audit": "PARTIALLY_CLOSED",
+    "G5_release_hygiene": "PARTIALLY_CLOSED"
+  },
+  "corrections": {
+    "exact_q6j_convention": true,
+    "root_of_unity_boundary": true,
+    "algebraic_carrier_class": true,
+    "critical_q_index_ledger": true,
+    "transpose_orthogonality": true,
+    "holomorphic_square_root": true,
+    "holomorphic_logarithm": true,
+    "explicit_cauchy_tail": true,
+    "arb_outward_rounding_theorem": true,
+    "cross_validation_wording": true,
+    "dependency_ledger": true,
+    "supplementary_283_carriers": true
+  },
+  "build": {
+    "pdf_pages": 15,
+    "unresolved_references": 0,
+    "undefined_citations": 0,
+    "overfull_boxes": 0,
+    "underfull_boxes": 0,
+    "visual_audit": "PASS"
+  },
+  "evidence_rule": "No statement from the Gemini advisory report is used as evidence."
+}
