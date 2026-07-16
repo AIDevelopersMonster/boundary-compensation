@@ -1,11 +1,21 @@
 # P3-B Jet Calculus - Preprint Readiness Gate
 
 **Date:** 2026-07-16  
-**Current state:** `PUBLICATION_READY_DOI_PENDING`
+**Current state:** `PUBLICATION_READY_DOI_ASSIGNED_ZENODO_ARCHIVE_AUTHORITATIVE`
 
 ## Publication thesis
 
 The bounded preprint supports a recursive truncated-Taylor calculus for the declared finite two-channel trigonometric q-6j class, numerical cross-validation through matrix derivative order three and logarithmic-speed order two, and an outward-rounded Arb-certified common complex disk on which the angular speed is nonzero and admits a holomorphic logarithm.
+
+## Publication record
+
+- title: `Recursive Jet Calculus and Rigorous Uniform Conditioning for Finite Quantum 6j Recoupling Matrices`;
+- version: `v0.1.2`;
+- DOI: `10.5281/zenodo.21401141`;
+- DOI URL: `https://doi.org/10.5281/zenodo.21401141`;
+- Zenodo record: `https://zenodo.org/records/21401141`;
+- archive authority: `ZENODO`;
+- repository role: development history, theorem audits, software and reproducibility support.
 
 ## Closed gates
 
@@ -14,7 +24,8 @@ The bounded preprint supports a recursive truncated-Taylor calculus for the decl
 - `G2_R_INTERVAL_CONDITIONING`: `CLOSED`
 - `G3_REPRODUCIBILITY`: `CLOSED_WITH_DOCUMENTED_CONNECTOR_EXPORT_SUBSTITUTION`
 - `G4_BIBLIOGRAPHY_FINAL_VERIFICATION`: `CLOSED`
-- `G5_RELEASE_PACKAGING`: `CLOSED_DOI_PENDING`
+- `G5_RELEASE_PACKAGING`: `CLOSED`
+- `DOI_ASSIGNMENT`: `CLOSED`
 
 ## Frozen scientific result
 
@@ -28,39 +39,8 @@ The bounded preprint supports a recursive truncated-Taylor calculus for the decl
 - uniform lower bound: `0.16025264148217666`;
 - worst family: `(1,1,1,1)`.
 
-## G4 bibliography decision
+## Final decision
 
-Ten bibliography records were verified against publisher, journal, institutional or primary archival sources. Missing DOI, ISBN, editor, issue and publication-year metadata were added. The Taylor-Woodward version-of-record date was normalized to 2006 while retaining DOI `10.1007/s00029-005-0014-9`. The exact q-recoupling convention, tetrahedral-symmetry support, asymptotic boundary, complex-analysis foundation and Arb arithmetic references are all represented.
-
-## G5 release package
-
-Version `v0.1.2 publication-ready` contains:
-
-- final 15-page PDF;
-- complete LaTeX source;
-- exact 283-carrier supplement;
-- G2 response matrix;
-- G3 reproducibility report and executable package;
-- G4 bibliography audit;
-- `CITATION.cff`;
-- Zenodo metadata JSON;
-- CC BY 4.0 manuscript/documentation notice and MIT software notice;
-- release notes, upload checklist and SHA-256 manifest.
-
-Final local package checks:
-
-- unresolved references: 0;
-- undefined citations: 0;
-- overfull boxes: 0;
-- underfull boxes: 0;
-- PDF pages: 15;
-- embedded fonts: yes;
-- deterministic repeated build: byte-identical;
-- visual audit: pass;
-- source/reproducibility/full-release ZIP integrity: pass.
-
-## Remaining administrative action
-
-The preprint is ready for Zenodo upload. The only unresolved field is the DOI, which can exist only after the deposit is published. After Zenodo assigns the DOI, update `CITATION.cff`, the publication README and repository publication index. No theorem, software or PDF recomputation is required.
+The publication cycle is complete. The Zenodo record is the immutable cited release. No PDF recomputation is required for the GitHub DOI registration performed after publication.
 
 No statement from the Gemini advisory report is used as evidence.
