@@ -1,24 +1,31 @@
 # BC-IDPR P3→P1 Research Contract 01
 
 **Title:** Phase-Resolved Residual Modulation on the Certified Finite Quantum-6j Atlas  
-**Status:** `PREREGISTRATION_FROZEN_AWAITING_PILOT`  
-**Date:** 2026-07-16  
-**Programme:** Boundary Compensation / BC-IDPR  
+**Status:** `PILOT_COMPLETED / CALIBRATION_BLOCKED / CONFIRMATORY_UNTOUCHED`  
+**Date:** 2026-07-17  
+**Programme:** Boundary Compensation / BC-IDPR
 
-This package freezes the first prospective transition from the completed P3 independent-deformation analytic core to P1 phase-resolved residual analysis.
+This package records the first prospective transition from the completed P3 independent-deformation analytic core to P1 phase-resolved residual analysis.
 
-The package does **not** contain confirmatory results. It fixes:
+## RC01 decision
 
-- the upstream finite carrier universe;
-- the deformation coordinate and grids;
-- signed and complex observables;
-- the smooth-envelope residualization rule;
-- the integer q-phase dictionary and matched half-integer control dictionary;
-- the family-disjoint pilot, calibration and confirmatory split;
-- the calibration-only frequency-selection rule;
-- confirmatory endpoints, thresholds, failure states and change-control rules.
+The pilot-only implementation was executed on exactly four preregistered pilot families, containing 64 ordered carriers. No calibration or confirmatory carrier was evaluated.
 
-## Files
+The software and contamination guards passed. However, a response-independent predictor-identifiability audit proved that the frozen positive criterion is unreachable. After cubic baseline removal, each integer q-mode is almost collinear with its paired half-integer control. The largest possible energy advantage is
+
+\[
+0.003670726619615724,
+\]
+
+while the frozen confirmatory threshold is
+
+\[
+0.02.
+\]
+
+Therefore calibration is not authorized under RC01. The confirmatory families remain sealed and untouched. Further work requires a new contract identifier with a redesigned predictor/control geometry.
+
+## Frozen preregistration files
 
 - `P3_CLOSURE_AND_HANDOFF_NOTE.md` — closes the bounded P3 analytic core and declares the admissible P3→P1 interface.
 - `RESEARCH_CONTRACT_01.md` — human-readable scientific contract.
@@ -29,7 +36,18 @@ The package does **not** contain confirmatory results. It fixes:
 - `CHANGE_CONTROL.md` — rules for pilot fixes, calibration freeze and confirmatory unsealing.
 - `validate_preregistration.py` — dependency-free structural validator.
 - `PREREGISTRATION_CERTIFICATE.json` — hash and validation certificate.
-- `SHA256SUMS.txt` — package checksum ledger.
+
+## Pilot and review triage
+
+The `pilot/` directory contains:
+
+- the non-inferential pilot report;
+- the exact predictor-identifiability audit;
+- the calibration stop decision;
+- the executable response-independent reachability audit;
+- a deferred research backlog extracted from the external review.
+
+The review-derived backlog is explicitly outside RC01 and requires new contracts before computation.
 
 ## Upstream authority
 
@@ -49,8 +67,10 @@ The exact carrier supplement is pinned by:
 P3_LOCAL_FINITE_LABEL_ANALYTIC_CORE: CLOSED
 P3_UNBOUNDED_LABEL_EXTENSION: OPEN
 P3_CONTINUUM_INTERPRETATION: BLOCKED
-P3_TO_P1_INTERFACE: READY
-P1_CONFIRMATORY_ANALYSIS: NOT_STARTED
+P3_TO_P1_INTERFACE: PILOT_COMPLETED
+RC01_CALIBRATION: NOT_AUTHORIZED
+RC01_CONFIRMATORY: SEALED_AND_UNTOUCHED
+NEXT_REQUIRED_ARTIFACT: BC-IDPR-P3-P1-RC02
 ```
 
 No statement from the Gemini advisory report is used as evidence.
