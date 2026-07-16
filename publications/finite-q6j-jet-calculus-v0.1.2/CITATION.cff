@@ -1,0 +1,23 @@
+cff-version: 1.2.0
+message: "If you use this publication or its reproducibility materials, please cite the Zenodo record."
+title: "Recursive Jet Calculus and Rigorous Uniform Conditioning for Finite Quantum 6j Recoupling Matrices"
+type: article
+authors:
+  - family-names: "Malachevsky"
+    given-names: "A. A."
+    orcid: "https://orcid.org/0009-0008-6009-3196"
+version: "0.1.2"
+date-released: "2026-07-16"
+doi: "10.5281/zenodo.21401141"
+url: "https://doi.org/10.5281/zenodo.21401141"
+license: "CC-BY-4.0"
+repository-code: "https://github.com/AIDevelopersMonster/boundary-compensation"
+keywords:
+  - Boundary Compensation
+  - quantum 6j symbols
+  - q-Racah formula
+  - recoupling matrices
+  - Taylor jets
+  - Arb ball arithmetic
+  - computer-assisted proof
+  - reproducible research
