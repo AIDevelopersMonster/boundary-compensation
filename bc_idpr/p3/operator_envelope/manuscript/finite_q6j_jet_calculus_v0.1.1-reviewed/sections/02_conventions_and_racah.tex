@@ -1,0 +1,183 @@
+\section{Doubled-spin conventions and the algebraic carrier class}
+\subsection{Doubled spins and channels}
+All representation labels are nonnegative integers representing twice the ordinary spin.  Thus $a\in\N_0$ corresponds to spin $a/2$.  For doubled labels $a,b$, define
+\begin{equation}
+\mathcal C(a,b)=\{|a-b|,|a-b|+2,\ldots,a+b\}.
+\label{eq:pairchannels}
+\end{equation}
+
+\begin{definition}[Ordered carrier]
+An ordered carrier is a four-tuple
+\[
+J=(a,b,c,d)\in\N^4.
+\]
+Its two channel sets are
+\begin{equation}
+E(J)=\mathcal C(a,b)\cap\mathcal C(c,d),
+\qquad
+G(J)=\mathcal C(b,c)\cap\mathcal C(a,d).
+\label{eq:channelsets}
+\end{equation}
+\end{definition}
+
+\begin{definition}[Algebraic two-channel class]
+\label{def:algebraicclass}
+The class $\mathfrak A_6$ consists of ordered carriers $J=(a,b,c,d)$ satisfying:
+\begin{enumerate}[label=(\alph*)]
+\item $1\le a,b,c,d\le6$ and $a+b+c+d$ is even;
+\item $|E(J)|=|G(J)|=2$;
+\item for every $e\in E(J)$ and $f\in G(J)$, the finite Racah interval defined in \eqref{eq:qracah} is nonempty;
+\item every triangle, numerator, denominator and dimension-amplitude q-index occurring in \eqref{eq:qdelta}--\eqref{eq:rawF} lies in $\{0,1,\ldots,10\}$.
+\end{enumerate}
+No floating-point orthogonality tolerance or numerical nonzero-speed test enters this definition.
+\end{definition}
+
+Exact integer enumeration gives
+\begin{equation}
+|\mathfrak A_6|=283
+\end{equation}
+ordered carriers in 24 unordered external-label families.  The full machine-readable list accompanies the manuscript.
+
+\begin{proposition}[Critical q-index ledger]
+\label{prop:indexledger}
+Across $\mathfrak A_6$, the exact maxima of the q-indices are:
+\begin{center}
+\begin{tabular}{lc}
+\toprule
+Occurrence & maximum index\\
+\midrule
+triangle-factor q-factorials & 10\\
+Racah numerator $[z+1]_q!$ & 10\\
+Racah denominator q-factorials & 6\\
+dimension factors $[e+1]_q,[f+1]_q$ & 8\\
+\bottomrule
+\end{tabular}
+\end{center}
+Hence the critical set is $\mathcal N_{\mathrm{crit}}=\{1,\ldots,10\}$.
+\end{proposition}
+
+\begin{proof}
+This is an exact finite integer enumeration using Definition \ref{def:algebraicclass}; no transcendental or floating-point calculation is involved.  Pseudocode and the 283-carrier list are given in Appendix \ref{app:pseudocode} and the supplementary JSON file.
+\end{proof}
+
+\section{Trigonometric q-Racah convention}
+Let
+\begin{equation}
+q=e^{i\theta},
+\qquad
+\qnum{n}=\frac{\sin(n\theta)}{\sin\theta},
+\qquad
+\qfac{n}=\prod_{k=1}^{n}\qnum{k},
+\qquad
+\qfac{0}=1.
+\label{eq:qnumber}
+\end{equation}
+The anchor is
+\begin{equation}
+\theta_0=\frac{\pi}{12}.
+\label{eq:anchor}
+\end{equation}
+At this specialization $[12]_q=0$.  Proposition \ref{prop:indexledger} shows that the declared model uses only indices at most ten.  We therefore work with the explicitly defined finite trigonometric q-Racah expression below and do not import an unspoken claim about a complete modular tensor category at the root of unity.
+
+For an admissible triple $(a,b,e)$, write
+\begin{align}
+\alpha&=\frac{a+b-e}{2},&
+\beta&=\frac{a-b+e}{2},&
+\gamma&=\frac{-a+b+e}{2},&
+\sigma&=\frac{a+b+e}{2}+1.
+\end{align}
+Define
+\begin{equation}
+\Delta_q(a,b,e)=
+\left(
+\frac{\qfac{\alpha}\qfac{\beta}\qfac{\gamma}}
+{\qfac{\sigma}}
+\right)^{1/2}.
+\label{eq:qdelta}
+\end{equation}
+For six admissible doubled labels, set
+\begin{align}
+A_1&=\frac{a+b+e}{2},& A_2&=\frac{a+d+f}{2},&
+A_3&=\frac{c+b+f}{2},& A_4&=\frac{c+d+e}{2},\\
+B_1&=\frac{a+b+c+d}{2},&
+B_2&=\frac{a+c+e+f}{2},&
+B_3&=\frac{b+d+e+f}{2}.
+\end{align}
+
+\begin{definition}[Scalar q-$6j$ convention]
+\label{def:q6jconvention}
+Throughout this paper,
+\begin{align}
+\sixj{a}{b}{e}{c}{d}{f}
+&=
+\Delta_q(a,b,e)\Delta_q(a,d,f)
+\Delta_q(c,b,f)\Delta_q(c,d,e)
+\nonumber\\
+&\quad\times
+\sum_{z=\max A_i}^{\min B_j}
+(-1)^z
+\frac{\qfac{z+1}}
+{\prod_{i=1}^{4}\qfac{z-A_i}\prod_{j=1}^{3}\qfac{B_j-z}}.
+\label{eq:qracah}
+\end{align}
+Equation \eqref{eq:qracah}, together with the anchor-selected square-root branches, is the definition used by the manuscript and software.  No asymptotic replacement is used.
+\end{definition}
+
+This is the real trigonometric normalization underlying the recoupling conventions used in \cite{kirillovReshetikhin1989,kauffmanLins1994,taylorWoodward2005}; the explicit definition above takes precedence over convention-dependent terminology.
+
+\section{Two-channel recoupling matrix and analytic branches}
+For $E(J)=\{e_1,e_2\}$ and $G(J)=\{f_1,f_2\}$ in increasing order, define
+\begin{equation}
+\widetilde F_{ij}(\theta)=
+(-1)^{(a+b+c+d)/2}
+\sqrt{\qnum{e_i+1}\qnum{f_j+1}}
+\sixj{a}{b}{e_i}{c}{d}{f_j}.
+\label{eq:rawF}
+\end{equation}
+The phase and dimension factors in \eqref{eq:rawF} are part of the convention.  A constant signed diagonal gauge $G_J$ is chosen at $\theta_0$ to give positive orientation and a fixed sign for the $(1,1)$ entry:
+\begin{equation}
+F_J(\theta)=G_J\widetilde F_J(\theta).
+\label{eq:gaugedF}
+\end{equation}
+The gauge is frozen as $\theta$ varies.
+
+\begin{lemma}[Holomorphic square-root continuation]
+\label{lem:sqrtbranch}
+Let $D\subset\C$ be simply connected, let $r:D\to\C\setminus\{0\}$ be holomorphic, and fix one square root of $r(z_0)$ at $z_0\in D$.  There is a unique holomorphic square root on $D$ with that anchor value.
+\end{lemma}
+
+\begin{proof}
+A nonvanishing holomorphic function on a simply connected domain has a holomorphic logarithm.  Half of that logarithm, followed by exponentiation, gives the required branch; the anchor value fixes the sign.
+\end{proof}
+
+Lemma \ref{lem:sqrtbranch} applies both to the four triangle radicands and to the dimension-amplitude radicands in \eqref{eq:rawF} once their q-factorials are separated from zero.
+
+\begin{proposition}[Transpose orthogonality]
+\label{prop:orthogonality}
+For the convention \eqref{eq:qracah}--\eqref{eq:rawF}, the standard q-$6j$ orthogonality identity gives
+\begin{equation}
+F_J(\theta)F_J(\theta)^T=I_2
+\label{eq:orthogonality}
+\end{equation}
+for real $\theta$ in every regular chamber.  On a connected complex regular disk, \eqref{eq:orthogonality} continues as an analytic transpose-orthogonality identity.  It is not a unitarity assertion.
+\end{proposition}
+
+\begin{proof}
+The dimension-weighted q-$6j$ orthogonality relation is the change-of-basis identity for the two complete channel sets; see \cite{kirillovReshetikhin1989,kauffmanLins1994}.  The constant signed gauge preserves it.  Both sides are analytic on a regular disk and agree on a real interval, so the identity theorem gives the complex continuation.
+\end{proof}
+
+Define
+\begin{equation}
+K_J(\theta)=F'_J(\theta)F_J(\theta)^T.
+\label{eq:generator}
+\end{equation}
+Differentiating \eqref{eq:orthogonality} yields $K_J^T=-K_J$.  Hence
+\begin{equation}
+K_J(\theta)=
+\begin{pmatrix}
+0&-\omega_J(\theta)\\
+\omega_J(\theta)&0
+\end{pmatrix}.
+\label{eq:omega}
+\end{equation}
+The scalar $\omega_J$ is the local angular speed of the recoupling frame.
