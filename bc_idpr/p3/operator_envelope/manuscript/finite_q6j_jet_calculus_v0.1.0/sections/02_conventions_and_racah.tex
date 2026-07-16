@@ -1,0 +1,141 @@
+\section{Doubled-spin conventions and the finite two-channel class}
+\subsection{Doubled spins}
+All representation labels are nonnegative integers representing twice the ordinary spin.  Thus a doubled label $a\in\N_0$ corresponds to spin $a/2$.  For two doubled labels $a,b$, the admissible intermediate labels are
+\begin{equation}
+\mathcal C(a,b)=\{|a-b|,|a-b|+2,\ldots,a+b\}.
+\label{eq:pairchannels}
+\end{equation}
+
+\begin{definition}[Ordered carrier]
+An ordered carrier is a four-tuple
+\[
+J=(a,b,c,d)\in\N^4.
+\]
+Its two recoupling-channel sets are
+\begin{equation}
+E(J)=\mathcal C(a,b)\cap\mathcal C(c,d),
+\qquad
+G(J)=\mathcal C(b,c)\cap\mathcal C(a,d).
+\label{eq:channelsets}
+\end{equation}
+\end{definition}
+
+\begin{definition}[Declared two-channel class]
+A carrier $J$ belongs to the declared class $\mathfrak C_6$ when:
+\begin{enumerate}[label=(\alph*)]
+\item $1\le a,b,c,d\le6$;
+\item $a+b+c+d$ is even;
+\item $|E(J)|=|G(J)|=2$;
+\item every factorial argument in the finite Racah expression is nonnegative;
+\item the maximum numerator factorial index appearing in the finite sum is at most $12$;
+\item the anchor recoupling matrix is real orthogonal to numerical tolerance $10^{-10}$;
+\item the anchor angular speed is nonzero.
+\end{enumerate}
+\end{definition}
+
+The implementation contains $283$ ordered carriers in $24$ unordered external-spin families.  The independent-validation subset is constructed by first forming the label-$1$-to-$4$ family set and then retaining every carrier with a label $5$ or $6$ whose sorted external-label family is absent from that set.  This gives $208$ ordered carriers in $15$ independent families.
+
+\section{Trigonometric quantum numbers and finite Racah data}
+Let
+\begin{equation}
+q=e^{i\theta},
+\qquad
+\qnum{n}=\frac{\sin(n\theta)}{\sin\theta},
+\qquad
+\qfac{n}=\prod_{k=1}^{n}\qnum{k},
+\qquad
+\qfac{0}=1.
+\label{eq:qnumber}
+\end{equation}
+The anchor is
+\begin{equation}
+\theta_0=\frac{\pi}{12}.
+\label{eq:anchor}
+\end{equation}
+
+For an admissible triple $(a,b,e)$ in doubled labels, write
+\begin{align}
+\alpha&=\frac{a+b-e}{2},&
+\beta&=\frac{a-b+e}{2},&
+\gamma&=\frac{-a+b+e}{2},&
+\sigma&=\frac{a+b+e}{2}+1.
+\end{align}
+The trigonometric triangle factor is
+\begin{equation}
+\Delta_q(a,b,e)
+=
+\left(
+\frac{\qfac{\alpha}\qfac{\beta}\qfac{\gamma}}
+{\qfac{\sigma}}
+\right)^{1/2}.
+\label{eq:qdelta}
+\end{equation}
+The square root is fixed at the positive real value at $\theta_0$ and then analytically continued inside the certified regular disk.
+
+For six admissible doubled labels, define
+\begin{align}
+A_1&=\frac{a+b+e}{2},& A_2&=\frac{a+d+f}{2},&
+A_3&=\frac{c+b+f}{2},& A_4&=\frac{c+d+e}{2},\\
+B_1&=\frac{a+b+c+d}{2},&
+B_2&=\frac{a+c+e+f}{2},&
+B_3&=\frac{b+d+e+f}{2}.
+\end{align}
+The finite quantum Racah expression used in the software is
+\begin{align}
+\sixj{a}{b}{e}{c}{d}{f}
+&=
+\Delta_q(a,b,e)\Delta_q(a,d,f)
+\Delta_q(c,b,f)\Delta_q(c,d,e)
+\nonumber\\
+&\quad\times
+\sum_{z=\max A_i}^{\min B_j}
+(-1)^z
+\frac{\qfac{z+1}}
+{\prod_{i=1}^{4}\qfac{z-A_i}\prod_{j=1}^{3}\qfac{B_j-z}}.
+\label{eq:qracah}
+\end{align}
+No asymptotic replacement of this finite sum is used.
+
+\section{The two-channel recoupling matrix}
+For $E(J)=\{e_1,e_2\}$ and $G(J)=\{f_1,f_2\}$ in increasing order, define the raw matrix
+\begin{equation}
+\widetilde F_{ij}(\theta)
+=
+(-1)^{(a+b+c+d)/2}
+\sqrt{\qnum{e_i+1}\qnum{f_j+1}}
+\sixj{a}{b}{e_i}{c}{d}{f_j}.
+\label{eq:rawF}
+\end{equation}
+A constant diagonal sign gauge is selected at $\theta_0$ so that the gauged matrix
+\begin{equation}
+F(\theta)=G_J\widetilde F(\theta)
+\label{eq:gaugedF}
+\end{equation}
+has positive orientation and a fixed sign convention for its $(1,1)$ entry.  The gauge is frozen as $\theta$ varies.
+
+\begin{assumption}[Regular orthogonal chamber]
+For each declared carrier, the analytic continuation of \eqref{eq:gaugedF} is taken only in a simply connected disk on which all q-factorials in denominators are nonzero, all radicands in \eqref{eq:qdelta} are nonzero, and the square-root branches selected at $\theta_0$ remain analytic.
+\end{assumption}
+
+At real $\theta$ in the declared chamber, the matrix is orthogonal:
+\begin{equation}
+F(\theta)F(\theta)^T=I_2.
+\label{eq:orthogonality}
+\end{equation}
+Differentiation gives
+\begin{equation}
+K(\theta):=F'(\theta)F(\theta)^T,
+\qquad
+K(\theta)^T=-K(\theta).
+\label{eq:generator}
+\end{equation}
+Hence
+\begin{equation}
+K(\theta)=
+\begin{pmatrix}
+0&-\omega(\theta)\\
+\omega(\theta)&0
+\end{pmatrix}.
+\label{eq:omega}
+\end{equation}
+The scalar $\omega$ is called the local angular speed of the recoupling frame.
