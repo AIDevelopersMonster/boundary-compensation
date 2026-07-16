@@ -1,0 +1,53 @@
+\section{Independent new-label validation}
+\subsection{Frozen split}
+The label-$1$-to-$4$ atlas is used only to define represented unordered families.  The test atlas contains every valid ordered carrier with labels at most $6$ whose family contains a label $5$ or $6$ and is absent from the label-$1$-to-$4$ family set.  The resulting counts are:
+\begin{center}
+\begin{tabular}{lrr}
+\toprule
+Atlas & ordered carriers & unordered families\\
+\midrule
+family-exclusion reference & 75 & 9\\
+independent new-label test & 208 & 15\\
+full declared class & 283 & 24\\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\subsection{Reference calculations}
+The analytic jet outputs are compared with central differences at frozen steps
+\begin{equation}
+h_1=10^{-5},
+\qquad
+h_2=5\times10^{-6}.
+\label{eq:fdsteps}
+\end{equation}
+The references are not used to tune the analytic formulas.
+
+\begin{table}[ht]
+\centering
+\caption{Maximum residuals on the 208-carrier independent test atlas.}
+\label{tab:residuals}
+\begin{tabular}{lcc}
+\toprule
+Observable & maximum relative residual & frozen threshold\\
+\midrule
+$|\omega|$ & $2.0305\times10^{-9}$ & $10^{-7}$\\
+$\partial_\theta\log|\omega|$ & $1.8535\times10^{-9}$ & $10^{-6}$\\
+$\partial_\theta^2\log|\omega|$ & $8.6432\times10^{-9}$ & $10^{-5}$\\
+curvature reference-step disagreement & $2.5267\times10^{-8}$ & $10^{-5}$\\
+orthogonality residual & $1.3559\times10^{-15}$ & $10^{-10}$\\
+$K_0$ skew residual & $5.4886\times10^{-14}$ & $10^{-7}$\\
+$K_1$ skew residual & $2.4628\times10^{-12}$ & $10^{-6}$\\
+$K_2$ skew residual & $1.5156\times10^{-10}$ & $10^{-5}$\\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\begin{proposition}[Validated implementation ceiling]
+\label{prop:validationceiling}
+On the frozen independent test atlas, the single truncated-Taylor implementation reproduces the previously independent first-, second- and third-matrix-derivative calculations within the thresholds in Table \ref{tab:residuals}.  The validated ceiling is matrix derivative order three and logarithmic-speed derivative order two.
+\end{proposition}
+
+\begin{proof}
+This is a finite computer-assisted verification over the complete declared test list.  For every carrier, the program checks channel admissibility, orthogonality, nonzero anchor speed, the three analytic observables, two reference steps and the corresponding skew-symmetry identities.  The maximum residuals are those reported in Table \ref{tab:residuals}.  Source code and machine-readable certificates accompany the paper.
+\end{proof}
