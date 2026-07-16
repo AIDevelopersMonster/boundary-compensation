@@ -1,0 +1,101 @@
+{
+  "schema_version": "1.0",
+  "contract": "BC-IDPR-P3-B-02",
+  "status": "THREE_CHANNEL_CONTINUUM_NONTRIVIALITY_AND_GRID_MARGIN_CERTIFIED",
+  "model_class": "finite_generic_q_qRacah_operator_envelope",
+  "provenance": {
+    "implementation_sha256": "c201e26a7df81e06e841295824b8e1f4cf36ded47cff98f768b1086a4fcdbdb9",
+    "config_sha256": "2d16d8130fea46fb20af7bf42fa0ab0971001ae25211f53192225a3016ca5390"
+  },
+  "arithmetic": {
+    "q_racah_evaluation": "mpmath 80-decimal arithmetic",
+    "analytic_sign_certificate": "exact factorized derivative formula"
+  },
+  "skeleton": {
+    "external_spins": ["1", "1", "1", "1"],
+    "overall_total_spin": "0",
+    "associator_target_spin": "1",
+    "channel_order": ["0", "1", "2"],
+    "dimension": 3,
+    "root_anchor": "theta=pi/8 (k=6 convention only at anchor)"
+  },
+  "domain": {
+    "regular_real_chamber": ["0", "pi/5"],
+    "compact_scan_interval": ["pi/10", "3*pi/20"],
+    "anchor": "pi/8",
+    "anchor_wall_distance": "3*pi/40",
+    "compact_interval_wall_margin": "pi/20",
+    "sample_count": 33
+  },
+  "nuisance_model": {
+    "dimension": 7,
+    "directions": [
+      "independent identity shift of X",
+      "independent identity shift of Y",
+      "independent scalar normalization of X",
+      "independent scalar normalization of Y",
+      "three simultaneous SO(3) basis-conjugation tangents"
+    ]
+  },
+  "convention_bridge": {
+    "spin_half_ising_gauge_residual": "2.108439588646104644869714810254003801542e-81",
+    "verified": true
+  },
+  "anchor_result": {
+    "F": [
+      ["0.4142135623730950488016887242096980785697", "-0.6435942529055826247354434374182098089242", "0.6435942529055826247354434374182098089242"],
+      ["-0.6435942529055826247354434374182098089242", "0.2928932188134524755991556378951509607152", "0.7071067811865475244008443621048490392848"],
+      ["0.6435942529055826247354434374182098089242", "0.7071067811865475244008443621048490392848", "0.2928932188134524755991556378951509607152"]
+    ],
+    "orthogonality_residual": "8.003959041406451651598998658776134642885e-81",
+    "symmetry_residual": "2.108439588646104644869714810254003801542e-81",
+    "nuisance_gram_min_eigenvalue": "1.782198508318233493460909052060867353908",
+    "nuisance_gram_condition": "11.34150778307333003692928357075480001904",
+    "full_tangent_norm": "15.55778226975724516505803282833702122609",
+    "intrinsic_margin": "2.542253377248414462910104622702439744635",
+    "relative_intrinsic_margin": "0.1634071831812621418497074588528945716939",
+    "operator_norm_dual_lower_bound": "1.102862790132235856022641101832178090134",
+    "orientation_correlation": "-0.3009431025426018380018093473675336556104",
+    "orientation_correlation_derivative": "1.449434583195641828224745951280071699567",
+    "spectral_shape_invariant": "0.0142003647832311227033681276333854362575",
+    "spectral_shape_derivative": "-0.1549209738889856291095854526435859867416",
+    "derivative_crosscheck": {
+      "method": "independent five-point finite difference",
+      "step": "1e-8",
+      "package_residual": "1.609406299673339611559665314301764401521e-29",
+      "verified": true
+    },
+    "projection_coefficients": ["-7.145830135602176503384822758591914715533", "-7.145830135602176503384822758591914715533", "3.187672642712108627201929970525369232651", "3.187672642712108627201929970525369232651", "0.4734937466402004261358409713165944276688", "0.09648496195348985927366961212511194906081", "0.5690355937288491748002814540349496797616"],
+    "intrinsic_X": [
+      ["0.4904122489762350912812855131647831580917", "-0.5125059382505758634679581549625789785153", "-0.2521273559118721932474568359414657838968"],
+      ["-0.5125059382505758634679581549625789785153", "-0.8371860758042764231588036541503872610763", "-0.8710419765842510185710954489514581023892"],
+      ["-0.2521273559118721932474568359414657838968", "-0.8710419765842510185710954489514581023892", "0.3467738268280413318775181409856041029845"]
+    ],
+    "intrinsic_Y": [
+      ["0.7414271277054805835562920726976012243382", "0.1732207296629705430025464786449187573294", "0.272047578657740037370664008998090887625"],
+      ["0.1732207296629705430025464786449187573294", "0.3666061543385926029008459398613527672413", "-0.745534537219628272433592169185049069266"],
+      ["0.272047578657740037370664008998090887625", "-0.745534537219628272433592169185049069266", "-1.108033282044073186457138012558953991579"]
+    ]
+  },
+  "grid_summary": {
+    "minimum_intrinsic_margin": "1.229236658459239190306061068270397765119",
+    "minimum_intrinsic_margin_theta": "0.3141592653589793238462643383279502884197",
+    "minimum_relative_intrinsic_margin": "0.07776396080237919195365095962911123970675",
+    "minimum_operator_norm_dual_lower_bound": "0.5322970424764865025326402648785995890206",
+    "maximum_F_orthogonality_residual": "1.356058045481270739986430628579058573527e-80",
+    "maximum_F_symmetry_residual": "3.651924492224676994308156239646043222485e-81",
+    "minimum_nuisance_gram_eigenvalue": "0.7639320225002103035908263312687237645594",
+    "maximum_nuisance_gram_condition": "14.72334929919161200727582203092128822432",
+    "orientation_derivative_range": ["0.8816778784387096937530589319586091528965", "2.424091199291490233018778381248692549851"],
+    "spectral_shape_derivative_range": ["-0.1552574166982900356082492296184254647346", "-0.1086076844738889387601603410874477861374"]
+  },
+  "continuum_invariant_certificate": {
+    "invariant": "R=(Tr X_c^3)^2/(Tr X_c^2)^3",
+    "substitution": "x=cos(2 theta)",
+    "closed_form": "((x+1)^2*(2*x-1)^2*(4*x+1)^2)/(6*(4*x^2+2*x+1)^3)",
+    "derivative": "-18*sin(2*theta)*x*(x+1)*(2*x-1)*(2*x+1)*(4*x+1)/(4*x^2+2*x+1)^4",
+    "sign_on_compact_interval": "strictly negative because theta in [pi/10,3*pi/20] and x=cos(2 theta)>1/2",
+    "verified": true
+  },
+  "claim_status": "OPERATOR_INTRINSIC_DIRECTION_PERSISTS_ON_COMPACT_INTERVAL_CERT_LAYER_STILL_BLOCKED"
+}
