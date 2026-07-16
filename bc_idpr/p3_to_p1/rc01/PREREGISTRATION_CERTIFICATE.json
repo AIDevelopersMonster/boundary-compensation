@@ -1,0 +1,21 @@
+{
+  "schema_version": "1.0",
+  "contract_id": "BC-IDPR-P3-P1-RC01",
+  "date": "2026-07-16",
+  "status": "PREREGISTRATION_STRUCTURE_VALID_NO_CONFIRMATORY_RESULTS",
+  "validator_command": "python validate_preregistration.py",
+  "validator_output": [
+    "RC01_PREREGISTRATION_STRUCTURE_VALID",
+    "families=24 pilot=4 calibration=12 confirmatory=8",
+    "phase_grid=1101 certified_grid=401 modes=9",
+    "confirmatory_results_present=false"
+  ],
+  "upstream_doi": "10.5281/zenodo.21401141",
+  "downloadable_package_sha256": "5db1ad13365f8216dbc252d94efef3739e4a2dff25fbe00c476b4ff102398901",
+  "scientific_execution": {
+    "pilot": false,
+    "calibration": false,
+    "confirmatory": false
+  },
+  "evidence_policy": "No statement from the Gemini advisory report is used as evidence."
+}
