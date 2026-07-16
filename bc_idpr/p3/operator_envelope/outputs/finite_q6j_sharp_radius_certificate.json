@@ -1,0 +1,36 @@
+{
+  "schema_version": "1.0",
+  "contract": "BC-IDPR-P3-B-JET-RADIUS",
+  "status": "TAYLOR_CAUCHY_UNIFORM_RADIUS_CERTIFIED",
+  "preregistration_commit": "a6148e37a3386bc4d6c65e168f919977de38317e",
+  "method": {
+    "taylor_order": 50,
+    "proof_family": "cancellation-preserving local omega jet plus analytic outer-disk Cauchy tail",
+    "fitted_parameter_count": 0
+  },
+  "declared_class": {
+    "ordered_carriers": 283,
+    "representation_families": 24
+  },
+  "radii": {
+    "outer_wall_safe_radius": 0.02617993877991496,
+    "confirmatory_certified_radius": 0.0026179938779914962,
+    "confirmatory_to_wall_ratio": 0.1,
+    "proof_family_extremal_radius": 0.002639397419804555,
+    "extremal_to_wall_ratio": 0.10081755507501339
+  },
+  "margins": {
+    "confirmatory_minimum_abs_omega_lower_bound": 0.16025264148217636,
+    "confirmatory_worst_carrier": [1, 1, 1, 1],
+    "proof_family_extremal_margin": 8.881784197001252e-15,
+    "minimum_q_number_lower_bound_at_confirmatory_radius": 0.25628849484566973
+  },
+  "decision": {
+    "uniform_radius_optimized_within_frozen_proof_family": "CLOSED",
+    "absolute_maximal_radius": "OPEN",
+    "preprint_mathematical_core": "READY",
+    "preprint_packaging": "OPEN"
+  },
+  "tests": {"count": 10, "result": "OK"},
+  "evidence_rule": "No statement from the Gemini advisory report is used as evidence."
+}
