@@ -44,7 +44,7 @@ def audit(preregistration: Path) -> dict:
         bound = float(math.sqrt(max(0.0, 1.0 - overlap * overlap)))
         rows.append({"mode": n, "absolute_overlap": overlap, "advantage_bound": bound})
     largest = max(row["advantage_bound"] for row in rows)
-    threshold = float(record["confirmatory_decision_rule"]["median_energy_advantage_threshold"])
+    threshold = float(record["primary_confirmatory_criteria"]["median_energy_advantage_min"])
     return {
         "contract_id": record["contract_id"],
         "status": "CONFIRMATORY_THRESHOLD_UNREACHABLE" if largest < threshold else "REACHABLE",
