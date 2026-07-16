@@ -1,0 +1,10 @@
+{
+  "schema_version": "1.0",
+  "contract": "BC-IDPR-P3-B-M11",
+  "date": "2026-07-16",
+  "status": "PREREGISTERED_BEFORE_EVALUATION",
+  "source_contract": "BC-IDPR-P3-B-M10",
+  "target": "omega_prime(theta0)/omega(theta0)=d_theta log|omega(theta)| at theta0",
+  "anchor": "pi/12",
+  "analytic_construction": {
+    "q_number
