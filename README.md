@@ -2,6 +2,16 @@
 
 This repository collects reproducible companion materials, minimal software utilities, demonstrations, and publication-support files for the **Boundary Compensation** research programme.
 
+## Latest publication
+
+**Recursive Jet Calculus and Rigorous Uniform Conditioning for Finite Quantum 6j Recoupling Matrices**
+
+- Version: v0.1.2
+- DOI: [10.5281/zenodo.21401141](https://doi.org/10.5281/zenodo.21401141)
+- Zenodo record: [21401141](https://zenodo.org/records/21401141)
+- Repository package: [`publications/finite-q6j-jet-calculus-v0.1.2/`](publications/finite-q6j-jet-calculus-v0.1.2/)
+- Full Zenodo publication list: [`publications/ZENODO_RECORDS.md`](publications/ZENODO_RECORDS.md)
+
 Current repository tracks include:
 
 - **BC-Origin** toy-model and software companions;
