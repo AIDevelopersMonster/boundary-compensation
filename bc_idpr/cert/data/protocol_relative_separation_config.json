@@ -1,0 +1,24 @@
+{
+  "schema_version": "1.0",
+  "contract": "BC-IDPR-CERT-01",
+  "interval": ["pi/10", "3*pi/20"],
+  "anchor": "pi/8",
+  "sample_count": 33,
+  "observable": "two-channel calibrated coherent lower symbol",
+  "calibration_family": [
+    "regular_anchor_offset",
+    "zero_offset",
+    "midpoint_anchor_offset",
+    "holdout_anchor_offset"
+  ],
+  "primary_geometry": "anisotropic equifacial holdout",
+  "response_definition": "Euclidean norm of holdout-symbol displacement from the nearest-grid anchor",
+  "error_budget": "holdout symbol mismatch plus maximum displacement over alternative frozen additive calibrations",
+  "decision_rule": "positive separation requires max(response - mismatch - protocol_radius) > 0",
+  "claim_firewall": [
+    "A nonzero derivative is not by itself observable separation.",
+    "Grid extrema are not continuum extrema.",
+    "Operator quotient margins are not converted into symbol units without a declared Lipschitz bridge.",
+    "No P1 phase-law pilot is authorized by a nonpositive net margin."
+  ]
+}
