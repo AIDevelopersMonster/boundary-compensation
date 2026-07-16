@@ -1,0 +1,52 @@
+{
+  "schema_version": "1.0",
+  "contract": "BC-IDPR-P1-PILOT-02",
+  "date": "2026-07-16",
+  "status": "PREREGISTERED_BEFORE_EVALUATION",
+  "dependencies": ["BC-IDPR-P3-B-M5", "BC-IDPR-CERT-03"],
+  "domain": {
+    "interval": ["pi/15", "pi/10"],
+    "anchor": "pi/12",
+    "sample_count": 129,
+    "wall_margin": "pi/30"
+  },
+  "carrier": {
+    "external_spins": ["1/2", "1", "2", "5/2"],
+    "dimension": 2,
+    "face_area_ratios": [1, 2, 4, 5]
+  },
+  "observable": {
+    "raw_channel": "G23 lower symbol",
+    "quotient_coordinate": "u(theta)=(y(theta)-y(theta_lo))/(y(theta_hi)-y(theta_lo))",
+    "negative_control": "G12 lower symbol"
+  },
+  "predictor_family": {
+    "name": "recoupling-angle harmonics",
+    "definition": "Let phi(theta)=atan2(F_21(theta),F_11(theta)) after the frozen M5 gauge. Fit u(theta)-u(theta0) by span{sin(2(phi-phi0)), 1-cos(2(phi-phi0)), sin(4(phi-phi0))}.",
+    "dimension": 3,
+    "post_evaluation_changes_forbidden": true
+  },
+  "smooth_null": {
+    "name": "centered cubic",
+    "definition": "span{x,x^2,x^3}, x=theta-theta0",
+    "dimension": 3
+  },
+  "validation": {
+    "blocked_folds": 8,
+    "metric": "normalized RMSE",
+    "coefficient_stability": "maximum fold coefficient displacement divided by full-fit coefficient norm"
+  },
+  "success_criteria": {
+    "negative_control_max_abs": 1e-12,
+    "minimum_signal_excursion": 0.1,
+    "maximum_phase_cv_normalized_rmse": 0.05,
+    "minimum_relative_cv_advantage_over_cubic": 0.1,
+    "maximum_phase_coefficient_instability": 0.25
+  },
+  "stopping_rule": "One frozen evaluation. Do not change basis, folds, interval, thresholds, carrier, observable, or sample count after this commit.",
+  "claim_firewall": {
+    "allowed_if_passed": "The preregistered recoupling-angle basis discriminates the declared affine-quotient response better than an equal-dimensional cubic smooth null on this carrier and interval.",
+    "forbidden": ["universal phase law", "physical q dynamics", "absolute-symbol accuracy", "confirmation outside the declared carrier and interval"]
+  },
+  "evidence_boundary": "No statement from the Gemini advisory report is used as evidence."
+}
