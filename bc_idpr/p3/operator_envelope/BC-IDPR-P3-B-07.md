@@ -2,6 +2,7 @@
 
 **Status:** `REPRESENTATION_DESCRIPTOR_LOOCV_NOT_CERTIFIED`  
 **Date:** 2026-07-16  
+**Edition:** v0.1.1 metadata-corrected  
 **Type:** construction module with exploratory leave-one-carrier-out validation
 
 ## 1. Objective
@@ -34,7 +35,15 @@ The transformed targets are
 
 The deterministic wall-safe atlas contains 75 ordered two-channel carriers with doubled spins in \(\{1,2,3,4\}\). Validation is leave-one-carrier-out ridge regression with frozen regularization \(\alpha=1\).
 
-The baseline descriptor has dimension 11. The matrix-augmented descriptor has dimension 15.
+The baseline descriptor has dimension 10:
+
+- four normalized external Casimirs;
+- four normalized channel Casimirs;
+- two normalized channel gaps.
+
+The matrix-augmented descriptor adds the four entries of \(F(\theta_0)\) and therefore has dimension 14.
+
+The earlier v0.1.0 text incorrectly reported these dimensions as 11 and 15. This was a metadata-only defect: the implementation and all LOOCV calculations already used the actual 10- and 14-dimensional arrays.
 
 ## 4. Results
 
