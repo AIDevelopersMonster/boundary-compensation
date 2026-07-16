@@ -1,0 +1,10 @@
+{
+  "contract": "BC-IDPR-CERT-02",
+  "anchor": "pi/8",
+  "interval": ["pi/10", "3*pi/20"],
+  "sample_count": 33,
+  "preparations": ["regular", "anisotropic_equifacial_holdout"],
+  "quotient": "constant additive offsets",
+  "uncertainty_steps": [0.0001, 0.00001, 0.000001, 0.0000001],
+  "claim_ceiling": "differential lower-symbol distinguishability only"
+}
