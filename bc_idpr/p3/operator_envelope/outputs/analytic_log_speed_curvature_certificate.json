@@ -1,0 +1,144 @@
+{
+  "schema_version": "1.0",
+  "contract": "BC-IDPR-P3-B-M12",
+  "status": "ANALYTIC_Q6J_LOG_SPEED_CURVATURE_CERTIFIED",
+  "preregistration_commit": "d48fb3d811d8681d6823288af7e15a7efd800246",
+  "analytic_identity": {
+    "q_number_third_log_derivative": "2*n^3*csc(n*theta)^2*cot(n*theta)-2*csc(theta)^2*cot(theta)",
+    "generator_second_derivative": "K''=F'''F^T+2F''F'^T+F'F''^T",
+    "target": "d_theta^2 log|omega|=K''21/K21-(K'21/K21)^2",
+    "fitted_parameter_count": 0
+  },
+  "atlas": {
+    "train_ordered_carriers_for_family_exclusion": 75,
+    "train_family_count": 9,
+    "test_ordered_carriers": 208,
+    "test_family_count": 15,
+    "test_family_keys": [
+      [
+        1,
+        1,
+        5,
+        5
+      ],
+      [
+        1,
+        1,
+        6,
+        6
+      ],
+      [
+        1,
+        2,
+        4,
+        5
+      ],
+      [
+        1,
+        2,
+        5,
+        6
+      ],
+      [
+        1,
+        3,
+        3,
+        5
+      ],
+      [
+        1,
+        3,
+        4,
+        6
+      ],
+      [
+        1,
+        3,
+        5,
+        5
+      ],
+      [
+        1,
+        3,
+        6,
+        6
+      ],
+      [
+        1,
+        4,
+        4,
+        5
+      ],
+      [
+        1,
+        4,
+        5,
+        6
+      ],
+      [
+        1,
+        5,
+        5,
+        5
+      ],
+      [
+        1,
+        5,
+        6,
+        6
+      ],
+      [
+        2,
+        2,
+        3,
+        5
+      ],
+      [
+        2,
+        2,
+        4,
+        6
+      ],
+      [
+        2,
+        3,
+        3,
+        6
+      ]
+    ]
+  },
+  "validation": {
+    "reference_steps": [
+      1e-05,
+      5e-06
+    ],
+    "maximum_relative_analytic_vs_refined_reference_residual": 8.562775171720663e-09,
+    "maximum_reference_step_disagreement_relative": 2.531584412895532e-08,
+    "maximum_orthogonality_residual": 1.1371631099637045e-15,
+    "maximum_generator_skew_residual": 2.2177764877206478e-14,
+    "maximum_generator_prime_skew_residual": 1.585800223262612e-12,
+    "maximum_generator_second_skew_residual": 2.2895394478573956e-10
+  },
+  "criteria": {
+    "maximum_relative_analytic_vs_refined_reference_residual": 1e-05,
+    "maximum_reference_step_disagreement_relative": 1e-05,
+    "maximum_orthogonality_residual": 1e-10,
+    "maximum_generator_skew_residual": 1e-07,
+    "maximum_generator_prime_skew_residual": 1e-06,
+    "maximum_generator_second_skew_residual": 1e-05,
+    "minimum_test_family_count": 10
+  },
+  "decision": {
+    "explicit_log_speed_curvature_formula": "CLOSED",
+    "independent_new_label_validation": "CLOSED",
+    "analytic_third_jet": "CLOSED",
+    "higher_log_speed_jet": "OPEN_SEPARATE_OBLIGATION",
+    "physical_interpretation": "BLOCKED"
+  },
+  "tests": {
+    "count": 10,
+    "result": "OK"
+  },
+  "claim_status": "THIRD_DERIVATIVE_OF_THE_FINITE_Q6J_RECOUPLING_FORMULA_REPRODUCES_THE_ANCHOR_LOG_SPEED_CURVATURE_ON_THE_DECLARED_NEW_LABEL_ATLAS",
+  "evidence_rule": "No statement from the Gemini advisory report is used as evidence."
+}
