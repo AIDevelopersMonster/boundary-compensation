@@ -1,11 +1,11 @@
 # P3-B Jet Calculus — Preprint Readiness Gate
 
 **Date:** 2026-07-16  
-**Current state:** `THEOREM_AUDIT_COMPLETE_INTERVAL_CERTIFICATION_REQUIRED`
+**Current state:** `G2_INTERVAL_BLOCKER_CLOSED_CORRECTED_MANUSCRIPT_NEXT`
 
 ## Publication thesis
 
-The bounded preprint may claim a recursive truncated-Taylor calculus for the declared finite two-channel q-6j class, analytic formulas through matrix derivative order three, and numerical validation on the frozen new-label atlas. A rigorous common nonvanishing complex disk remains conditional on interval-certified arithmetic.
+The bounded preprint may claim a recursive truncated-Taylor calculus for the declared finite two-channel q-6j class, analytic formulas through matrix derivative order three, numerical validation on the frozen new-label atlas, and an Arb-certified common complex disk on which the angular speed is nonzero and admits a holomorphic logarithm.
 
 ## Gate status
 
@@ -15,9 +15,9 @@ A coherent 12-page English manuscript and bibliography source are present under:
 
 `bc_idpr/p3/operator_envelope/manuscript/finite_q6j_jet_calculus_v0.1.0/`
 
-### G2. Theorem-level proof audit — `CONDITIONAL_PASS_ONE_PUBLICATION_BLOCKER`
+### G2. Theorem-level proof audit — `PASS_WITH_MANUSCRIPT_CORRECTIONS`
 
-The following parts passed:
+The analytic core passed:
 
 - doubled-spin channel combinatorics and parity;
 - finite q-Racah argument ordering;
@@ -27,33 +27,61 @@ The following parts passed:
 - slope and curvature corollaries;
 - bounded validation ceiling and claim firewall.
 
-Required clarifications concern the exact q-6j convention, root-of-unity admissibility, the algebraic carrier class, orthogonality domain, analytic logarithm language, critical q-index derivation, square-root branches and the exact Cauchy-tail formula.
-
-The publication blocker is the uniform-conditioning theorem. The present radius implementation uses ordinary floating-point arithmetic and pytest self-consistency checks. It does not yet provide outward-rounded interval enclosures. Therefore the claimed positive lower bound on the full complex disk is not a rigorous computer-assisted theorem in its current form.
+The full audit identified one critical blocker: the uniform-conditioning theorem was originally supported by ordinary `float64` arithmetic rather than outward-rounded enclosures.
 
 Full audit:
 
 `manuscript/finite_q6j_jet_calculus_v0.1.0/G2_THEOREM_LEVEL_AUDIT.md`
 
-### G2-R. Rigorous interval conditioning — `OPEN_NEXT`
+### G2-R. Rigorous interval conditioning — `CLOSED`
 
-Preferred closure path:
+The replacement module uses `python-flint` Arb ball arithmetic with outward rounding:
 
-1. implement interval or ball arithmetic with directed outward rounding;
-2. enclose all q-number, q-factorial, square-root, Racah and angular-speed operations;
-3. certify the order-50 remainder and every one of the 283 carrier margins;
-4. publish per-carrier interval margins and precision metadata;
-5. rerun the theorem audit against the interval certificate.
+- primary precision: 192 bits;
+- control precision: 256 bits;
+- outer radius: `pi/120`;
+- certified radius: `pi/1200`;
+- Taylor order: 50;
+- algebraic carrier class: 283 ordered carriers in 24 families;
+- canonical Arb evaluations: 24, extended to all ordered carriers by tetrahedral q-6j symmetry;
+- rigorous worst-carrier lower bound: `0.16025264148217666`;
+- worst family: `(1,1,1,1)`.
 
-Fallback path: downgrade the theorem to an explicitly numerical conditioning experiment and remove rigorous `inf`, `>=` and `computer-assisted proof` language.
+The positive lower endpoint survives both precision runs. Therefore:
+
+- `float64_blocker`: `CLOSED`;
+- `uniform_nonvanishing_theorem`: `RIGOROUSLY_CERTIFIED`;
+- `holomorphic_logarithm_on_common_disk`: `CLOSED`;
+- `G2_overall`: `PASS_WITH_MANUSCRIPT_CORRECTIONS`.
+
+Artifacts:
+
+- `BC-IDPR-P3-B-G2-R.md`;
+- `src/g2r_interval_conditioning.py`;
+- `tests/test_g2r_interval_conditioning.py`;
+- `outputs/g2r_interval_conditioning_certificate.json`;
+- `reviews/g2r_interval_conditioning_audit_v0.1.0.md`.
+
+### Corrected manuscript cycle — `OPEN_NEXT`
+
+Required corrections are now non-exploratory:
+
+1. state the exact q-6j normalization and root-of-unity scope;
+2. separate algebraic and certified carrier classes;
+3. add the square-root and tetrahedral-symmetry lemmas;
+4. derive the critical q-index maximum 10;
+5. insert the exact Arb Taylor-Cauchy lower-bound formula;
+6. distinguish the holomorphic logarithm from `log abs(omega)` on the real line;
+7. classify finite-difference checks as an independent differentiation route;
+8. update theorem and abstract wording from float64 certificate to Arb proof.
 
 ### G3. Clean reproducibility package — `OPEN`
 
-Record exact Python, NumPy, pytest and interval-library versions, repository commit, commands, runtimes, generated-certificate hashes and equality with committed outputs.
+Record exact Python, NumPy, pytest, python-flint and FLINT/Arb versions, repository commit, commands, runtimes, generated-certificate hashes and equality with committed outputs.
 
 ### G4. Bibliography and related-work boundary — `PARTIALLY_CLOSED`
 
-The initial primary-source set exists. Remaining work includes DOI and metadata verification, a direct reference for the exact finite q-Racah convention and a final audit of the asymptotic-geometry boundary.
+The initial primary-source set exists. Remaining work includes DOI and metadata verification, a direct reference for the exact finite q-Racah convention, a primary tetrahedral-symmetry citation and final audit of the asymptotic-geometry boundary.
 
 ### G5. Publication hygiene — `PARTIALLY_CLOSED`
 
@@ -61,8 +89,8 @@ Draft compilation and visual audit passed. Final version metadata, theorem corre
 
 ## Readiness decision
 
-The analytic jet-calculus core is publication-worthy. The preprint is not yet upload-ready while the uniform-disk result is presented as a rigorous theorem without interval-certified arithmetic.
+The critical mathematical blocker is closed. No additional exploratory research is required for the bounded preprint. The next task is one corrected manuscript cycle, followed by clean reproducibility and release packaging.
 
-After G2-R is closed, the remaining tasks are one corrected manuscript cycle and one clean reproducibility/release cycle. A realistic estimate is **1–3 focused working days if interval certification succeeds without forcing a smaller radius**. A smaller rigorously certified radius is acceptable and preferable to retaining an uncertified larger one.
+Operational estimate from the present state: **1–2 focused working days**.
 
 No statement from the Gemini advisory report is used as evidence.
