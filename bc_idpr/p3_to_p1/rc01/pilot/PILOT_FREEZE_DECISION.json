@@ -1,0 +1,22 @@
+{
+  "schema_version": "1.0",
+  "contract_id": "BC-IDPR-P3-P1-RC01",
+  "pipeline_id": "BC-IDPR-P3-P1-RC01-PILOT-PIPELINE",
+  "date": "2026-07-17",
+  "status": "PILOT_COMPLETED_PROTOCOL_REVISION_REQUIRED",
+  "pilot_family_count": 4,
+  "pilot_ordered_carrier_count": 64,
+  "calibration_results_present": false,
+  "confirmatory_results_present": false,
+  "selected_mode": null,
+  "outcome": null,
+  "integrity_hard_failures": [],
+  "predictor_control_max_absolute_correlation": 0.9999934351299474,
+  "largest_attainable_energy_advantage_bound": 0.003670726619615724,
+  "frozen_confirmatory_energy_threshold": 0.02,
+  "frozen_threshold_reachable": false,
+  "calibration_authorized": false,
+  "confirmatory_authorized": false,
+  "next_required_artifact": "BC-IDPR-P3-P1-RC02 predictor-design preregistration",
+  "evidence_policy": "No statement from the Gemini advisory report is used as evidence."
+}
