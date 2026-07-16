@@ -1,0 +1,54 @@
+{
+  "schema_version": "1.0",
+  "contract": "BC-IDPR-P3-B-M8",
+  "status": "REPRESENTATION_FAMILY_BLOCKED_GENERALIZATION_NOT_CERTIFIED",
+  "source_contract": "BC-IDPR-P3-B-M7-v0.1.1",
+  "validation": {
+    "ordered_carrier_count": 75,
+    "unordered_representation_family_count": 9,
+    "family_definition": "sorted doubled-spin quadruple",
+    "family_sizes": {
+      "(1, 1, 1, 1)": 1,
+      "(1, 1, 2, 2)": 6,
+      "(1, 1, 3, 3)": 6,
+      "(1, 1, 4, 4)": 6,
+      "(1, 2, 2, 3)": 12,
+      "(1, 2, 3, 4)": 24,
+      "(1, 3, 3, 3)": 4,
+      "(1, 3, 4, 4)": 12,
+      "(2, 2, 2, 4)": 4
+    },
+    "ridge_alpha": 1.0,
+    "held_out_unit": "all ordered carriers sharing one external-spin multiset",
+    "held_out_family_excluded_from_standardization": true
+  },
+  "descriptors": {
+    "baseline_dimension": 10,
+    "matrix_augmented_dimension": 14,
+    "derivatives_excluded_from_predictors": true
+  },
+  "ordinary_leave_one_carrier_out": {
+    "baseline_nrmse": [0.5098462643050097, 0.4916282371305589, 0.5692947389629354],
+    "matrix_augmented_nrmse": [0.3047106511670092, 0.40617639044568865, 0.4660168893049364]
+  },
+  "leave_one_representation_family_out": {
+    "baseline_nrmse": [0.5650272777659191, 0.5754654237540305, 0.6774194959906935],
+    "matrix_augmented_nrmse": [0.38592662992015675, 0.5668993653895712, 0.6731735935247946],
+    "relative_matrix_improvement_over_baseline": [0.3169769936664201, 0.014885444043847026, 0.006267759476998112],
+    "relative_error_inflation_vs_ordinary_loocv": [0.2665347549949405, 0.39569748199181315, 0.44452617270767186],
+    "maximum_matrix_nrmse_each_target": 0.35,
+    "minimum_improvement_each_target": 0.1,
+    "matrix_threshold_pass_each_target": [false, false, false],
+    "improvement_pass_each_target": [true, false, false]
+  },
+  "decision": {
+    "orbit_decomposition": "CLOSED",
+    "ordinary_loocv_independence": "INSUFFICIENT_FOR_UNSEEN_REPRESENTATION_FAMILIES",
+    "family_blocked_matrix_prediction": "NOT_CERTIFIED",
+    "carrier_neutral_exact_law": "BLOCKED",
+    "new_cross_carrier_pilot": "BLOCKED_PENDING_INDEPENDENT_FAMILY_ATLAS_OR_EQUIVARIANT_MAP"
+  },
+  "tests": {"count": 10, "result": "OK"},
+  "claim_status": "MATRIX_DESCRIPTOR_RETAINS_INFORMATION_BUT_DOES_NOT_GENERALIZE_UNIFORMLY_TO_HELD_OUT_EXTERNAL_SPIN_FAMILIES",
+  "evidence_rule": "No statement from the Gemini advisory report is used as evidence."
+}
