@@ -1,0 +1,58 @@
+{
+  "schema_version": "1.0",
+  "contract": "BC-IDPR-P3-B-G2-R",
+  "status": "RIGOROUS_ARB_UNIFORM_CONDITIONING_CERTIFIED",
+  "preregistration_commit": "535de38c4f0ed4393747510b7c15ccd6dd1fd977",
+  "arithmetic": {
+    "backend": "python-flint Arb",
+    "primary_precision_bits": 192,
+    "control_precision_bits": 256,
+    "outward_rounding": true
+  },
+  "proof_family": {
+    "outer_radius": "pi/120",
+    "confirmatory_radius": "pi/1200",
+    "taylor_order": 50,
+    "symmetry_reduction": "tetrahedral q-6j symmetry induces constant signed row/column permutations and optional transpose, preserving absolute angular speed and its zero set"
+  },
+  "primary_run": {
+    "precision_bits": 192,
+    "ordered_carriers_covered_by_symmetry": 283,
+    "canonical_family_representatives_evaluated": 24,
+    "representation_families": 24,
+    "minimum_lower_bound": 0.16025264148217666,
+    "worst_carrier": [1, 1, 1, 1],
+    "worst_components": {
+      "omega0_abs_lower": 0.16210935083709735,
+      "taylor_variation_upper": 0.0018567093549206992,
+      "cauchy_tail_upper": 4.6169853384256e-33,
+      "outer_majorant_upper": 4.1552868045830395e18
+    },
+    "all_positive": true,
+    "outer_disk_minimum_q_number_lower_bound": 0.23336538623102976
+  },
+  "control_run": {
+    "precision_bits": 256,
+    "ordered_carriers_covered_by_symmetry": 283,
+    "canonical_family_representatives_evaluated": 24,
+    "representation_families": 24,
+    "minimum_lower_bound": 0.16025264148217666,
+    "worst_carrier": [1, 1, 1, 1],
+    "worst_components": {
+      "omega0_abs_lower": 0.16210935083709735,
+      "taylor_variation_upper": 0.0018567093549206992,
+      "cauchy_tail_upper": 4.6169853384256e-33,
+      "outer_majorant_upper": 4.1552868045830395e18
+    },
+    "all_positive": true,
+    "outer_disk_minimum_q_number_lower_bound": 0.23336538623102976
+  },
+  "decision": {
+    "float64_blocker": "CLOSED",
+    "uniform_nonvanishing_theorem": "RIGOROUSLY_CERTIFIED",
+    "holomorphic_logarithm_on_common_disk": "CLOSED",
+    "G2_overall": "PASS"
+  },
+  "tests": {"count": 10, "result": "OK"},
+  "evidence_rule": "No statement from the Gemini advisory report is used as evidence."
+}
