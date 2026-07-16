@@ -47,7 +47,7 @@ The target is
 \[
 \frac{K''_{21}}{K_{21}}
 -
-\left(\frac{K'^ý":"[21]}{K_{21}}\right)^2.
+\left(\frac{K'_{21}}{K_{21}}\right)^2.
 \]
 
 ## 3. Independent validation atlas
@@ -75,10 +75,10 @@ Both are below the frozen threshold \(10^{-5}\). Orthogonality and skew-symmetry
 ## 5. Decision
 
 - explicit log-speed curvature formula: `CLOSED`;
-- independent new-label validation: `CLOSEd`;
+- independent new-label validation: `CLOSED`;
 - analytic third jet: `CLOSED`;
 - higher log-speed jet: `OPEN_SEPARATE_OBLIGATION`;
-- physical interpretation: `BLOCKED.
+- physical interpretation: `BLOCKED`.
 
 ## 6. Claim firewall
 
