@@ -1,0 +1,9 @@
+{
+  "schema_version": "1.0",
+  "contract": "BC-IDPR-P3-A-01",
+  "category_id": "SU(2)_2_Ising",
+  "convention": "F^{abc}_d maps the left channel e in (a tensor b) tensor c to the right channel f in a tensor (b tensor c).",
+  "gauge_id": "standard_real_unitary_ising",
+  "coefficient_field": "Q(sqrt(2))",
+  "unit_normalization": {
+    "rule": "Every admissible associator block with
