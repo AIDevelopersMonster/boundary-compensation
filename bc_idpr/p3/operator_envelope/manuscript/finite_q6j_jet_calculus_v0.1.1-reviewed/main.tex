@@ -1,0 +1,96 @@
+\documentclass[11pt]{article}
+\usepackage[a4paper,margin=1in]{geometry}
+\usepackage{amsmath,amssymb,amsthm,mathtools,bm}
+\usepackage{booktabs,longtable,array}
+\usepackage{enumitem}
+\usepackage{microtype}
+\usepackage{xcolor}
+\usepackage{xurl}
+\usepackage{hyperref}
+\hypersetup{
+  colorlinks=true,
+  linkcolor=blue,
+  citecolor=blue,
+  urlcolor=blue,
+  pdftitle={Recursive Jet Calculus and Rigorous Uniform Conditioning for Finite Quantum 6j Recoupling Matrices},
+  pdfauthor={A. A. Malachevsky},
+  pdfsubject={Finite two-channel quantum 6j jet calculus with Arb-certified uniform conditioning},
+  pdfkeywords={quantum 6j symbols, q-Racah, recoupling matrices, Taylor jets, Arb ball arithmetic}
+}
+\allowdisplaybreaks
+
+\newtheorem{definition}{Definition}[section]
+\newtheorem{lemma}[definition]{Lemma}
+\newtheorem{proposition}[definition]{Proposition}
+\newtheorem{theorem}[definition]{Theorem}
+\newtheorem{corollary}[definition]{Corollary}
+\newtheorem{remark}[definition]{Remark}
+\newtheorem{assumption}[definition]{Assumption}
+
+\newcommand{\C}{\mathbb C}
+\newcommand{\R}{\mathbb R}
+\newcommand{\N}{\mathbb N}
+\newcommand{\Tr}{\operatorname{Tr}}
+\newcommand{\diag}{\operatorname{diag}}
+\newcommand{\dist}{\operatorname{dist}}
+\newcommand{\HS}{\mathrm{HS}}
+\newcommand{\ord}{\operatorname{ord}}
+\newcommand{\Logh}{\operatorname{Log}}
+\newcommand{\qnum}[1]{[#1]_q}
+\newcommand{\qfac}[1]{[#1]_q!}
+\newcommand{\sixj}[6]{\begin{Bmatrix}#1&#2&#3\\#4&#5&#6\end{Bmatrix}_{q}}
+\newcommand{\dd}{\,\mathrm d}
+
+\title{Recursive Jet Calculus and Rigorous Uniform Conditioning\\
+for Finite Quantum $6j$ Recoupling Matrices\\
+\large A bounded two-channel result with frozen new-label cross-validation}
+\author{A. A. Malachevsky\\
+Independent researcher\\
+Boundary Compensation / BC-IDPR Programme}
+\date{Version v0.1.1 reviewed manuscript, 16 July 2026}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+We study a finite trigonometric quantum Racah model near the deformation anchor $q=e^{i\theta_0}$, $\theta_0=\pi/12$.  External and intermediate labels are doubled spins.  The scalar quantum $6j$ symbol and the associated two-channel recoupling matrix are defined explicitly in the paper, so no unstated modular-category normalization is imported.  The algebraic carrier class consists of 283 ordered four-tuples in 24 unordered external-label families; all q-number indices occurring in the finite formula are at most ten, below the first positive root-of-unity wall $[12]_q=0$ at the anchor.
+
+The analytic core is a truncated-Taylor algebra lemma.  Products, quotients, square roots and finite sums in the exact finite q-Racah expression propagate recursively at arbitrary finite order on any regular simply connected chamber.  If
+\[
+F(\theta_0+h)=\sum_{r\ge0}F_rh^r,
+\]
+then the transpose-orthogonal recoupling generator $K=F'F^T$ satisfies
+\[
+K_r=\sum_{a=0}^{r}(a+1)F_{a+1}F_{r-a}^{T}.
+\]
+A holomorphic logarithm of the signed angular-speed jet gives recursive logarithmic derivatives.  The implementation is cross-validated through matrix derivative order three and logarithmic-speed derivative order two on a frozen held-out split of 208 ordered carriers in 15 families; the largest relative residuals for speed, logarithmic slope and logarithmic curvature are $2.03\times10^{-9}$, $1.85\times10^{-9}$ and $8.64\times10^{-9}$.
+
+The uniform statement is certified with outward-rounded Arb ball arithmetic.  At both 192 and 256 bits, an order-50 Taylor--Cauchy enclosure proves for all 283 declared carriers that
+\[
+|\omega_J(z)|\ge 0.1602526414821766
+\qquad
+\text{whenever }|z-\theta_0|\le \pi/1200.
+\]
+Thus the anchor-selected square-root branches and the holomorphic logarithm of the signed angular speed are regular on one common disk.  The result is finite-label and local in the deformation parameter.  It makes no large-label, continuum, geometric-gravity or physical-dynamics claim.
+\end{abstract}
+
+\paragraph{Keywords.}
+quantum $6j$ symbols; trigonometric q-Racah formula; recoupling matrices; truncated Taylor algebra; analytic jets; Cauchy estimates; Arb ball arithmetic; computer-assisted proof.
+
+\paragraph{Software repository.}
+\href{https://github.com/AIDevelopersMonster/boundary-compensation}{AIDevelopersMonster/boundary-compensation}
+
+\paragraph{Author responsibility note.}
+The author is the sole responsible scientific decision maker.  AI-assisted tools may have been used for technical drafting, structuring, consistency checks, software scaffolding and LaTeX preparation.  AI-assisted tools are not authors or coauthors.
+
+\tableofcontents
+
+\input{sections/01_introduction.tex}
+\input{sections/02_conventions_and_racah.tex}
+\input{sections/03_recursive_jet_calculus.tex}
+\input{sections/04_independent_validation.tex}
+\input{sections/05_uniform_conditioning.tex}
+\input{sections/06_boundary_reproducibility_conclusion.tex}
+\input{sections/07_appendices.tex}
+\input{references.tex}
+\end{document}
