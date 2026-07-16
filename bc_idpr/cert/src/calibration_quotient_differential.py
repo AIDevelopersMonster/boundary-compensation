@@ -7,7 +7,7 @@ import numpy as np
 
 def load_m4():
     root=Path(__file__).resolve().parents[3]
-    p=root/'p3'/'operator_envelope'/'src'/'coherent_symbol_bridge.py'
+    p=root/'bc_idpr'/'p3'/'operator_envelope'/'src'/'coherent_symbol_bridge.py'
     spec=importlib.util.spec_from_file_location('m4_bridge',p)
     if spec is None or spec.loader is None: raise RuntimeError(p)
     m=importlib.util.module_from_spec(spec); spec.loader.exec_module(m); return m
