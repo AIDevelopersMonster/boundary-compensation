@@ -1,0 +1,13 @@
+{
+  "schema_version": "1.0",
+  "contract": "BC-IDPR-P3-B-M9",
+  "status": "FRONTIER_INVALIDATED",
+  "preregistration_commit": "abb61e4c86ea98d87a550cc6413e89283f3d945f",
+  "reason": "The preregistered independent test atlas with every doubled external spin restricted to {5,6} contains zero carriers having exactly two admissible channels in both declared pairings.",
+  "evaluation_stage_reached": "atlas construction only",
+  "model_fit_performed": false,
+  "threshold_evaluation_performed": false,
+  "post_hoc_replacement_forbidden": true,
+  "next_obligation": "Create a new preregistration whose test class contains at least one new doubled-spin label 5 or 6 while remaining disjoint from all training representation families.",
+  "evidence_rule": "No statement from the Gemini advisory report is used as evidence."
+}
