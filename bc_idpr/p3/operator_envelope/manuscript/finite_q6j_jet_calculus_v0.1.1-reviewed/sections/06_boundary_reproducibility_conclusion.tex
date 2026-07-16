@@ -1,0 +1,58 @@
+\section{Related-work boundary}
+The algebraic ingredients belong to angular-momentum recoupling and quantum-group theory \cite{biedenharnLouck1981,kirillovReshetikhin1989,kauffmanLins1994}.  Quantum $6j$ symbols also enter three-manifold state sums \cite{turaevViro1992}.  Large-label asymptotic formulas relate classical or quantum $6j$ symbols to Euclidean or non-Euclidean tetrahedra \cite{ponzanoRegge1968,roberts1999,taylorWoodward2005}.
+
+The present result is different.  It takes no large-spin limit and infers no tetrahedral geometry from a phase.  It studies a finite explicit trigonometric q-Racah model near one fixed anchor.  The central object is the local analytic jet of a two-channel recoupling matrix, together with a finite Arb-certified regularity disk.  It is complementary to, not an extension of, the Ponzano--Regge asymptotic programme.
+
+The use of analytic families and local power series is consistent with classical analytic perturbation theory \cite{kato1995}, although no eigenvalue perturbation theorem is required for the generator recurrence.  The tail estimate is a standard application of one-variable Cauchy bounds \cite{ahlfors1979}.  Rigorous numerical enclosure is provided by Arb midpoint-radius arithmetic \cite{johansson2017arb}.
+
+\section{Claim-dependency ledger}
+\begin{center}
+\begin{tabular}{>{\raggedright\arraybackslash}p{0.28\textwidth}>{\raggedright\arraybackslash}p{0.23\textwidth}>{\raggedright\arraybackslash}p{0.36\textwidth}}
+\toprule
+Claim & Evidence type & Status\\
+\midrule
+q-Racah closure and jet recurrences & analytic proof & exact, arbitrary finite order conditional on regularity\\
+283 carriers, 24 families, q-index ledger & exact integer enumeration & exact finite statement\\
+low-order derivative agreement on 208 carriers & binary floating-point cross-validation & numerical through stated orders\\
+uniform q-number separation & analytic bounds plus Arb enclosure & rigorous on the outer disk\\
+uniform nonvanishing of $\omega$ & 192/256-bit Arb Taylor--Cauchy certificate & rigorous on $|z-\theta_0|\le\pi/1200$\\
+maximal radius or unbounded-label stability & no certificate & not claimed\\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\section{Reproducibility protocol}
+The accompanying package contains:
+\begin{itemize}[leftmargin=2em]
+\item the finite q-$6j$ jet engine and frozen carrier-generation rules;
+\item the exact 283-carrier supplementary list;
+\item low-order cross-validation tests and certificates;
+\item the Arb interval-conditioning builder, tests and certificate;
+\item preregistration records for the confirmatory radius, precision and Taylor order;
+\item machine-readable JSON outputs and theorem-audit response files.
+\end{itemize}
+
+The final release cycle will record the repository commit, Python, NumPy, pytest, python-flint and FLINT versions, deterministic commands, source and output hashes, generated-certificate equality and wall-clock runtime.  These release metadata must be generated from a clean checkout after the reviewed manuscript is committed.
+
+\section{Claim firewall and limitations}
+\subsection{Allowed bounded statement}
+\begin{quote}
+Inside the declared finite two-channel trigonometric q-Racah class, the exact recoupling matrix admits a recursive truncated-Taylor jet calculus.  Matrix derivatives through order three are cross-validated on 208 ordered carriers from families excluded by the frozen label-1-to-4 split.  All 283 algebraic carriers share an Arb-certified complex disk on which the critical q-number denominators, anchor-selected square-root branches and signed angular-speed logarithm remain regular.
+\end{quote}
+
+\subsection{Forbidden extrapolations}
+The present evidence does not support:
+\begin{itemize}[leftmargin=2em]
+\item a theorem for all representations or unbounded labels;
+\item an all-order software-validation result;
+\item a universal compact descriptor replacing the finite q-Racah expression;
+\item physical motion, time evolution, matter, mass or curvature;
+\item a semiclassical geometric interpretation;
+\item an absolute maximal-radius theorem.
+\end{itemize}
+Finite-label certification gives no automatic stability as $j\to\infty$; that regime requires a separate uniform asymptotic analysis.
+
+\section{Conclusion}
+A finite quantum $6j$ response problem that appears to require a new hand derivation at each order can be reorganized into one truncated-Taylor algebra.  The resulting coefficient calculus yields exact generator and holomorphic-logarithm recurrences.  The released implementation is cross-validated through matrix order three, while a separate outward-rounded Arb computation proves a common nonvanishing disk for the entire declared finite class.
+
+The conceptual distinction is between explicit analytic evaluability and low-dimensional compression.  The local response is given by a finite analytic expression and is recursively evaluable, but it need not admit a small carrier-neutral descriptor.  Compression, higher-order software validation, larger carrier classes, asymptotic limits and physical interpretation remain separate obligations.
