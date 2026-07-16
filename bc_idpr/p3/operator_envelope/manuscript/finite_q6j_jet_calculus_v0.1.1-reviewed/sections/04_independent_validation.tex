@@ -1,0 +1,58 @@
+\section{Frozen new-label cross-validation}
+\subsection{Held-out family split}
+The label-1-to-4 atlas is used only to define represented unordered external-label families.  The test atlas consists of every carrier in $\mathfrak A_6$ whose sorted family contains a label 5 or 6 and is absent from the label-1-to-4 family set.  All ordered permutations from one unordered family are held out together.
+
+\begin{center}
+\begin{tabular}{lrr}
+\toprule
+Atlas & ordered carriers & unordered families\\
+\midrule
+family-exclusion reference & 75 & 9\\
+frozen new-label test & 208 & 15\\
+full algebraic class $\mathfrak A_6$ & 283 & 24\\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\subsection{Differentiation-route cross-checks}
+The unified analytic jets are compared with central-difference routes at the frozen steps
+\begin{equation}
+h_1=10^{-5},
+\qquad
+h_2=5\times10^{-6}.
+\label{eq:fdsteps}
+\end{equation}
+The reference routes use the same finite q-Racah evaluator but a different differentiation procedure.  They are not used to tune formulas or thresholds.
+
+\begin{table}[ht]
+\centering
+\caption{Maximum residuals on the 208-carrier frozen new-label atlas.}
+\label{tab:residuals}
+\begin{tabular}{lcc}
+\toprule
+Observable or invariant & maximum relative residual & frozen threshold\\
+\midrule
+$|\omega|$ & $2.0305\times10^{-9}$ & $10^{-7}$\\
+$\partial_\theta\log|\omega|$ & $1.8535\times10^{-9}$ & $10^{-6}$\\
+$\partial_\theta^2\log|\omega|$ & $8.6432\times10^{-9}$ & $10^{-5}$\\
+curvature step disagreement & $2.5267\times10^{-8}$ & $10^{-5}$\\
+orthogonality residual & $1.3559\times10^{-15}$ & $10^{-10}$\\
+$K_0$ skew residual & $5.4886\times10^{-14}$ & $10^{-7}$\\
+$K_1$ skew residual & $2.4628\times10^{-12}$ & $10^{-6}$\\
+$K_2$ skew residual & $1.5156\times10^{-10}$ & $10^{-5}$\\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\begin{proposition}[Validated implementation ceiling]
+\label{prop:validationceiling}
+On the frozen 208-carrier test atlas, the truncated-Taylor implementation agrees with the low-order differentiation routes within Table \ref{tab:residuals}.  The validated ceiling is matrix derivative order three and logarithmic-speed derivative order two.
+\end{proposition}
+
+\begin{proof}
+This is a finite floating-point verification, not an interval theorem.  For every carrier, the software checks exact channel enumeration, numerical transpose orthogonality at the anchor, the three observables, two reference steps and the corresponding skew-symmetry identities.  The reported values are maxima over the complete frozen list.  Source, tests and machine-readable certificates accompany the paper.
+\end{proof}
+
+\begin{remark}
+Passing pytest verifies implementation invariants and reproducibility of this numerical cross-validation.  It is not the source of the rigorous disk theorem in Section \ref{sec:conditioning}; that theorem uses a separate Arb ball-arithmetic certificate.
+\end{remark}
