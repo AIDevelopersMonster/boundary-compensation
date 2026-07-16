@@ -1,0 +1,83 @@
+\documentclass[11pt]{article}
+\usepackage[a4paper,margin=1in]{geometry}
+\usepackage{amsmath,amssymb,amsthm,mathtools,bm}
+\usepackage{booktabs,longtable,array}
+\usepackage{enumitem}
+\usepackage{microtype}
+\usepackage{xcolor}
+\usepackage{xurl}
+\usepackage{hyperref}
+\hypersetup{colorlinks=true,linkcolor=blue,citecolor=blue,urlcolor=blue}
+\allowdisplaybreaks
+
+\newtheorem{definition}{Definition}[section]
+\newtheorem{lemma}[definition]{Lemma}
+\newtheorem{proposition}[definition]{Proposition}
+\newtheorem{theorem}[definition]{Theorem}
+\newtheorem{corollary}[definition]{Corollary}
+\newtheorem{remark}[definition]{Remark}
+\newtheorem{assumption}[definition]{Assumption}
+
+\newcommand{\C}{\mathbb C}
+\newcommand{\R}{\mathbb R}
+\newcommand{\N}{\mathbb N}
+\newcommand{\Tr}{\operatorname{Tr}}
+\newcommand{\diag}{\operatorname{diag}}
+\newcommand{\dist}{\operatorname{dist}}
+\newcommand{\HS}{\mathrm{HS}}
+\newcommand{\ord}{\operatorname{ord}}
+\newcommand{\qnum}[1]{[#1]_q}
+\newcommand{\qfac}[1]{[#1]_q!}
+\newcommand{\sixj}[6]{\begin{Bmatrix}#1&#2&#3\\#4&#5&#6\end{Bmatrix}_{q}}
+\newcommand{\dd}{\,\mathrm d}
+
+\title{Recursive Jet Calculus and Uniform Conditioning for Finite Quantum $6j$ Recoupling Matrices\\
+\large A bounded two-channel result with independent new-label validation}
+\author{A. A. Malachevsky\\
+Independent researcher\\
+Boundary Compensation / BC-IDPR Programme}
+\date{Version v0.1.0 manuscript draft, 16 July 2026}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+We develop a finite-order analytic calculus for a declared family of two-channel quantum recoupling matrices built from trigonometric quantum $6j$ symbols.  The deformation parameter is written as $q=e^{i\theta}$ with anchor $\theta_0=\pi/12$.  External labels are doubled spins, and the admissible class is restricted to ordered four-tuples with exactly two intermediate channels in each of the two recoupling schemes and with all finite Racah sums contained in a fixed regular chamber.
+
+The main structural result is a truncated-Taylor algebra lemma: products, quotients, square roots and finite sums occurring in the quantum Racah expression propagate recursively at arbitrary finite order whenever the relevant denominator and branch conditions remain regular.  If
+\[
+F(\theta_0+h)=\sum_{r\ge0}F_r h^r,
+\]
+then the generator $K=F'F^T$ has coefficients
+\[
+K_r=\sum_{a=0}^{r}(a+1)F_{a+1}F_{r-a}^{T}.
+\]
+For a real orthogonal two-channel matrix, $K_r$ is skew-symmetric and is determined by a scalar angular-speed jet.  A formal logarithm of the signed local angular-speed series yields recursive expressions for the logarithmic slope and curvature.
+
+The implementation is independently checked through matrix derivative order three and logarithmic-speed derivative order two.  On a frozen new-label atlas containing 208 ordered carriers in 15 representation families, the maximum relative residuals for the speed, logarithmic slope and logarithmic curvature are respectively $2.03\times10^{-9}$, $1.85\times10^{-9}$ and $8.64\times10^{-9}$.  A second computer-assisted theorem treats all 283 declared ordered carriers in 24 families and establishes a common complex disk of radius
+\[
+R_{\mathrm{cert}}=0.1R_{\mathrm{wall}}=0.0026179938779914962
+\]
+on which the critical quantum numbers remain separated from their zeros, the square-root branches remain regular, and the angular speed has a uniform positive lower bound.  The paper makes no asymptotic, continuum, geometric-gravity or physical-dynamics claim.
+\end{abstract}
+
+\paragraph{Keywords.}
+quantum $6j$ symbols; $U_q(\mathfrak{sl}_2)$; recoupling matrices; truncated Taylor algebra; analytic jets; Cauchy estimates; computer-assisted proof; independent validation.
+
+\paragraph{Software repository.}
+\href{https://github.com/AIDevelopersMonster/boundary-compensation}{AIDevelopersMonster/boundary-compensation}
+
+\paragraph{Author responsibility note.}
+The author is the sole responsible scientific decision maker.  AI-assisted tools may have been used for technical drafting, structuring, consistency checks, software scaffolding and LaTeX preparation.  AI-assisted tools are not authors or coauthors.
+
+\tableofcontents
+
+\input{sections/01_introduction.tex}
+\input{sections/02_conventions_and_racah.tex}
+\input{sections/03_recursive_jet_calculus.tex}
+\input{sections/04_independent_validation.tex}
+\input{sections/05_uniform_conditioning.tex}
+\input{sections/06_boundary_reproducibility_conclusion.tex}
+\input{sections/07_appendices.tex}
+\input{references.tex}
+\end{document}
