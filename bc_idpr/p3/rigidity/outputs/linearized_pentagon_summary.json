@@ -1,0 +1,34 @@
+{
+  "schema_version": "1.0",
+  "contract": "BC-IDPR-P3-A-01",
+  "category_id": "SU(2)_2_Ising",
+  "status": "LINEARIZED_PENTAGON_JACOBIAN_CERTIFIED",
+  "arithmetic": "exact symbolic over Q(sqrt(2))",
+  "counts": {
+    "n_variables": 14,
+    "n_raw_residual_rows": 136,
+    "n_zero_linearized_rows": 95,
+    "n_nonzero_linearized_rows": 41,
+    "n_projectively_unique_rows": 35,
+    "n_projective_duplicates": 6
+  },
+  "rank": {
+    "raw": 11,
+    "nonzero": 11,
+    "projectively_reduced": 11
+  },
+  "kernel": {
+    "dimension": 3,
+    "basis": [
+      ["0", "-sqrt(2)/4", "0", "sqrt(2)/4", "-1/2", "-1/2", "1/2", "-1/2", "1", "0", "0", "0", "0", "0"],
+      ["0", "-sqrt(2)/2", "sqrt(2)/2", "0", "1", "-1", "0", "0", "0", "-1", "1", "0", "0", "0"],
+      ["0", "-sqrt(2)/4", "0", "sqrt(2)/4", "1/2", "-1/2", "1/2", "-1/2", "0", "-1", "0", "0", "1", "0"]
+    ]
+  },
+  "independent_audit": {
+    "method": "independent epsilon-direction coefficient extraction",
+    "verified": true,
+    "nonzero_discrepancy_rows": []
+  },
+  "claim_status": "Z3_KERNEL_COMPUTED_GAUGE_QUOTIENT_OPEN"
+}
