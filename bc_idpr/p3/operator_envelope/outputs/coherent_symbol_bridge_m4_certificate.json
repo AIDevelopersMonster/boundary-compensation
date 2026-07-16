@@ -1,0 +1,81 @@
+{
+  "schema_version": "1.0",
+  "contract": "BC-IDPR-P3-B-04",
+  "status": "EUCLIDEAN_COHERENT_SYMBOL_BRIDGE_CERTIFIED",
+  "arithmetic": {
+    "coherent_bridge": "double precision SU(2) carrier plus 80-decimal q-Racah block",
+    "q_racah_dps": 80
+  },
+  "carrier": {
+    "external_spins": ["1", "1", "1", "1"],
+    "dimension": 3,
+    "basis_channels": ["0", "1", "2"],
+    "basis_gram_residual": 5.992408848960492e-16
+  },
+  "observable_protocol": {
+    "classical": ["n1 dot n2", "n2 dot n3"],
+    "operators": [
+      "(J1 dot J2)/j(j+1)",
+      "F(theta)(J1 dot J2)F(theta)^T/j(j+1)"
+    ],
+    "coherent_state": "normalized invariant projection of four spin-one SU(2) coherent states",
+    "anchor_calibration": "two frozen additive channel offsets fitted on regular tetrahedron at theta=pi/8",
+    "calibration_offsets": [-1.6653345369377348e-16, 0.00837124074102752]
+  },
+  "geometries": {
+    "regular": {
+      "target": [-0.3333333333333334, -0.3333333333333334],
+      "areas": [3.4641016151377544, 3.4641016151377544, 3.4641016151377544, 3.4641016151377544],
+      "closure_norm": 0.0,
+      "volume": 2.6666666666666665,
+      "coherent_probabilities": [0.22222222222222243, 0.4999999999999996, 0.2777777777777779]
+    },
+    "holdout_anisotropic_equifacial": {
+      "target": [0.2518157556651257, -0.7759323869297632],
+      "areas": [11.173701266813964, 11.173701266813964, 11.173701266813964, 11.173701266813964],
+      "edge_spread": 2.16319848054031,
+      "closure_norm": 0.0,
+      "volume": 12.965333333333326,
+      "coherent_probabilities": [0.019191844926662788, 0.25982329397156956, 0.7209848611017676]
+    }
+  },
+  "anchor": {
+    "theta": "pi/8",
+    "F_orthogonality_residual": 2.18493597995736e-16,
+    "regular_symbol": [-0.3333333333333334, -0.3333333333333334],
+    "regular_target": [-0.3333333333333334, -0.3333333333333334],
+    "regular_mismatch_norm": 0.0,
+    "holdout_symbol": [0.21138893863843616, -0.6821561462821037],
+    "holdout_target": [0.2518157556651257, -0.7759323869297632],
+    "holdout_mismatch_norm": 0.10211910127354808,
+    "regular_symbol_derivative": [0.0, -0.10729829427735815],
+    "holdout_symbol_derivative": [0.0, 0.4463919038855124]
+  },
+  "grid_summary": {
+    "interval": ["pi/10", "3*pi/20"],
+    "sample_count": 33,
+    "max_regular_mismatch_norm": 0.013713613923774015,
+    "max_holdout_mismatch_norm": 0.1491999657742081,
+    "min_holdout_mismatch_norm": 0.07819043294294023,
+    "regular_second_channel_derivative_range": [-0.2656513939935934, -0.04207254733490373],
+    "holdout_second_channel_derivative_range": [0.25967920647129716, 0.8999946229382161]
+  },
+  "error_ledger": {
+    "symbol_error": "reported separately for calibration and holdout geometries",
+    "q_response": "derivative of frozen calibrated lower symbol at fixed coherent state and external geometry",
+    "wall_error": "zero on the compact interval; wall distance at least pi/20",
+    "external_geometry_leakage": "zero by M3"
+  },
+  "cert_gate": {
+    "status": "OPEN_PROTOCOL_RELATIVE_CERT_ONLY",
+    "allowed_claim": "declared coherent-state symbol protocol gives nonzero q-response at fixed external geometry with quantified finite-j mismatch",
+    "forbidden_claims": [
+      "unique quantization",
+      "semiclassical accuracy at j=1",
+      "universal tetrahedral observable map",
+      "physical q dynamics",
+      "P1 confirmatory phase law"
+    ]
+  },
+  "tests": {"count": 8, "result": "OK"}
+}
