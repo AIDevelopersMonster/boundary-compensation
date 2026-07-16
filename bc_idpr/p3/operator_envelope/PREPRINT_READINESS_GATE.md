@@ -1,96 +1,102 @@
-# P3-B Jet Calculus — Preprint Readiness Gate
+# P3-B Jet Calculus - Preprint Readiness Gate
 
 **Date:** 2026-07-16  
-**Current state:** `G2_INTERVAL_BLOCKER_CLOSED_CORRECTED_MANUSCRIPT_NEXT`
+**Current state:** `V0_1_1_REVIEWED_G2_CLOSED_G3_REPRODUCIBILITY_NEXT`
 
 ## Publication thesis
 
-The bounded preprint may claim a recursive truncated-Taylor calculus for the declared finite two-channel q-6j class, analytic formulas through matrix derivative order three, numerical validation on the frozen new-label atlas, and an Arb-certified common complex disk on which the angular speed is nonzero and admits a holomorphic logarithm.
+The bounded preprint supports a recursive truncated-Taylor calculus for the declared finite two-channel trigonometric q-6j class, numerical cross-validation through matrix derivative order three and logarithmic-speed order two, and an Arb-certified common complex disk on which the angular speed is nonzero and admits a holomorphic logarithm.
 
 ## Gate status
 
-### G1. Integrated manuscript — `CLOSED_AT_V0.1.0_DRAFT`
+### G1. Integrated manuscript - `CLOSED`
 
-A coherent 12-page English manuscript and bibliography source are present under:
+The corrected English manuscript is present under:
 
-`bc_idpr/p3/operator_envelope/manuscript/finite_q6j_jet_calculus_v0.1.0/`
+`bc_idpr/p3/operator_envelope/manuscript/finite_q6j_jet_calculus_v0.1.1-reviewed/`
 
-### G2. Theorem-level proof audit — `PASS_WITH_MANUSCRIPT_CORRECTIONS`
+The reviewed version has 15 pages and includes the full theorem architecture, related-work boundary, claim ledger, appendices and supplementary artifact map.
 
-The analytic core passed:
+### G2. Theorem-level proof audit - `CLOSED`
 
-- doubled-spin channel combinatorics and parity;
-- finite q-Racah argument ordering;
-- truncated-Taylor reciprocal and square-root recurrences;
-- generator recurrence;
-- formal logarithm recurrence;
-- slope and curvature corollaries;
-- bounded validation ceiling and claim firewall.
+All classified G2 findings were resolved in the manuscript:
 
-The full audit identified one critical blocker: the uniform-conditioning theorem was originally supported by ordinary `float64` arithmetic rather than outward-rounded enclosures.
+- exact scalar q-6j and recoupling-matrix convention;
+- explicit root-of-unity scope;
+- algebraic carrier class separated from numerical validation;
+- exact critical q-index ledger;
+- transpose orthogonality rather than unitarity;
+- holomorphic square-root and logarithm branches;
+- exact Taylor-Cauchy remainder formula;
+- differentiation-route cross-validation wording;
+- bounded formal-versus-tested order claims.
 
-Full audit:
+The complete disposition is recorded in:
 
-`manuscript/finite_q6j_jet_calculus_v0.1.0/G2_THEOREM_LEVEL_AUDIT.md`
+`manuscript/finite_q6j_jet_calculus_v0.1.1-reviewed/G2_RESPONSE_MATRIX.md`
 
-### G2-R. Rigorous interval conditioning — `CLOSED`
+### G2-R. Rigorous interval conditioning - `CLOSED`
 
-The replacement module uses `python-flint` Arb ball arithmetic with outward rounding:
+The theorem uses `python-flint` Arb ball arithmetic with outward rounding:
 
 - primary precision: 192 bits;
 - control precision: 256 bits;
 - outer radius: `pi/120`;
 - certified radius: `pi/1200`;
 - Taylor order: 50;
-- algebraic carrier class: 283 ordered carriers in 24 families;
-- canonical Arb evaluations: 24, extended to all ordered carriers by tetrahedral q-6j symmetry;
+- exact carrier class: 283 ordered carriers in 24 families;
+- canonical Arb evaluations: 24, extended by tetrahedral symmetry;
 - rigorous worst-carrier lower bound: `0.16025264148217666`;
 - worst family: `(1,1,1,1)`.
 
-The positive lower endpoint survives both precision runs. Therefore:
+### Corrected manuscript cycle v0.1.1 reviewed - `CLOSED`
 
-- `float64_blocker`: `CLOSED`;
-- `uniform_nonvanishing_theorem`: `RIGOROUSLY_CERTIFIED`;
-- `holomorphic_logarithm_on_common_disk`: `CLOSED`;
-- `G2_overall`: `PASS_WITH_MANUSCRIPT_CORRECTIONS`.
+Build and review status:
 
-Artifacts:
+- two-pass pdfLaTeX: successful;
+- pages: 15;
+- unresolved references: 0;
+- undefined citations: 0;
+- overfull boxes: 0;
+- underfull boxes: 0;
+- PDF metadata: present;
+- fonts: embedded;
+- 180-dpi visual audit: pass;
+- exact 283-carrier supplementary JSON: present.
 
-- `BC-IDPR-P3-B-G2-R.md`;
-- `src/g2r_interval_conditioning.py`;
-- `tests/test_g2r_interval_conditioning.py`;
-- `outputs/g2r_interval_conditioning_certificate.json`;
-- `reviews/g2r_interval_conditioning_audit_v0.1.0.md`.
+Review certificate:
 
-### Corrected manuscript cycle — `OPEN_NEXT`
+`manuscript/finite_q6j_jet_calculus_v0.1.1-reviewed/REVIEW_CERTIFICATE.json`
 
-Required corrections are now non-exploratory:
+### G3. Clean-checkout reproducibility package - `OPEN_NEXT`
 
-1. state the exact q-6j normalization and root-of-unity scope;
-2. separate algebraic and certified carrier classes;
-3. add the square-root and tetrahedral-symmetry lemmas;
-4. derive the critical q-index maximum 10;
-5. insert the exact Arb Taylor-Cauchy lower-bound formula;
-6. distinguish the holomorphic logarithm from `log abs(omega)` on the real line;
-7. classify finite-difference checks as an independent differentiation route;
-8. update theorem and abstract wording from float64 certificate to Arb proof.
+Required closure items:
 
-### G3. Clean reproducibility package — `OPEN`
+1. perform a clean checkout at the reviewed manuscript commit;
+2. record Python, NumPy, pytest, python-flint and FLINT/Arb versions;
+3. run all manuscript-relevant tests and certificate builders;
+4. regenerate certificates and compare byte-for-byte or canonically with committed outputs;
+5. compile the manuscript from the clean checkout;
+6. record commands, hashes and wall-clock runtimes in a release manifest.
 
-Record exact Python, NumPy, pytest, python-flint and FLINT/Arb versions, repository commit, commands, runtimes, generated-certificate hashes and equality with committed outputs.
+### G4. Bibliography and related-work boundary - `PARTIALLY_CLOSED`
 
-### G4. Bibliography and related-work boundary — `PARTIALLY_CLOSED`
+The reviewed manuscript includes direct references for q-recoupling conventions, tetrahedral symmetry, asymptotic geometry, complex analysis and Arb arithmetic. Remaining work is the final field/DOI verification during the release cycle.
 
-The initial primary-source set exists. Remaining work includes DOI and metadata verification, a direct reference for the exact finite q-Racah convention, a primary tetrahedral-symmetry citation and final audit of the asymptotic-geometry boundary.
+### G5. Release hygiene - `PARTIALLY_CLOSED`
 
-### G5. Publication hygiene — `PARTIALLY_CLOSED`
+Still required:
 
-Draft compilation and visual audit passed. Final version metadata, theorem corrections, clean build, bibliography audit, license, Zenodo metadata and release PDF audit remain open.
+- final release version/date/DOI metadata;
+- license and CITATION metadata;
+- Zenodo title, abstract, keywords and related identifiers;
+- repository archive link;
+- final clean-build PDF visual audit.
 
 ## Readiness decision
 
-The critical mathematical blocker is closed. No additional exploratory research is required for the bounded preprint. The next task is one corrected manuscript cycle, followed by clean reproducibility and release packaging.
+The mathematical and manuscript-review phases are complete. No further exploratory research is required for this bounded preprint. The next blocking task is G3 clean-checkout reproducibility, followed by final G4/G5 release packaging.
 
-Operational estimate from the present state: **1–2 focused working days**.
+Operational estimate: one focused reproducibility cycle plus one release-metadata cycle.
 
 No statement from the Gemini advisory report is used as evidence.
