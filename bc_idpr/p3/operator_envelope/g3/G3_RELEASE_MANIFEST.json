@@ -1,0 +1,85 @@
+{
+  "schema_version": "1.0",
+  "contract": "BC-IDPR-P3-B-G3",
+  "status": "G3_CONNECTOR_EXPORT_REPRODUCIBILITY_CERTIFIED",
+  "date": "2026-07-16",
+  "repository": "AIDevelopersMonster/boundary-compensation",
+  "source_commit": "3a53966637ec41a309e4d6f6551e903ba60af644",
+  "checkout": {
+    "mode": "isolated connector-export with Git blob and SHA-256 verification",
+    "ordinary_git_clone_attempted": true,
+    "ordinary_git_clone_succeeded": false,
+    "failure_reason": "container DNS could not resolve github.com",
+    "local_previous_work_products_used_as_authority": false,
+    "hash_verified_local_artifacts_used_as_transport": true
+  },
+  "environment": {
+    "python": "3.13.5",
+    "numpy": "2.3.5",
+    "pytest": "9.0.2",
+    "python_flint": "0.9.0",
+    "flint": "3.6.0",
+    "pdftex": "3.141592653-2.6-1.40.26",
+    "tex_live": "2025/dev",
+    "git": "2.47.3"
+  },
+  "source_blob_verification": {
+    "finite_q6j_jet_calculus.py": "12155b425b5ff09fe3846acc3dede6650be55fd3",
+    "test_finite_q6j_jet_calculus.py": "4dcc0c43a3adf06c40ebabd8321a8de4fde04e56",
+    "finite_q6j_jet_calculus_certificate.json": "904c3d18c65e1ec6c02c9136dfc5e973a6672d2a",
+    "g2r_interval_conditioning.py": "ce39e102e51c9206aeb8e48d233d5655ff0a7d91",
+    "test_g2r_interval_conditioning.py": "bf91bfd1b16827cb1cfbd2f761796593b7898647",
+    "g2r_interval_conditioning_certificate.json": "b5c492b993e7d9965d04c0ca98262af383561c63"
+  },
+  "tests": {
+    "command": "python -m pytest -q test_finite_q6j_jet_calculus.py test_g2r_interval_conditioning.py",
+    "passed": 22,
+    "failed": 0,
+    "pytest_reported_seconds": 14.08,
+    "external_wall_seconds": 19.20,
+    "maximum_resident_kib": 371884
+  },
+  "builders": {
+    "jet_synthesis": {
+      "status": "FINITE_Q6J_RECURSIVE_JET_CALCULUS_CERTIFIED_THROUGH_LOG_ORDER_2",
+      "wall_seconds": 6.73,
+      "canonical_equal_to_committed_certificate": true
+    },
+    "g2r_interval": {
+      "status": "RIGOROUS_ARB_UNIFORM_CONDITIONING_CERTIFIED",
+      "minimum_lower_bound": 0.16025264148217666,
+      "internal_runtime_seconds": 8.713462829589844,
+      "external_wall_seconds": 11.00,
+      "canonical_equal_to_committed_certificate_after_excluding_runtime_and_test_metadata": true
+    }
+  },
+  "supplement": {
+    "ordered_carrier_count": 283,
+    "family_count": 24,
+    "carrier_set_equal_to_g2r_builder": true,
+    "family_set_equal_to_g2r_builder": true
+  },
+  "manuscript": {
+    "source_manifest_check": "PASS_ALL_16_ENTRIES",
+    "pdftex_passes_required_for_stable_toc": 4,
+    "pages": 15,
+    "clean_pdf_sha256": "62de23bfe0ca978fd78b74d1fc65ee1973ea038154ecd770494d2ace2e4722d2",
+    "repeat_clean_build_byte_identical": true,
+    "reviewed_pdf_sha256": "2e52b2071a30fd90dbbfecd521dfde0229cc896de2dee66086ad55fa53dabefe",
+    "reviewed_vs_clean_render_changed_pages_at_150_dpi": 0,
+    "preflight": {
+      "openable": true,
+      "encrypted": false,
+      "scanned": false,
+      "fonts_embedded": true,
+      "outline_items": 28
+    }
+  },
+  "decision": {
+    "G3_clean_checkout_reproducibility": "CLOSED_WITH_DOCUMENTED_CONNECTOR_EXPORT_SUBSTITUTION",
+    "scientific_certificates_reproduced": true,
+    "manuscript_rebuilt_deterministically": true,
+    "next_gate": "G4_G5_RELEASE_PACKAGING"
+  },
+  "evidence_rule": "No statement from the Gemini advisory report is used as evidence."
+}
