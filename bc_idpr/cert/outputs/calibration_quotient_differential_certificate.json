@@ -1,0 +1,46 @@
+{
+  "schema_version": "1.0",
+  "contract": "BC-IDPR-CERT-02",
+  "status": "CALIBRATION_QUOTIENT_DIFFERENTIAL_SEPARATION_CERTIFIED",
+  "domain": {
+    "interval": ["pi/10", "3*pi/20"],
+    "anchor": "pi/8",
+    "sample_count": 33,
+    "wall_margin": "pi/20"
+  },
+  "observable_package": {
+    "dimension": 4,
+    "components": ["regular_G12", "regular_G23", "holdout_G12", "holdout_G23"],
+    "quotient": "constant additive offsets",
+    "definition": "Q(theta)=S(theta)-S(theta0)"
+  },
+  "calibration_quotient": {
+    "invariance_residual": 2.220446049250313e-16,
+    "verified": true
+  },
+  "anchor_response": {
+    "derivative": [0.0, -0.10729829427735815, 0.0, 0.4463919038855124],
+    "derivative_norm": 0.45910636655285353,
+    "finite_difference_step_radius": 6.608445919445078e-08
+  },
+  "grid_summary": {
+    "minimum_adjacent_separation": 0.0013122984675192288,
+    "maximum_adjacent_separation": 0.004488554656900088,
+    "low_anchor_separation": 0.027405636898095716,
+    "high_anchor_separation": 0.05169452570488938,
+    "full_endpoint_separation": 0.07906070079723866
+  },
+  "uncertainty_ledger": {
+    "arithmetic_bound": 5e-14,
+    "finite_difference_contribution": 3.145612901844561e-10,
+    "total_bound": 3.1461129018445613e-10,
+    "net_adjacent_margin": 0.0013122981529079386
+  },
+  "gate": {
+    "differential_p1_pilot": "OPEN",
+    "static_absolute_symbol_gate": "BLOCKED_BY_CERT_01",
+    "nonuniform_spin_gate": "OPEN_OBLIGATION"
+  },
+  "tests": {"count": 7, "result": "OK"},
+  "claim_status": "DIFFERENTIAL_PARAMETER_VALUES_SEPARATED_MODULO_ADDITIVE_CALIBRATION"
+}
