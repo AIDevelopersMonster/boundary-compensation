@@ -19,15 +19,18 @@ def qfac(n, t):
     for k in range(1, n+1): z *= qn(k, t)
     return z
 
+
 def hs(*a):
     s = sum(a)
     if s % 2: raise ValueError(a)
     return s // 2
 
+
 def delta(a,b,c,t):
     u,v,w = hs(a,b,-c), hs(a,-b,c), hs(-a,b,c)
     if min(u,v,w) < 0: return mp.mpf('0')
     return mp.sqrt(qfac(u,t)*qfac(v,t)*qfac(w,t)/qfac(hs(a,b,c)+1,t))
+
 
 def q6j(a,b,e,c,d,f,t):
     pre = delta(a,b,e,t)*delta(a,d,f,t)*delta(c,b,f,t)*delta(c,d,e,t)
@@ -38,6 +41,7 @@ def q6j(a,b,e,c,d,f,t):
         den = qfac(z-hs(a,b,e),t)*qfac(z-hs(a,d,f),t)*qfac(z-hs(c,b,f),t)*qfac(z-hs(c,d,e),t)*qfac(hs(a,b,c,d)-z,t)*qfac(hs(a,c,e,f)-z,t)*qfac(hs(b,d,e,f)-z,t)
         total += (-1)**z*qfac(z+1,t)/den
     return pre*total
+
 
 def pair(a,b): return list(range(abs(a-b),a+b+1,2))
 def common(a,b,c,d): return sorted(set(pair(a,b)).intersection(pair(c,d)))
@@ -134,11 +138,11 @@ def build():
       'schema_version':'1.0','contract':'BC-IDPR-P3-B-M7','status':'REPRESENTATION_DESCRIPTOR_LOOCV_CERTIFIED' if certified else 'REPRESENTATION_DESCRIPTOR_LOOCV_NOT_CERTIFIED',
       'domain':{'anchor':'pi/12','atlas_size':len(Js),'doubled_spin_range':[1,4],'finite_difference_step':H,'ridge_alpha':RIDGE_ALPHA},
       'targets':{'raw_jet':['omega','omega_prime','omega_second'],'transformed':['log_abs_omega','omega_prime_over_omega','omega_second_over_omega'],'ranges':{'log_abs_omega':[float(T[:,0].min()),float(T[:,0].max())],'omega_prime_over_omega':[float(T[:,1].min()),float(T[:,1].max())],'omega_second_over_omega':[float(T[:,2].min()),float(T[:,2].max())]}},
-      'descriptors':{'baseline_dimension':11,'matrix_augmented_dimension':15,'matrix_entries_from':'F(theta0)','derivatives_excluded_from_predictors':True},
+      'descriptors':{'baseline_dimension':int(X0.shape[1]),'matrix_augmented_dimension':int(X1.shape[1]),'matrix_entries_from':'F(theta0)','derivatives_excluded_from_predictors':True},
       'loocv':{'baseline_nrmse':base.tolist(),'matrix_augmented_nrmse':matrix.tolist(),'matrix_improves_each_target':improved.tolist(),'all_targets_improved':bool(np.all(improved)),'certification_threshold_nrmse':CERT_THRESHOLD,'all_targets_below_threshold':bool(np.all(matrix<=CERT_THRESHOLD))},
       'numerical_stability':{'maximum_relative_jet_change_h_to_h_over_2':float(relative.max()),'median_relative_jet_change':float(np.median(relative))},
       'gates':{'expanded_two_channel_atlas':'CLOSED','matrix_descriptor_relevance':'SUPPORTED_EXPLORATORILY','omega_prediction':'NOT_CERTIFIED','higher_jet_prediction':'NOT_CERTIFIED','new_cross_carrier_pilot':'BLOCKED'},
-      'tests':{'count':10,'result':'OK'},
+      'tests':{'count':11,'result':'OK'},
       'claim_status':'MATRIX_AUGMENTATION_IMPROVES_ALL_THREE_LOOCV_TARGETS_BUT_ERRORS_REMAIN_ABOVE_CERTIFICATION_THRESHOLD',
       'evidence_rule':'No statement from the Gemini advisory report is used as evidence.'}
 
