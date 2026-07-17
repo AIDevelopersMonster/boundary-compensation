@@ -27,4 +27,8 @@ This package records the prospective calibration rule before any of the 12 calib
 - `CALIBRATION_PROTOCOL.md` — human-readable computation and selection rule;
 - `CALIBRATION_RESULT_SCHEMA.json` — required post-run result shape;
 - `CALIBRATION_CHANGE_CONTROL.md` — frozen-change and contamination rules;
-- `validate_calibration_preregistration.py` —
+- `validate_calibration_preregistration.py` — structural validator;
+- `CALIBRATION_UNSEAL_CERTIFICATE.json` — authorization and hash certificate;
+- `SHA256SUMS.txt` — checksum ledger.
+
+No statement from the Gemini advisory report is used as evidence.
