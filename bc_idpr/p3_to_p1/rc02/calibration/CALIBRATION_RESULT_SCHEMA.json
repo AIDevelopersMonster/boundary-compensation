@@ -1,0 +1,22 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "RC02 calibration results",
+  "type": "object",
+  "required": ["schema_version","contract_id","status","evaluated_family_keys","evaluated_ordered_carrier_count","primary_family_advantages","primary_mode_scores","replication_family_advantages","selected_mode","hard_failures","confirmatory_results_present","evidence_policy"],
+  "properties": {
+    "schema_version": {"const": "1.0"},
+    "contract_id": {"const": "BC-IDPR-P3-P1-RC02"},
+    "status": {"enum": ["CALIBRATION_COMPLETE_MODE_FROZEN","CALIBRATION_NUMERICAL_FAILURE","CALIBRATION_PROTOCOL_CONTAMINATION","CALIBRATION_INCOMPLETE"]},
+    "evaluated_family_keys": {"type": "array", "minItems": 12, "maxItems": 12},
+    "evaluated_ordered_carrier_count": {"const": 113},
+    "primary_family_advantages": {"type": "object"},
+    "primary_mode_scores": {"type": "object"},
+    "replication_family_advantages": {"type": "object"},
+    "replication_mode_scores": {"type": "object"},
+    "selected_mode": {"type": ["integer","null"], "minimum": 2, "maximum": 10},
+    "tie_tolerance": {"const": 1e-12},
+    "hard_failures": {"type": "array"},
+    "confirmatory_results_present": {"const": false},
+    "evidence_policy": {"const": "No statement from the Gemini advisory report is used as evidence."}
+  }
+}
