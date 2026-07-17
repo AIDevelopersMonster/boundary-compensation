@@ -1,0 +1,66 @@
+{
+  "anchor_eta": 1.0,
+  "contract": "BC-IDPR-P5-UA01-WP0",
+  "coordinate": "eta = 12 theta / pi",
+  "critical_q_indices": [1,2,3,4,5,6,7,8,9,10],
+  "evidence_rule": "RC02 outcomes are not used to select or alter the chambers.",
+  "global_q_wall_margin": {
+    "eta": 0.05,
+    "eta_exact": "1/20",
+    "theta": 0.01308996938995747,
+    "theta_exact": "pi/240"
+  },
+  "nearest_q_wall": {
+    "distance_eta": 0.05,
+    "distance_eta_exact": "1/20",
+    "k": 1,
+    "n": 10,
+    "wall_eta": 1.2,
+    "wall_eta_exact": "6/5"
+  },
+  "nested_chambers": {
+    "full_rc02_protocol": {
+      "branch_status": "real q-factorial and square-root branches fixed",
+      "eta_interval": [0.6,1.15],
+      "omega_nonvanishing_status": "OPEN_OUTSIDE_ETA_0.99_1.01",
+      "q_number_sign": "strictly positive for n=1,...,10"
+    },
+    "inherited_local_nonvanishing": {
+      "eta_interval": [0.99,1.01],
+      "minimum_abs_omega_lower_bound": 0.16025264148217666,
+      "source_status": "RIGOROUS_ARB_UNIFORM_CONDITIONING_CERTIFIED",
+      "theta_radius_exact": "pi/1200"
+    },
+    "inherited_outer_q_safe": {
+      "eta_interval": [0.9,1.1],
+      "source_status": "OUTER_Q_WALL_SAFE_DISK",
+      "theta_radius_exact": "pi/120"
+    }
+  },
+  "open_walls": [
+    "residual-rank walls",
+    "measurement-frame rank walls",
+    "phase-gauge anchor zeros",
+    "carrier angular-speed zeros outside the inherited local chamber",
+    "operator-adapted basis conditioning walls"
+  ],
+  "per_index_nearest_walls": [
+    {"distance_eta":0.6,"distance_eta_exact":"3/5","k":0,"n":1,"wall_eta":0.0,"wall_eta_exact":"0"},
+    {"distance_eta":0.6,"distance_eta_exact":"3/5","k":0,"n":2,"wall_eta":0.0,"wall_eta_exact":"0"},
+    {"distance_eta":0.6,"distance_eta_exact":"3/5","k":0,"n":3,"wall_eta":0.0,"wall_eta_exact":"0"},
+    {"distance_eta":0.6,"distance_eta_exact":"3/5","k":0,"n":4,"wall_eta":0.0,"wall_eta_exact":"0"},
+    {"distance_eta":0.6,"distance_eta_exact":"3/5","k":0,"n":5,"wall_eta":0.0,"wall_eta_exact":"0"},
+    {"distance_eta":0.6,"distance_eta_exact":"3/5","k":0,"n":6,"wall_eta":0.0,"wall_eta_exact":"0"},
+    {"distance_eta":0.5642857142857143,"distance_eta_exact":"79/140","k":1,"n":7,"wall_eta":1.7142857142857142,"wall_eta_exact":"12/7"},
+    {"distance_eta":0.35,"distance_eta_exact":"7/20","k":1,"n":8,"wall_eta":1.5,"wall_eta_exact":"3/2"},
+    {"distance_eta":0.18333333333333332,"distance_eta_exact":"11/60","k":1,"n":9,"wall_eta":1.3333333333333333,"wall_eta_exact":"4/3"},
+    {"distance_eta":0.05,"distance_eta_exact":"1/20","k":1,"n":10,"wall_eta":1.2,"wall_eta_exact":"6/5"}
+  ],
+  "schema_version": "1.0",
+  "status": "Q_WALL_AND_REAL_BRANCH_CHAMBER_CERTIFIED",
+  "target_protocol_chamber": {
+    "eta_interval": [0.6,1.15],
+    "eta_interval_exact": ["3/5","23/20"],
+    "theta_interval": [0.15707963267948966,0.3010692959690218]
+  }
+}
