@@ -1,0 +1,94 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "BC-IDPR-P5-UA01-N15-CASE-INGESTION-SCHEMA",
+  "title": "Frozen N15 physical residual-frame case",
+  "type": "object",
+  "required": [
+    "case_id",
+    "level_r",
+    "family",
+    "array_file",
+    "array_sha256",
+    "generator_order",
+    "coherent_state_protocol",
+    "quadrature_protocol",
+    "ordering_protocol",
+    "expected_n15_alpha_U",
+    "source_provenance"
+  ],
+  "properties": {
+    "case_id": {"type": "string", "minLength": 1},
+    "level_r": {"type": "integer", "minimum": 1},
+    "family": {"type": "string", "minLength": 1},
+    "array_file": {"type": "string", "pattern": "\\.npz$"},
+    "array_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "generator_order": {
+      "type": "array",
+      "prefixItems": [
+        {"const": "R_bulk"},
+        {"const": "W"}
+      ],
+      "minItems": 2,
+      "maxItems": 2
+    },
+    "npz_arrays": {
+      "type": "object",
+      "required": ["generators", "coherent_states", "weights"],
+      "properties": {
+        "generators": {"const": "shape (2,d,d), complex or real Hermitian"},
+        "coherent_states": {"const": "shape (n,d) or (d,n), normalized"},
+        "weights": {"const": "shape (n,), original nonnegative quadrature weights"}
+      },
+      "additionalProperties": false
+    },
+    "coherent_state_protocol": {
+      "type": "object",
+      "required": ["family", "chart", "normalization"],
+      "properties": {
+        "family": {"const": "projected torus coherent states"},
+        "chart": {"type": "string"},
+        "normalization": {"const": "unit Hilbert norm"},
+        "source_reference": {"type": "string"}
+      }
+    },
+    "quadrature_protocol": {
+      "type": "object",
+      "required": ["grid_shape", "weight_convention", "weights_renormalized"],
+      "properties": {
+        "grid_shape": {
+          "type": "array",
+          "items": {"type": "integer", "minimum": 1},
+          "minItems": 1
+        },
+        "weight_convention": {"type": "string"},
+        "weights_renormalized": {"const": false}
+      }
+    },
+    "ordering_protocol": {
+      "type": "object",
+      "required": ["candidate", "support_threshold"],
+      "properties": {
+        "candidate": {"const": "registered XY ordering"},
+        "support_threshold": {"type": "number"},
+        "wall_definition": {"type": "string"}
+      }
+    },
+    "expected_n15_alpha_U": {"type": "number", "exclusiveMinimum": 0},
+    "expected_n15_beta_U": {"type": "number", "exclusiveMinimum": 0},
+    "reproduction_tolerance": {"type": "number", "exclusiveMinimum": 0, "default": 1e-10},
+    "source_provenance": {
+      "type": "object",
+      "required": ["manuscript", "implementation", "data_origin"],
+      "properties": {
+        "manuscript": {"type": "string"},
+        "implementation": {"type": "string"},
+        "data_origin": {"type": "string"},
+        "source_hashes": {
+          "type": "object",
+          "additionalProperties": {"type": "string", "pattern": "^[0-9a-f]{64}$"}
+        }
+      }
+    }
+  },
+  "additionalProperties": true
+}
