@@ -1,22 +1,14 @@
 {
-  "schema_version": "1.0",
-  "contract": "BC-IDPR-P5-UA01-WP1-WP2",
-  "status": "EXACT_TWO_CHANNEL_E_OPTIMAL_FRAME_CERTIFIED",
+  "schema_version": "1.1",
+  "artifact_id": "BC-IDPR-P5-UA01-AUX-IDEAL-PROJECTIVE-FRAME",
+  "status": "EXACT_AUXILIARY_BENCHMARK_CERTIFIED_PHYSICAL_P5_GATE_OPEN",
   "residual_space": {
     "type": "Sym_0(2,R)",
     "dimension": 2,
-    "basis": [
-      "sigma_z/sqrt(2)",
-      "sigma_x/sqrt(2)"
-    ],
+    "basis": ["sigma_z/sqrt(2)", "sigma_x/sqrt(2)"],
     "basis_normalization": "Hilbert-Schmidt orthonormal"
   },
-  "candidate_pool": [
-    "z_plus",
-    "z_minus",
-    "x_plus",
-    "x_minus"
-  ],
+  "candidate_pool": ["z_plus", "z_minus", "x_plus", "x_minus"],
   "weights": {
     "z_plus": 0.25,
     "z_minus": 0.25,
@@ -34,14 +26,19 @@
     "all_candidates_contact": true
   },
   "optimality": {
-    "proof": "all real pure-state measurement vectors have squared norm 1/2, so tr(F)=1/2 and lambda_min(F)<=1/4; the declared design attains equality",
+    "proof": "all real pure-state measurement vectors have squared norm 1/2, hence tr(F)=1/2 and lambda_min(F)<=1/4; the declared design attains equality",
     "primal_dual_gap_exact": "0"
   },
-  "operator_adapted_transfer": {
+  "coordinate_transfer": {
     "identity": "F_B=(1/4) C^T C",
-    "frame_constant": "c_frame=(1/4) sigma_min(C)^2",
+    "ideal_frame_constant": "c_ideal=(1/4) sigma_min(C)^2",
     "rank_wall": "sigma_min(C)=0"
   },
-  "claim_ceiling": "exact finite-dimensional two-channel real-symmetric residual theorem",
-  "next_obligation": "construct and uniformly bound the operator-adapted coordinate maps C_J(theta) on the declared carrier chamber"
+  "programme_role": {
+    "classification": "AUXILIARY_IDEAL_PROJECTIVE_BENCHMARK",
+    "physical_protocol": "projected torus coherent states and frozen N15 quadrature",
+    "physical_p5_gate": "OPEN",
+    "p2_global_gluing": "BLOCKED"
+  },
+  "claim_ceiling": "exact finite-dimensional coefficient-space benchmark; not the N15 physical residual-frame constant"
 }
