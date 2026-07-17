@@ -1,12 +1,11 @@
 {
-  "schema_version": "1.0",
-  "contract": "BC-IDPR-P5-UA01-WP3",
-  "status": "NUMERICAL_INTERVAL_DIAGNOSTIC_PASS_RELEASE_CERTIFICATE_OPEN",
+  "schema_version": "1.1",
+  "artifact_id": "BC-IDPR-P5-UA01-AUX-Q-RACAH-MIXING-A6",
+  "status": "AUXILIARY_MIXING_DIAGNOSTIC_PASS_PHYSICAL_RESIDUAL_FRAME_GATE_OPEN",
   "exact_reduction": {
-    "correlation": "c_J(theta)=<B_E,J,B_G,J(theta)>_HS",
-    "gram_identity": "C_J^T C_J=[[1,c_J],[c_J,1]]",
-    "sigma_min_squared": "1-|c_J|",
-    "frame_constant": "(1/4)(1-|c_J|)",
+    "abstract_correlation": "c_J=<B_E,B_G>_HS",
+    "abstract_gram_identity": "C_J^T C_J=[[1,c_J],[c_J,1]]",
+    "abstract_sigma_min_squared": "1-|c_J|",
     "commutator_squared": "2(1-c_J^2)",
     "scalar_q_racah_reduction": "c_J=2*F11^2-1"
   },
@@ -20,28 +19,24 @@
     "coordinate": "eta=12 theta/pi",
     "eta_interval": [0.6, 1.15]
   },
-  "adaptive_diagnostic": {
+  "legacy_interval_diagnostic": {
     "backend": "mpmath.iv",
-    "initial_cell_width": 0.005,
-    "maximum_subdivision_depth": 12,
-    "maximum_depth_used": 3,
-    "accepted_cells": 33296,
-    "unresolved_cells": 0,
-    "tested_margin": "1-|c_J|>0.06",
+    "tested_abstract_margin": "1-|c_J|>0.06",
     "minimum_proved_cell_margin": 0.06000461382886191,
-    "worst_cell": {
-      "carrier": [1, 6, 1, 6],
-      "E": [5, 7],
-      "G": [5, 7],
-      "eta_interval": [0.630625, 0.63125],
-      "c_interval": [-0.9399953861711381, -0.9305721379493989]
-    },
-    "provisional_frame_floor": 0.015
+    "unresolved_cells": 0,
+    "classification": "AUXILIARY_ONLY"
   },
-  "release_gate": {
-    "status": "OPEN",
-    "required_backend": "python-flint Arb or independently audited outward-rounded equivalent",
-    "required_result": "rational positive lower bound for 1-|c_J| on the complete declared class and chamber"
+  "physical_protocol": {
+    "residual_plane": "span{R_bulk,W}",
+    "coherent_states": "registered projected-torus coherent states",
+    "frame_constant": "alpha_U=lambda_min(G_symbol,G_HS)=sigma_min(M_hat)^2",
+    "bridge_from_abstract_mixing": "NOT_PROVED",
+    "physical_gate": "OPEN"
   },
-  "claim_ceiling": "finite A6, two-channel, real-symmetric, frozen deformation chamber"
+  "programme_consequence": {
+    "retain_as_appendix": true,
+    "n15_case_ingestion_required": true,
+    "p2_global_gluing": "BLOCKED"
+  },
+  "claim_ceiling": "finite A6 abstract q-Racah mixing statement; not a physical N15 frame certificate"
 }
