@@ -1,7 +1,7 @@
 # BC-IDPR P3→P1 Research Contract 02
 
 **Title:** Identifiable q-Curvature Predictors for Phase-Resolved Residual Modulation  
-**Status:** `CALIBRATION_COMPLETE_MODE_5_FROZEN / CONFIRMATORY_SEALED`  
+**Status:** `CONFIRMATORY_PREREGISTERED / MODE_5_FROZEN / UNSEAL_CERTIFICATE_ISSUED / RESULTS_NOT_COMPUTED`  
 **Date:** 2026-07-17
 
 RC02 replaces the unreachable predictor/control geometry of RC01 without using calibration or confirmatory carrier responses.
@@ -11,26 +11,21 @@ RC02 replaces the unreachable predictor/control geometry of RC01 without using c
 ```text
 RC02_PREDICTOR_GEOMETRY: CERTIFIED
 RC02_PILOT: COMPLETED_PASS
-RC02_CALIBRATION_PREREGISTRATION: FROZEN
-RC02_CALIBRATION_EXECUTION: COMPLETE_ON_12_FAMILIES
+RC02_CALIBRATION: COMPLETE_ON_12_FAMILIES
 RC02_SELECTED_MODE: 5
 RC02_SELECTED_MODE_STATUS: FROZEN
-RC02_CONFIRMATORY: SEALED_AND_UNTOUCHED
+RC02_CONFIRMATORY_PREREGISTRATION: FROZEN
+RC02_CONFIRMATORY_UNSEAL_CERTIFICATE: ISSUED
+RC02_CONFIRMATORY_RESULTS: NOT_COMPUTED
 ```
 
-The complete calibration layer contained exactly 12 unordered families and 113 ordered carriers. All nine integer modes were evaluated before deterministic primary selection. Pilot and replication values were excluded from the selection rule.
+The final test layer contains exactly eight previously sealed families and 106 ordered carriers. Only mode `5` and its matched control `9.5` are admissible. Pilot and calibration observations are excluded from final-test statistics.
 
-The selected mode is
+The primary rule is fixed before computation: at least seven positive families, median family advantage at least `0.02`, exact one-sided sign-test p-value at most `0.03515625`, and phase concentration rules `R1 >= 0.60` for outcome A or `R1 < 0.60` with `R2 >= 0.75` for outcome B. Any hard failure has precedence and yields outcome D.
 
-\[
-n_*=5.
-\]
+No partial reading, early stopping, family exclusion, mode change, threshold change or selective rerun is permitted. The signed-speed observable is replication-only and cannot alter the primary A/B/C/D result.
 
-The primary calibration score is `0.1511086183308894`; the runner-up is mode `3` with score `0.036984629831185722`. The gap is `0.11412398849970368`.
-
-The eight confirmatory families remain sealed. A separate confirmatory preregistration and unseal certificate is required before any confirmatory computation.
-
-Calibration package: `bc_idpr/p3_to_p1/rc02/calibration/`.  
-Calibration results: `bc_idpr/p3_to_p1/rc02/calibration/results/`.
+Calibration results: `bc_idpr/p3_to_p1/rc02/calibration/results/`.  
+Confirmatory package: `bc_idpr/p3_to_p1/rc02/confirmatory/`.
 
 No statement from the Gemini advisory report is used as evidence.
