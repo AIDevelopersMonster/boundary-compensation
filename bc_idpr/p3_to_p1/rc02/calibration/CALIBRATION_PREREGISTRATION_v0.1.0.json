@@ -1,0 +1,87 @@
+{
+  "schema_version": "1.0",
+  "artifact_id": "BC-IDPR-P3-P1-RC02-CALIBRATION-PREREGISTRATION",
+  "contract_id": "BC-IDPR-P3-P1-RC02",
+  "version": "0.1.0",
+  "date": "2026-07-17",
+  "status": "CALIBRATION_PREREGISTERED_EXECUTION_AUTHORIZED_CONFIRMATORY_SEALED",
+  "upstream_pins": {
+    "publication_doi": "10.5281/zenodo.21401141",
+    "declared_carriers_sha256": "a8bcfb1038a288df29e4c76e4ef7ac8d711516df9d42c5da29e7f01a4fe79eb1",
+    "family_split_git_blob_sha": "84dbf83d43e79a3312b6c4b83162beef2b312803",
+    "family_split_sha256": "848f8a67258f170a1adffe8295e828fcb926cf8debd36ae3c7d637abe45f78eb",
+    "rc02_preregistration_sha256": "b98cb7ea9f67bf79f55a35f41f01f690334e1e2dbf634901a78f2b6c3c470236",
+    "predictor_geometry_certificate_sha256": "4645dfaec006eda6b63ded327c798d4ffdea70e0e59094dffd8dedf42c115394",
+    "pilot_certificate_git_blob_sha": "d0a5202132f7354c7c2b1fc796135be2118e6995",
+    "pilot_certificate_sha256": "279eb42d99f4a90747ea72d6d00033e4e9806b8868a753e73c492285292010f4",
+    "pilot_status_required": "PILOT_COMPLETED_PASS"
+  },
+  "stage_scope": {
+    "pilot_families": [[1,2,3,4],[1,3,3,3],[1,3,4,6],[2,2,3,5]],
+    "calibration_families": [[1,1,1,1],[1,1,2,2],[1,1,3,3],[1,1,5,5],[1,1,6,6],[1,2,4,5],[1,3,4,4],[1,3,6,6],[1,4,4,5],[1,5,6,6],[2,2,2,4],[2,3,3,6]],
+    "confirmatory_families": [[1,1,4,4],[1,2,2,3],[1,2,5,6],[1,3,3,5],[1,3,5,5],[1,4,5,6],[1,5,5,5],[2,2,4,6]],
+    "calibration_family_count": 12,
+    "calibration_ordered_carrier_count": 113,
+    "confirmatory_family_count": 8,
+    "pilot_data_allowed_in_mode_selection": false,
+    "confirmatory_access_authorized": false
+  },
+  "calibration_family_carrier_counts": {
+    "1,1,1,1": 1,
+    "1,1,2,2": 6,
+    "1,1,3,3": 6,
+    "1,1,5,5": 6,
+    "1,1,6,6": 6,
+    "1,2,4,5": 24,
+    "1,3,4,4": 12,
+    "1,3,6,6": 12,
+    "1,4,4,5": 12,
+    "1,5,6,6": 12,
+    "2,2,2,4": 4,
+    "2,3,3,6": 12
+  },
+  "frozen_analysis": {
+    "phase_grid": {"start": 0.6, "stop": 1.15, "step": 0.0005, "count": 1101},
+    "baseline": ["1", "x", "x^2", "x^3"],
+    "primary_observable": "anchored_complex_column_phase Z_J(eta)",
+    "replication_observable": "signed_angular_speed Y_J^omega(eta)",
+    "integer_modes": [2,3,4,5,6,7,8,9,10],
+    "frozen_pairs": [[2,6.5],[3,8.5],[4,7.5],[5,9.5],[6,1.5],[7,3.5],[8,2.5],[9,5.5],[10,4.5]],
+    "carrier_advantage": "Delta_J,n = |<r_J,psi_n>|^2 - |<r_J,chi_n>|^2",
+    "family_aggregation": "median over all ordered carriers in the unordered family",
+    "mode_score": "median of the 12 primary family advantages",
+    "mode_selection": "maximize primary mode_score; ties within 1e-12 choose the smallest integer mode",
+    "replication_role": "reported for every mode but excluded from mode selection",
+    "threshold_role": "the 0.02 threshold is confirmatory only and does not alter calibration selection"
+  },
+  "completion_requirements": {
+    "all_12_families_required": true,
+    "all_113_ordered_carriers_required": true,
+    "all_9_modes_required": true,
+    "partial_selection_forbidden": true,
+    "selected_mode_before_complete_table_forbidden": true,
+    "store_all_family_by_mode_values": true,
+    "freeze_selected_mode_after_valid_completion": true
+  },
+  "quality_control": {
+    "max_transpose_orthogonality_residual": 1e-10,
+    "max_column_norm_deviation": 1e-10,
+    "max_anchor_evaluator_disagreement": 1e-12,
+    "anchor_speed_sign_failures_allowed": 0,
+    "primary_residual_degeneracies_allowed": 0,
+    "signed_speed_residual_degeneracies_allowed": 0,
+    "nonfinite_values_allowed": 0
+  },
+  "hard_failures": ["UPSTREAM_HASH_MISMATCH","FAMILY_SPLIT_DRIFT","PREDICTOR_OR_PAIRING_DRIFT","PILOT_CERTIFICATE_NOT_PASS","CALIBRATION_SCOPE_INCOMPLETE","PILOT_DATA_USED_FOR_SELECTION","CONFIRMATORY_PREMATURE_ACCESS","PARTIAL_MODE_SELECTION","NUMERICAL_QC_FAILURE","NONFINITE_OUTPUT","RESULT_SCHEMA_FAILURE"],
+  "exit_states": ["CALIBRATION_COMPLETE_MODE_FROZEN","CALIBRATION_NUMERICAL_FAILURE","CALIBRATION_PROTOCOL_CONTAMINATION","CALIBRATION_INCOMPLETE"],
+  "result_artifact_required": "calibration/results/RC02_CALIBRATION_RESULTS.json",
+  "next_gate_after_success": "RC02_CALIBRATION_FREEZE_CERTIFICATE_BEFORE_CONFIRMATORY_UNSEAL",
+  "current_results": {"calibration_results_present": false, "confirmatory_results_present": false, "selected_mode": null, "outcome": null},
+  "claim_firewall": [
+    "calibration selects a predictor mode and does not establish a confirmatory effect",
+    "pilot diagnostics do not enter calibration mode selection",
+    "replication observable does not enter mode selection",
+    "no confirmatory, physical, category-level, continuum, gravity, matter or defect claim"
+  ],
+  "evidence_policy": "No statement from the Gemini advisory report is used as evidence."
+}
