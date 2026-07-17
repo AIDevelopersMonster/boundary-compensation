@@ -1,0 +1,54 @@
+{
+  "schema_version": "1.0",
+  "contract": "BC-IDPR-P5-UA01-WP3-H5A",
+  "status": "EXACT_MEASUREMENT_AND_WHITENING_JET_CALCULUS_CERTIFIED",
+  "scope": "finite constant-rank physical residual bundle with supplied first and second primitive jets",
+  "exact_identities": {
+    "lower_symbol_first": "s'=<psi',U psi>+<psi,U' psi>+<psi,U psi'>",
+    "lower_symbol_second": "s''=<psi'',U psi>+<psi,U'' psi>+<psi,U psi''>+2<psi',U' psi>+2<psi',U psi'>+2<psi,U' psi'>",
+    "measurement_first": "M'=r' s+r s', r=sqrt(w)",
+    "measurement_second": "M''=r'' s+2 r' s'+r s''",
+    "gram_first": "G_ij'=Tr(U_i'^* U_j+U_i^* U_j')",
+    "gram_second": "G_ij''=Tr(U_i''^* U_j+2 U_i'^* U_j'+U_i^* U_j'')",
+    "sqrt_sylvester_first": "H H'+H' H=G', H=G^(1/2)",
+    "sqrt_sylvester_second": "H H''+H'' H=G''-2(H')^2",
+    "whitening_first": "W'=-W H' W, W=G^(-1/2)",
+    "whitening_second": "W''=2 W H' W H' W-W H'' W",
+    "whitened_measurement_first": "Mhat'=M'W+MW'",
+    "whitened_measurement_second": "Mhat''=M''W+2M'W'+MW''"
+  },
+  "wall_conditioned_bounds": {
+    "gamma": "lambda_min(G)>0",
+    "W": "||W||<=gamma^(-1/2)",
+    "H1": "||H'||<=||G'||/(2 sqrt(gamma))",
+    "W1": "||W'||<=||G'||/(2 gamma^(3/2))",
+    "W2": "||W''||<=||G''||/(2 gamma^(3/2))+3||G'||^2/(4 gamma^(5/2))"
+  },
+  "local_frame_transfer": {
+    "first_order": "alpha(theta)>=(sigma0-L1 r)^2 when L1 r<sigma0",
+    "second_order": "alpha(theta)>=(sigma0-L1 r-(1/2)L2 r^2)^2 when the bracket is positive",
+    "second_order_radius_threshold": "(-L1+sqrt(L1^2+2 L2 sigma0))/L2"
+  },
+  "self_test": {
+    "status": "PASS",
+    "finite_difference_step": 0.0002,
+    "first_derivative_operator_error": 4.494066954017273e-13,
+    "first_derivative_relative_error": 8.416392418359078e-12,
+    "second_derivative_operator_error": 1.343156733246692e-08,
+    "second_derivative_relative_error": 6.437053405671028e-07,
+    "synthetic_anchor_sigma_min": 0.3059778933986351,
+    "synthetic_anchor_alpha": 0.09362247124866652,
+    "synthetic_Mhat1_operator_norm": 0.05339659477158112,
+    "synthetic_Mhat2_operator_norm": 0.020866018170105194
+  },
+  "gates": {
+    "UA01_H5A_MEASUREMENT_JET_CALCULUS": "PASS",
+    "UA01_H5B_PRIMITIVE_N15_JET_BOUNDS": "OPEN",
+    "UA01_G1A_PHYSICAL_MATRIX_REPRODUCTION": "OPEN",
+    "UA01_G2_LOCAL_FRAME": "BLOCKED",
+    "UA01_G3_UNIFORM_FRAME": "BLOCKED",
+    "MODE5_ANALYTIC_UNIQUENESS": "OPEN",
+    "P2_HANDOFF": "BLOCKED"
+  },
+  "claim_ceiling": "exact finite-dimensional jet calculus; no N15 uniform primitive bound, no mode-5 theorem, no phase-transfer theorem"
+}
