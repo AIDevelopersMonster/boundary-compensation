@@ -1,0 +1,47 @@
+{
+  "schema_version": "1.0",
+  "contract": "BC-IDPR-P5-UA01-WP3",
+  "status": "NUMERICAL_INTERVAL_DIAGNOSTIC_PASS_RELEASE_CERTIFICATE_OPEN",
+  "exact_reduction": {
+    "correlation": "c_J(theta)=<B_E,J,B_G,J(theta)>_HS",
+    "gram_identity": "C_J^T C_J=[[1,c_J],[c_J,1]]",
+    "sigma_min_squared": "1-|c_J|",
+    "frame_constant": "(1/4)(1-|c_J|)",
+    "commutator_squared": "2(1-c_J^2)",
+    "scalar_q_racah_reduction": "c_J=2*F11^2-1"
+  },
+  "declared_class": {
+    "name": "A6 algebraic two-channel carriers",
+    "ordered_carriers": 283,
+    "external_doubled_labels": [1, 6],
+    "critical_q_index_maximum": 10
+  },
+  "domain": {
+    "coordinate": "eta=12 theta/pi",
+    "eta_interval": [0.6, 1.15]
+  },
+  "adaptive_diagnostic": {
+    "backend": "mpmath.iv",
+    "initial_cell_width": 0.005,
+    "maximum_subdivision_depth": 12,
+    "maximum_depth_used": 3,
+    "accepted_cells": 33296,
+    "unresolved_cells": 0,
+    "tested_margin": "1-|c_J|>0.06",
+    "minimum_proved_cell_margin": 0.06000461382886191,
+    "worst_cell": {
+      "carrier": [1, 6, 1, 6],
+      "E": [5, 7],
+      "G": [5, 7],
+      "eta_interval": [0.630625, 0.63125],
+      "c_interval": [-0.9399953861711381, -0.9305721379493989]
+    },
+    "provisional_frame_floor": 0.015
+  },
+  "release_gate": {
+    "status": "OPEN",
+    "required_backend": "python-flint Arb or independently audited outward-rounded equivalent",
+    "required_result": "rational positive lower bound for 1-|c_J| on the complete declared class and chamber"
+  },
+  "claim_ceiling": "finite A6, two-channel, real-symmetric, frozen deformation chamber"
+}
