@@ -1,0 +1,143 @@
+\section{Truncated Taylor algebra}
+Fix an order $N\ge0$.  Let
+\begin{equation}
+\mathcal T_N=\C[h]/(h^{N+1})
+\label{eq:TN}
+\end{equation}
+be the algebra of Taylor polynomials truncated after order $N$.
+
+\begin{definition}[Jet convention]
+For a scalar, vector or matrix-valued analytic function $X$, its normalized jet coefficients at $\theta_0$ are
+\begin{equation}
+X_r=\frac{1}{r!}X^{(r)}(\theta_0),
+\qquad
+X(\theta_0+h)=\sum_{r=0}^{N}X_r h^r+O(h^{N+1}).
+\label{eq:jetconvention}
+\end{equation}
+\end{definition}
+
+\begin{lemma}[Closure of the finite Racah construction]
+\label{lem:closure}
+Suppose all denominator coefficients have nonzero constant term and every square-root input has a nonzero constant term with a fixed local branch.  Then addition, multiplication, reciprocal, quotient, square root and finite summation are well-defined recursively in $\mathcal T_N$.  Consequently every entry of the finite matrix \eqref{eq:rawF} has a uniquely determined jet of order $N$.
+\end{lemma}
+
+\begin{proof}
+Addition and multiplication are inherited from the quotient algebra.  If
+\[
+a(h)=\sum_{r=0}^{N}a_rh^r,
+\qquad a_0\ne0,
+\]
+then the reciprocal coefficients $b_r$ in $a(h)b(h)=1$ satisfy
+\begin{equation}
+b_0=a_0^{-1},
+\qquad
+b_r=-a_0^{-1}\sum_{k=1}^{r}a_kb_{r-k}.
+\label{eq:reciprocal}
+\end{equation}
+If $c(h)^2=a(h)$ and a branch $c_0^2=a_0$ is fixed, then
+\begin{equation}
+c_r=\frac{1}{2c_0}
+\left(a_r-\sum_{k=1}^{r-1}c_kc_{r-k}\right),
+\qquad r\ge1.
+\label{eq:sqrtrecurrence}
+\end{equation}
+Quotients reduce to multiplication by a reciprocal.  The Racah sum is finite, so coefficient extraction commutes with the sum.  Repeated application to \eqref{eq:qnumber}--\eqref{eq:rawF} proves the claim.
+\end{proof}
+
+\begin{remark}
+Lemma \ref{lem:closure} is formal at arbitrary finite order but conditional on regularity.  The software validation reported below reaches matrix derivative order three and logarithmic-speed derivative order two.  Orders beyond this ceiling are not claimed numerically in the present paper.
+\end{remark}
+
+\section{Generator and logarithmic-speed recurrences}
+Write
+\begin{equation}
+F(\theta_0+h)=\sum_{r\ge0}F_rh^r.
+\end{equation}
+Then
+\begin{equation}
+F'(\theta_0+h)=\sum_{r\ge0}(r+1)F_{r+1}h^r.
+\end{equation}
+
+\begin{theorem}[Recoupling-generator recurrence]
+\label{thm:generatorrecurrence}
+Let $K=F'F^T$ and
+\[
+K(\theta_0+h)=\sum_{r\ge0}K_rh^r.
+\]
+Then
+\begin{equation}
+K_r=\sum_{a=0}^{r}(a+1)F_{a+1}F_{r-a}^{T}.
+\label{eq:Krecurrence}
+\end{equation}
+If $F(h)F(h)^T=I$ as a formal series, then every $K_r$ is skew-symmetric.
+\end{theorem}
+
+\begin{proof}
+The coefficient formula follows by multiplying the series for $F'$ and $F^T$.  Differentiating $FF^T=I$ gives $F'F^T+FF'^T=0$, hence $K+K^T=0$ as a formal series and therefore $K_r+K_r^T=0$ coefficientwise.
+\end{proof}
+
+Let
+\begin{equation}
+\omega(h)=\sum_{r\ge0}\omega_rh^r,
+\qquad
+\omega_r=(K_r)_{21}.
+\label{eq:omegajet}
+\end{equation}
+If $\omega_0\ne0$, choose the local sign $s=\operatorname{sgn}(\omega_0)$ and define
+\begin{equation}
+L(h)=\log(s\omega(h))=\sum_{r\ge0}L_rh^r.
+\label{eq:logjet}
+\end{equation}
+
+\begin{lemma}[Formal logarithm recurrence]
+\label{lem:logrecurrence}
+The coefficients in \eqref{eq:logjet} satisfy $L_0=\log|\omega_0|$ and
+\begin{equation}
+L_n
+=
+\frac{1}{n\omega_0}
+\left(
+ n\omega_n-
+\sum_{k=1}^{n-1}kL_k\omega_{n-k}
+\right),
+\qquad n\ge1.
+\label{eq:logrecurrence}
+\end{equation}
+\end{lemma}
+
+\begin{proof}
+From $L'=\omega'/\omega$, equivalently $\omega L'=\omega'$, compare the coefficient of $h^{n-1}$.
+\end{proof}
+
+\begin{corollary}[First observables]
+\label{cor:firstobservables}
+At the anchor,
+\begin{align}
+|\omega(\theta_0)|&=|\omega_0|,\\
+\partial_\theta\log|\omega|\big|_{\theta_0}&=L_1,\\
+\partial_\theta^2\log|\omega|\big|_{\theta_0}&=2L_2.
+\end{align}
+Equivalently, with $K'=\partial_\theta K$ and $K''=\partial_\theta^2K$,
+\begin{align}
+\frac{\omega'}{\omega}&=\frac{K'_{21}}{K_{21}},\\
+\partial_\theta^2\log|\omega|
+&=\frac{K''_{21}}{K_{21}}-
+\left(\frac{K'_{21}}{K_{21}}\right)^2.
+\end{align}
+\end{corollary}
+
+\section{Explicit low-order derivatives of quantum numbers}
+Although the implementation uses coefficient algebra, the first three logarithmic derivatives provide useful checks:
+\begin{align}
+\partial_\theta\log\qnum{n}
+&=n\cot(n\theta)-\cot\theta,
+\label{eq:d1q}\\
+\partial_\theta^2\log\qnum{n}
+&=-n^2\csc^2(n\theta)+\csc^2\theta,
+\label{eq:d2q}\\
+\partial_\theta^3\log\qnum{n}
+&=2n^3\csc^2(n\theta)\cot(n\theta)
+-2\csc^2\theta\cot\theta.
+\label{eq:d3q}
+\end{align}
+These identities propagate through q-factorials, triangle factors, the finite Racah sum and the dimension amplitudes.  They reproduce the first-, second- and third-matrix-derivative constructions used as independent implementations before the unified jet engine was introduced.

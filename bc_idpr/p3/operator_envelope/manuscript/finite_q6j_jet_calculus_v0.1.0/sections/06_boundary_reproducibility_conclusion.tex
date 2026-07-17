@@ -1,0 +1,43 @@
+\section{Related-work boundary}
+The algebraic ingredients of the present construction belong to the standard theory of angular-momentum recoupling and quantum groups \cite{biedenharnLouck1981,kirillovReshetikhin1989}.  Quantum $6j$ symbols also enter state-sum invariants of three-manifolds \cite{turaevViro1992}.  Large-label asymptotic formulas connect classical or quantum $6j$ symbols with Euclidean or non-Euclidean tetrahedra \cite{ponzanoRegge1968,roberts1999,taylorWoodward2005}.
+
+The distinction is essential.  This paper does not take a large-spin limit and does not infer tetrahedral geometry from a phase.  It studies a finite collection of exact trigonometric quantum Racah sums near one fixed deformation anchor.  Its central object is the local analytic jet of the recoupling matrix, together with a finite computer-assisted regularity certificate.  The result is therefore complementary to, rather than an extension of, the Ponzano--Regge asymptotic programme.
+
+The use of analytic families and local power series is conceptually consistent with classical analytic perturbation theory \cite{kato1995}; however, no eigenvalue perturbation theorem is needed for the main recurrence.  The Cauchy estimates used in the conditioning theorem are standard consequences of one-variable complex analysis \cite{ahlfors1979}.
+
+\section{Reproducibility protocol}
+The computational package contains:
+\begin{itemize}[leftmargin=2em]
+\item the finite q-$6j$ jet engine;
+\item frozen carrier-generation rules;
+\item independent new-label validation tests;
+\item uniform-conditioning and radius-optimization builders;
+\item machine-readable JSON certificates;
+\item pytest suites for all declared gates.
+\end{itemize}
+
+The clean-release cycle will record the exact Python and NumPy versions, repository commit, command line, source hashes, generated-certificate hashes and wall-clock runtime.  These release metadata are intentionally left as placeholders in the present v0.1.0 draft because they must be generated from a clean checkout after theorem-level review.
+
+\section{Claim firewall and limitations}
+\subsection{Allowed claims}
+The paper supports the following bounded statement:
+
+\begin{quote}
+Inside the declared finite two-channel regular chamber, the exact trigonometric quantum $6j$ recoupling matrix admits a recursive truncated-Taylor jet calculus.  The first three matrix-response levels are independently validated on 208 new-label ordered carriers, and all 283 declared carriers share a certified complex disk on which the critical q-number denominators, square-root branches and logarithmic angular-speed observable remain regular.
+\end{quote}
+
+\subsection{Forbidden extrapolations}
+The present evidence does not support:
+\begin{itemize}[leftmargin=2em]
+\item a statement about all representations or unbounded labels;
+\item an all-order numerical validation theorem;
+\item a universal compact descriptor replacing the finite Racah expression;
+\item physical motion, time evolution, matter, mass or curvature;
+\item a semiclassical geometric interpretation;
+\item an absolute maximal-radius theorem.
+\end{itemize}
+
+\section{Conclusion}
+A finite quantum $6j$ response problem that initially appeared to require separate hand differentiation at each order can be reorganized into a single truncated-Taylor algebra.  The resulting coefficient calculus yields a simple generator recurrence and a formal logarithmic-speed recurrence.  The first three matrix levels pass an independent new-label validation, while a separate cancellation-preserving Taylor--Cauchy certificate supplies a common nonvanishing disk for the entire declared class.
+
+The main conceptual distinction is between exact analytic computability and low-dimensional compression.  The local response is exactly computable from the finite quantum Racah expression, but this does not imply that it can be represented by a small carrier-neutral descriptor.  That compression problem, higher-order software validation, larger carrier classes and any asymptotic or physical interpretation remain separate research obligations.

@@ -1,0 +1,88 @@
+\section{Uniform regularity and conditioning}
+\subsection{Distance to q-number walls}
+Let $\mathcal N_{\mathrm{crit}}=\{1,\ldots,10\}$ be the q-number indices required by the declared class.  Define
+\begin{equation}
+R_{\mathrm{wall}}
+=
+\frac12\min_{n\in\mathcal N_{\mathrm{crit}}}
+\frac{\dist(n\theta_0,\pi\mathbb Z)}{n}
+=0.02617993877991496.
+\label{eq:Rwall}
+\end{equation}
+For $|z-\theta_0|\le r<R_{\mathrm{wall}}$, elementary trigonometric bounds give positive lower and finite upper bounds for every critical q-number.
+
+\begin{lemma}[Uniform q-number separation]
+\label{lem:qseparation}
+For the confirmatory radius
+\begin{equation}
+R_{\mathrm{cert}}=0.1R_{\mathrm{wall}}
+=0.0026179938779914962,
+\label{eq:Rcert}
+\end{equation}
+all critical q-numbers satisfy
+\begin{equation}
+|\qnum{n}(z)|\ge0.25628849484566973,
+\qquad
+1\le n\le10,
+\quad
+|z-\theta_0|\le R_{\mathrm{cert}}.
+\label{eq:qbound}
+\end{equation}
+\end{lemma}
+
+\begin{proof}
+For $\delta_n=\dist(n\theta_0,\pi\mathbb Z)$ and $|z-\theta_0|\le r$, one may use
+\[
+|\sin(nz)|\ge \sin(\delta_n-nr),
+\qquad
+|\sin z|\le\cosh r.
+\]
+Taking the minimum over $1\le n\le10$ at $r=R_{\mathrm{cert}}$ yields \eqref{eq:qbound}.
+\end{proof}
+
+The lower bound prevents zeros in all denominator q-factorials.  Since the triangle radicands are products and quotients of nonzero analytic q-factorials, the anchor-selected square-root branches extend analytically over the disk.
+
+\subsection{Cancellation-preserving angular-speed certificate}
+A direct absolute-value majorant of individual Racah summands is too pessimistic because it destroys cancellations.  The implemented proof family instead retains the first fifty coefficients of the local angular-speed jet and bounds the remainder by a Cauchy estimate on the outer q-wall-safe disk.
+
+\begin{theorem}[Computer-assisted uniform conditioning]
+\label{thm:conditioning}
+For every $J\in\mathfrak C_6$, the matrix entries of $F_J(z)$ and the angular speed $\omega_J(z)$ are analytic on the disk
+\[
+D_{\mathrm{cert}}=\{z\in\C:|z-\theta_0|\le R_{\mathrm{cert}}\}.
+\]
+Moreover,
+\begin{equation}
+\inf_{J\in\mathfrak C_6}
+\inf_{z\in D_{\mathrm{cert}}}
+|\omega_J(z)|
+\ge0.16025264148217636.
+\label{eq:omegalower}
+\end{equation}
+Consequently the signed local logarithm $\log(s_J\omega_J)$ is analytic on $D_{\mathrm{cert}}$ for every declared carrier.
+\end{theorem}
+
+\begin{proof}[Computer-assisted proof]
+Lemma \ref{lem:qseparation} certifies all q-factorial denominators and the square-root branches on the disk.  For each of the 283 carriers, the program constructs the cancellation-preserving Taylor polynomial of $\omega_J$ through order $50$ and adds an analytic Cauchy-tail bound from the outer disk of radius $R_{\mathrm{wall}}$.  The resulting lower envelope is positive for every carrier.  The worst lower bound occurs for the symmetric family represented by $J=(1,1,1,1)$ and equals the right-hand side of \eqref{eq:omegalower}.  The complete finite list and certificate are provided in the repository.
+\end{proof}
+
+\begin{remark}[Radius optimality]
+Within the frozen order-50 Taylor--Cauchy proof family, binary search gives the extremal radius
+\[
+R_{50}^{\mathrm{ext}}=0.002639397419804555
+=0.10081755507501339R_{\mathrm{wall}}.
+\]
+The margin at that numerical boundary is approximately $8.9\times10^{-15}$.  The theorem therefore uses the safer preregistered radius $0.1R_{\mathrm{wall}}$.  No claim of absolute maximality among all possible proof methods is made.
+\end{remark}
+
+\begin{corollary}[Cauchy jet bounds]
+\label{cor:cauchy}
+For every declared carrier and every matrix entry analytic on an outer disk of radius $R>R_{\mathrm{cert}}$,
+\begin{equation}
+\|F_r\|\le \frac{M_R}{R^r},
+\qquad
+M_R=\sup_{|z-\theta_0|=R}\|F(z)\|.
+\label{eq:cauchybound}
+\end{equation}
+The same principle, combined with Theorem \ref{thm:conditioning}, applies to the signed logarithmic-speed jet.
+\end{corollary}

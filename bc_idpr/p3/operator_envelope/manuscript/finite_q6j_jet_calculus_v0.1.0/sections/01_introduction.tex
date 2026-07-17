@@ -1,0 +1,36 @@
+\section{Introduction}
+Quantum $6j$ symbols are finite recoupling coefficients associated with changes of basis between different parenthesizations of tensor products.  Their classical and quantum forms occur in angular-momentum theory, quantum-group representation theory and state-sum topology; see, for example, \cite{biedenharnLouck1981,kirillovReshetikhin1989,turaevViro1992}.  A separate body of work studies large-label or semiclassical asymptotics and their relation to tetrahedral geometry \cite{ponzanoRegge1968,roberts1999,taylorWoodward2005}.
+
+The present paper asks a different and deliberately narrower question.  Fix a finite set of admissible doubled-spin labels and a regular trigonometric chamber in the deformation parameter $\theta$.  Can the local response of the corresponding finite recoupling matrix be generated recursively, validated independently on previously unseen representation families, and equipped with a common analytic-conditioning radius?
+
+Three difficulties motivate the construction.
+\begin{enumerate}[label=(\roman*)]
+\item Direct hand differentiation of the finite quantum Racah expression becomes lengthy already at third order.
+\item A low-dimensional regression descriptor need not reproduce the exact deformation response, even when the response itself is analytically computable.
+\item Finite-order formulas are not useful uniformly unless denominators, square-root branches and the logarithmic angular-speed observable remain separated from singularities and zeros.
+\end{enumerate}
+
+The answer developed here has two parts.  First, the quantum Racah formula is evaluated in a truncated Taylor algebra.  This converts differentiation into coefficient arithmetic and gives a single recurrence for the matrix generator and its logarithmic scalar jet.  Second, the declared finite carrier class is certified on a common complex disk.  This produces a bounded result: the formal recurrence is valid at arbitrary finite order inside a regular chamber, while the software implementation and numerical validation are claimed only through the explicitly tested orders.
+
+\subsection{Contributions}
+The controlled contributions are:
+\begin{enumerate}[leftmargin=2em]
+\item a precise doubled-spin and channel convention for the declared two-channel class;
+\item a recursive truncated-Taylor calculus for the finite quantum Racah expression;
+\item a generator recurrence for $K=F'F^T$ and formal-logarithm recurrences for the angular-speed jet;
+\item independent new-label validation of the first three matrix-response levels;
+\item a common q-wall-safe and log-speed-nonvanishing disk for the full declared class;
+\item a proof-family optimization yielding the confirmatory radius $R_{\mathrm{cert}}=0.1R_{\mathrm{wall}}$;
+\item an explicit firewall separating these results from asymptotic geometry and physical interpretation.
+\end{enumerate}
+
+\subsection{Non-claims}
+The paper does not claim:
+\begin{itemize}[leftmargin=2em]
+\item a continuum or semiclassical limit;
+\item a Ponzano--Regge or Regge-curvature theorem;
+\item a physical evolution law for $q$ or $\theta$;
+\item a universal representation-only compression of the response;
+\item an absolute maximal analytic radius;
+\item validation beyond the declared finite two-channel class.
+\end{itemize}

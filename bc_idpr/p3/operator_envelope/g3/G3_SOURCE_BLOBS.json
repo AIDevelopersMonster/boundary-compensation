@@ -1,0 +1,13 @@
+{
+  "repository": "AIDevelopersMonster/boundary-compensation",
+  "commit": "3a53966637ec41a309e4d6f6551e903ba60af644",
+  "blobs": {
+    "bc_idpr/p3/operator_envelope/src/finite_q6j_jet_calculus.py": "12155b425b5ff09fe3846acc3dede6650be55fd3",
+    "bc_idpr/p3/operator_envelope/tests/test_finite_q6j_jet_calculus.py": "4dcc0c43a3adf06c40ebabd8321a8de4fde04e56",
+    "bc_idpr/p3/operator_envelope/outputs/finite_q6j_jet_calculus_certificate.json": "904c3d18c65e1ec6c02c9136dfc5e973a6672d2a",
+    "bc_idpr/p3/operator_envelope/src/g2r_interval_conditioning.py": "ce39e102e51c9206aeb8e48d233d5655ff0a7d91",
+    "bc_idpr/p3/operator_envelope/tests/test_g2r_interval_conditioning.py": "bf91bfd1b16827cb1cfbd2f761796593b7898647",
+    "bc_idpr/p3/operator_envelope/outputs/g2r_interval_conditioning_certificate.json": "b5c492b993e7d9965d04c0ca98262af383561c63"
+  },
+  "evidence_rule": "No statement from the Gemini advisory report is used as evidence."
+}

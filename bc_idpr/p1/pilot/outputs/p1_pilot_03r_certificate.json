@@ -1,0 +1,76 @@
+{
+  "schema_version": "1.0",
+  "contract": "BC-IDPR-P1-PILOT-03R",
+  "status": "PREREGISTERED_CROSS_CARRIER_TRANSFER_CRITERIA_NOT_MET",
+  "preregistration_commit": "6642887b79b0df1c16fc11a58d1f31830ea26e5f",
+  "invalid_predecessor": {
+    "contract": "BC-IDPR-P1-PILOT-03",
+    "status": "FRONTIER_INVALIDATED",
+    "invalidation_commit": "2c67d683b01917a3f54010d6977b639db5000feb"
+  },
+  "domain": {
+    "interval": ["pi/15", "pi/10"],
+    "anchor": "pi/12",
+    "sample_count": 129,
+    "wall_margin": "pi/30"
+  },
+  "carriers": {
+    "A": {
+      "external_spins_doubled": [1, 2, 4, 5],
+      "channels_e_doubled": [1, 3],
+      "channels_f_doubled": [4, 6],
+      "phi_span": 0.11266507359546996,
+      "gauge_match_residual": 1.7632634637802466e-14,
+      "maximum_orthogonality_residual": 3.1646058873319067e-16
+    },
+    "B": {
+      "external_spins_doubled": [1, 1, 2, 2],
+      "channels_e_doubled": [0, 2],
+      "channels_f_doubled": [1, 3],
+      "phi_span": 0.029292189486855857,
+      "gauge_match_residual": 6.81770956038898e-15,
+      "maximum_orthogonality_residual": 3.150380190250762e-16
+    }
+  },
+  "models": {
+    "q_number_basis": ["log([2]_q/[2]_{q0})", "log([3]_q/[3]_{q0})"],
+    "smooth_null_basis": ["theta-anchor", "(theta-anchor)^2"]
+  },
+  "directions": {
+    "A_to_B": {
+      "q_number_coefficients": [78.95145533402265, -30.32385717417606],
+      "smooth_null_coefficients": [1.0599948532675887, 4.287446302406049],
+      "source_q_number_nrmse": 0.0034243443040491363,
+      "source_smooth_null_nrmse": 0.010008697796837367,
+      "target_q_number_nrmse": 2.8345938032939872,
+      "target_smooth_null_nrmse": 2.8343850436492706,
+      "relative_transfer_advantage": -0.00007365253538308744,
+      "passed": false
+    },
+    "B_to_A": {
+      "q_number_coefficients": [3.063081927918561, -1.5011234858542513],
+      "smooth_null_coefficients": [0.2790929662920278, 0.6657046727019384],
+      "source_q_number_nrmse": 0.00004799876216396532,
+      "source_smooth_null_nrmse": 0.0015209334671919836,
+      "target_q_number_nrmse": 0.7398070581756396,
+      "target_smooth_null_nrmse": 0.7398122479712456,
+      "relative_transfer_advantage": 0.0000070150171481518075,
+      "passed": false
+    }
+  },
+  "criteria": {
+    "maximum_target_q_number_nrmse_each_direction": 0.15,
+    "minimum_relative_transfer_advantage_each_direction": 0.10,
+    "maximum_source_fit_nrmse_each_carrier": 0.05
+  },
+  "decision": {
+    "source_fit_gate": "PASSED_BOTH_CARRIERS",
+    "cross_carrier_transfer_gate": "FAILED_BOTH_DIRECTIONS",
+    "independent_q_number_phase_law": "NOT_SUPPORTED",
+    "universal_phase_law": "BLOCKED",
+    "physical_interpretation": "BLOCKED"
+  },
+  "tests": {"count": 10, "result": "OK"},
+  "claim_status": "Q_NUMBER_BASIS_FITS_EACH_SOURCE_BUT_COEFFICIENTS_DO_NOT_TRANSFER_BETWEEN_DECLARED_CARRIERS",
+  "evidence_rule": "No statement from the Gemini advisory report is used as evidence."
+}

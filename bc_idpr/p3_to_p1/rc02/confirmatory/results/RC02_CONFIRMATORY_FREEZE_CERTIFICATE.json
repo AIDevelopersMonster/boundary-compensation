@@ -1,0 +1,35 @@
+{
+  "artifact_id": "BC-IDPR-P3-P1-RC02-CONFIRMATORY-FREEZE-CERTIFICATE",
+  "contract_id": "BC-IDPR-P3-P1-RC02",
+  "date": "2026-07-17",
+  "evaluated_family_count": 8,
+  "evaluated_ordered_carrier_count": 106,
+  "evidence_policy": "No statement from the Gemini advisory report is used as evidence.",
+  "further_confirmatory_rerun_authorized": false,
+  "hard_failures": [],
+  "next_required_artifact": "RC02_FINAL_CONFIRMATORY_REPORT_AND_PROGRAMME_DECISION",
+  "one_complete_run_consumed": true,
+  "outcome": "A_UNIVERSAL_PHASE_LOCK",
+  "paired_control_frequency": 9.5,
+  "primary_summary": {
+    "R1": 0.9967284980027259,
+    "R2": 0.9869553189520441,
+    "energy_gate_pass": true,
+    "exact_one_sided_sign_p": 0.00390625,
+    "median_family_energy_advantage": 0.12716387712459315,
+    "positive_family_count": 8
+  },
+  "replication_changed_primary_outcome": false,
+  "replication_summary": {
+    "R1": 1.0,
+    "R2": 1.0,
+    "energy_gate_pass": true,
+    "exact_one_sided_sign_p": 0.00390625,
+    "median_family_energy_advantage": 0.09240553845217536,
+    "positive_family_count": 8
+  },
+  "results_sha256_canonical": "d1cfa470cb6a9a8989c573a11be7a705c875c37f3ae101e35fb9544a602ee3c0",
+  "schema_version": "1.0",
+  "selected_mode": 5,
+  "status": "CONFIRMATORY_COMPLETE_OUTCOME_FROZEN"
+}

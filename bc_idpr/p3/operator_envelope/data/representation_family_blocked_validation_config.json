@@ -1,0 +1,10 @@
+{
+  "contract": "BC-IDPR-P3-B-M8",
+  "source_contract": "BC-IDPR-P3-B-M7-v0.1.1",
+  "family_key": "sorted doubled-spin quadruple",
+  "ridge_alpha": 1.0,
+  "maximum_matrix_nrmse_each_target": 0.35,
+  "minimum_matrix_improvement_each_target": 0.10,
+  "predictor_derivatives_allowed": false,
+  "held_out_family_excluded_from_standardization": true
+}

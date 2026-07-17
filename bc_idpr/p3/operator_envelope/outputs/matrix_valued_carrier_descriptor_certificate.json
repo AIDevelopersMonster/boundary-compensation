@@ -1,0 +1,35 @@
+{
+  "schema_version": "1.1",
+  "contract": "BC-IDPR-P3-B-M7",
+  "status": "REPRESENTATION_DESCRIPTOR_LOOCV_NOT_CERTIFIED",
+  "metadata_correction": {
+    "previously_reported_dimensions": [11, 15],
+    "correct_dimensions": [10, 14],
+    "effect_on_numerical_results": "none",
+    "effect_on_verdict": "none"
+  },
+  "domain": {"anchor": "pi/12", "atlas_size": 75, "doubled_spin_range": [1, 4], "finite_difference_step": 0.0005, "ridge_alpha": 1.0},
+  "targets": {
+    "raw_jet": ["omega", "omega_prime", "omega_second"],
+    "transformed": ["log_abs_omega", "omega_prime_over_omega", "omega_second_over_omega"],
+    "ranges": {
+      "log_abs_omega": [-1.8194841662972407, 0.25094226489665067],
+      "omega_prime_over_omega": [4.366025399144986, 7.9834266058849765],
+      "omega_second_over_omega": [6.741680175861282, 75.55660648134526]
+    }
+  },
+  "descriptors": {"baseline_dimension": 10, "matrix_augmented_dimension": 14, "matrix_entries_from": "F(theta0)", "derivatives_excluded_from_predictors": true},
+  "loocv": {
+    "baseline_nrmse": [0.5098462643050097, 0.4916282371305589, 0.5692947389629354],
+    "matrix_augmented_nrmse": [0.3047106511670092, 0.40617639044568865, 0.4660168893049364],
+    "matrix_improves_each_target": [true, true, true],
+    "all_targets_improved": true,
+    "certification_threshold_nrmse": 0.25,
+    "all_targets_below_threshold": false
+  },
+  "numerical_stability": {"maximum_relative_jet_change_h_to_h_over_2": 1.0721433255913948e-05, "median_relative_jet_change": 2.686360952441878e-07},
+  "gates": {"expanded_two_channel_atlas": "CLOSED", "matrix_descriptor_relevance": "SUPPORTED_EXPLORATORILY", "omega_prediction": "NOT_CERTIFIED", "higher_jet_prediction": "NOT_CERTIFIED", "new_cross_carrier_pilot": "BLOCKED"},
+  "tests": {"count": 11, "result": "OK"},
+  "claim_status": "MATRIX_AUGMENTATION_IMPROVES_ALL_THREE_LOOCV_TARGETS_BUT_ERRORS_REMAIN_ABOVE_CERTIFICATION_THRESHOLD",
+  "evidence_rule": "No statement from the Gemini advisory report is used as evidence."
+}

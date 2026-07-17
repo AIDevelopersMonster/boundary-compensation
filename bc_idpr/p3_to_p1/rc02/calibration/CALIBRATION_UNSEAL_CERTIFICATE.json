@@ -1,0 +1,33 @@
+{
+  "schema_version": "1.0",
+  "certificate_id": "BC-IDPR-P3-P1-RC02-CALIBRATION-UNSEAL",
+  "contract_id": "BC-IDPR-P3-P1-RC02",
+  "date": "2026-07-17",
+  "status": "CALIBRATION_EXECUTION_UNSEALED_AUTHORIZED_CONFIRMATORY_REMAINS_SEALED",
+  "authorization_scope": {
+    "calibration_families_authorized": 12,
+    "calibration_ordered_carriers_authorized": 113,
+    "pilot_families_authorized": 0,
+    "confirmatory_families_authorized": 0,
+    "selected_mode_before_completion": null
+  },
+  "preconditions": {
+    "predictor_geometry_certified": true,
+    "pilot_status": "PILOT_COMPLETED_PASS",
+    "calibration_preregistration_valid": true,
+    "calibration_results_present": false,
+    "confirmatory_results_present": false
+  },
+  "frozen_selection_rule": "maximize the median of 12 primary family advantages; ties within 1e-12 choose smallest n",
+  "required_completion_artifact": "calibration/results/RC02_CALIBRATION_RESULTS.json",
+  "next_gate": "RC02_CALIBRATION_FREEZE_CERTIFICATE_BEFORE_CONFIRMATORY_UNSEAL",
+  "repository_commit_ledger": {
+    "index": "6537dd28eb783cd10a75545f8a6c0f440f93256c",
+    "preregistration": "1cdea5218a424f078c37d8e361ca671d18e4a836",
+    "protocol": "8b8a69caac91b0ec6e178355f5cc98575f0d2de2",
+    "change_control": "40ec29dfa290cb92e73d3814fe7f3c2a18e067bc",
+    "result_schema": "6db25343caeae5af40cc183ddafb9ff28aa2ac57",
+    "validator": "5ced280c87335dacf1509ef5b7224e8d7529ce4a"
+  },
+  "evidence_policy": "No statement from the Gemini advisory report is used as evidence."
+}

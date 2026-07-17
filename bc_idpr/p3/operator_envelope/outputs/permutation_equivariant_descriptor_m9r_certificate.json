@@ -1,0 +1,42 @@
+{
+  "schema_version": "1.0",
+  "contract": "BC-IDPR-P3-B-M9R",
+  "status": "PERMUTATION_EQUIVARIANT_NEW_LABEL_GENERALIZATION_NOT_CERTIFIED",
+  "preregistration_commit": "5db103fd9f610816bc3ac11331eebb66c46b7a47",
+  "invalid_predecessor": {
+    "contract": "BC-IDPR-P3-B-M9",
+    "status": "FRONTIER_INVALIDATED",
+    "invalidation_commit": "82cf30b5745f89325e4842db1ba3e609ee110bf5"
+  },
+  "atlas": {
+    "train_ordered_carriers": 75,
+    "train_representation_families": 9,
+    "test_ordered_carriers": 208,
+    "test_representation_families": 15,
+    "test_rule": "contains at least one doubled-spin label 5 or 6 and is absent from the train family set",
+    "test_family_keys": [[1,1,5,5],[1,1,6,6],[1,2,4,5],[1,2,5,6],[1,3,3,5],[1,3,4,6],[1,3,5,5],[1,3,6,6],[1,4,4,5],[1,4,5,6],[1,5,5,5],[1,5,6,6],[2,2,3,5],[2,2,4,6],[2,3,3,6]]
+  },
+  "models": {
+    "ridge_alpha": 1.0,
+    "scalar_family_descriptor_test_nrmse": [0.9083509877009803,3.9321890874744163,8.04664962722547],
+    "permutation_equivariant_descriptor_test_nrmse": [0.49155257188062584,1.5849589452416264,5.1791588973252125],
+    "relative_improvement": [0.458851723027531,0.5969270780262449,0.3563583432535989]
+  },
+  "criteria": {
+    "maximum_test_nrmse_each_target": 0.40,
+    "minimum_relative_improvement_each_target": 0.10,
+    "minimum_test_family_count": 10,
+    "maximum_numerical_jet_instability": 0.0001,
+    "actual_maximum_numerical_jet_instability": 2.0505653173804e-07
+  },
+  "decision": {
+    "independent_new_label_atlas": "CLOSED",
+    "equivariant_descriptor_improves_all_targets": "SUPPORTED",
+    "absolute_new_label_prediction": "NOT_CERTIFIED",
+    "higher_jet_transfer": "NOT_CERTIFIED",
+    "new_cross_carrier_pilot": "BLOCKED"
+  },
+  "tests": {"count": 10, "result": "OK"},
+  "claim_status": "PERMUTATION_ORBIT_STATISTICS_IMPROVE_OUT_OF_RANGE_FAMILY_PREDICTION_BUT_ERRORS_REMAIN_ABOVE_FROZEN_CERTIFICATION_THRESHOLDS",
+  "evidence_rule": "No statement from the Gemini advisory report is used as evidence."
+}

@@ -1,0 +1,20 @@
+{
+  "schema_version": "1.0",
+  "contract": "BC-IDPR-P3-B-03",
+  "geometry_id": "REGULAR_EUCLIDEAN_TETRAHEDRON_EDGE_1",
+  "geometry_class": "convex_euclidean_tetrahedron",
+  "scale_convention": "all six edge lengths equal 1",
+  "orientation_convention": "ordered vertices v0,v1,v2,v3; outward face normals",
+  "representation_labels": ["1", "1", "1", "1"],
+  "external_area_map": "A_i = (sqrt(3)/4) * j_i",
+  "q_independent": true,
+  "path_coordinate": "theta",
+  "compact_interval": ["pi/10", "3*pi/20"],
+  "regular_chamber": ["0", "pi/5"],
+  "claim_firewall": [
+    "The full geometry is fixed by explicit vertices and redundantly by closed area normals.",
+    "Equal labels alone are not claimed to determine the tetrahedral shape.",
+    "The q-Racah operator package is not yet claimed to quantize this exact tetrahedron.",
+    "The geometry-to-operator semantic bridge remains a separate obligation."
+  ]
+}

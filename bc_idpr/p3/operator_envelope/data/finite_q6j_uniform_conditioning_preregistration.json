@@ -1,0 +1,9 @@
+{
+  "schema_version": "1.0",
+  "contract": "BC-IDPR-P3-B-JET-CONDITIONING",
+  "title": "Uniform Jet Conditioning for the Finite q-6j Regular Chamber",
+  "date": "2026-07-16",
+  "source_contract": "BC-IDPR-P3-B-JET-SYNTHESIS",
+  "frozen_before_evaluation": true,
+  "declared_class": {
+    "anchor": "pi

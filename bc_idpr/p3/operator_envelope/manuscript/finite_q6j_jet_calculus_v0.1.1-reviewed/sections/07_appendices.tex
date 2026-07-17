@@ -1,0 +1,84 @@
+\appendix
+\section{First three generator derivatives}
+Direct differentiation gives
+\begin{align}
+K&=F'F^T,\\
+K'&=F''F^T+F'F'^T,\\
+K''&=F'''F^T+2F''F'^T+F'F''^T.
+\end{align}
+These agree with Theorem \ref{thm:generatorrecurrence} after conversion between normalized Taylor coefficients and ordinary derivatives.
+
+\section{Convention-to-code map}
+\begin{center}
+\begin{tabular}{>{\raggedright\arraybackslash}p{0.20\textwidth}>{\raggedright\arraybackslash}p{0.28\textwidth}>{\raggedright\arraybackslash}p{0.40\textwidth}}
+\toprule
+Manuscript object & Mathematical role & Source-level role\\
+\midrule
+$J=(a,b,c,d)$ & ordered external labels & four-tuple passed to \texttt{raw}/\texttt{chans}\\
+$E(J)$ & $(ab)|(cd)$ channel set & first list from \texttt{chans}\\
+$G(J)$ & $(bc)|(ad)$ channel set & second list from \texttt{chans}\\
+$e$ & row intermediate label & third argument of scalar q-$6j$\\
+$f$ & column intermediate label & sixth argument of scalar q-$6j$\\
+$F_{ij}$ & dimension-weighted recoupling entry & \texttt{raw[J][i][j]} after frozen gauge\\
+$\omega$ & $(2,1)$ entry of $F'F^T$ & \texttt{K[1][0]}\\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\section{Exact carrier and certificate pseudocode}
+\label{app:pseudocode}
+\paragraph{Algebraic carrier enumeration.}
+\begin{verbatim}
+for J in {1,...,6}^4:
+    require even sum(J)
+    compute the two exact integer channel sets E(J), G(J)
+    require |E(J)| = |G(J)| = 2
+    for every e in E(J), f in G(J):
+        construct exact integer Racah limits A_i, B_j
+        require max(A_i) <= min(B_j)
+        require all triangle, numerator, denominator,
+                and dimension indices lie in {0,...,10}
+    retain J
+\end{verbatim}
+This returns 283 ordered carriers and 24 sorted families.
+
+\paragraph{Arb Taylor--Cauchy certificate.}
+\begin{verbatim}
+fix N=50, Rout=pi/120, Rcert=pi/1200
+for precision in {192,256} bits:
+    for each canonical external-label family:
+        compute omega_0,...,omega_50 as Arb balls
+        compute an Arb outer-circle majorant M
+        lower = abs_lower(omega_0)
+                - sum(abs_upper(omega_k) Rcert^k, k=1..50)
+                - abs_upper(M) (Rcert/Rout)^51/(1-Rcert/Rout)
+        require lower > 0
+require identical worst family at both precisions
+\end{verbatim}
+
+\section{Frozen new-label family keys}
+The fifteen unordered test families are
+\begin{align*}
+&(1,1,5,5),\ (1,1,6,6),\ (1,2,4,5),\ (1,2,5,6),\ (1,3,3,5),\\
+&(1,3,4,6),\ (1,3,5,5),\ (1,3,6,6),\ (1,4,4,5),\ (1,4,5,6),\\
+&(1,5,5,5),\ (1,5,6,6),\ (2,2,3,5),\ (2,2,4,6),\ (2,3,3,6).
+\end{align*}
+All admissible ordered permutations from one family are held out together.
+
+\section{Supplementary artifact map}
+\begin{longtable}{p{0.39\textwidth}p{0.51\textwidth}}
+\toprule
+Artifact & Purpose\\
+\midrule
+\endhead
+\path{supplementary/declared_carriers_283.json} & exact ordered carrier list, family keys and critical index maxima\\
+\path{outputs/finite_q6j_jet_calculus_certificate.json} & low-order cross-validation maxima and thresholds\\
+\path{outputs/g2r_interval_conditioning_certificate.json} & Arb precision metadata, lower bounds and G2 verdict\\
+\path{data/g2r_interval_conditioning_preregistration.json} & frozen radius, Taylor order, precision levels and success criteria\\
+\path{G2_THEOREM_LEVEL_AUDIT.md} & classified theorem audit of v0.1.0\\
+\path{G2_RESPONSE_MATRIX.md} & disposition of every G2 and G2-R correction in v0.1.1\\
+\bottomrule
+\end{longtable}
+
+\paragraph{Evidence rule.}
+No statement from the Gemini advisory report is used as evidence.

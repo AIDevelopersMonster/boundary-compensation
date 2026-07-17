@@ -1,0 +1,22 @@
+{
+  "schema_version": "1.0",
+  "contract_id": "BC-IDPR-P3-P1-RC02",
+  "date": "2026-07-17",
+  "status": "PREDICTOR_GEOMETRY_CERTIFIED_PILOT_AUTHORIZED",
+  "response_data_used": false,
+  "calibration_results_present": false,
+  "confirmatory_results_present": false,
+  "geometry": {
+    "pairing_search_size": 362880,
+    "maximum_paired_absolute_overlap": 0.9909657558650774,
+    "minimum_projector_difference_norm": 0.1341151397223887,
+    "frozen_threshold": 0.02,
+    "reachability_safety_factor": 6.705756986119435,
+    "threshold_reachable_for_every_pair": true
+  },
+  "tests": "3 passed",
+  "validator": "RC02_PREREGISTRATION_VALID",
+  "next_gate": "RC02_PILOT_CERTIFICATE",
+  "downloadable_package_sha256": "f660e38f9f3c49b0612a9e0b4134141f220a33b699b74167ca03db8225ab6146",
+  "evidence_policy": "No statement from the Gemini advisory report is used as evidence."
+}

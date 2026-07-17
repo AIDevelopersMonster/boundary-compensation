@@ -1,0 +1,37 @@
+{
+  "schema_version": "1.0",
+  "contract": "BC-IDPR-P3-B-01",
+  "model_class": "finite_generic_q_recoupling_envelope",
+  "base_coordinate": "theta",
+  "q_convention": "q = exp(i theta)",
+  "base_point": "pi/4",
+  "strict_root_interpretation_at_base_point": "k=2 via theta=pi/(k+2)",
+  "regular_real_chamber": ["0", "pi/3"],
+  "external_label_skeleton": {
+    "external_spins": ["1/2", "1/2", "1/2", "1/2"],
+    "total_spin": "0",
+    "channel_order": ["0", "1"]
+  },
+  "external_geometry": {
+    "type": "fixed_normalized_equal_label_ray",
+    "ray": [1, 1, 1, 1],
+    "q_independent": true,
+    "claim": "control datum only; not asserted to be a complete classical tetrahedral geometry"
+  },
+  "internal_q_data_allowed_to_vary": [
+    "quantum numbers [2]_theta and [3]_theta",
+    "recoupling matrix F(theta)",
+    "channel-trace spectra",
+    "relative orientation of the two channel operators"
+  ],
+  "nuisance_model": [
+    "common identity shift",
+    "common scalar normalization",
+    "simultaneous orthogonal/unitary basis conjugation"
+  ],
+  "claim_firewall": [
+    "Away from theta=pi/4 this is not called standard SU(2)_k TQFT.",
+    "The operator pair is a minimal algebraic envelope, not a claimed unique volume operator.",
+    "A nonzero intrinsic derivative is not an observable-identifiability certificate."
+  ]
+}

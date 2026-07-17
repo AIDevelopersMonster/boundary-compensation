@@ -1,0 +1,54 @@
+{
+  "schema_version": "1.0",
+  "contract": "BC-IDPR-P1-PILOT-02",
+  "status": "PREREGISTERED_RECOUPLING_ANGLE_CRITERIA_MET",
+  "preregistration_commit": "8ee32533dc7991707b3e2e78c43c0096c459da27",
+  "domain": {
+    "interval": ["pi/15", "pi/10"],
+    "anchor": "pi/12",
+    "sample_count": 129,
+    "wall_margin": "pi/30"
+  },
+  "carrier": {
+    "external_spins": ["1/2", "1", "2", "5/2"],
+    "dimension": 2,
+    "face_area_ratios": [1, 2, 4, 5]
+  },
+  "controls": {
+    "negative_control_max_abs": 0.0,
+    "threshold": 1e-12,
+    "passed": true
+  },
+  "signal": {
+    "maximum_quotient_excursion": 0.7695395230687915,
+    "anchor_coordinate": 0.23046047693120855,
+    "minimum_required": 0.1,
+    "passed": true
+  },
+  "recoupling_angle_model": {
+    "basis": ["sin(2*dphi)", "1-cos(2*dphi)", "sin(4*dphi)"],
+    "phi_span": 0.11266507359546996,
+    "cv_normalized_rmse": 1.7315748008431413e-14,
+    "coefficient_stability": 1.1811137319095956e-13,
+    "coefficients": [3.803457787974364, 27.156185311788203, 9.800091579882279e-13]
+  },
+  "smooth_null": {
+    "degree": 3,
+    "cv_normalized_rmse": 0.02411018093919437,
+    "coefficient_stability": 0.15791700357822855,
+    "coefficients": [7.85428146552761, 95.96845616735061, 613.4883270870157]
+  },
+  "comparison": {
+    "relative_cv_advantage": 0.9999999999992818,
+    "minimum_required": 0.1,
+    "passed": true
+  },
+  "claim_gate": {
+    "model_internal_recoupling_structure": "SUPPORTED",
+    "independent_phase_law": "BLOCKED",
+    "universal_phase_law": "BLOCKED",
+    "physical_interpretation": "BLOCKED"
+  },
+  "tests": {"count": 9, "result": "OK"},
+  "claim_status": "TWO_CHANNEL_AFFINE_QUOTIENT_RESPONSE_RESOLVED_BY_PREREGISTERED_RECOUPLING_ANGLE_BASIS"
+}

@@ -1,0 +1,31 @@
+{
+  "schema_version": "1.0",
+  "contract": "BC-IDPR-P3-A-01",
+  "category_id": "SU(2)_2_Ising",
+  "description": "Multiplicity-free Ising fusion datum used as the first P3-A rigidity anchor.",
+  "objects": ["1", "sigma", "psi"],
+  "tensor_unit": "1",
+  "duals": {
+    "1": "1",
+    "sigma": "sigma",
+    "psi": "psi"
+  },
+  "multiplicity_free": true,
+  "fusion_rules": {
+    "1,1": ["1"],
+    "1,sigma": ["sigma"],
+    "1,psi": ["psi"],
+    "sigma,1": ["sigma"],
+    "sigma,sigma": ["1", "psi"],
+    "sigma,psi": ["sigma"],
+    "psi,1": ["psi"],
+    "psi,sigma": ["sigma"],
+    "psi,psi": ["1"]
+  },
+  "claim_status": "INPUT_DATUM",
+  "notes": [
+    "Object names are ASCII identifiers for machine stability.",
+    "No braiding, twist, pivotal, or modular data are imported at this stage.",
+    "The order of outputs in a fusion rule is canonical for this dataset and is used to order fusion-tree bases."
+  ]
+}

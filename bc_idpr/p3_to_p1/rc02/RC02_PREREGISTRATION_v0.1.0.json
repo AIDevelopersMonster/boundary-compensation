@@ -1,0 +1,51 @@
+{
+  "schema_version": "1.0",
+  "contract_id": "BC-IDPR-P3-P1-RC02",
+  "title": "Identifiable q-Curvature Predictors for Phase-Resolved Residual Modulation",
+  "version": "0.1.0",
+  "date": "2026-07-17",
+  "status": "PREDICTOR_GEOMETRY_CERTIFIED_PILOT_AUTHORIZED",
+  "upstream_publication_doi": "10.5281/zenodo.21401141",
+  "response_data_used_for_design": false,
+  "deformation": {
+    "coordinate": "eta = 12 theta / pi",
+    "anchor_eta": 1.0,
+    "phase_grid": {"start": 0.6, "stop": 1.15, "step": 0.0005, "count": 1101}
+  },
+  "residualization": {
+    "baseline": ["1", "x", "x^2", "x^3"],
+    "projection": "unweighted discrete least squares",
+    "normalization": "unit L2 norm after cubic projection"
+  },
+  "predictor_dictionary": {
+    "integer_modes": [2,3,4,5,6,7,8,9,10],
+    "atom_formula": "Phi_m(eta) = -m^2 csc^2(m theta(eta)) + csc^2(theta(eta))",
+    "control_frequency_pool": [1.5,2.5,3.5,4.5,5.5,6.5,7.5,8.5,9.5],
+    "frozen_pairs": [[2,6.5],[3,8.5],[4,7.5],[5,9.5],[6,1.5],[7,3.5],[8,2.5],[9,5.5],[10,4.5]],
+    "candidate_bijections": 362880,
+    "response_data_used": false
+  },
+  "geometry_qualification": {
+    "maximum_paired_absolute_overlap": 0.9909657558650774,
+    "minimum_projector_difference_norm": 0.1341151397223887,
+    "frozen_energy_advantage_threshold": 0.02,
+    "reachability_safety_factor": 6.705756986119435,
+    "minimum_control_first_zero_margin_eta": 0.11315789473684212,
+    "status": "PASS"
+  },
+  "split": {
+    "pilot_families": [[1,2,3,4],[1,3,3,3],[1,3,4,6],[2,2,3,5]],
+    "calibration_family_count": 12,
+    "confirmatory_family_count": 8,
+    "calibration_opened": false,
+    "confirmatory_opened": false
+  },
+  "stage_authorization": {
+    "pilot": true,
+    "calibration": false,
+    "confirmatory": false,
+    "next_gate": "RC02_PILOT_CERTIFICATE"
+  },
+  "frozen_confirmatory_threshold": 0.02,
+  "evidence_policy": "No statement from the Gemini advisory report is used as evidence."
+}

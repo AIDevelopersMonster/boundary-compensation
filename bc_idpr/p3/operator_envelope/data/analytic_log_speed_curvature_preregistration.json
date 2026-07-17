@@ -1,0 +1,44 @@
+{
+  "schema_version": "1.0",
+  "contract": "BC-IDPR-P3-B-M12",
+  "title": "Analytic Curvature of Log-Speed",
+  "date": "2026-07-16",
+  "source_contract": "BC-IDPR-P3-B-M11",
+  "frozen_before_evaluation": true,
+  "target": "d_theta^2 log|omega| = omega_second/omega - (omega_prime/omega)^2",
+  "analytic_construction": {
+    "q_number_third_log_derivative": "2*n^3*csc(n*theta)^2*cot(n*theta)-2*csc(theta)^2*cot(theta)",
+    "generator_second_derivative": "K''=F'''F^T+2F''F'^T+F'F''^T",
+    "target_from_generator": "K''21/K21-(K'21/K21)^2",
+    "fitted_parameter_count": 0
+  },
+  "atlas": {
+    "train_family_exclusion_maximum_doubled_spin": 4,
+    "validation_maximum_doubled_spin": 6,
+    "validation_rule": "exactly-two-channel ordered carriers containing label 5 or 6 whose sorted external-spin family is absent from the label-1-to-4 atlas",
+    "minimum_test_family_count": 10
+  },
+  "reference": {
+    "method": "central difference of the analytically computed log-speed slope",
+    "steps": [1e-5, 5e-6]
+  },
+  "criteria": {
+    "maximum_relative_analytic_vs_refined_reference_residual": 1e-5,
+    "maximum_reference_step_disagreement_relative": 1e-5,
+    "maximum_orthogonality_residual": 1e-10,
+    "maximum_generator_skew_residual": 1e-7,
+    "maximum_generator_prime_skew_residual": 1e-6,
+    "maximum_generator_second_skew_residual": 1e-5,
+    "minimum_test_family_count": 10
+  },
+  "stopping_rule": "No change of formula, atlas, steps, thresholds or carrier exclusions after evaluation. Failure is retained as the module result.",
+  "claim_ceiling": "Analytic third differentiation of the finite q-6j recoupling formula reproduces the anchor curvature of log-speed on the declared new-label atlas.",
+  "forbidden_claims": [
+    "physical q dynamics",
+    "universal continuum law",
+    "semiclassical interpretation",
+    "low-dimensional representation compression",
+    "post-hoc threshold relaxation"
+  ],
+  "evidence_rule": "No statement from the Gemini advisory report is used as evidence."
+}

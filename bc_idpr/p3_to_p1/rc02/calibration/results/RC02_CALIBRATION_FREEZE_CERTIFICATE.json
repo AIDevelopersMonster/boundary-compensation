@@ -1,0 +1,20 @@
+{
+  "artifact_id": "BC-IDPR-P3-P1-RC02-CALIBRATION-FREEZE-CERTIFICATE",
+  "confirmatory_execution_authorized": false,
+  "confirmatory_results_present": false,
+  "contract_id": "BC-IDPR-P3-P1-RC02",
+  "date": "2026-07-17",
+  "evaluated_family_count": 12,
+  "evaluated_ordered_carrier_count": 113,
+  "evidence_policy": "No statement from the Gemini advisory report is used as evidence.",
+  "hard_failures": [],
+  "next_required_artifact": "RC02_CONFIRMATORY_PREREGISTRATION_AND_UNSEAL_CERTIFICATE",
+  "primary_family_by_mode_value_count": 108,
+  "replication_family_by_mode_value_count": 108,
+  "results_sha256_canonical": "9aa812ae99ec25ed164e68ac07da6c7c6bdcd24ac4ab3855ada6408805bab171",
+  "schema_version": "1.0",
+  "selected_mode": 5,
+  "selection_used_pilot": false,
+  "selection_used_replication": false,
+  "status": "CALIBRATION_COMPLETE_MODE_FROZEN_CONFIRMATORY_STILL_SEALED"
+}

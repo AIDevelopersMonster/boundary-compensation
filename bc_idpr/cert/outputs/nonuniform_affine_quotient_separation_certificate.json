@@ -1,0 +1,48 @@
+{
+  "schema_version": "1.0",
+  "contract": "BC-IDPR-CERT-03",
+  "status": "NONUNIFORM_AFFINE_QUOTIENT_SEPARATION_CERTIFIED",
+  "preregistration_commit": "be415393641808a84759de04293ee5ae9e1a9e87",
+  "domain": {
+    "interval": ["pi/15", "pi/10"],
+    "anchor": "pi/12",
+    "sample_count": 129,
+    "wall_margin": "pi/30"
+  },
+  "carrier": {
+    "external_spins": ["1/2", "1", "2", "5/2"],
+    "dimension": 2,
+    "face_area_ratios": [1, 2, 4, 5]
+  },
+  "observable": {
+    "negative_control_max_abs_derivative": 3.552713678800501e-15,
+    "endpoint_denominator_abs": 0.008715842540636967,
+    "anchor_differential": 0.002008657228772512,
+    "endpoint_normalized_anchor_coordinate": 0.23046047693120855
+  },
+  "affine_quotient": {
+    "invariance_residual": 1.0974554598419672e-13,
+    "transforms": [[2.75, -0.3], [0.125, 1.7], [9.0, 4.0]],
+    "verified": true
+  },
+  "monotonicity": {
+    "minimum_reference_derivative": 0.016523871375351273,
+    "maximum_reference_derivative": 0.21202408079928903,
+    "maximum_step_radius": 1.583662367909966e-07,
+    "uncertainty_adjusted_margin": 0.01652385241081851
+  },
+  "grid_separation": {
+    "minimum_adjacent_u_separation": 0.0015734158353453054,
+    "maximum_adjacent_u_separation": 0.01973186100942259,
+    "adjacent_uncertainty_bound": 3.0328813549488765e-08,
+    "net_minimum_adjacent_margin": 0.0015733855065317558,
+    "full_range": 1.0
+  },
+  "gates": {
+    "nonuniform_affine_quotient_differential_pilot": "OPEN",
+    "absolute_symbol_accuracy": "OPEN",
+    "confirmatory_phase_law": "BLOCKED"
+  },
+  "tests": {"count": 9, "result": "OK"},
+  "claim_status": "AFFINE_CALIBRATION_INVARIANT_ORDERING_AND_GRID_SEPARATION_ON_DECLARED_NONUNIFORM_CARRIER"
+}

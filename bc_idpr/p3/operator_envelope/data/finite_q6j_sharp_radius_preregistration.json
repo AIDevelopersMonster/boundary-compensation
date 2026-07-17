@@ -1,0 +1,10 @@
+{
+  "schema_version": "1.0",
+  "contract": "BC-IDPR-P3-B-JET-RADIUS",
+  "title": "Sharp Conditioning and Radius Optimization by Taylor-Cauchy Cancellation Preservation",
+  "date": "2026-07-16",
+  "source_contracts": [
+    "BC-IDPR-P3-B-JET-SYNTHESIS",
+    "BC-IDPR-P3-B-JET-CONDITIONING"
+  ],
+  "method_design_status": "EXPLORATORY_METHOD_SELECTION

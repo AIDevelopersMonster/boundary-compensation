@@ -1,0 +1,50 @@
+{
+  "schema_version": "1.0",
+  "contract": "BC-IDPR-CERT-01",
+  "decision_scope": "protocol-relative differential observable separation",
+  "path": {
+    "coordinate": "theta",
+    "low": "pi/10",
+    "anchor": "pi/8",
+    "high": "3*pi/20",
+    "sample_count": 33
+  },
+  "geometries": [
+    "regular calibration tetrahedron",
+    "anisotropic equifacial holdout"
+  ],
+  "observable_contrast": "Euclidean norm of frozen-protocol lower-symbol difference S(theta_high)-S(theta_low)",
+  "admissible_calibrations": [
+    {
+      "id": "raw_no_calibration",
+      "description": "no offsets and unit slopes"
+    },
+    {
+      "id": "m4_additive_anchor",
+      "description": "M4 per-channel additive offsets fitted only on the regular anchor"
+    },
+    {
+      "id": "near_identity_diagonal_affine_box",
+      "description": "per-channel slopes in [0.9,1.1], offsets chosen to preserve the regular anchor target",
+      "slope_interval": [0.9, 1.1]
+    }
+  ],
+  "error_budget": {
+    "symbol_error": "maximum absolute target mismatch on the 33-point path grid for each geometry and calibration",
+    "numerical_budget": 1e-10,
+    "external_geometry_leakage": 0.0,
+    "wall_error": 0.0,
+    "wall_margin": "pi/20"
+  },
+  "decision_rule": {
+    "per_case_margin": "response_contrast - maximum_symbol_mismatch - numerical_budget - external_leakage - wall_error",
+    "global_margin": "minimum per-case margin over both geometries and all admissible calibrations",
+    "p1_pilot_authorized": "global_margin > 0 and upstream operator-level nuisance and wall gates pass"
+  },
+  "claim_firewall": [
+    "A detected differential response is not sufficient if it is not separated from finite-spin symbol mismatch.",
+    "The regular calibration geometry cannot by itself authorize P1.",
+    "Grid maxima and minima are not continuum extrema.",
+    "A negative certificate is a valid programme outcome."
+  ]
+}

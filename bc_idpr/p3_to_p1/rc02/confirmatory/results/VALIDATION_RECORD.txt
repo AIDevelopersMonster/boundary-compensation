@@ -1,0 +1,15 @@
+RC02_CONFIRMATORY_RESULT_VALID
+families=8
+ordered_carriers=106
+selected_mode=5
+outcome=A_UNIVERSAL_PHASE_LOCK
+primary_positive=8
+primary_median=0.12716387712459315
+primary_sign_p=0.00390625
+primary_R1=0.99672849800272589
+primary_R2=0.98695531895204414
+hard_failures=0
+pytest=4 passed
+confirmatory_rerun_authorized=false
+
+No statement from the Gemini advisory report is used as evidence.

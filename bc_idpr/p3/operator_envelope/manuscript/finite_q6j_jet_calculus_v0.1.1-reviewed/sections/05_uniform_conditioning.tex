@@ -1,0 +1,122 @@
+\section{Rigorous uniform regularity and conditioning}
+\label{sec:conditioning}
+\subsection{q-number walls and a common outer disk}
+A \emph{q-number wall} is a zero of one of the critical functions $[n]_q(z)=\sin(nz)/\sin z$, $1\le n\le10$.  Set
+\begin{equation}
+R_{\mathrm{out}}
+=\frac12\min_{1\le n\le10}
+\frac{\dist(n\theta_0,\pi\mathbb Z)}{n}
+=\frac{\pi}{120},
+\label{eq:Rout}
+\end{equation}
+and choose the preregistered confirmatory radius
+\begin{equation}
+R_{\mathrm{cert}}=\frac{R_{\mathrm{out}}}{10}=\frac{\pi}{1200}.
+\label{eq:Rcert}
+\end{equation}
+
+\begin{lemma}[Uniform q-number separation]
+\label{lem:qseparation}
+For $1\le n\le10$ and $|z-\theta_0|\le R_{\mathrm{out}}$,
+\begin{equation}
+|\qnum{n}(z)|>0.233.
+\label{eq:qbound}
+\end{equation}
+In particular, every q-factorial in the declared finite formula is nonzero on the outer disk.
+\end{lemma}
+
+\begin{proof}
+Let $\delta_n=\dist(n\theta_0,\pi\mathbb Z)$.  For $|z-\theta_0|\le r<R_{\mathrm{out}}$,
+\[
+|\sin(nz)|\ge\sin(\delta_n-nr),
+\qquad
+|\sin z|\le\cosh r.
+\]
+The exact finite minimum over $1\le n\le10$, evaluated with outward-rounded Arb arithmetic at $r=R_{\mathrm{out}}$, is greater than $0.2333653862$.  The displayed constant is a conservative decimal lower bound.
+\end{proof}
+
+By Lemma \ref{lem:sqrtbranch}, the triangle and dimension-amplitude square roots selected at $\theta_0$ extend holomorphically throughout the outer disk.  Proposition \ref{prop:orthogonality} continues there as transpose orthogonality.
+
+\subsection{Taylor--Cauchy enclosure}
+Write the angular-speed series
+\begin{equation}
+\omega_J(\theta_0+h)=\sum_{k=0}^{50}\omega_{J,k}h^k+\mathcal R_{J,51}(h).
+\label{eq:omegatrunc}
+\end{equation}
+Let $M_J$ be a rigorous upper bound for $|\omega_J|$ on the outer circle.  Cauchy's coefficient estimate gives, for $|h|\le R_{\mathrm{cert}}$ and $q=R_{\mathrm{cert}}/R_{\mathrm{out}}=0.1$,
+\begin{equation}
+|\mathcal R_{J,51}(h)|
+\le M_J\sum_{k=51}^{\infty}\left(\frac{|h|}{R_{\mathrm{out}}}\right)^k
+\le M_J\frac{q^{51}}{1-q}.
+\label{eq:cauchytail}
+\end{equation}
+Hence
+\begin{equation}
+|\omega_J(\theta_0+h)|
+\ge
+\underline{|\omega_{J,0}|}
+-\sum_{k=1}^{50}\overline{|\omega_{J,k}|}R_{\mathrm{cert}}^k
+-\overline M_J\frac{q^{51}}{1-q},
+\label{eq:lowerenvelope}
+\end{equation}
+where underlines and overlines denote outward-rounded Arb lower and upper endpoints.
+
+\begin{proposition}[Tetrahedral symmetry reduction]
+\label{prop:symmetry}
+If two ordered carriers belong to the same sorted external-label family, the q-$6j$ tetrahedral symmetries and channel relabeling transform their recoupling matrices by constant signed row and column permutation matrices and, possibly, transpose.  Therefore $|\omega_J|$ and its zero set are invariant within each of the 24 unordered families.
+\end{proposition}
+
+\begin{proof}
+The scalar q-$6j$ expression has the standard tetrahedral symmetries: column permutations and simultaneous interchange of upper and lower entries in two columns leave the symbol unchanged.  In \eqref{eq:rawF}, these operations relabel the two ordered channel bases, producing constant signed permutation matrices on the left and right; exchange of the two recoupling schemes produces transpose.  For $F_2=P F_1 Q$ or $F_2=P F_1^TQ$ with constant orthogonal signed permutations, the corresponding generator is orthogonally conjugate, up to transpose and sign.  Its unique two-dimensional skew coefficient therefore changes at most by sign, so $|\omega|$ and the zero set are unchanged.
+\end{proof}
+
+\begin{theorem}[Arb-certified uniform nonvanishing]
+\label{thm:conditioning}
+For every $J\in\mathfrak A_6$, the entries of $F_J(z)$ and $\omega_J(z)$ are holomorphic on
+\[
+D_{\mathrm{cert}}=\{z\in\C:|z-\theta_0|\le\pi/1200\}.
+\]
+Moreover,
+\begin{equation}
+\inf_{J\in\mathfrak A_6}
+\inf_{z\in D_{\mathrm{cert}}}
+|\omega_J(z)|
+\ge0.1602526414821766.
+\label{eq:omegalower}
+\end{equation}
+Consequently, for each carrier there is a holomorphic branch
+\begin{equation}
+\mathcal L_J(z)=\Logh(s_J\omega_J(z)),
+\qquad s_J=\operatorname{sgn}\omega_J(\theta_0),
+\end{equation}
+on the common disk.
+\end{theorem}
+
+\begin{proof}[Computer-assisted proof with outward rounding]
+The proof uses \texttt{python-flint} Arb ball arithmetic \cite{johansson2017arb}.  The preregistered proof family fixes $N=50$, $R_{\mathrm{out}}=\pi/120$ and $R_{\mathrm{cert}}=\pi/1200$.  All q-number, q-factorial, reciprocal, square-root, trigonometric and Taylor operations are propagated as midpoint-radius balls with rigorous error bounds.  The confirmatory computation is performed at 192 bits and repeated at 256 bits.
+
+Proposition \ref{prop:symmetry} reduces the 283 ordered carriers to 24 canonical family representatives.  For each representative, Arb evaluates the lower envelope \eqref{eq:lowerenvelope}.  Every lower endpoint is strictly positive at both precisions.  The same worst representative, $J=(1,1,1,1)$, occurs in both runs.  Its certified components are
+\begin{align}
+\underline{|\omega_0|}&=0.16210935083709735,\\
+\overline{\sum_{k=1}^{50}|\omega_k|R_{\mathrm{cert}}^k}
+&=0.0018567093549206992,\\
+\overline{|\mathcal R_{51}|}
+&=4.6169853384256\times10^{-33}.
+\end{align}
+Subtracting the two upper bounds from the lower anchor bound gives \eqref{eq:omegalower}.  The full certificate records the arithmetic backend, both precisions, counts, worst carrier and lower endpoints.
+\end{proof}
+
+\begin{remark}[Scope of the radius]
+The theorem certifies the preregistered radius $R_{\mathrm{cert}}=0.1R_{\mathrm{out}}$.  It does not assert that this radius is maximal, even within the order-50 proof family.  Earlier floating-point radius exploration is not part of the rigorous claim.
+\end{remark}
+
+\begin{corollary}[Cauchy jet bounds]
+For every declared carrier and matrix entry analytic on an outer disk of radius $R$,
+\begin{equation}
+\|F_r\|\le\frac{M_R}{R^r},
+\qquad
+M_R=\sup_{|z-\theta_0|=R}\|F(z)\|.
+\label{eq:cauchybound}
+\end{equation}
+The same principle applies to the holomorphic logarithm $\mathcal L_J$ on any smaller disk contained in $D_{\mathrm{cert}}$.
+\end{corollary}

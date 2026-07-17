@@ -1,0 +1,71 @@
+{
+  "schema_version": "1.0",
+  "contract": "BC-IDPR-CERT-01",
+  "status": "SEPARATION_NOT_CERTIFIED",
+  "domain": {
+    "interval": ["pi/10", "3*pi/20"],
+    "anchor": "pi/8",
+    "sample_count": 33,
+    "wall_margin": "pi/20"
+  },
+  "protocol_family": [
+    "regular_anchor_offset",
+    "zero_offset",
+    "midpoint_anchor_offset",
+    "holdout_anchor_offset"
+  ],
+  "protocol_results": {
+    "regular_anchor_offset": {
+      "max_regular_response_from_anchor": 0.013713613923773793,
+      "max_holdout_response_from_anchor": 0.04984235930414194,
+      "max_regular_mismatch": 0.013713613923773793,
+      "max_holdout_mismatch": 0.14919996577420833,
+      "anchor_regular_mismatch": 0.0,
+      "anchor_holdout_mismatch": 0.10211910127354787
+    },
+    "zero_offset": {
+      "max_regular_response_from_anchor": 0.013713613923773793,
+      "max_holdout_response_from_anchor": 0.04984235930414194,
+      "max_regular_mismatch": 0.022084854664801423,
+      "max_holdout_mismatch": 0.1411601066463094,
+      "anchor_regular_mismatch": 0.00837124074102763,
+      "anchor_holdout_mismatch": 0.09448990180945883
+    },
+    "midpoint_anchor_offset": {
+      "max_regular_response_from_anchor": 0.013713613923773793,
+      "max_holdout_response_from_anchor": 0.04984235930414194,
+      "max_regular_mismatch": 0.0638838952909457,
+      "max_holdout_mismatch": 0.09881987438154724,
+      "anchor_regular_mismatch": 0.051059550636774004,
+      "anchor_holdout_mismatch": 0.051059550636773934
+    },
+    "holdout_anchor_offset": {
+      "max_regular_response_from_anchor": 0.013713613923773793,
+      "max_holdout_response_from_anchor": 0.04984235930414194,
+      "max_regular_mismatch": 0.11484074351334228,
+      "max_holdout_mismatch": 0.04984235930414194,
+      "anchor_regular_mismatch": 0.10211910127354792,
+      "anchor_holdout_mismatch": 0.0
+    }
+  },
+  "uncertainty_ledger": {
+    "arithmetic_uncertainty": "below displayed decimal precision for this finite calculation",
+    "finite_difference_uncertainty": "not used in the decision statistic",
+    "symbol_mismatch": "holdout lower-symbol mismatch",
+    "protocol_variation": "maximum displacement over four frozen additive calibrations",
+    "external_geometry_leakage": "zero by M3",
+    "nuisance_equivalence_margin": "positive by M2/M3 but not convertible into lower-symbol units without an additional Lipschitz bridge"
+  },
+  "decision": {
+    "response_definition": "holdout lower-symbol displacement from nearest-grid anchor",
+    "error_budget": "holdout mismatch plus maximum alternative frozen-calibration displacement",
+    "max_response": 0.04984235930414194,
+    "min_holdout_mismatch": 0.0781904329429406,
+    "max_protocol_radius": 0.10211910127354798,
+    "maximum_net_margin": -0.15346173497377352,
+    "minimum_net_margin": -0.20423820254709577,
+    "p1_gate": "BLOCKED"
+  },
+  "tests": {"count": 6, "result": "OK"},
+  "claim_status": "NONZERO_PROTOCOL_RESPONSE_BUT_NO_POSITIVE_OBSERVABLE_SEPARATION_MARGIN"
+}

@@ -1,0 +1,76 @@
+{
+  "schema_version": "1.0",
+  "contract": "BC-IDPR-P3-B-03",
+  "status": "COMPLETE_EXTERNAL_GEOMETRY_AND_ZERO_LEAKAGE_CERTIFIED",
+  "model_class": "finite_generic_q_qRacah_operator_envelope_with_fixed_external_geometry",
+  "provenance": {
+    "implementation_sha256": "fa1903988640bfe6e1373db4b96ba502eee0b9fc99dc3c1fdd91af27d363aa8e",
+    "q_racah_implementation_sha256": "c201e26a7df81e06e841295824b8e1f4cf36ded47cff98f768b1086a4fcdbdb9",
+    "config_sha256": "1ef62ade52b88dcff78841f77ae5ace7ddfa70969313785023d35a0d8fe96f30"
+  },
+  "arithmetic": {
+    "external_geometry": "exact SymPy algebraic arithmetic",
+    "internal_q_response": "mpmath 80-decimal arithmetic"
+  },
+  "external_geometry_summary": {
+    "geometry_type": "unit_edge_regular_euclidean_tetrahedron",
+    "edge_lengths": ["1", "1", "1", "1", "1", "1"],
+    "face_areas": ["sqrt(3)/4", "sqrt(3)/4", "sqrt(3)/4", "sqrt(3)/4"],
+    "closure": ["0", "0", "0"],
+    "normal_gram": [
+      ["1", "-1/3", "-1/3", "-1/3"],
+      ["-1/3", "1", "-1/3", "-1/3"],
+      ["-1/3", "-1/3", "1", "-1/3"],
+      ["-1/3", "-1/3", "-1/3", "1"]
+    ],
+    "normal_gram_rank": 3,
+    "volume": "sqrt(2)/12",
+    "label_area_calibration": "A_i=(sqrt(3)/4)j_i with j_i=1",
+    "all_exact_checks_verified": true
+  },
+  "path_domain": {
+    "coordinate": "theta",
+    "anchor": "pi/8",
+    "compact_interval": ["pi/10", "3*pi/20"],
+    "regular_chamber": ["0", "pi/5"],
+    "sample_count": 33
+  },
+  "independent_path_certificate": {
+    "theta_derivative": "1",
+    "representation_scale_derivative": "0",
+    "external_geometry_derivative_norm": "0",
+    "protocol_derivative": "0",
+    "forbidden_external_leakage_norm": "0",
+    "exact_path_conditions_verified": true
+  },
+  "anchor_internal_response": {
+    "internal_response_norm": "20.35337451303613133552491473299049938914",
+    "F_derivative_norm": "2.109690377480156279661993660777499068749",
+    "X_derivative_norm": "10.80134471065117598260743303963101093624",
+    "Y_derivative_norm": "11.19712202286198016029919288530629034625",
+    "orientation_correlation_derivative": "1.449434583195641828224745951280071699567",
+    "spectral_shape_derivative": "-0.1549209738889856291095854526435859867416",
+    "intrinsic_margin": "2.542253377248414462910104622702439744635",
+    "operator_norm_dual_lower_bound": "1.102862790132235856022641101832178090134"
+  },
+  "grid_summary": {
+    "minimum_intrinsic_margin": "1.229236658459239190306061068270397765119",
+    "minimum_relative_intrinsic_margin": "0.07776396080237919195365095962911123970675",
+    "minimum_operator_norm_dual_lower_bound": "0.5322970424764865025326402648785995890206",
+    "minimum_internal_response_norm": "19.68790406612697155113610294810534601464",
+    "maximum_internal_response_norm": "20.35691697951878233050143089009959699574",
+    "maximum_orthogonality_residual": "1.356058045481270739986430628579058573527e-80",
+    "minimum_nuisance_gram_eigenvalue": "0.7639320225002103035908263312687237645594",
+    "maximum_nuisance_gram_condition": "14.72334929919161200727582203092128822432"
+  },
+  "semantic_bridge": {
+    "status": "OPEN_OBLIGATION",
+    "statement": "The external tetrahedron is fully fixed, but M3 does not yet prove that the operator package is a calibrated quantization of its classical shape observables.",
+    "required_next": "Construct a coherent-state or symbol map from the fixed tetrahedron to the q-Racah operator package and bound symbol mismatch over the compact interval."
+  },
+  "tests": {
+    "count": 7,
+    "result": "OK"
+  },
+  "claim_status": "P3_B_M3_GEOMETRY_CONTROL_CLOSED_CERT_SEMANTIC_BRIDGE_OPEN"
+}

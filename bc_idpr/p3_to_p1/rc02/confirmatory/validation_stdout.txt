@@ -1,0 +1,4 @@
+RC02_CONFIRMATORY_PREREGISTRATION_VALID
+families=8 ordered_carriers=106 selected_mode=5 control=9.5
+positive_min=7 median_min=0.02 sign_p_max=0.03515625 R1_min=0.60 R2_class_min=0.75
+confirmatory_results_present=false outcome=null

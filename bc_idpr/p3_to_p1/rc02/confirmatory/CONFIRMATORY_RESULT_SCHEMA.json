@@ -1,0 +1,34 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "RC02 Confirmatory Result",
+  "type": "object",
+  "properties": {
+    "schema_version": {"const": "1.0"},
+    "contract_id": {"const": "BC-IDPR-P3-P1-RC02"},
+    "status": {"enum": ["CONFIRMATORY_COMPLETE", "CONFIRMATORY_INCONCLUSIVE"]},
+    "selected_mode": {"const": 5},
+    "evaluated_family_keys": {"type": "array", "minItems": 8, "maxItems": 8},
+    "evaluated_ordered_carrier_count": {"const": 106},
+    "primary_family_results": {"type": "object", "minProperties": 8, "maxProperties": 8},
+    "replication_family_results": {"type": "object", "minProperties": 8, "maxProperties": 8},
+    "primary_summary": {
+      "type": "object",
+      "required": ["positive_family_count", "median_family_energy_advantage", "exact_one_sided_sign_p", "R1", "R2"]
+    },
+    "replication_summary": {
+      "type": "object",
+      "required": ["positive_family_count", "median_family_energy_advantage", "exact_one_sided_sign_p", "R1", "R2"]
+    },
+    "outcome": {"enum": ["A_UNIVERSAL_PHASE_LOCK", "B_PHASE_CLASSES", "C_PHASE_HYPOTHESIS_REJECTED", "D_INCONCLUSIVE"]},
+    "quality_control": {"type": "object"},
+    "hard_failures": {"type": "array"},
+    "confirmatory_results_present": {"const": true},
+    "evidence_policy": {"const": "No statement from the Gemini advisory report is used as evidence."}
+  },
+  "required": [
+    "schema_version", "contract_id", "status", "selected_mode", "evaluated_family_keys",
+    "evaluated_ordered_carrier_count", "primary_family_results", "replication_family_results",
+    "primary_summary", "replication_summary", "outcome", "quality_control", "hard_failures",
+    "confirmatory_results_present", "evidence_policy"
+  ]
+}

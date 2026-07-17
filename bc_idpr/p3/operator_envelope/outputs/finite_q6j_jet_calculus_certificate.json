@@ -1,0 +1,48 @@
+{
+  "schema_version": "1.0",
+  "contract": "BC-IDPR-P3-B-JET-SYNTHESIS",
+  "status": "FINITE_Q6J_RECURSIVE_JET_CALCULUS_CERTIFIED_THROUGH_LOG_ORDER_2",
+  "inputs": ["BC-IDPR-P3-B-M10", "BC-IDPR-P3-B-M11", "BC-IDPR-P3-B-M12"],
+  "general_lemma": {
+    "jet_convention": "a[k]=f^(k)(theta0)/k!",
+    "finite_racah_rule": "products, quotients, square roots and finite sums propagate in truncated Taylor algebra",
+    "generator_recurrence": "K_r=sum_{a=0}^r (a+1) F_{a+1} F_{r-a}^T",
+    "log_speed_recurrence": "formal logarithm of the signed-local omega jet",
+    "formal_order": "arbitrary finite order inside a regular chamber",
+    "fitted_parameter_count": 0
+  },
+  "implementation_validation_ceiling": {
+    "matrix_derivative_order": 3,
+    "log_speed_derivative_order": 2
+  },
+  "atlas": {
+    "train_ordered_carriers_for_family_exclusion": 75,
+    "train_family_count": 9,
+    "test_ordered_carriers": 208,
+    "test_family_count": 15,
+    "test_family_keys": [[1,1,5,5],[1,1,6,6],[1,2,4,5],[1,2,5,6],[1,3,3,5],[1,3,4,6],[1,3,5,5],[1,3,6,6],[1,4,4,5],[1,4,5,6],[1,5,5,5],[1,5,6,6],[2,2,3,5],[2,2,4,6],[2,3,3,6]]
+  },
+  "validation": {
+    "reference_steps": [1e-5, 5e-6],
+    "speed_relative_residual": 2.030466426937395e-09,
+    "log_speed_slope_relative_residual": 1.8535457459132556e-09,
+    "log_speed_curvature_relative_residual": 8.643154447196345e-09,
+    "speed_reference_step_disagreement": 6.083348166952171e-09,
+    "slope_reference_step_disagreement": 5.4976769313673185e-09,
+    "curvature_reference_step_disagreement": 2.5266658729784308e-08,
+    "orthogonality_residual": 1.3559418575888397e-15,
+    "generator_skew_residual_order_0": 5.488580105166866e-14,
+    "generator_skew_residual_order_1": 2.4628378819780415e-12,
+    "generator_skew_residual_order_2": 1.5155883949001983e-10
+  },
+  "decision": {
+    "general_finite_order_jet_lemma": "CLOSED",
+    "single_recursive_implementation_through_M12": "CLOSED",
+    "orders_above_log_order_2_software_validation": "OPEN_SEPARATE_OBLIGATION",
+    "low_dimensional_representation_compression": "OPEN",
+    "physical_interpretation": "BLOCKED"
+  },
+  "tests": {"count": 12, "result": "OK"},
+  "claim_status": "TRUNCATED_TAYLOR_ALGEBRA_UNIFIES_M10_M11_M12_AND_REPRODUCES_THEIR_DECLARED_NEW_LABEL_VALIDATION_GATES",
+  "evidence_rule": "No statement from the Gemini advisory report is used as evidence."
+}

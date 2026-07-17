@@ -1,0 +1,83 @@
+{
+  "schema_version": "1.1",
+  "contract": "BC-IDPR-P3-A-01",
+  "category_id": "SU(2)_2_Ising",
+  "status": "LOCALLY_RIGID_IN_DECLARED_COMPLEX",
+  "arithmetic": "exact symbolic over Q(sqrt(2))",
+  "counts": {
+    "n_associator_variables": 14,
+    "n_unit_normalized_gauge_parameters": 5
+  },
+  "rank": {
+    "DP": 11,
+    "DG": 3,
+    "kernel_DP_dimension": 3,
+    "kernel_DG_dimension": 2,
+    "quotient_dimension": 0
+  },
+  "complex_condition": {
+    "verified": true,
+    "nonzero_entries": []
+  },
+  "image_kernel_equality": {
+    "verified": true,
+    "rank_kernel_basis": 3,
+    "rank_combined_kernel_and_gauge": 3
+  },
+  "gauge_parameters": [
+    {"index": 0, "gauge_id": "chi[sigma,sigma->1]", "triple": ["sigma", "sigma", "1"]},
+    {"index": 1, "gauge_id": "chi[sigma,sigma->psi]", "triple": ["sigma", "sigma", "psi"]},
+    {"index": 2, "gauge_id": "chi[sigma,psi->sigma]", "triple": ["sigma", "psi", "sigma"]},
+    {"index": 3, "gauge_id": "chi[psi,sigma->sigma]", "triple": ["psi", "sigma", "sigma"]},
+    {"index": 4, "gauge_id": "chi[psi,psi->1]", "triple": ["psi", "psi", "1"]}
+  ],
+  "associator_variables": [
+    {"index": 0, "key": ["sigma", "sigma", "sigma", "sigma", "1", "1"]},
+    {"index": 1, "key": ["sigma", "sigma", "sigma", "sigma", "1", "psi"]},
+    {"index": 2, "key": ["sigma", "sigma", "sigma", "sigma", "psi", "1"]},
+    {"index": 3, "key": ["sigma", "sigma", "sigma", "sigma", "psi", "psi"]},
+    {"index": 4, "key": ["sigma", "sigma", "psi", "1", "psi", "sigma"]},
+    {"index": 5, "key": ["sigma", "sigma", "psi", "psi", "1", "sigma"]},
+    {"index": 6, "key": ["sigma", "psi", "sigma", "1", "sigma", "sigma"]},
+    {"index": 7, "key": ["sigma", "psi", "sigma", "psi", "sigma", "sigma"]},
+    {"index": 8, "key": ["sigma", "psi", "psi", "sigma", "sigma", "1"]},
+    {"index": 9, "key": ["psi", "sigma", "sigma", "1", "sigma", "psi"]},
+    {"index": 10, "key": ["psi", "sigma", "sigma", "psi", "sigma", "1"]},
+    {"index": 11, "key": ["psi", "sigma", "psi", "sigma", "sigma", "sigma"]},
+    {"index": 12, "key": ["psi", "psi", "sigma", "sigma", "1", "sigma"]},
+    {"index": 13, "key": ["psi", "psi", "psi", "psi", "1", "1"]}
+  ],
+  "DG_shape": [14, 5],
+  "DG_sparse": [
+    [1, 0, "sqrt(2)/2"], [1, 1, "-sqrt(2)/2"], [1, 2, "-sqrt(2)/2"],
+    [2, 0, "-sqrt(2)/2"], [2, 1, "sqrt(2)/2"], [2, 3, "sqrt(2)/2"],
+    [3, 2, "sqrt(2)/2"], [3, 3, "-sqrt(2)/2"],
+    [4, 0, "-1"], [4, 1, "1"], [4, 2, "-1"], [4, 4, "1"],
+    [5, 0, "1"], [5, 1, "-1"], [5, 2, "-1"],
+    [6, 2, "1"], [6, 3, "-1"], [7, 2, "-1"], [7, 3, "1"],
+    [8, 2, "2"], [8, 4, "-1"],
+    [9, 0, "1"], [9, 1, "-1"], [9, 3, "1"], [9, 4, "-1"],
+    [10, 0, "-1"], [10, 1, "1"], [10, 3, "1"],
+    [12, 3, "-2"], [12, 4, "1"]
+  ],
+  "gauge_kernel_basis": [["1", "1", "0", "0", "0"], ["1/2", "0", "1/2", "1/2", "1"]],
+  "independent_first_order_audit": {
+    "method": "finite exponential gauge differentiated at t=0",
+    "direction": [2, -1, 3, -2, 1],
+    "verified": true,
+    "discrepancy": ["0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0"]
+  },
+  "full_symbolic_gauge_audit": {
+    "method": "arbitrary symbolic multiplicative trivalent-basis gauge",
+    "n_parameters": 5,
+    "n_scalar_residuals": 136,
+    "verified": true,
+    "failures": []
+  },
+  "kernel_lift_audit": {
+    "method": "exact gauge preimages for every DP-kernel basis vector",
+    "verified": true,
+    "canonical_lifts": [["0", "0", "1/2", "0", "0"], ["-1", "0", "0", "0", "0"], ["-1/2", "0", "0", "-1/2", "0"]]
+  },
+  "claim_status": "LOCAL_RIGIDITY_CERTIFIED_FOR_DECLARED_COORDINATE_COMPLEX"
+}

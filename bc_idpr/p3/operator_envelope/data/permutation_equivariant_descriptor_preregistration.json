@@ -1,0 +1,41 @@
+{
+  "schema_version": "1.0",
+  "contract": "BC-IDPR-P3-B-M9",
+  "status": "PREREGISTERED",
+  "date": "2026-07-16",
+  "workflow_provenance": "M7 duplicate arose from a Windows Update restart and a new browser session resuming the same task; this does not alter scientific evidence.",
+  "train_spin_range_doubled": [1, 4],
+  "test_spin_range_doubled": [5, 6],
+  "anchor": "pi/12",
+  "family_key": "sorted doubled-spin quadruple",
+  "ordered_carrier_filter": "exactly two admissible channels in both pairings and wall-safe q-factorials at the anchor",
+  "descriptor": {
+    "construction": "permutation-invariant Reynolds statistics computed over all valid ordered realizations of each external-spin multiset",
+    "base_quantities": [
+      "normalized external Casimir multiset moments of orders 1 through 4",
+      "normalized channel-Casimir endpoint and gap statistics in both pairings",
+      "orbit mean and orbit second moment of the four entries of F(theta0)",
+      "orbit mean determinant and trace invariants of F(theta0)"
+    ],
+    "derivatives_excluded_from_predictors": true,
+    "target_family_information_excluded_from_standardization": true
+  },
+  "targets": ["family_mean_log_abs_omega", "family_mean_omega_prime_over_omega", "family_mean_omega_second_over_omega"],
+  "model": {
+    "type": "ridge regression",
+    "alpha": 1.0,
+    "standardization": "training families only"
+  },
+  "criteria": {
+    "maximum_test_nrmse_each_target": 0.40,
+    "minimum_relative_improvement_over_scalar_family_descriptor_each_target": 0.10,
+    "minimum_test_family_count": 2,
+    "maximum_numerical_jet_instability": 0.0001
+  },
+  "stopping_rule": "No post-evaluation feature addition, alpha tuning, family replacement, target transformation change or threshold change is permitted.",
+  "claim_firewall": {
+    "allowed_if_passed": "The frozen permutation-invariant descriptor predicts the declared family-mean local recoupling jet on the independent high-spin atlas within the registered thresholds.",
+    "forbidden": ["universal exact law", "all-spin transfer", "physical q dynamics", "semiclassical interpretation"]
+  },
+  "evidence_rule": "No statement from the Gemini advisory report is used as evidence."
+}

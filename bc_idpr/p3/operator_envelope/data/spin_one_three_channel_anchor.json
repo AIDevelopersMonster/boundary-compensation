@@ -1,0 +1,36 @@
+{
+  "schema_version": "1.0",
+  "contract": "BC-IDPR-P3-B-02",
+  "model_class": "finite_generic_q_qRacah_operator_envelope",
+  "q_convention": "q = exp(i theta), [n]_theta = sin(n theta)/sin(theta)",
+  "external_spins": ["1", "1", "1", "1"],
+  "overall_total_spin": "0",
+  "associator_target_spin": "1",
+  "intermediate_channel_order": ["0", "1", "2"],
+  "root_anchor": {
+    "theta": "pi/8",
+    "level_convention": "k=6 only at the anchor"
+  },
+  "regular_real_chamber": ["0", "pi/5"],
+  "compact_scan_interval": ["pi/10", "3*pi/20"],
+  "precision_decimal_digits": 80,
+  "sample_count": 33,
+  "external_geometry_control": {
+    "type": "fixed_equal_label_ray",
+    "ray": [1, 1, 1, 1],
+    "limitation": "control datum only; not a complete reconstructed tetrahedral geometry"
+  },
+  "nuisance_directions": [
+    "independent identity shift of X",
+    "independent identity shift of Y",
+    "independent scalar normalization of X",
+    "independent scalar normalization of Y",
+    "three simultaneous SO(3) basis-conjugation tangents"
+  ],
+  "claim_firewall": [
+    "Away from theta=pi/8 the family is not called standard SU(2)_k TQFT.",
+    "Grid minima are numerical certificates on the declared grid, not continuum minima.",
+    "Continuum nontriviality is certified separately by the exact invariant-sign argument.",
+    "No volume, physical, or observable-identifiability claim is made."
+  ]
+}

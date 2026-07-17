@@ -1,0 +1,44 @@
+{
+  "schema_version": "1.0",
+  "contract": "BC-IDPR-P3-B-M11",
+  "status": "ANALYTIC_Q6J_LOG_SPEED_SLOPE_CERTIFIED",
+  "preregistration_commit": "b39e6456b9af0ad8f5bed738c3e03751a64b19e6",
+  "analytic_identity": {
+    "q_number_second_log_derivative": "-n^2*csc(n*theta)^2+csc(theta)^2",
+    "generator_prime": "K'=F''F^T+F'F'^T",
+    "target": "omega'/omega=K'21/K21",
+    "fitted_parameter_count": 0
+  },
+  "atlas": {
+    "train_ordered_carriers_for_family_exclusion": 75,
+    "train_family_count": 9,
+    "test_ordered_carriers": 208,
+    "test_family_count": 15
+  },
+  "validation": {
+    "finite_difference_steps": [0.00001, 0.000005],
+    "maximum_relative_analytic_vs_refined_fd_residual": 1.8375627395476116e-09,
+    "maximum_fd_step_disagreement_relative": 5.4943450362264066e-09,
+    "maximum_orthogonality_residual": 1.1371631099637045e-15,
+    "maximum_generator_skew_residual": 2.2177764877206478e-14,
+    "maximum_generator_prime_skew_residual": 1.585800223262612e-12
+  },
+  "criteria": {
+    "maximum_relative_analytic_vs_refined_fd_residual": 1e-06,
+    "maximum_fd_step_disagreement_relative": 1e-06,
+    "maximum_orthogonality_residual": 1e-10,
+    "maximum_generator_skew_residual": 1e-07,
+    "maximum_generator_prime_skew_residual": 1e-06,
+    "minimum_test_family_count": 10
+  },
+  "decision": {
+    "explicit_log_speed_slope_formula": "CLOSED",
+    "independent_new_label_validation": "CLOSED",
+    "analytic_second_jet": "CLOSED",
+    "analytic_third_jet": "OPEN_SEPARATE_OBLIGATION",
+    "physical_interpretation": "BLOCKED"
+  },
+  "tests": {"count": 10, "result": "OK"},
+  "claim_status": "SECOND_DERIVATIVE_OF_THE_FINITE_Q6J_RECOUPLING_FORMULA_REPRODUCES_THE_ANCHOR_LOG_SPEED_SLOPE_ON_THE_DECLARED_NEW_LABEL_ATLAS",
+  "evidence_rule": "No statement from the Gemini advisory report is used as evidence."
+}

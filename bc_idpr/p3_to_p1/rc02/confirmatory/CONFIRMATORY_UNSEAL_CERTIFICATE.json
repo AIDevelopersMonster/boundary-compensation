@@ -1,0 +1,45 @@
+{
+  "schema_version": "1.0",
+  "certificate_id": "BC-IDPR-P3-P1-RC02-CONFIRMATORY-UNSEAL",
+  "contract_id": "BC-IDPR-P3-P1-RC02",
+  "date": "2026-07-17",
+  "status": "CONFIRMATORY_EXECUTION_UNSEALED_AUTHORIZED_RESULTS_NOT_COMPUTED",
+  "authorization_scope": {
+    "pilot_families_authorized": 0,
+    "calibration_families_authorized": 0,
+    "confirmatory_families_authorized": 8,
+    "confirmatory_ordered_carriers_authorized": 106,
+    "selected_mode": 5,
+    "paired_control_frequency": 9.5,
+    "one_complete_run_only": true
+  },
+  "preconditions": {
+    "predictor_geometry_certified": true,
+    "pilot_completed_pass": true,
+    "calibration_complete": true,
+    "calibration_mode_frozen": true,
+    "calibration_selected_mode": 5,
+    "confirmatory_preregistration_valid": true,
+    "confirmatory_results_present": false
+  },
+  "pins": {
+    "declared_carriers_sha256": "a8bcfb1038a288df29e4c76e4ef7ac8d711516df9d42c5da29e7f01a4fe79eb1",
+    "calibration_results_sha256_canonical": "9aa812ae99ec25ed164e68ac07da6c7c6bdcd24ac4ab3855ada6408805bab171",
+    "calibration_freeze_certificate_sha256": "ba547f223e8ff6b956af01c832953f61ffa064f35d416d02c3abd881280b8c73",
+    "confirmatory_preregistration_canonical_sha256": "5dbf0664ce96243121fdf9b2ff88b89944488163ee7e7966b18e68868b4ecc37",
+    "confirmatory_ordered_carrier_list_canonical_sha256": "875e7f17e49c17241c15723d52d292e2271d20d769eb0b382ec30a385c500811"
+  },
+  "repository_commit_ledger": {
+    "index": "3025ecb17caf61764e55d5b1d30342ba457dda61",
+    "preregistration_initial": "e7d7958e02fbffec27b53589a27b63b2be7b6196",
+    "preregistration_hash_correction": "7d0affdee7eee049435204d7e1663e27db927453",
+    "protocol": "37a535373dc6cf6f89edc3cf555d87b79436f2d6",
+    "outcome_table": "71ff91e87269d2f9bb6636a9bb764552f32de6be",
+    "change_control": "5f8e75a46510f418c4018e3fa8fef279d5941292",
+    "result_schema": "7af7a6baeee3c5def902833ad55c9e9f17ada507",
+    "validator": "be9f4216964b0d02bf5d2d40b7c72f03b9fad430"
+  },
+  "required_execution_artifact": "confirmatory/results/RC02_CONFIRMATORY_RESULTS.json",
+  "required_post_run_artifact": "RC02_CONFIRMATORY_FREEZE_CERTIFICATE_AND_FINAL_REPORT",
+  "evidence_policy": "No statement from the Gemini advisory report is used as evidence."
+}

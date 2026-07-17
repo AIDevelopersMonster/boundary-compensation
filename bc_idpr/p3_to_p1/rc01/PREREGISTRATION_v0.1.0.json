@@ -1,0 +1,73 @@
+{
+  "schema_version": "1.0",
+  "contract_id": "BC-IDPR-P3-P1-RC01",
+  "title": "Phase-Resolved Residual Modulation on the Certified Finite Quantum-6j Atlas",
+  "version": "0.1.0",
+  "date": "2026-07-16",
+  "status": "PREREGISTRATION_FROZEN_AWAITING_PILOT",
+  "author": {"name":"A. A. Malachevsky","orcid":"0009-0008-6009-3196"},
+  "upstream": {
+    "publication_title": "Recursive Jet Calculus and Rigorous Uniform Conditioning for Finite Quantum 6j Recoupling Matrices",
+    "publication_version": "v0.1.2",
+    "doi": "10.5281/zenodo.21401141",
+    "carrier_count": 283,
+    "family_count": 24,
+    "carrier_supplement_path": "bc_idpr/p3/operator_envelope/manuscript/finite_q6j_jet_calculus_v0.1.1-reviewed/supplementary/declared_carriers_283.json",
+    "carrier_supplement_git_blob": "6485ceb3a4f34ee771d38ddf8f63a59d43b2608b",
+    "carrier_supplement_sha256": "a8bcfb1038a288df29e4c76e4ef7ac8d711516df9d42c5da29e7f01a4fe79eb1"
+  },
+  "deformation": {"coordinate":"eta = 12 theta / pi","q":"exp(i pi eta / 12)","anchor_eta":1.0,"first_declared_positive_wall_eta":1.2},
+  "grids": {
+    "phase": {"start":0.6,"stop":1.15,"step":0.0005,"count":1101,"upper_wall_margin":0.05},
+    "certified_local": {"start":0.99,"stop":1.01,"step":0.00005,"count":401}
+  },
+  "primary_observable": {
+    "id":"anchored_complex_column_phase",
+    "formula":"Z_J(eta) = (F_11,J(eta) + i F_21,J(eta)) / (F_11,J(1) + i F_21,J(1))",
+    "anchor_value":"1+0i",
+    "orthogonality_warning_threshold":1e-13,
+    "orthogonality_failure_threshold":1e-10
+  },
+  "replication_observable": {"id":"signed_angular_speed","formula":"Y_J^omega(eta) = sign(omega_J(1)) omega_J(eta)"},
+  "secondary_local_observables": ["d_theta log(abs(omega_J))","d_theta^2 log(abs(omega_J))"],
+  "residualization": {
+    "grid":"phase",
+    "scaled_coordinate":"affine eta-to-x map onto [-1,1]",
+    "baseline_basis":["1","x","x^2","x^3"],
+    "projection":"unweighted discrete least squares",
+    "complex_inner_product":"Hermitian",
+    "degenerate_ratio_threshold":1e-12
+  },
+  "phase_dictionary": {
+    "integer_modes":[2,3,4,5,6,7,8,9,10],
+    "mode_formula":"exp(i n theta(eta))",
+    "control_formula":"exp(i (n+1/2) theta(eta))",
+    "mode_preprocessing":"project away cubic baseline and L2-normalize"
+  },
+  "independence_unit":"unordered external-label family",
+  "family_aggregation": {
+    "energy":"median over nondegenerate ordered carriers",
+    "phase":"amplitude-weighted circular mean over ordered carriers",
+    "directional_concentration":"R1 = abs(mean(exp(i phi_f)))",
+    "axial_concentration":"R2 = abs(mean(exp(2 i phi_f)))"
+  },
+  "split_file":"FROZEN_FAMILY_SPLIT.json",
+  "stage_rules": {
+    "pilot":"software and numerical debugging only; no predictor or threshold selection",
+    "calibration":"select n_star from primary observable by maximum median family energy advantage; ties within 1e-12 choose smallest n",
+    "confirmatory":"test only frozen n_star after committed calibration freeze certificate"
+  },
+  "primary_confirmatory_criteria": {
+    "positive_family_count_min":7,
+    "confirmatory_family_count":8,
+    "median_energy_advantage_min":0.02,
+    "exact_one_sided_sign_p_max":0.03515625,
+    "directional_R1_min":0.6,
+    "hard_failure_allowed":false
+  },
+  "phase_class_criterion": {"requires_energy_criteria":true,"directional_R1_below":0.6,"axial_R2_min":0.75},
+  "outcomes":["A_UNIVERSAL_PHASE_LOCK","B_PHASE_CLASSES","C_PHASE_HYPOTHESIS_REJECTED","D_INCONCLUSIVE"],
+  "hard_failures":["CARRIER_UNIVERSE_MISMATCH","FAMILY_SPLIT_MISMATCH","WALL_MARGIN_VIOLATION","ORTHOGONALITY_GATE_FAILURE","ANCHOR_SPEED_SIGN_FAILURE","DEGENERATE_RESIDUAL_FAMILY_EXCESS","CONFIRMATORY_CONTAMINATION","PIPELINE_HASH_DRIFT","NUMERICAL_NONREPRODUCIBILITY"],
+  "claim_firewall":["no physical oscillation claim","no time-dynamics claim","no mass, matter or defect claim","no curvature or gravity claim","no global-gluing claim","no continuum claim","no universality beyond the frozen finite class and eta interval"],
+  "evidence_policy":"No statement from the Gemini advisory report is used as evidence."
+}

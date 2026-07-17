@@ -1,0 +1,48 @@
+{
+  "schema_version": "1.0",
+  "pipeline_id": "BC-IDPR-P3-P1-RC02-PILOT-PIPELINE",
+  "pipeline_version": "0.1.0",
+  "contract_id": "BC-IDPR-P3-P1-RC02",
+  "date": "2026-07-17",
+  "status": "PILOT_COMPLETED_PASS",
+  "evaluated_stage": "pilot",
+  "evaluated_family_keys": [
+    [1, 2, 3, 4],
+    [1, 3, 3, 3],
+    [1, 3, 4, 6],
+    [2, 2, 3, 5]
+  ],
+  "evaluated_family_count": 4,
+  "evaluated_ordered_carrier_count": 64,
+  "calibration_results_present": false,
+  "confirmatory_results_present": false,
+  "selected_mode": null,
+  "outcome": null,
+  "predictor_geometry": {
+    "maximum_paired_absolute_overlap": 0.9909657558650774,
+    "minimum_projector_difference_norm": 0.1341151397223887,
+    "frozen_energy_threshold": 0.02,
+    "threshold_reachable_for_every_pair": true
+  },
+  "quality_control": {
+    "predictor_geometry_tests_passed": 3,
+    "max_transpose_orthogonality_residual": 2.7832392358026496e-15,
+    "max_column_norm_deviation": 1.9984014443252818e-15,
+    "max_anchor_evaluator_disagreement": 4.440892098500626e-16,
+    "anchor_speed_sign_failures": 0,
+    "primary_residual_degeneracies": 0,
+    "signed_speed_residual_degeneracies": 0,
+    "hard_failures": []
+  },
+  "descriptive_only": {
+    "primary_median_family_advantage_range": [-0.05002181422201787, 0.07584627527883348],
+    "signed_speed_median_family_advantage_range": [-0.08430450441128065, 0.10210516287055891]
+  },
+  "gate": {
+    "calibration_design_allowed": true,
+    "calibration_execution_authorized": false,
+    "confirmatory_execution_authorized": false,
+    "next_required_artifact": "RC02_CALIBRATION_PREREGISTRATION_AND_UNSEAL_CERTIFICATE"
+  },
+  "evidence_policy": "No statement from the Gemini advisory report is used as evidence."
+}

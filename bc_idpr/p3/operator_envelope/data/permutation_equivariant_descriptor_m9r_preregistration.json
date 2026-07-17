@@ -1,0 +1,30 @@
+{
+  "schema_version": "1.0",
+  "contract": "BC-IDPR-P3-B-M9R",
+  "status": "PREREGISTERED",
+  "date": "2026-07-16",
+  "invalid_predecessor": {
+    "contract": "BC-IDPR-P3-B-M9",
+    "status": "FRONTIER_INVALIDATED",
+    "invalidation_commit": "82cf30b5745f89325e4842db1ba3e609ee110bf5"
+  },
+  "train_class": "all valid exactly-two-channel ordered carriers with doubled spins in {1,2,3,4}, grouped by sorted external-spin quadruple",
+  "test_class": "all valid exactly-two-channel representation families with doubled spins in {1,...,6}, containing at least one label 5 or 6, and absent from the train family set",
+  "anchor": "pi/12",
+  "descriptor": {
+    "construction": "permutation-invariant Reynolds orbit statistics over all valid ordered realizations in each external-spin multiset",
+    "scalar_family_descriptor": "orbit means and standard deviations of normalized external and channel Casimir features",
+    "equivariant_augmented_descriptor": "scalar family descriptor plus orbit means and standard deviations of F(theta0) entries, trace, determinant and entry second moment",
+    "derivatives_excluded_from_predictors": true
+  },
+  "targets": ["family_mean_log_abs_omega", "family_mean_omega_prime_over_omega", "family_mean_omega_second_over_omega"],
+  "model": {"type": "ridge regression", "alpha": 1.0, "standardization": "train families only"},
+  "criteria": {
+    "maximum_test_nrmse_each_target": 0.40,
+    "minimum_relative_improvement_over_scalar_each_target": 0.10,
+    "minimum_test_family_count": 10,
+    "maximum_numerical_jet_instability": 0.0001
+  },
+  "stopping_rule": "No feature addition, alpha tuning, family deletion, target transformation change or threshold change after evaluation.",
+  "evidence_rule": "No statement from the Gemini advisory report is used as evidence."
+}

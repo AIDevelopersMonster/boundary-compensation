@@ -1,0 +1,42 @@
+{
+  "schema_version": "1.0",
+  "contract": "BC-IDPR-P3-B-M10",
+  "date": "2026-07-16",
+  "title": "Analytic Anchor-Speed Invariant from the q-6j Derivative",
+  "source_contracts": ["BC-IDPR-P3-B-M6", "BC-IDPR-P3-B-M9R"],
+  "target": "absolute recoupling angular speed |omega(theta0)| only",
+  "anchor": "pi/12",
+  "analytic_rule": {
+    "q_number_log_derivative": "d_theta log([n]_q) = n*cot(n*theta) - cot(theta)",
+    "q_factorial_log_derivative": "sum_{r=1}^n (r*cot(r*theta)-cot(theta))",
+    "q6j_derivative": "termwise derivative of the finite Racah sum including Delta prefactors",
+    "invariant": "I_C(theta0)=||F'_analytic(theta0) F(theta0)^T||_HS/sqrt(2)"
+  },
+  "validation": {
+    "train_label_range_for_family_exclusion": [1, 4],
+    "maximum_label": 6,
+    "test_family_rule": "contains at least one doubled-spin label 5 or 6 and is absent from the label-1-to-4 family set",
+    "expected_minimum_test_family_count": 10,
+    "finite_difference_reference_steps": [0.00001, 0.000005],
+    "no_fitted_parameters": true,
+    "no_target_dependent_feature_selection": true
+  },
+  "decision_thresholds": {
+    "maximum_relative_analytic_vs_refined_fd_residual": 0.0000001,
+    "maximum_fd_step_disagreement_relative": 0.0000001,
+    "maximum_orthogonality_residual": 0.0000000001,
+    "maximum_generator_skew_residual": 0.0000001,
+    "minimum_test_family_count": 10
+  },
+  "stopping_rule": "Evaluate once. Do not alter the derivative formula, atlas rule, reference steps or thresholds after seeing the result.",
+  "claim_firewall": {
+    "allowed_if_passed": "The declared two-channel q-6j anchor speed is reproduced by an explicit termwise analytic derivative on the independent new-label atlas.",
+    "forbidden": [
+      "a low-dimensional universal representation law",
+      "higher-jet prediction",
+      "semiclassical or physical q dynamics",
+      "generalization beyond the declared regular chamber and two-channel class"
+    ]
+  },
+  "evidence_rule": "No statement from the Gemini advisory report is used as evidence."
+}

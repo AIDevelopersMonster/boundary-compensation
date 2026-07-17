@@ -1,0 +1,139 @@
+\section{Truncated Taylor algebra}
+Fix $N\ge0$ and let
+\begin{equation}
+\mathcal T_N=\C[h]/(h^{N+1}).
+\label{eq:TN}
+\end{equation}
+
+\begin{definition}[Normalized jet]
+For an analytic scalar, vector or matrix function $X$,
+\begin{equation}
+X_r=\frac{1}{r!}X^{(r)}(\theta_0),
+\qquad
+X(\theta_0+h)=\sum_{r=0}^{N}X_rh^r+O(h^{N+1}).
+\label{eq:jetconvention}
+\end{equation}
+\end{definition}
+
+\begin{lemma}[Closure of the finite q-Racah construction]
+\label{lem:closure}
+Suppose every denominator has nonzero constant term and each square-root input has nonzero constant term with a fixed local branch.  Addition, multiplication, reciprocal, quotient, square root and finite summation are recursively well-defined in $\mathcal T_N$.  Consequently every entry of \eqref{eq:rawF} has a unique jet of order $N$.
+\end{lemma}
+
+\begin{proof}
+Addition and multiplication are inherited from the quotient algebra.  If
+\[
+a(h)=\sum_{r=0}^{N}a_rh^r,
+\qquad a_0\ne0,
+\]
+and $a(h)b(h)=1$, then
+\begin{equation}
+b_0=a_0^{-1},
+\qquad
+b_r=-a_0^{-1}\sum_{k=1}^{r}a_kb_{r-k}.
+\label{eq:reciprocal}
+\end{equation}
+If $c(h)^2=a(h)$ and $c_0^2=a_0$ is the selected branch, then
+\begin{equation}
+c_r=\frac{1}{2c_0}
+\left(a_r-\sum_{k=1}^{r-1}c_kc_{r-k}\right),
+\qquad r\ge1.
+\label{eq:sqrtrecurrence}
+\end{equation}
+Quotients reduce to multiplication by a reciprocal.  The q-Racah sum is finite, so coefficient extraction commutes with summation.  Repeated application to \eqref{eq:qnumber}--\eqref{eq:rawF} proves the result.
+\end{proof}
+
+\begin{remark}[Formal order versus tested order]
+Lemma \ref{lem:closure} is an exact arbitrary-finite-order statement conditional on regularity.  The released implementation is cross-validated through matrix derivative order three and logarithmic-speed derivative order two.  The manuscript does not claim all-order numerical validation.
+\end{remark}
+
+\section{Generator and logarithmic-speed recurrences}
+Write
+\begin{equation}
+F(\theta_0+h)=\sum_{r\ge0}F_rh^r,
+\qquad
+F'(\theta_0+h)=\sum_{r\ge0}(r+1)F_{r+1}h^r.
+\end{equation}
+
+\begin{theorem}[Recoupling-generator recurrence]
+\label{thm:generatorrecurrence}
+If
+\[
+K(\theta_0+h)=\sum_{r\ge0}K_rh^r,
+\qquad K=F'F^T,
+\]
+then
+\begin{equation}
+K_r=\sum_{a=0}^{r}(a+1)F_{a+1}F_{r-a}^{T}.
+\label{eq:Krecurrence}
+\end{equation}
+If $FF^T=I$ as a formal series, every $K_r$ is skew-symmetric.
+\end{theorem}
+
+\begin{proof}
+The coefficient identity follows by multiplying the series for $F'$ and $F^T$.  Differentiating $FF^T=I$ gives $F'F^T+FF'^T=0$, hence $K+K^T=0$ and skewness holds coefficientwise.
+\end{proof}
+
+Let
+\begin{equation}
+\omega(h)=\sum_{r\ge0}\omega_rh^r,
+\qquad
+\omega_r=(K_r)_{21}.
+\label{eq:omegajet}
+\end{equation}
+If $\omega_0\ne0$, put $s=\operatorname{sgn}(\omega_0)$.  On a zero-free simply connected neighborhood, define the holomorphic branch
+\begin{equation}
+\mathcal L(h)=\Logh(s\omega(h))=\sum_{r\ge0}L_rh^r,
+\label{eq:logjet}
+\end{equation}
+normalized by $\mathcal L(0)=\log|\omega_0|$.
+
+\begin{lemma}[Holomorphic logarithm recurrence]
+\label{lem:logrecurrence}
+The coefficients satisfy
+\begin{equation}
+L_0=\log|\omega_0|,
+\qquad
+L_n=\frac{1}{n\omega_0}
+\left(n\omega_n-\sum_{k=1}^{n-1}kL_k\omega_{n-k}\right),
+\quad n\ge1.
+\label{eq:logrecurrence}
+\end{equation}
+\end{lemma}
+
+\begin{proof}
+From $\mathcal L'=\omega'/\omega$, equivalently $\omega\mathcal L'=\omega'$, compare the coefficient of $h^{n-1}$.
+\end{proof}
+
+\begin{corollary}[Real-axis observables]
+\label{cor:firstobservables}
+On the real axis near the anchor, $\operatorname{Re}\mathcal L=\log|\omega|$, and
+\begin{align}
+|\omega(\theta_0)|&=|\omega_0|,\\
+\partial_\theta\log|\omega|\big|_{\theta_0}&=L_1,\\
+\partial_\theta^2\log|\omega|\big|_{\theta_0}&=2L_2.
+\end{align}
+Equivalently,
+\begin{align}
+\frac{\omega'}{\omega}&=\frac{K'_{21}}{K_{21}},\\
+\partial_\theta^2\log|\omega|
+&=\frac{K''_{21}}{K_{21}}-
+\left(\frac{K'_{21}}{K_{21}}\right)^2.
+\end{align}
+\end{corollary}
+
+\section{Low-order q-number checks}
+The first three logarithmic derivatives are
+\begin{align}
+\partial_\theta\log\qnum{n}
+&=n\cot(n\theta)-\cot\theta,
+\label{eq:d1q}\\
+\partial_\theta^2\log\qnum{n}
+&=-n^2\csc^2(n\theta)+\csc^2\theta,
+\label{eq:d2q}\\
+\partial_\theta^3\log\qnum{n}
+&=2n^3\csc^2(n\theta)\cot(n\theta)
+-2\csc^2\theta\cot\theta.
+\label{eq:d3q}
+\end{align}
+They propagate through q-factorials, triangle factors, the finite q-Racah sum and dimension amplitudes.  These hand-expanded routes provide cross-checks for the unified coefficient engine; they do not constitute a separate q-Racah implementation.

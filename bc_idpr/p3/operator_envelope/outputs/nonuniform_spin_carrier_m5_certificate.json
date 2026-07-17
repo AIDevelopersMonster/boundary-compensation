@@ -1,0 +1,46 @@
+{
+  "schema_version": "1.0",
+  "contract": "BC-IDPR-P3-B-M5",
+  "status": "NONUNIFORM_SPIN_UNEQUAL_AREA_CARRIER_CERTIFIED",
+  "external_spins": ["1/2", "1", "2", "5/2"],
+  "carrier": {
+    "dimension": 2,
+    "channels_12": ["1/2", "3/2"],
+    "channels_23": ["2", "3"],
+    "basis_gram_residual": 4.972044346590066e-16,
+    "su2_gauge_match_residual": 1.7632634637802466e-14
+  },
+  "geometry": {
+    "face_areas": [0.5, 1.0, 2.0, 2.5],
+    "area_ratios_to_min": [1.0, 2.0, 4.0, 5.0],
+    "area_vector_closure_norm": 0.0,
+    "vertex_reconstruction_area_vector_residual": 0.0,
+    "volume": 0.44582686998428134,
+    "edge_spread": 2.818688293234257,
+    "vertices": [[0.0, 0.0, 0.0], [1.337480609952844, 0.0, 3.2897673186866854], [0.0, 0.668740304976422, 3.2897673186866854], [0.0, 0.0, 2.990697562442441]],
+    "normals": [[-0.20000000000000018, -0.40000000000000036, 0.8944271909999159], [-1.0, 0.0, 0.0], [0.0, -1.0, 0.0], [0.44000000000000006, 0.8800000000000001, -0.17888543819998318]]
+  },
+  "coherent_state": {
+    "carrier_probabilities": [0.36434108527131776, 0.6356589147286821],
+    "normalization_residual": 0.0
+  },
+  "q_response": {
+    "interval": ["pi/15", "pi/10"],
+    "anchor": "pi/12",
+    "sample_count": 33,
+    "anchor_symbol": [-0.03797658515942942, -0.09235146788449458],
+    "anchor_derivative": [0.0, 0.06868714522156871],
+    "anchor_derivative_norm": 0.06868714522156871,
+    "finite_difference_step_radius": 4.9687753911342725e-08,
+    "maximum_F_orthogonality_residual": 3.1519649334434067e-16,
+    "endpoint_symbol_separation": 0.008715842540636981
+  },
+  "gates": {
+    "nonuniform_spin_carrier": "CLOSED",
+    "genuine_unequal_area_geometry": "CLOSED",
+    "absolute_symbol_accuracy": "OPEN",
+    "new_p1_pilot": "BLOCKED_PENDING_PREREGISTRATION"
+  },
+  "tests": {"count": 8, "result": "OK"},
+  "claim_status": "EXPLICIT_TWO_CHANNEL_Q_RECOUPLING_CARRIER_WITH_FIXED_UNEQUAL_FACE_AREAS_AND_NONZERO_DIFFERENTIAL_RESPONSE"
+}

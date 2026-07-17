@@ -1,0 +1,10 @@
+{
+  "status": "BASELINE_PENTAGON_VERIFIED",
+  "n_instances": 106,
+  "n_scalar_residuals": 136,
+  "n_nonzero_residuals": 0,
+  "failures": [],
+  "arithmetic": "exact symbolic over Q(sqrt(2))",
+  "engine": "src/build_pentagon_residuals.py",
+  "claim_status": "VERIFIED_FOR_DECLARED_ISING_BASELINE"
+}
