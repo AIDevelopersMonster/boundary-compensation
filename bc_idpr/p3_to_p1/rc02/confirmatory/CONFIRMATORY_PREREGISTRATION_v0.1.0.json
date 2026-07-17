@@ -124,7 +124,7 @@
     "calibration_preregistration_sha256": "cdc941661c28cc5bc7dde281d4e7c2d00c566fa618b6c9edc2effe0b0ebc2961",
     "calibration_results_sha256_canonical": "9aa812ae99ec25ed164e68ac07da6c7c6bdcd24ac4ab3855ada6408805bab171",
     "calibration_status_required": "CALIBRATION_COMPLETE_MODE_FROZEN_CONFIRMATORY_STILL_SEALED",
-    "declared_carriers_sha256": "a8bcfb1038a845f6f6d0c24cf69781a25130f74c96485d0543b0f9102441a22",
+    "declared_carriers_sha256": "a8bcfb1038a288df29e4c76e4ef7ac8d711516df9d42c5da29e7f01a4fe79eb1",
     "predictor_geometry_certificate_sha256": "4645dfaec006eda6b63ded327c798d4ffdea70e0e59094dffd8dedf42c115394",
     "rc02_preregistration_sha256": "b98cb7ea9f67bf79f55a35f41f01f690334e1e2dbf634901a78f2b6c3c470236",
     "selected_mode_required": 5
