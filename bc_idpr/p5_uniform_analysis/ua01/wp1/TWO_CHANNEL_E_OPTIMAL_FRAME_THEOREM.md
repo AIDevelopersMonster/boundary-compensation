@@ -1,10 +1,10 @@
-# BC-IDPR P5-UA01 WP1/WP2 — Exact Two-Channel E-Optimal Frame Theorem
+# BC-IDPR P5-UA01 Appendix A — Exact Ideal-Projective Two-Channel Frame Benchmark
 
-**Contract:** `BC-IDPR-P5-UA01-WP1-WP2`  
-**Status:** `EXACT_TWO_CHANNEL_E_OPTIMAL_FRAME_CERTIFIED`  
-**Scope:** real traceless symmetric residual operators on a two-channel carrier.
+**Artifact:** `BC-IDPR-P5-UA01-AUX-IDEAL-PROJECTIVE-FRAME`  
+**Status:** `EXACT_AUXILIARY_BENCHMARK_CERTIFIED / PHYSICAL_P5_GATE_OPEN`  
+**Scope:** arbitrary real pure states acting on `Sym_0(2,R)`; not the inherited N15 projected-torus coherent-state protocol.
 
-## 1. Residual space
+## 1. Benchmark space
 
 Let
 
@@ -12,170 +12,88 @@ Let
 V=\operatorname{Sym}_0(2,\mathbb R)
 \]
 
-with Hilbert--Schmidt inner product and orthonormal basis
+with Hilbert--Schmidt orthonormal basis
 
 \[
-E_z=\frac1{\sqrt2}
-\begin{pmatrix}1&0\\0&-1\end{pmatrix},
+E_z=\frac1{\sqrt2}\begin{pmatrix}1&0\\0&-1\end{pmatrix},
 \qquad
-E_x=\frac1{\sqrt2}
-\begin{pmatrix}0&1\\1&0\end{pmatrix}.
+E_x=\frac1{\sqrt2}\begin{pmatrix}0&1\\1&0\end{pmatrix}.
 \]
 
-For a real unit vector \(z\in\mathbb R^2\), define its lower-symbol measurement vector
+For a real unit vector `z`, define
 
 \[
 v(z)=\bigl(z^TE_z z,\ z^TE_x z\bigr)^T.
 \]
 
-## 2. Frozen candidate design
+## 2. Exact E-optimal theorem
 
-Use the four projective directions
-
-\[
-z_+=(1,0)^T,
-\quad z_-=(0,1)^T,
-\quad x_+=2^{-1/2}(1,1)^T,
-\quad x_-=2^{-1/2}(1,-1)^T,
-\]
-
-with equal weights \(w_a=1/4\).
-
-Their measurement vectors are
+Use
 
 \[
-v(z_\pm)=\left(\pm\frac1{\sqrt2},0\right)^T,
-\qquad
-v(x_\pm)=\left(0,\pm\frac1{\sqrt2}\right)^T.
+z_+=(1,0)^T,\quad z_-=(0,1)^T,
+\quad x_\pm=2^{-1/2}(1,\pm1)^T
 \]
 
-Hence the frame operator is exactly
+with equal weights `1/4`. Their frame operator is
 
 \[
-F_*=\sum_a w_av_av_a^T=\frac14 I_2.
+F_*=\sum_a w_av_av_a^T=\frac14I_2.
 \]
 
-Therefore
+### Theorem
+
+Among all probability designs supported on real pure states in this coefficient space,
 
 \[
-\lambda_{\min}(F_*)=\frac14.
+\boxed{\max\lambda_{\min}(F)=\frac14}.
 \]
-
-## 3. Theorem
-
-**Theorem 1 — Exact E-optimal design on the two-channel real residual space.**  
-Among all probability designs supported on real pure channel states, the largest possible lower frame value is
-
-\[
-\boxed{t_*=\frac14}.
-\]
-
-The four-state equal-weight design above attains this optimum.
 
 ### Proof
 
-Every real unit state has the form \(z=(\cos\alpha,\sin\alpha)^T\), and
+Writing `z=(cos alpha,sin alpha)^T` gives
 
 \[
-v(z)=\frac1{\sqrt2}(\cos2\alpha,\sin2\alpha)^T.
+v(z)=\frac1{\sqrt2}(\cos2\alpha,\sin2\alpha)^T,
+\qquad \|v(z)\|^2=\frac12.
 \]
 
-Consequently
+Thus every probability design has `tr F=1/2`, hence `lambda_min(F)<=1/4`. The four-state design attains equality. ∎
 
-\[
-\|v(z)\|^2=\frac12
-\]
-
-for every admissible candidate. For any probability design,
-
-\[
-\operatorname{tr}F
-=
-\sum_a w_a\|v_a\|^2
-=
-\frac12.
-\]
-
-Since \(F\) is a positive \(2\times2\) matrix,
-
-\[
-\lambda_{\min}(F)\le\frac{\operatorname{tr}F}{2}=\frac14.
-\]
-
-The declared four-state design gives \(F_*=I_2/4\), so the upper bound is attained. ∎
-
-## 4. Dual/KKT certificate
-
-Take
+A dual/KKT certificate is
 
 \[
 Z_*=\frac12I_2,
-\qquad \operatorname{tr}Z_*=1.
+\qquad \operatorname{tr}Z_*=1,
+\qquad v(z)^TZ_*v(z)=\frac14.
 \]
 
-For every real pure-state candidate,
+## 3. Coordinate-transfer identity
+
+For an operator basis `B_alpha=sum_j C_{j alpha}E_j`, the same ideal design gives
 
 \[
-v(z)^TZ_*v(z)=\frac14.
+F_B=\frac14C^TC,
+\qquad
+\lambda_{\min}(F_B)=\frac14\sigma_{\min}(C)^2.
 \]
 
-Thus the dual value is \(1/4\), equal to the primal value. Every candidate is a contact point; the primal--dual gap is exactly zero.
+This is an exact coefficient-space benchmark.
 
-## 5. Operator-adapted transfer
+## 4. Programme role after scope correction
 
-Let an operator-adapted basis be related to the canonical basis by
+The physical P5 observation map inherited from N15 is different: it uses projected torus coherent states on a frozen chart, quadrature weights, and the residual plane `span{R_bulk,W}`. Its frame constant is the smallest generalized eigenvalue of the physical symbol-Gram/HS-Gram pair.
 
-\[
-B_\alpha=\sum_{j=1}^2 C_{j\alpha}E_j.
-\]
+Therefore:
 
-The same design has frame matrix
+- `1/4` is a sharp ideal upper-reference value;
+- it is useful for synthetic tests and normalization audits;
+- it does not certify the N15 physical frame;
+- no UA01 physical gate is closed by this theorem;
+- P2 remains blocked.
 
-\[
-F_B=C^TF_*C=\frac14C^TC.
-\]
+The gate-closing matrix is defined in `PHYSICAL_RESIDUAL_FRAME_PROTOCOL.md`.
 
-Therefore
+## 5. Claim firewall
 
-\[
-\boxed{
- c_{\mathrm{frame}}(B)
- =\lambda_{\min}(F_B)
- =\frac14\sigma_{\min}(C)^2.
-}
-\]
-
-This identifies the first exact P5 mechanism:
-
-\[
-\text{coherent-state design constant }\frac14
-\quad\times\quad
-\text{operator-basis conditioning }\sigma_{\min}(C)^2.
-\]
-
-The frame wall is precisely
-
-\[
-\sigma_{\min}(C)=0.
-\]
-
-## 6. Consequence for UA01
-
-The coherent-state design problem is solved exactly for the real two-channel residual sector. The remaining nontrivial P5 work is not to optimize this canonical design again, but to construct and bound the operator-adapted coordinate map \(C_J(\theta)\) on the declared carrier chamber:
-
-\[
-\inf_{J,\theta}\sigma_{\min}(C_J(\theta))>0.
-\]
-
-A positive bound immediately yields
-
-\[
-\underline c_{\mathrm{frame}}
-\ge
-\frac14
-\inf_{J,\theta}\sigma_{\min}(C_J(\theta))^2.
-\]
-
-## 7. Claim firewall
-
-This theorem establishes an exact finite-dimensional design result only for the declared real two-channel residual space. It does not establish an arbitrary-channel frame theorem, global gluing, a continuum limit, or physical dynamics.
+The theorem is exact but applies only to arbitrary real pure states in a two-dimensional coefficient model. It does not establish that those states belong to the registered physical coherent-state family, and it proves no uniform physical lower bound, global gluing, continuum limit, or dynamics.
