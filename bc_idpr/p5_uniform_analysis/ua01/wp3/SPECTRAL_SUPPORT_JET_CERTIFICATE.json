@@ -1,0 +1,57 @@
+{
+  "schema_version": "1.0",
+  "contract": "BC-IDPR-P5-UA01-WP3-H5B1",
+  "status": "EXACT_SUPPORT_PROJECTOR_AND_CONDITIONING_JET_CALCULUS_CLOSED",
+  "objects": {
+    "support_projector": "P(theta)=1_[tau,infinity)(R(theta))",
+    "conditioner": "S(theta)=P(theta) R(theta)^(-1/2) P(theta)",
+    "conditioned_target": "T(theta)=S(theta) V(theta) S(theta)"
+  },
+  "wall_condition": {
+    "threshold": "tau",
+    "required_margin": "dist(tau,spectrum(R(theta)))>=delta>0",
+    "failure_state": "N15_SUPPORT_THRESHOLD_WALL",
+    "reset_required_on_crossing": true
+  },
+  "exact_jets": {
+    "functional_first": "(1/2pi i) int_Gamma f(z) G_z R' G_z dz",
+    "functional_second": "(1/2pi i) int_Gamma f(z)[G_z R'' G_z + 2 G_z R' G_z R' G_z]dz",
+    "projector_weight": "f(z)=1",
+    "inverse_root_weight": "f(z)=z^(-1/2)",
+    "conditioned_first": "T'=S'VS+SV'S+SVS'",
+    "conditioned_second": "T''=S''VS+SV''S+SVS''+2S'V'S+2S'VS'+2SV'S'"
+  },
+  "bounds": {
+    "resolvent_margin": "rho=inf_{z in Gamma,theta in I} dist(z,spectrum(R(theta)))",
+    "first": "||F_f'|| <= K_f rho^(-2)||R'||",
+    "second": "||F_f''|| <= K_f[rho^(-2)||R''||+2rho^(-3)||R'||^2]",
+    "interpretation": "support-wall amplification is polynomial in inverse spectral separation"
+  },
+  "normalization_jets": {
+    "covered": true,
+    "application": ["T_bulk/||T_full||_HS", "T_wall/||T_full||_HS", "P_geo V_XY P_geo/||P_geo V_XY P_geo||_HS"]
+  },
+  "self_test": {
+    "status": "PASS",
+    "support_rank": 2,
+    "threshold_gap": 0.46261531441270365,
+    "projector_reconstruction_relative_error": 4.62295551520275e-16,
+    "inverse_root_reconstruction_relative_error": 9.745975765175439e-16,
+    "P1_relative_error": 8.840602519330506e-12,
+    "P2_relative_error": 4.0343478844591055e-7,
+    "S1_relative_error": 9.190403290694617e-12,
+    "S2_relative_error": 3.460540234686806e-7,
+    "conditioned_first_relative_error": 9.200342151292778e-12,
+    "conditioned_second_relative_error": 5.511961947390382e-7
+  },
+  "gates": {
+    "UA01_H5A_MEASUREMENT_WHITENING_CALCULUS": "PASS",
+    "UA01_H5B1_SUPPORT_CONDITIONING_CALCULUS": "PASS",
+    "UA01_H5B2_N15_PRIMITIVE_INPUT_BOUNDS": "OPEN",
+    "UA01_G1A_PHYSICAL_MATRIX_REPRODUCTION": "OPEN",
+    "UA01_G2_LOCAL_FRAME": "BLOCKED",
+    "MODE5_ANALYTIC_UNIQUENESS": "OPEN",
+    "P2_HANDOFF": "BLOCKED"
+  },
+  "claim_ceiling": "finite-dimensional constant-rank chamber; no N15 numerical support margin or physical frame theorem yet"
+}
