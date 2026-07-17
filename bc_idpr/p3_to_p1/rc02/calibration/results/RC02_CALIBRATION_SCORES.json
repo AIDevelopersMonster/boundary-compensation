@@ -1,0 +1,39 @@
+{
+  "schema_version": "1.0",
+  "contract_id": "BC-IDPR-P3-P1-RC02",
+  "status": "CALIBRATION_COMPLETE_MODE_FROZEN",
+  "evaluated_family_count": 12,
+  "evaluated_ordered_carrier_count": 113,
+  "primary_mode_scores": {
+    "2": -0.0092637971682950904,
+    "3": 0.036984629831185722,
+    "4": 0.0090498366890381654,
+    "5": 0.1511086183308894,
+    "6": 0.012896984462036715,
+    "7": -0.00066015479318545789,
+    "8": -0.014635106078941584,
+    "9": -0.08027037017259267,
+    "10": -0.32005332674675924
+  },
+  "replication_mode_scores": {
+    "2": -0.018542007457330784,
+    "3": 0.01928521623278423,
+    "4": -0.0011865831089133971,
+    "5": 0.12873749220570929,
+    "6": 0.02113486196047068,
+    "7": 0.0082739594134948746,
+    "8": 0.00063140247953571982,
+    "9": -0.063651921411068513,
+    "10": -0.29274717001212924
+  },
+  "selected_mode": 5,
+  "runner_up_mode": 3,
+  "primary_score_gap": 0.11412398849970368,
+  "selected_mode_primary_positive_families": 11,
+  "selected_mode_replication_positive_families": 11,
+  "pilot_data_used_for_selection": false,
+  "replication_data_used_for_selection": false,
+  "confirmatory_results_present": false,
+  "canonical_full_results_sha256": "9aa812ae99ec25ed164e68ac07da6c7c6bdcd24ac4ab3855ada6408805bab171",
+  "evidence_policy": "No statement from the Gemini advisory report is used as evidence."
+}
