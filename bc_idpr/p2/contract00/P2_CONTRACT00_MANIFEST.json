@@ -1,0 +1,53 @@
+{
+  "document_id": "BC-IDPR-P2-CONTRACT00-v0.1.0",
+  "title": "Typed Coefficient Gluing on a Finite Registered Atlas",
+  "status": "REVIEWED_CLEAN",
+  "upstream_p5_doi": "10.5281/zenodo.21444321",
+  "mu_star": 0.02059662265710331,
+  "next_gate": "P2-E01_DATA_DERIVED_ONE_CYCLE_TRANSITION_REGISTRY",
+  "claim_boundary": "finite-dimensional coefficient-level contract; actual transition maps and global section remain open",
+  "artifacts": [
+    {
+      "path": "BC-IDPR-P2-Contract00-Typed-Coefficient-Gluing-v0.1.0.pdf",
+      "bytes": 411591,
+      "sha256": "faf699d8f320b5896f9888cfddeb564af79ba5a67d228b8c55139e8b20b3a7cb",
+      "role": "rendered_contract"
+    },
+    {
+      "path": "BC-IDPR-P2-Contract00-Typed-Coefficient-Gluing-v0.1.0.tex",
+      "bytes": 27538,
+      "sha256": "4ce16f6f02e9d942e4156b2223d62b2edf44c9a62675b6dd21b0f4e713c0e767",
+      "role": "authoritative_source"
+    },
+    {
+      "path": "P2_CONTROL_PLANE.md",
+      "bytes": 4871,
+      "sha256": "fe3be9ade3866ceaaa7725475eb49a04b5e0a676ad38e28159b4c5479c4a6961",
+      "role": "control_or_audit_record"
+    },
+    {
+      "path": "P2_PROGRAMME_MEMORY_UPDATE.md",
+      "bytes": 2059,
+      "sha256": "9099aa1365b9c057a2d4ab7ad8db98ac532ccb434a787ce635c98260be3500d2",
+      "role": "control_or_audit_record"
+    },
+    {
+      "path": "P2_CONTRACT00_AUDIT.md",
+      "bytes": 5259,
+      "sha256": "3e642647970b6d1e39b2bda507b75fbced31e4930070088ab52ce34adfb6ecff",
+      "role": "control_or_audit_record"
+    },
+    {
+      "path": "p2_minimal_gluing_demo.py",
+      "bytes": 5879,
+      "sha256": "e938307698645c9ffbcfde2ae1ec5ec85674d26dca66beea3abd9c0eaf938d80",
+      "role": "bounded_demo_script"
+    },
+    {
+      "path": "P2_CONTRACT00_DEMO_RESULTS.json",
+      "bytes": 1186,
+      "sha256": "bf6c247775c70b098d694fd08486288e7232f6bcfce7aa7c3d234232a3aa5e7f",
+      "role": "machine_readable_record"
+    }
+  ]
+}
