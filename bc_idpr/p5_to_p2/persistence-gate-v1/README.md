@@ -2,7 +2,9 @@
 
 Policy: `DOWNSTREAM_NECESSITY_PERSISTENCE_GATE`.
 
-Canonical downstream summaries preserved here:
+Persistence status: `DUAL_STORAGE_PARITY_PASS`.
+
+Canonical downstream summaries preserved here and in the project Google Drive folder `BC-IDPR-P5-P2-Persistence`:
 
 - `U1_CERTIFICATE_SUMMARY.json`
 - `U2_CERTIFICATE_SUMMARY.json`
@@ -11,6 +13,7 @@ Canonical downstream summaries preserved here:
 - `EQ_CERTIFICATE_SUMMARY.json`
 - `PERSISTENCE_POLICY.md`
 - `P5_P2_HANDOFF_STATUS.md`
+- `DUAL_STORAGE_PARITY.md`
 
 Large temporary memmaps, restart slabs, basis arrays, candidate matrices, symbol caches, and runtime logs are intentionally excluded when they are not read downstream and are reconstructible from accepted certificates and exact scripts.
 
@@ -23,4 +26,4 @@ Current scientific state:
 - P2 readiness audit remains open;
 - P2 is blocked.
 
-No scientific step may advance until this canonical set is also preserved in the project Google Drive folder and parity is verified.
+The persistence gate is cleared. This does not itself complete P5 or authorize P2.
