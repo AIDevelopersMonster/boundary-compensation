@@ -1,0 +1,19 @@
+{
+  "programme_code": "BC-IDPR-P5",
+  "canonical_title": "BC-IDPR P5: Uniform Analysis — Typed Finite-Level Frame Certification and Quantitative Handoff to Global Gluing",
+  "document_class": "Closing technical synthesis preprint for P5 of BC-IDPR",
+  "version": "v0.1.0-preprint",
+  "publication_venue": "Zenodo",
+  "publication_status": "published",
+  "version_doi": "10.5281/zenodo.21444321",
+  "doi_url": "https://doi.org/10.5281/zenodo.21444321",
+  "concept_doi": "unknown",
+  "verification_source": "Author confirmation in project conversation",
+  "verification_date": "2026-07-19",
+  "programme_state_change": {
+    "previous": "P5 completed; publication pending",
+    "new": "P5 completed and published",
+    "downstream": "P2 preparation gate open; P2 global gluing not yet proved"
+  },
+  "claim_ceiling": "Finite typed registered-atlas certification on eta in [0.995,1.005]; no arbitrary-level, continuum, manifold, or completed global-gluing theorem."
+}
