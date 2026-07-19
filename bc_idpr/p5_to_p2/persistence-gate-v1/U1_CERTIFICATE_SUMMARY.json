@@ -1,0 +1,29 @@
+{
+  "document_id": "BC-IDPR-P5-UA01-WP3-H5B4L-C1B-23-R3-U1",
+  "title": "r=65536 U1 Kernel-Locked Derivative Sharpening",
+  "status": "R65536_U1_CONTINUOUS_ETA_PHYSICAL_FRAME_CERTIFIED_AFTER_DERIVATIVE_SHARPENING",
+  "certificate_class": "finite_level_deterministic_floating_point_enclosure",
+  "family": "U1",
+  "r": 65536,
+  "support_rank": 7166,
+  "eta_interval": [0.995, 1.005],
+  "target_alpha": 2.593994140625e-05,
+  "uniform_derivative_fro_upper": 0.011537341118031052,
+  "registered_cap": 0.02762296563120947,
+  "cap_slack": 0.016085624513178416,
+  "continuous_D_lambda_min_lower": 6.570191070113136e-07,
+  "r_continuous_D_lower": 0.04305840419709345,
+  "finite_difference_relative_discrepancy": 3.5076849762442914e-09,
+  "gates": {
+    "upstream_all_A5_anchors_positive": "PASS",
+    "grid_complete": "PASS",
+    "kernel_lock_applied": "PASS",
+    "finite_difference_crosscheck": "PASS",
+    "uniform_derivative_below_preregistered_cap": "PASS",
+    "all_sharpened_A5_local_transfers_positive": "PASS"
+  },
+  "claim_boundary": "Finite level r=65536, U1 only, actual rank-7166 support, fixed target 1.7/r and eta interval. Not a directed-rounding proof, not five-family closure, not an arbitrary-r theorem, and not authorization for P2.",
+  "source_package": "BC-IDPR-P5-UA01-H5B4L-C1B23-R3-U1-derivative-sharpening-reviewed.zip",
+  "source_package_sha256": "4ac4e0143ded26fa902a8e17890eba123c4a5abeb321c222557dcd32fed74154",
+  "source_certificate": "N15_H5B4L_C1B23_R3_U1_DERIVATIVE_SHARPENING_CERTIFICATE.json"
+}
