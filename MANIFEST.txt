@@ -1,37 +1,39 @@
-Boundary Compensation repository manifest
+Boundary Compensation archival repository manifest
 
-BC-Academy v0.1.1 repository package
+STATUS
+- Programme phase: Phase I closed and frozen
+- Repository role: archival, publication, reproducibility, educational, and retained-negative-result companion
+- Automatic numbered continuation: prohibited
 
-bc_academy/README.md
-bc_academy/PROGRAMME_CHARTER_OVERVIEW.md
-bc_academy/docs/README.md
-bc_academy/docs/BC_ACADEMY_I_V_PROGRAMME_CHARTER_v0.1.1_RU.md
-bc_academy/docs/BC_ACADEMY_I_RESEARCH_SYLLABUS_v0.1.1_RU.md
-bc_academy/docs/zenodo_metadata_draft.txt
-bc_academy/demo/README.md
-bc_academy/demo/bc_academy_linear_spectral_demo.py
-bc_academy/demo/sample_output.txt
+CANONICAL TOP-LEVEL AREAS
+- publications/        Zenodo records, publication packages, release metadata
+- bc_idpr/             P3, CERT, P1, P2 gluing no-go, P4 typed defect programme
+- bc_origin/           hidden-generator and shadow toy models with software
+- bc_academy/          curriculum, lecture material, and demonstrations
+- bc-layers/           descending compression and loss-audit branch
+- bc-m/                realization geometry and demonstration laboratories
+- bc-emergence/        assembly, witness, stability, and universality branch
+- bc-ci/               Compensated Islands branch
 
-BC-Academy I Lecture-Article 1 HTML demos
+RETENTION RULE
+A file is retained when it reproduces a publication or closure result, documents a scientifically retained reset/no-go, supplies a maintained educational/demo companion, or preserves publication provenance.
 
-bc_academy/BC-Academy-I-LA01-Demos/README.md
-bc_academy/BC-Academy-I-LA01-Demos/index.html
-bc_academy/BC-Academy-I-LA01-Demos/demos/demo_01_diagonal_spectrum.html
-bc_academy/BC-Academy-I-LA01-Demos/demos/demo_02_basis_change_same_spectrum.html
-bc_academy/BC-Academy-I-LA01-Demos/demos/demo_03_eigenvector_detector.html
-bc_academy/BC-Academy-I-LA01-Demos/demos/demo_04_same_spectrum_different_operator.html
-bc_academy/BC-Academy-I-LA01-Demos/demos/demo_05_near_zero_preview.html
-bc_academy/BC-Academy-I-LA01-Demos/demos/demo_06_what_spectrum_reads.html
+EXCLUDED FROM ARCHIVAL SURFACE
+- generated caches and raw work arrays
+- local virtual environments
+- transient build products
+- empty placeholder folders
+- superseded copies with no independent provenance value
+- byte-identical duplicates
 
-BC-Origin IV v0.1.1 software patch
+ROOT ENTRY POINTS
+- README.md
+- MANIFEST.txt
+- CITATION.cff
+- publications/ZENODO_RECORDS.md
 
-origin_iv/software/bc_origin_iv_phase_flow_core.py
-origin_iv/software/generate_bc_origin_iv_figures.py
-origin_iv/README.md
-origin_iv/figures/                     generated after running script
-origin_flow/web/index.html             Flow Lab companion copied from v0.1.0 when available
-
-Root files
-
-README.md
-MANIFEST.txt
+CLEANUP NOTE 2026-07-20
+- root README converted from latest-release view to completed-programme archival view
+- exact duplicate BC-Origin V manuscript and reviewer prompt removed from legacy root manuscript/
+- canonical copies retained under bc_origin/manuscript/
+- no publication, verifier, numerical certificate, software source, or evidence-chain file removed
