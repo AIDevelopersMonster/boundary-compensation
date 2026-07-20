@@ -1,0 +1,52 @@
+{
+  "claim_ceiling": "mathematical counterexamples and exact q-factorial identities; no mode-5 uniqueness theorem and no physical dynamics claim",
+  "contract": "BC-IDPR-P5-UA01-WP3-JET-GAP",
+  "phase_frame_decoupling": {
+    "R1_bimodal_phases": 6.123233995736766e-17,
+    "R1_equal_phases": 1.0,
+    "R1_uniform_phases": 4.308740668371214e-17,
+    "frame_alpha_fixed": 0.015
+  },
+  "q_factorial_jet_identity": {
+    "finite_sum_abs_residual": "4.722904679e-79",
+    "finite_sum_dictionary_closure": "-37.918999752793452685456122439950404459343746129494",
+    "finite_sum_direct_log_second": "-37.918999752793452685456122439950404459343746129494",
+    "monomial_abs_residual": "3.373503342e-80",
+    "monomial_dictionary_second": "-27.800218216504526109615889359257339753591268203838",
+    "monomial_direct_second": "-27.800218216504526109615889359257339753591268203838",
+    "signed_weight_sum": "1.0"
+  },
+  "rc02_circular_summary": {
+    "R1": 0.9967284980027259,
+    "circular_variance": 0.0032715019972741066,
+    "rigorous_wrapped_rms_upper_degrees": 7.279995354108445,
+    "rigorous_wrapped_rms_upper_radians": 0.12705988845908286,
+    "small_angle_rms_degrees": 4.634588985169568,
+    "small_angle_rms_radians": 0.0808888372678716
+  },
+  "schema_version": "1.0",
+  "static_frame_jet_gap": [
+    {
+      "M_second_op_norm": 10.000000000000002,
+      "exact_at_selected_theta": 10.0,
+      "omega": 10.0,
+      "sigma_min": 0.12247448713915891,
+      "sigma_min_squared": 0.015000000000000003
+    },
+    {
+      "M_second_op_norm": 1000.0000000000001,
+      "exact_at_selected_theta": 1000.0,
+      "omega": 100.0,
+      "sigma_min": 0.12247448713915891,
+      "sigma_min_squared": 0.015000000000000003
+    },
+    {
+      "M_second_op_norm": 100000.0,
+      "exact_at_selected_theta": 100000.0,
+      "omega": 1000.0,
+      "sigma_min": 0.12247448713915891,
+      "sigma_min_squared": 0.015000000000000003
+    }
+  ],
+  "status": "EXACT_NONIMPLICATIONS_AND_Q_FACTORIAL_JET_CLOSURE_VERIFIED"
+}

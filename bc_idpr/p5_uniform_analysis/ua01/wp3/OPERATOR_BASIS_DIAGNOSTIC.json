@@ -1,0 +1,42 @@
+{
+  "schema_version": "1.1",
+  "artifact_id": "BC-IDPR-P5-UA01-AUX-Q-RACAH-MIXING-A6",
+  "status": "AUXILIARY_MIXING_DIAGNOSTIC_PASS_PHYSICAL_RESIDUAL_FRAME_GATE_OPEN",
+  "exact_reduction": {
+    "abstract_correlation": "c_J=<B_E,B_G>_HS",
+    "abstract_gram_identity": "C_J^T C_J=[[1,c_J],[c_J,1]]",
+    "abstract_sigma_min_squared": "1-|c_J|",
+    "commutator_squared": "2(1-c_J^2)",
+    "scalar_q_racah_reduction": "c_J=2*F11^2-1"
+  },
+  "declared_class": {
+    "name": "A6 algebraic two-channel carriers",
+    "ordered_carriers": 283,
+    "external_doubled_labels": [1, 6],
+    "critical_q_index_maximum": 10
+  },
+  "domain": {
+    "coordinate": "eta=12 theta/pi",
+    "eta_interval": [0.6, 1.15]
+  },
+  "legacy_interval_diagnostic": {
+    "backend": "mpmath.iv",
+    "tested_abstract_margin": "1-|c_J|>0.06",
+    "minimum_proved_cell_margin": 0.06000461382886191,
+    "unresolved_cells": 0,
+    "classification": "AUXILIARY_ONLY"
+  },
+  "physical_protocol": {
+    "residual_plane": "span{R_bulk,W}",
+    "coherent_states": "registered projected-torus coherent states",
+    "frame_constant": "alpha_U=lambda_min(G_symbol,G_HS)=sigma_min(M_hat)^2",
+    "bridge_from_abstract_mixing": "NOT_PROVED",
+    "physical_gate": "OPEN"
+  },
+  "programme_consequence": {
+    "retain_as_appendix": true,
+    "n15_case_ingestion_required": true,
+    "p2_global_gluing": "BLOCKED"
+  },
+  "claim_ceiling": "finite A6 abstract q-Racah mixing statement; not a physical N15 frame certificate"
+}

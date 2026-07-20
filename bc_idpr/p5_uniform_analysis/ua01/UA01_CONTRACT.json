@@ -1,0 +1,116 @@
+{
+  "artifact_id": "BC-IDPR-P5-UA01-CONTRACT",
+  "canonical_title": "A Priori Phase/Frame Lower Bounds from Geometry, Wall Margin, and Coherent-State Design",
+  "claim_state": "NO_UNIFORM_THEOREM_CLAIMED",
+  "date_opened": "2026-07-17",
+  "document_class": "SOLVER_NEUTRAL_ANALYTICAL_RESEARCH_CONTRACT",
+  "downstream": {
+    "p2_global_gluing": "BLOCKED_PENDING_G6_HANDOFF",
+    "p4_defect_insertions": "DEFERRED"
+  },
+  "evidence_policy": {
+    "allowed_gate_closing_classes": [
+      "EXACT_SYMBOLIC",
+      "EXACT_FINITE_ENUMERATION",
+      "CERTIFIED_INTERVAL",
+      "CERTIFIED_FLOATING_POINT",
+      "SEALED_EXTERNAL_VALIDATION"
+    ],
+    "gemini_advisory_used_as_evidence": false,
+    "rc02_confirmatory_data_may_tune_p5": false,
+    "rc02_rerun_authorized": false
+  },
+  "gates": [
+    {
+      "gate_id": "UA01-G1-DESIGN",
+      "requires": [
+        "UA01-H2-RESIDUAL-BUNDLE",
+        "UA01-H3-MEASUREMENT-MATRIX",
+        "UA01-H4-E-OPTIMAL-DESIGN"
+      ],
+      "status": "OPEN"
+    },
+    {
+      "gate_id": "UA01-G2-LOCAL-FRAME",
+      "requires": [
+        "UA01-H5-JET-TO-LIPSCHITZ",
+        "POSITIVE_CERTIFIED_RADIUS"
+      ],
+      "status": "BLOCKED_BY_G1"
+    },
+    {
+      "gate_id": "UA01-G3-UNIFORM-FRAME",
+      "requires": [
+        "UA01-H6-UNIFORM-COVER",
+        "POSITIVE_UNIFORM_FRAME_BOUND"
+      ],
+      "status": "BLOCKED_BY_G2"
+    },
+    {
+      "gate_id": "UA01-G4-PHASE",
+      "requires": [
+        "UA01-H7-PHASE-AMPLITUDE",
+        "UA01-H8-PHASE-TRANSFER",
+        "UA01-H9-ENERGY-TRANSFER"
+      ],
+      "status": "BLOCKED_BY_G2_OR_G3"
+    },
+    {
+      "gate_id": "UA01-G5-EXTERNAL",
+      "requires": [
+        "UA01-H10-EXTERNAL-CHECK"
+      ],
+      "status": "BLOCKED_BY_FROZEN_ANALYTICAL_OUTPUTS"
+    },
+    {
+      "gate_id": "UA01-G6-P2-HANDOFF",
+      "requires": [
+        "UA01-H11-P2-HANDOFF",
+        "P2-HO1-LOCAL-BOUND-REGISTRY",
+        "P2-HO2-COMPATIBILITY-EQUATIONS",
+        "P2-HO3-ASSEMBLY-SINGULAR-VALUE",
+        "P2-HO4-SECTOR-LEAKAGE-LEDGER",
+        "P2-HO5-GLOBAL-FRAME-BOUND",
+        "P2-HO6-PHASE-COCYCLE-AUDIT",
+        "P2-HO7-NEGATIVE-CONTROLS",
+        "P2-HO8-INDEPENDENT-VALIDATOR"
+      ],
+      "status": "CLOSED"
+    }
+  ],
+  "immediate_next_artifact": "UA01_WP0_WP1_GEOMETRY_WALL_AND_MEASUREMENT_MATRIX_SPECIFICATION",
+  "outcomes": [
+    "P5_A_UNIFORM_PHASE_FRAME_BOUND",
+    "P5_B_LOCAL_BOUND_ONLY",
+    "P5_C_NUMERICAL_CERTIFICATE_ONLY",
+    "P5_D_ANALYTICAL_OBSTRUCTION"
+  ],
+  "programme_code": "BC-IDPR-P5-UA01",
+  "schema_version": "1.0",
+  "status": "OPEN_OBLIGATION_GRAPH",
+  "strong_comparison_benchmarks": {
+    "energy_advantage_lower_bound": 0.02,
+    "first_harmonic_concentration_lower_bound": 0.6,
+    "source": "FROZEN_RC02_PREREGISTRATION",
+    "threshold_retuning_allowed": false
+  },
+  "upstream": {
+    "p1_rc02": {
+      "contract_id": "BC-IDPR-P3-P1-RC02",
+      "outcome": "A_UNIVERSAL_PHASE_LOCK",
+      "state": "CONFIRMATORY_COMPLETE_OUTCOME_FROZEN"
+    },
+    "p3_cert": "PASSED_FOR_DECLARED_FINITE_LOCAL_PROTOCOL"
+  },
+  "work_packages": [
+    "UA01-WP0-CHAMBER-AND-WALL-REGISTRY",
+    "UA01-WP1-MEASUREMENT-MATRIX",
+    "UA01-WP2-E-OPTIMAL-DESIGN",
+    "UA01-WP3-JET-TO-LIPSCHITZ",
+    "UA01-WP4-LOCAL-FRAME",
+    "UA01-WP5-UNIFORM-COVER",
+    "UA01-WP6-PHASE-AND-ENERGY-TRANSFER",
+    "UA01-WP7-INDEPENDENT-EXTERNAL-CHECK",
+    "UA01-WP8-P2-HANDOFF"
+  ]
+}

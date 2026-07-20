@@ -1,0 +1,44 @@
+{
+  "schema_version": "1.1",
+  "artifact_id": "BC-IDPR-P5-UA01-AUX-IDEAL-PROJECTIVE-FRAME",
+  "status": "EXACT_AUXILIARY_BENCHMARK_CERTIFIED_PHYSICAL_P5_GATE_OPEN",
+  "residual_space": {
+    "type": "Sym_0(2,R)",
+    "dimension": 2,
+    "basis": ["sigma_z/sqrt(2)", "sigma_x/sqrt(2)"],
+    "basis_normalization": "Hilbert-Schmidt orthonormal"
+  },
+  "candidate_pool": ["z_plus", "z_minus", "x_plus", "x_minus"],
+  "weights": {
+    "z_plus": 0.25,
+    "z_minus": 0.25,
+    "x_plus": 0.25,
+    "x_minus": 0.25
+  },
+  "primal": {
+    "frame_matrix_exact": "(1/4) I_2",
+    "minimum_eigenvalue_exact": "1/4"
+  },
+  "dual": {
+    "Z_exact": "(1/2) I_2",
+    "trace_Z": 1,
+    "dual_value_exact": "1/4",
+    "all_candidates_contact": true
+  },
+  "optimality": {
+    "proof": "all real pure-state measurement vectors have squared norm 1/2, hence tr(F)=1/2 and lambda_min(F)<=1/4; the declared design attains equality",
+    "primal_dual_gap_exact": "0"
+  },
+  "coordinate_transfer": {
+    "identity": "F_B=(1/4) C^T C",
+    "ideal_frame_constant": "c_ideal=(1/4) sigma_min(C)^2",
+    "rank_wall": "sigma_min(C)=0"
+  },
+  "programme_role": {
+    "classification": "AUXILIARY_IDEAL_PROJECTIVE_BENCHMARK",
+    "physical_protocol": "projected torus coherent states and frozen N15 quadrature",
+    "physical_p5_gate": "OPEN",
+    "p2_global_gluing": "BLOCKED"
+  },
+  "claim_ceiling": "exact finite-dimensional coefficient-space benchmark; not the N15 physical residual-frame constant"
+}
