@@ -1,69 +1,59 @@
 # Boundary Compensation
 
-This repository collects reproducible companion materials, minimal software utilities, demonstrations, and publication-support files for the **Boundary Compensation** research programme.
+This repository is the archival and reproducibility companion for the completed first phase of the **Boundary Compensation** research programme.
 
-## Latest publication
+## Programme status
 
-**Recursive Jet Calculus and Rigorous Uniform Conditioning for Finite Quantum 6j Recoupling Matrices**
+- **Phase I status:** architecturally closed and frozen.
+- **Technical corpus:** finite-dimensional spectral response, induced-gap operators, finite-resolution access, inverse-response classes, quotient representatives, walls, atlases, certification, BC-Layers / BC-M / BC-Emergence, BC-Origin, Compensated Islands, BC-Academy, BC-Spec, and BC-IDPR.
+- **Closure rule:** no automatic continuation by numbering. Any future work must introduce a genuinely new mathematical obligation and pass a fresh claim-boundary audit.
+- **Claim boundary:** programme closure does not assert a complete physical theory, hidden-sector reconstruction, Standard Model derivation, physical spacetime, dynamics, or empirical cosmological prediction.
 
-- Version: v0.1.2
-- DOI: [10.5281/zenodo.21401141](https://doi.org/10.5281/zenodo.21401141)
-- Zenodo record: [21401141](https://zenodo.org/records/21401141)
-- Repository package: [`publications/finite-q6j-jet-calculus-v0.1.2/`](publications/finite-q6j-jet-calculus-v0.1.2/)
-- Full Zenodo publication list: [`publications/ZENODO_RECORDS.md`](publications/ZENODO_RECORDS.md)
+## Repository map
 
-Current repository tracks include:
+- `publications/` — publication records, Zenodo-facing packages, and reproducibility releases.
+- `bc_idpr/` — independent deformation, parameter-separation, phase-response, P2 gluing no-go, and P4 typed defect work.
+- `bc_origin/` — controlled hidden-generator and shadow toy models with software companions.
+- `bc_academy/` — educational material and interactive demonstrations.
+- `bc-layers/`, `bc-m/`, `bc-emergence/`, `bc-ci/` — completed branch materials and demonstrations.
 
-- **BC-Origin** toy-model and software companions;
-- **BC-Academy** educational and methodological demonstrations for the mathematical apparatus of Boundary Compensation.
+## Canonical publication index
 
-## BC-Academy demonstration
+See [`publications/ZENODO_RECORDS.md`](publications/ZENODO_RECORDS.md).
 
-The new `bc_academy/` folder introduces **BC-Academy I--V**, the curriculum track for the mathematical apparatus of Boundary Compensation.
+Selected records:
 
-BC-Academy canonical resources:
+- Recursive Jet Calculus and Rigorous Uniform Conditioning for Finite Quantum 6j Recoupling Matrices, v0.1.2 — [10.5281/zenodo.21401141](https://doi.org/10.5281/zenodo.21401141)
+- BC-IDPR P2-CL01: Typed Gluing No-Go and Branch Closure Synthesis, v0.1.1 — [10.5281/zenodo.21449073](https://doi.org/10.5281/zenodo.21449073)
+- BC-Academy I--V Programme Charter — [10.5281/zenodo.21199133](https://doi.org/10.5281/zenodo.21199133)
+- BC-Academy I Linear Spectral Entry — [10.5281/zenodo.21205935](https://doi.org/10.5281/zenodo.21205935)
 
-- Full course charter DOI: [10.5281/zenodo.21199133](https://doi.org/10.5281/zenodo.21199133)
-- BC-Academy I block syllabus DOI: [10.5281/zenodo.21205935](https://doi.org/10.5281/zenodo.21205935)
-- Lecture 1 article DOI: [10.5281/zenodo.21251960](https://doi.org/10.5281/zenodo.21251960)
-- Lecture 1 video: [YouTube](https://youtu.be/O_ZId9dZT3c)
-- Lecture 1 NotebookLM companion: [NotebookLM](https://notebooklm.google.com/notebook/28b52381-5032-447f-9f49-e83641c7ac07)
+## Reproducibility policy
 
-BC-Academy organizes the BC corpus as a learning path:
+The repository retains only materials that serve at least one of these purposes:
 
-```text
-spectra
-  -> Schur/Feshbach response operators
-  -> finite-resolution access and sector weights
-  -> inverse response and non-identifiability
-  -> quotient representatives and certified atlases
-```
+1. reproduce a published or closure-level result;
+2. document a retained negative result or certificate reset;
+3. provide a maintained educational or demonstrational companion;
+4. preserve programme provenance required by a publication.
 
-Quick start:
+Generated caches, raw high-dimensional arrays, local virtual environments, transient reviewer copies, and exact duplicate files are not part of the archival surface.
+
+## Quick starts
+
+BC-Academy demo:
 
 ```bash
 cd bc_academy/demo
 python bc_academy_linear_spectral_demo.py
 ```
 
-The demo is dependency-free and illustrates a 2x2 avoided-crossing model: full gaps move, sector weights flow, and finite-resolution access depends on a declared threshold.
+BC-Origin Windows launcher:
 
-## BC-Origin IV v0.1.1 software patch
+```text
+START_BC_ORIGIN_WINDOWS.bat
+```
 
-This package also preserves the Python software companion patch for:
+## Licence and responsibility
 
-**Boundary Compensation Origin IV: Lifted Phase Flow, Spectral Pumping and Horizon Events in Shadow Geometry**
-
-It replaces risky terminology and ambiguous variable names from the reviewer draft:
-
-- `Topological Spectral Pumping` -> `Lifted Phase Reindexing`;
-- `w1`, `w2` -> phase-lift deformation coefficients;
-- `kappa` as pairwise-looking constant -> structural overlap / global kernel normalization;
-- rough grid zero-crossing -> linear interpolated horizon estimates;
-- adds nonzero winding validation.
-
-The code remains a deterministic finite-dimensional toy-model visualization layer. It does not claim physical time, physical transition probabilities, real particle creation, or empirical topological pumping.
-
-## Claim boundary
-
-Repository materials are finite-dimensional mathematical, computational, educational, or toy-model companions. They do not claim hidden-sector reconstruction, Standard Model derivation, empirical particle physics, physical time dynamics, continuum QFT, or cosmological prediction.
+Each publication or software subpackage carries its own licence and citation metadata. Scientific claims and publication decisions remain the responsibility of the author, A. A. Malachevsky, ORCID `0009-0008-6009-3196`.
