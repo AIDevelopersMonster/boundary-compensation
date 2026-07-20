@@ -1,0 +1,146 @@
+{
+  "claim_boundary": "Positive separation certificate for the frozen finite N15 U3/U4 character images; no arbitrary-family, continuum, spacetime, or physical-topology claim.",
+  "cross_gram": {
+    "defined": false,
+    "reason": "No common physical carrier: U3 and U4 lie in distinct ordered-boundary character sectors.",
+    "same_index_proxy_rejected": true
+  },
+  "decision": {
+    "mobius_interpretation_certified": false,
+    "next_object": "P2-RC01 Typed Global Carrier and Coefficient-Analysis Map Reconstruction",
+    "p2_e02_physical_interpretation": "RESET",
+    "z2_obstruction_certified": false
+  },
+  "document_id": "BC-IDPR-P2-OR02-v0.1.0",
+  "families": [
+    {
+      "domain": [
+        0.5890496225480862,
+        1.7671448676442587,
+        1e-06,
+        1.5707953267948966
+      ],
+      "family": "U3",
+      "grid": [
+        160,
+        126
+      ],
+      "internal_character_ranges_xyz": [
+        [
+          -0.3900489839944511,
+          1.6628646419366344
+        ],
+        [
+          0.390186771775447,
+          1.9615682972404573
+        ],
+        [
+          7.462551345138735e-05,
+          1.8476294511914633
+        ]
+      ],
+      "labels": [
+        3,
+        6,
+        5,
+        4
+      ],
+      "maximum_boundary_trace_residual": 3.3306690738754696e-16,
+      "nodes": 20160,
+      "ordered_boundary_traces": [
+        1.4142135623730951,
+        1.1111404660392046,
+        0.7653668647301797,
+        1.6629392246050905
+      ]
+    },
+    {
+      "domain": [
+        0.5890496225480862,
+        1.3744457859455346,
+        1e-06,
+        1.5707953267948966
+      ],
+      "family": "U4",
+      "grid": [
+        160,
+        126
+      ],
+      "internal_character_ranges_xyz": [
+        [
+          0.3902690701919139,
+          1.6628891332950175
+        ],
+        [
+          0.7653705414502925,
+          1.8477552096604422
+        ],
+        [
+          -0.39015684875048307,
+          0.8937446778886771
+        ]
+      ],
+      "labels": [
+        2,
+        5,
+        7,
+        4
+      ],
+      "maximum_boundary_trace_residual": 2.7755575615628914e-16,
+      "nodes": 20160,
+      "ordered_boundary_traces": [
+        1.4142135623730951,
+        0.39018064403225666,
+        1.1111404660392046,
+        1.8477590650225735
+      ]
+    }
+  ],
+  "frozen_source_convention": {
+    "boundary_order": [
+      "tr(m4)",
+      "tr(m3)",
+      "tr(m2)",
+      "tr(m1)"
+    ],
+    "embedding": "N9/N12/N15 ordered SU(2) character coordinates (a,b,c,d,x,y,z)",
+    "grid": [
+      160,
+      126
+    ],
+    "side_length_rule": "ell_i = 2*pi*q_i/32 = pi*q_i/16",
+    "source_sha256": {
+      "n15_sealed_config": "63763f6b596a62e97faaa8c6bed9a35858819bad1c96efa031989f324692a121",
+      "n9_four_gon_chart": "e12786fc878105c40da3782c38830a2bea839c231c3bacb806f864a9b613464e",
+      "p5_typed_uniform_analysis": "68c6aa9aa38a500546cd3ed370a630d0d1184e4cab276242610d17020da2af03"
+    }
+  },
+  "physical_overlap_test": {
+    "boundary_label_multisets_equal": false,
+    "boundary_trace_difference_u3_minus_u4": [
+      0.0,
+      0.720959822006948,
+      -0.3457736013090249,
+      -0.184819840417483
+    ],
+    "boundary_trace_euclidean_distance": 0.820670958254553,
+    "certified_separation_lower": 0.8206709582535531,
+    "complete_grid_nearest_distance": 0.8206738218051731,
+    "physical_images_disjoint": true,
+    "proof_class": "Exact sector separation: boundary traces are constant family invariants and cos is injective on the frozen side-length interval; the displayed decimal lower bound uses a 1e-12 arithmetic reserve."
+  },
+  "pullback": {
+    "exists": false,
+    "jacobian_orientation": "UNDEFINED_FOR_DISJOINT_PHYSICAL_IMAGES",
+    "post_hoc_index_reversal_used": false
+  },
+  "resource_contract": {
+    "full_family_basis_materialized": false,
+    "peak_rss_kib": 70316,
+    "raw_arrays_scrubbed_before_exit": true,
+    "raw_grid_persisted": false,
+    "runtime_write_veto_active": true
+  },
+  "status": "P2_CERTIFICATE_RESET",
+  "title": "Cross-Family Physical Pullback Identification"
+}
