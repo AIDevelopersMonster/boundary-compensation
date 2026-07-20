@@ -1,0 +1,363 @@
+{
+  "claim_boundary": "Finite eta=1 direct chart-boundary carrier on the frozen 160x126 grid; no eta-uniform, manifold-level, or physical-holonomy claim.",
+  "cycle": {
+    "angle_degrees": null,
+    "angle_radians": null,
+    "component": "O(2)_REFLECTION",
+    "determinant": -0.9999999999999988,
+    "holonomy": [
+      [
+        -0.4162300783596555,
+        -0.909259325972912
+      ],
+      [
+        -0.9092593259729116,
+        0.41623007835965564
+      ]
+    ],
+    "operator_norm_defect": 1.9999999999999996
+  },
+  "document_id": "BC-IDPR-P2-E02-STREAMING-CARRIER-v0.1.0",
+  "edges": [
+    {
+      "T_ab": [
+        [
+          0.9999743314315256,
+          -0.0071649478765303315
+        ],
+        [
+          0.007164947876530347,
+          0.9999743314315258
+        ]
+      ],
+      "carrier": {
+        "boundary_band": 2,
+        "grid": [
+          160,
+          126
+        ],
+        "node_count": 1128
+      },
+      "defect_angle_degrees": 0.41052478629028294,
+      "defect_angle_radians": 0.007165009181811515,
+      "edge": "U1->U2",
+      "enclosure": {
+        "certificate_class": "deterministic floating-point envelope; not directed rounding",
+        "polar_factor_variation_op": 3.548221734936013e-08,
+        "sigma_min_lower": 0.988949992929462,
+        "simplex_orders": [
+          8,
+          10,
+          12
+        ],
+        "transition_error_op_upper": 2.27086281985375e-06
+      },
+      "generator_order": [
+        "R_bulk",
+        "W"
+      ],
+      "levels": [
+        65536,
+        32768
+      ],
+      "orientation": "PRESERVED",
+      "orientation_certified": true,
+      "oriented_cross_gram": [
+        [
+          0.9900094616788082,
+          -0.008501821522617487
+        ],
+        [
+          0.0056905940583686955,
+          0.9907518120330269
+        ]
+      ],
+      "orthogonality_residual": 4.447346549120398e-16,
+      "peak_rss_kib": 35800,
+      "raw_arrays_persisted": false,
+      "reflection_axis_degrees": null,
+      "reflection_axis_radians": null,
+      "sigma_min": 0.9889522637922818,
+      "sign_convention": "positive ordered basis (R_bulk,W); no post-hoc sign flip",
+      "singular_values": [
+        0.9918598545310474,
+        0.9889522637922818
+      ]
+    },
+    {
+      "T_ab": [
+        [
+          0.9994909408754444,
+          0.03190390427391757
+        ],
+        [
+          -0.031903904273917684,
+          0.9994909408754441
+        ]
+      ],
+      "carrier": {
+        "boundary_band": 2,
+        "grid": [
+          160,
+          126
+        ],
+        "node_count": 1128
+      },
+      "defect_angle_degrees": -1.828269307805682,
+      "defect_angle_radians": -0.03190931903436681,
+      "edge": "U2->U3",
+      "enclosure": {
+        "certificate_class": "deterministic floating-point envelope; not directed rounding",
+        "polar_factor_variation_op": 2.1667947496108897e-08,
+        "sigma_min_lower": 0.3236400075097433,
+        "simplex_orders": [
+          8,
+          10,
+          12
+        ],
+        "transition_error_op_upper": 1.3867495492456712e-06
+      },
+      "generator_order": [
+        "R_bulk",
+        "W"
+      ],
+      "levels": [
+        32768,
+        65536
+      ],
+      "orientation": "PRESERVED",
+      "orientation_certified": true,
+      "oriented_cross_gram": [
+        [
+          0.3796135860259981,
+          -0.0657242723416206
+        ],
+        [
+          -0.09168524587323623,
+          0.4336962094892188
+        ]
+      ],
+      "orthogonality_residual": 4.590573781279441e-16,
+      "peak_rss_kib": 35800,
+      "raw_arrays_persisted": false,
+      "reflection_axis_degrees": null,
+      "reflection_axis_radians": null,
+      "sigma_min": 0.32364139425929256,
+      "sign_convention": "positive ordered basis (R_bulk,W); no post-hoc sign flip",
+      "singular_values": [
+        0.490082634897837,
+        0.32364139425929256
+      ]
+    },
+    {
+      "T_ab": [
+        [
+          -0.3114020759834969,
+          -0.9502782471850904
+        ],
+        [
+          -0.9502782471850905,
+          0.3114020759834971
+        ]
+      ],
+      "carrier": {
+        "boundary_band": 2,
+        "grid": [
+          160,
+          126
+        ],
+        "node_count": 1128
+      },
+      "defect_angle_degrees": null,
+      "defect_angle_radians": null,
+      "edge": "U3->U4",
+      "enclosure": {
+        "certificate_class": "deterministic floating-point envelope; not directed rounding",
+        "polar_factor_variation_op": 1.6980809054429457e-07,
+        "sigma_min_lower": 0.05918258018571901,
+        "simplex_orders": [
+          8,
+          10,
+          12
+        ],
+        "transition_error_op_upper": 1.0867718704329554e-05
+      },
+      "generator_order": [
+        "R_bulk",
+        "W"
+      ],
+      "levels": [
+        65536,
+        32768
+      ],
+      "orientation": "REVERSED",
+      "orientation_certified": true,
+      "oriented_cross_gram": [
+        [
+          -0.08608801411150452,
+          -0.11680683153567022
+        ],
+        [
+          -0.09535061196983317,
+          -0.01656493648801225
+        ]
+      ],
+      "orthogonality_residual": 8.238875530388183e-16,
+      "peak_rss_kib": 35796,
+      "raw_arrays_persisted": false,
+      "reflection_axis_degrees": -54.071873212918476,
+      "reflection_axis_radians": -0.9437322202863523,
+      "sigma_min": 0.05919344790442334,
+      "sign_convention": "positive ordered basis (R_bulk,W); no post-hoc sign flip",
+      "singular_values": [
+        0.16406478633797364,
+        0.05919344790442334
+      ]
+    },
+    {
+      "T_ab": [
+        [
+          0.5275782352580827,
+          0.8495064482874551
+        ],
+        [
+          -0.8495064482874551,
+          0.5275782352580828
+        ]
+      ],
+      "carrier": {
+        "boundary_band": 2,
+        "grid": [
+          160,
+          126
+        ],
+        "node_count": 1128
+      },
+      "defect_angle_degrees": -58.158028495050175,
+      "defect_angle_radians": -1.0150490837073083,
+      "edge": "U4->EQ",
+      "enclosure": {
+        "certificate_class": "deterministic floating-point envelope; not directed rounding",
+        "polar_factor_variation_op": 2.0314299552866904e-07,
+        "sigma_min_lower": 0.3709987967820247,
+        "simplex_orders": [
+          8,
+          10,
+          12
+        ],
+        "transition_error_op_upper": 1.300115262332952e-05
+      },
+      "generator_order": [
+        "R_bulk",
+        "W"
+      ],
+      "levels": [
+        32768,
+        65536
+      ],
+      "orientation": "PRESERVED",
+      "orientation_certified": true,
+      "oriented_cross_gram": [
+        [
+          0.2693506897900247,
+          0.7762119900786484
+        ],
+        [
+          -0.2842779331273388,
+          0.38925690915391425
+        ]
+      ],
+      "orthogonality_residual": 4.774039346539676e-16,
+      "peak_rss_kib": 35696,
+      "raw_arrays_persisted": false,
+      "reflection_axis_degrees": null,
+      "reflection_axis_radians": null,
+      "sigma_min": 0.371011797934648,
+      "sign_convention": "positive ordered basis (R_bulk,W); no post-hoc sign flip",
+      "singular_values": [
+        0.8773482649511128,
+        0.371011797934648
+      ]
+    },
+    {
+      "T_ab": [
+        [
+          0.4509812622427557,
+          -0.8925334173609022
+        ],
+        [
+          0.8925334173609021,
+          0.4509812622427559
+        ]
+      ],
+      "carrier": {
+        "boundary_band": 2,
+        "grid": [
+          160,
+          126
+        ],
+        "node_count": 1128
+      },
+      "defect_angle_degrees": 63.19334183720151,
+      "defect_angle_radians": 1.1029318803974488,
+      "edge": "EQ->U1",
+      "enclosure": {
+        "certificate_class": "deterministic floating-point envelope; not directed rounding",
+        "polar_factor_variation_op": 2.878804167438473e-07,
+        "sigma_min_lower": 0.45100961191201766,
+        "simplex_orders": [
+          8,
+          10,
+          12
+        ],
+        "transition_error_op_upper": 1.842434758110093e-05
+      },
+      "generator_order": [
+        "R_bulk",
+        "W"
+      ],
+      "levels": [
+        65536,
+        65536
+      ],
+      "orientation": "PRESERVED",
+      "orientation_certified": true,
+      "oriented_cross_gram": [
+        [
+          0.20535825795117646,
+          -0.40158391220588124
+        ],
+        [
+          0.7652431183018747,
+          0.3842186887510608
+        ]
+      ],
+      "orthogonality_residual": 6.111358429433704e-16,
+      "peak_rss_kib": 35672,
+      "raw_arrays_persisted": false,
+      "reflection_axis_degrees": null,
+      "reflection_axis_radians": null,
+      "sigma_min": 0.45102803625959875,
+      "sign_convention": "positive ordered basis (R_bulk,W); no post-hoc sign flip",
+      "singular_values": [
+        0.8562922363615676,
+        0.45102803625959875
+      ]
+    }
+  ],
+  "eta": 1.0,
+  "graph": [
+    "U1->U2",
+    "U2->U3",
+    "U3->U4",
+    "U4->EQ",
+    "EQ->U1"
+  ],
+  "implementation_contract": {
+    "full_family_basis_materialized": false,
+    "raw_array_disk_writes": false,
+    "worker_exit_reclaims_address_space": true,
+    "worker_process_per_edge": true
+  },
+  "status": "ORIENTATION_UNIDENTIFIABLE"
+}
