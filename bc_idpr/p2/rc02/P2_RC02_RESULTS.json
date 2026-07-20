@@ -1,0 +1,360 @@
+{
+  "admitted_generator_class": {
+    "F_recoupling": "Associator change of basis inside one fixed category level and fixed external tensor-product object.",
+    "N15_level_scaling": "Registered scaling r->m r only along the same base-label family ray.",
+    "excluded_expansion": "Label-changing coupons, defects, induction/restriction functors, or cross-level tensor functors not already constructed upstream are outside the frozen vacuum rule and would require a new branch-level object.",
+    "preserved_signature": "category level plus external-label permutation orbit; N15 scaling additionally preserves the base-label ray",
+    "tetrahedral_symmetry": "External-label permutations inducing signed row/column permutations and optional transpose of the same q-6j problem."
+  },
+  "claim_boundary": "Exact no-go within the frozen vacuum generator class (F-moves, tetrahedral permutations, and same-family N15 scaling). It does not prove that no label-changing or defect-extended category can ever connect the sectors.",
+  "compatibility": {
+    "RC01_direct_sum_bound_retained": 0.02059662265710331,
+    "delta_compat_increment": 0.0,
+    "new_inter_sector_term_constructed": false,
+    "reason": "No arrow passed the type signature gate; no compatibility operator was introduced."
+  },
+  "cycle_status": "NO_TYPE_CORRECT_CYCLE",
+  "decision": {
+    "defect_or_label_changing_extension": "AUTHOR_DECISION_REQUIRED_AFTER_BASELINE_CLOSURE",
+    "next_object": "P2-CL01 Typed Gluing No-Go and Branch Closure Synthesis",
+    "p2_cycle_gate": "CLOSED_NEGATIVE_NO_TYPE_CORRECT_CYCLE",
+    "p2_e02_proxy_edges_reused": false,
+    "p2_inter_sector_graph_gate": "FAILED_NO_ADMISSIBLE_ARROWS"
+  },
+  "document_id": "BC-IDPR-P2-RC02-v0.1.0",
+  "edges": [
+    {
+      "F_recoupling_or_tetrahedral_rule_admissible": false,
+      "admitted_nonzero_morphism": false,
+      "boundary_trace_separation_same_order": 0.450143482963305,
+      "candidate_rank": 0,
+      "candidate_sigma_min": 0.0,
+      "decision": "REJECT_TYPE_SIGNATURE",
+      "edge": "U1->U2",
+      "external_label_multisets_equal": false,
+      "minimizing_boundary_permutation": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "minimum_boundary_trace_separation_over_24_permutations": 0.450143482963305,
+      "normalized_ray_permutation_matches": [],
+      "registered_within_family_scaling_admissible": false,
+      "same_category_level": false,
+      "tetrahedral_permutation_matches": []
+    },
+    {
+      "F_recoupling_or_tetrahedral_rule_admissible": false,
+      "admitted_nonzero_morphism": false,
+      "boundary_trace_separation_same_order": 0.7995889245796883,
+      "candidate_rank": 0,
+      "candidate_sigma_min": 0.0,
+      "decision": "REJECT_TYPE_SIGNATURE",
+      "edge": "U2->U3",
+      "external_label_multisets_equal": false,
+      "minimizing_boundary_permutation": [
+        0,
+        2,
+        1,
+        3
+      ],
+      "minimum_boundary_trace_separation_over_24_permutations": 0.375186220697923,
+      "normalized_ray_permutation_matches": [],
+      "registered_within_family_scaling_admissible": false,
+      "same_category_level": false,
+      "tetrahedral_permutation_matches": []
+    },
+    {
+      "F_recoupling_or_tetrahedral_rule_admissible": false,
+      "admitted_nonzero_morphism": false,
+      "boundary_trace_separation_same_order": 0.820670958254553,
+      "candidate_rank": 0,
+      "candidate_sigma_min": 0.0,
+      "decision": "REJECT_TYPE_SIGNATURE",
+      "edge": "U3->U4",
+      "external_label_multisets_equal": false,
+      "minimizing_boundary_permutation": [
+        0,
+        2,
+        1,
+        3
+      ],
+      "minimum_boundary_trace_separation_over_24_permutations": 0.41823805854266116,
+      "normalized_ray_permutation_matches": [],
+      "registered_within_family_scaling_admissible": false,
+      "same_category_level": false,
+      "tetrahedral_permutation_matches": []
+    },
+    {
+      "F_recoupling_or_tetrahedral_rule_admissible": false,
+      "admitted_nonzero_morphism": false,
+      "boundary_trace_separation_same_order": 1.152587707046477,
+      "candidate_rank": 0,
+      "candidate_sigma_min": 0.0,
+      "decision": "REJECT_TYPE_SIGNATURE",
+      "edge": "U4->EQ",
+      "external_label_multisets_equal": false,
+      "minimizing_boundary_permutation": [
+        0,
+        2,
+        1,
+        3
+      ],
+      "minimum_boundary_trace_separation_over_24_permutations": 1.1525877070464767,
+      "normalized_ray_permutation_matches": [],
+      "registered_within_family_scaling_admissible": false,
+      "same_category_level": false,
+      "tetrahedral_permutation_matches": []
+    },
+    {
+      "F_recoupling_or_tetrahedral_rule_admissible": false,
+      "admitted_nonzero_morphism": false,
+      "boundary_trace_separation_same_order": 0.7161391895180215,
+      "candidate_rank": 0,
+      "candidate_sigma_min": 0.0,
+      "decision": "REJECT_TYPE_SIGNATURE",
+      "edge": "EQ->U1",
+      "external_label_multisets_equal": false,
+      "minimizing_boundary_permutation": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "minimum_boundary_trace_separation_over_24_permutations": 0.7161391895180215,
+      "normalized_ray_permutation_matches": [],
+      "registered_within_family_scaling_admissible": false,
+      "same_category_level": true,
+      "tetrahedral_permutation_matches": []
+    }
+  ],
+  "graph": {
+    "accepted_edge_count": 0,
+    "accepted_nonzero_edges": [],
+    "cycle_composition_typed": false,
+    "isolated_object_count": 5,
+    "objects": [
+      "U1",
+      "U2",
+      "U3",
+      "U4",
+      "EQ"
+    ],
+    "requested_edges": [
+      "U1->U2",
+      "U2->U3",
+      "U3->U4",
+      "U4->EQ",
+      "EQ->U1"
+    ]
+  },
+  "rank_singular_gate": {
+    "edges_failing": 5,
+    "edges_passing": 0,
+    "required_rank_per_edge": 2,
+    "required_sigma_min_positive": true,
+    "zero_morphism_rejected": true
+  },
+  "resource_contract": {
+    "full_support_basis_materialized": false,
+    "high_rank_recoupling_matrix_materialized": false,
+    "largest_numeric_matrix_shape": [
+      4
+    ],
+    "peak_rss_kib": 33304,
+    "permutations_tested_per_edge": 24,
+    "raw_arrays_persisted": false,
+    "runtime_write_veto_active": true
+  },
+  "sectors": {
+    "EQ": {
+      "base_labels": [
+        4,
+        4,
+        4,
+        4
+      ],
+      "category": "SU(2)_65534",
+      "family": "EQ",
+      "k": 65534,
+      "r": 65536,
+      "recoupling_channels_J": {
+        "count": 16385,
+        "hi": 16384,
+        "lo": 0
+      },
+      "recoupling_channels_L": {
+        "count": 16385,
+        "hi": 16384,
+        "lo": 0
+      },
+      "scaled_external_labels": [
+        8192,
+        8192,
+        8192,
+        8192
+      ],
+      "sorted_external_labels": [
+        8192,
+        8192,
+        8192,
+        8192
+      ],
+      "support_rank": 8190
+    },
+    "U1": {
+      "base_labels": [
+        4,
+        5,
+        6,
+        4
+      ],
+      "category": "SU(2)_65534",
+      "family": "U1",
+      "k": 65534,
+      "r": 65536,
+      "recoupling_channels_J": {
+        "count": 14337,
+        "hi": 18432,
+        "lo": 4096
+      },
+      "recoupling_channels_L": {
+        "count": 14337,
+        "hi": 16384,
+        "lo": 2048
+      },
+      "scaled_external_labels": [
+        8192,
+        10240,
+        12288,
+        8192
+      ],
+      "sorted_external_labels": [
+        8192,
+        8192,
+        10240,
+        12288
+      ],
+      "support_rank": 7166
+    },
+    "U2": {
+      "base_labels": [
+        3,
+        5,
+        7,
+        4
+      ],
+      "category": "SU(2)_32766",
+      "family": "U2",
+      "k": 32766,
+      "r": 32768,
+      "recoupling_channels_J": {
+        "count": 5121,
+        "hi": 8192,
+        "lo": 3072
+      },
+      "recoupling_channels_L": {
+        "count": 5121,
+        "hi": 7168,
+        "lo": 2048
+      },
+      "scaled_external_labels": [
+        3072,
+        5120,
+        7168,
+        4096
+      ],
+      "sorted_external_labels": [
+        3072,
+        4096,
+        5120,
+        7168
+      ],
+      "support_rank": 2559
+    },
+    "U3": {
+      "base_labels": [
+        3,
+        6,
+        5,
+        4
+      ],
+      "category": "SU(2)_65534",
+      "family": "U3",
+      "k": 65534,
+      "r": 65536,
+      "recoupling_channels_J": {
+        "count": 12289,
+        "hi": 18432,
+        "lo": 6144
+      },
+      "recoupling_channels_L": {
+        "count": 12289,
+        "hi": 14336,
+        "lo": 2048
+      },
+      "scaled_external_labels": [
+        6144,
+        12288,
+        10240,
+        8192
+      ],
+      "sorted_external_labels": [
+        6144,
+        8192,
+        10240,
+        12288
+      ],
+      "support_rank": 6142
+    },
+    "U4": {
+      "base_labels": [
+        2,
+        5,
+        7,
+        4
+      ],
+      "category": "SU(2)_32766",
+      "family": "U4",
+      "k": 32766,
+      "r": 32768,
+      "recoupling_channels_J": {
+        "count": 4097,
+        "hi": 7168,
+        "lo": 3072
+      },
+      "recoupling_channels_L": {
+        "count": 4097,
+        "hi": 6144,
+        "lo": 2048
+      },
+      "scaled_external_labels": [
+        2048,
+        5120,
+        7168,
+        4096
+      ],
+      "sorted_external_labels": [
+        2048,
+        4096,
+        5120,
+        7168
+      ],
+      "support_rank": 2047
+    }
+  },
+  "source_sha256": {
+    "BC-IDPR-P3-B-G2-R.md": "b1cde1e03f2b767067195bdfbf158068408fd541a5f7a1f4b8c1c2b42d159f5f",
+    "EQ_CERTIFICATE_SUMMARY.json": "eaef7323d732fc577f54ab6e52b2c466c8247c9571bcf2e72899b2ac6281495b",
+    "P2_RC01_RESULTS.json": "52fc6c5f205738f1bb0e69924c0121ccb66a9b89aed301aa0a30a58cd898c70e",
+    "U1_CERTIFICATE_SUMMARY.json": "bf3e548dc7a137d6ad6935cae7d587fbeadbf9b2c1364a5d8c6bee7d33db1af1",
+    "U2_CERTIFICATE_SUMMARY.json": "f868283dda667cc5c53bf5dfc9c6eeccc82e69a4409219eed16726c5cbaa1e02",
+    "U3_CERTIFICATE_SUMMARY.json": "2e20c0ee533788640db1d8d6ae9f83e9c392cf2f7cde4e19c53b65e5f67bba71",
+    "U4_CERTIFICATE_SUMMARY.json": "e050a7bb83bb1ff72acd94092616d38be3fbb51fd407d4bc606f3b7e43439926",
+    "n12_gram_sign_audit.py": "c893e98b70ff3db0226488a177c2f69b2185ace9e2e4814e48db87566a8465dd",
+    "n15_sealed_config.json": "63763f6b596a62e97faaa8c6bed9a35858819bad1c96efa031989f324692a121"
+  },
+  "status": "NO_ADMISSIBLE_INTER_SECTOR_MORPHISMS",
+  "title": "Algebraic Inter-Sector Morphism Construction"
+}
