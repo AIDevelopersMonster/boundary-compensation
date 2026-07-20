@@ -1,0 +1,122 @@
+{
+  "baseline_theorem": {
+    "admitted_generator_class": "F-recoupling, tetrahedral external-label permutations, and registered same-family N15 scaling.",
+    "domain": "Five frozen typed P5 sectors (U1,U2,U3,U4,EQ) at their registered levels and the requested five-edge graph.",
+    "failure_is_data_absence": false,
+    "proof_dependencies": [
+      "OR02 proves the alleged U3/U4 physical overlap is empty.",
+      "RC01 constructs the only certified global baseline object as a disconnected typed quotient sum.",
+      "RC02 exhausts the frozen vacuum algebraic generators and accepts zero of five requested arrows."
+    ],
+    "statement": "No nonzero type-correct inter-sector arrow exists on any requested edge; therefore no type-correct five-edge cycle exists in the frozen baseline."
+  },
+  "branch_state": "COMPLETED_NEGATIVE_AND_FROZEN",
+  "claim_boundary": "Finite frozen-baseline no-go. No universal categorical, continuum, spacetime, holonomy, nonorientability, or defect-extended impossibility claim.",
+  "closure_gates": {
+    "P2_BASELINE": "CLOSED_NEGATIVE",
+    "P2_CYCLE": "CLOSED_NEGATIVE_NO_TYPE_CORRECT_CYCLE",
+    "P2_E03": "PROHIBITED_ON_BASELINE",
+    "P2_G3": "BLOCKED_BY_NO_CYCLE",
+    "P2_G4": "BLOCKED_BY_NO_CYCLE",
+    "P2_INTERSECTOR_GRAPH": "CLOSED_NEGATIVE_ZERO_ARROWS",
+    "P2_TYPED_CARRIER": "CERTIFIED_DISCONNECTED"
+  },
+  "cycle_status": "NO_TYPE_CORRECT_CYCLE",
+  "document_id": "BC-IDPR-P2-CL01-v0.1.0",
+  "evidence_chain": {
+    "all_expected_statuses_verified": true,
+    "chain_root_sha256": "065be453bd96624d7f5eb3f4a5ac9fd7b208f8bcb0336e49e6a0132bf87f8d4c",
+    "frozen_graph_verified": true,
+    "input_sha256": {
+      "P2-E01": "19796027d97b5d7b0ee2916dfa6f83178f976b2d64e165770271584d4a5f5721",
+      "P2-E02": "0f00d7e44ab7fcff4861522d77f8730dac405dc639aa36630ca66c45c9ab37b9",
+      "P2-OR01": "186f758480a679edca10d78eba080337494a2c8a2ddd6c23954b3b45ea46150c",
+      "P2-OR02": "453d691a89b322ae0489f6f54cdce3e9198abbdf76af7b868a772df6cd77d7bd",
+      "P2-RC01": "52fc6c5f205738f1bb0e69924c0121ccb66a9b89aed301aa0a30a58cd898c70e",
+      "P2-RC02": "6ca6022dfc169ebe85d725dd93a5c1ce7328709a84be53124a6043e276dfeccc"
+    },
+    "objects": [
+      "P2-E01",
+      "P2-E02",
+      "P2-OR01",
+      "P2-OR02",
+      "P2-RC01",
+      "P2-RC02"
+    ],
+    "statuses": {
+      "P2-E01": "INCONCLUSIVE_GLUING__CENTER_REGISTRY_CONSTRUCTED",
+      "P2-E02": "ORIENTATION_UNIDENTIFIABLE",
+      "P2-OR01": "CONDITIONAL_Z2_SIGNAL__ORIENTATION_WALL_AND_PULLBACK_DEPENDENCE_FOUND",
+      "P2-OR02": "P2_CERTIFICATE_RESET",
+      "P2-RC01": "TYPED_GLOBAL_CARRIER_CERTIFIED",
+      "P2-RC02": "NO_ADMISSIBLE_INTER_SECTOR_MORPHISMS"
+    }
+  },
+  "permanent_rules": [
+    "Do not reuse local Gram-center congruence fits as overlap evidence.",
+    "Do not use same grid indices as physical equality across family sectors.",
+    "Do not reuse P2-E02 proxy transitions as algebraic morphisms.",
+    "Do not form a cycle from direct-sum restriction projections.",
+    "Do not materialize full 32768- or 65536-dimensional family bases.",
+    "Raw local arrays remain RAM-only and are scrubbed after contraction.",
+    "Cache absence triggers local computation and never an absence-certificate artifact.",
+    "Do not reopen P2-E03 under renamed same-index, Gram-fit, or post-hoc sign constructions."
+  ],
+  "post_closure_options": {
+    "author_decision_required": true,
+    "automatic_next_object": null,
+    "possible_new_objects": [
+      "Defect or label-changing coupon extension routed through the appropriate non-baseline branch.",
+      "Explicit cross-level tensor functor construction with new type and coherence obligations.",
+      "No continuation; retain the negative baseline theorem as terminal."
+    ]
+  },
+  "quantitative_facts": {
+    "E01_center_angle_degrees": 0.07553417,
+    "E01_uncertainty_degrees": 15.678894,
+    "OR02_U3_U4_boundary_separation_lower": 0.8206709582535531,
+    "RC01_direct_sum_lower_bound": 0.02059662265710331,
+    "RC01_sigma_min_Gamma": 1.0,
+    "RC02_accepted_nonzero_edges": 0
+  },
+  "resource_contract": {
+    "large_basis_materialized": false,
+    "peak_rss_kib": 16640,
+    "raw_arrays_persisted": false,
+    "runtime_write_veto_active": true
+  },
+  "retained_result_ledger": [
+    {
+      "not_retained": "Any inference of exact closure or nonzero global defect.",
+      "object": "P2-E01",
+      "retained": "Center-derived coefficient transition registry and its uncertainty comparison."
+    },
+    {
+      "not_retained": "Physical overlap, physical edge orientation, or physical cycle interpretation.",
+      "object": "P2-E02",
+      "retained": "RAM-only same-index proxy transition matrices, singular values, and resource audit."
+    },
+    {
+      "not_retained": "Physical nonorientability or Mobius interpretation.",
+      "object": "P2-OR01",
+      "retained": "Robust conditional Z2 signal inside the proxy construction and its singular orientation wall."
+    },
+    {
+      "not_retained": "Existence of a U3/U4 physical pullback or cross-Gram.",
+      "object": "P2-OR02",
+      "retained": "Exact U3/U4 ordered-boundary sector separation and carrier reset."
+    },
+    {
+      "not_retained": "Cross-family compatibility or a cycle inferred from direct-sum projections.",
+      "object": "P2-RC01",
+      "retained": "Typed ten-dimensional quotient carrier, sigma_min(Gamma)=1, and direct-sum lower bound."
+    },
+    {
+      "not_retained": "A universal prohibition on future defect or label-changing extensions.",
+      "object": "P2-RC02",
+      "retained": "Exact zero-arrow no-go in the frozen vacuum generator class."
+    }
+  ],
+  "status": "P2_BASELINE_TYPED_GLUING_CLOSED_NEGATIVE",
+  "title": "Typed Gluing No-Go and Branch Closure Synthesis"
+}
