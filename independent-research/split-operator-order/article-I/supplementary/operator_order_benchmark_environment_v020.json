@@ -1,0 +1,26 @@
+{
+  "python": "3.13.5",
+  "platform": "Linux-6.18.35-x86_64-with-glibc2.41",
+  "processor": "",
+  "cpu_model": "AMD EPYC 9V74 80-Core Processor",
+  "timing": "time.perf_counter; medians; exhaustive 3 repeats, exact repeated as described in script",
+  "qaoa_standard": {
+    "gamma": 0.7,
+    "beta": 0.4,
+    "convention": "C_e=(I-Z_i Z_j)/2; cost factor e^{-i gamma C_e} up to global phase; mixer e^{-i beta X_i}",
+    "factor_order": "all path cost factors, then all X mixers"
+  },
+  "xyz": {
+    "h": 0.25,
+    "isotropic_J": 1.0,
+    "anisotropic": {"Jx": 1.0, "Jy": 0.7, "Jz": 1.3},
+    "factor_order": "bond-major X,Y,Z"
+  },
+  "ma_qaoa": {
+    "q": 5,
+    "gammas": [0.25, 0.45, 0.7, 0.95],
+    "betas": [0.2, 0.35, 0.5, 0.65, 0.8],
+    "convention": "independent MaxCut clause angles gamma_e and mixer angles beta_v",
+    "factor_order": "all path cost factors, then all X mixers"
+  }
+}

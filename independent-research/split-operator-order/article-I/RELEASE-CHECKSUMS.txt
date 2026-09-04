@@ -1,0 +1,12 @@
+# Split Operator Order Article I v0.3.1 — canonical release hashes
+
+ac3b9ecd04c512f75b2d2f272f4db1b0ceea1d5ae68b8802f63de4dfd86549cc  Split-Interval-Quantum-Operator-Order-v0.3.1-publication-candidate.pdf
+5eb44b7efe51f8729acda1d0f107019d638164bb0871c74d61915bbfa805096e  Split-Interval-Quantum-Operator-Order-v0.3.1-publication-candidate.tex
+34b10dcfdd08326a36c45824ecc14d4657ed01abe6e0aefda6793c986b3752be  Split-Interval-Quantum-Operator-Order-v0.3.1-publication-candidate-ru.pdf
+22210be5ae4ac20152935e5ef7767ec8ce8166d5e8e0902bba1576ad59c3d0ae  Split-Interval-Quantum-Operator-Order-v0.3.1-publication-candidate-ru.tex
+ca1acbaf0f2756b5b43eb8b89bd23dd5ef5f9e488243d6bc39578bb31349173e  EN-RU-Parity-Audit-v0.3.1.md
+089fc2972db8cc0de63b91276e7dadb258ae5d751a2e292cd03d4efdb5d77fee  Publication-Audit-v0.3.1.md
+8b3aa19756df81ba2801bddba1b8485445dc606181b5470dfd7ac708c060469d  Publication-Audit-RU-v0.3.1.md
+403ab9165827f0c73b845c010a69438978968d9bda43c7beed71ea3ea2e7133f  Reviewer-Response-v0.3.1.md
+29884f162dc84c8b0355b80ffd5939ff20b95e54c5eb21a49888ed616efa6098  Split-Interval-Quantum-Operator-Order-v0.3.1-interactive-demo.html
+220e58d389ed396a81bc7ea2a9b4fc36b1b706cba0827da68751af1caad40fe1  AUTHOR-METADATA-v0.3.1.txt
