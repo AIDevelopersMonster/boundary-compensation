@@ -1,0 +1,7 @@
+task_family,physical_size,gate_count_n,permutation_states_n_factorial,lambda_star,threshold_median_seconds,exhaustive_median_seconds,states_popped
+QAOA MaxCut: mixers before costs,2,3,6,0.1335306957605727,4.2e-06,7.2e-06,4
+QAOA MaxCut: mixers before costs,3,5,120,0.1335306957605727,7.3e-06,0.000146,65
+QAOA MaxCut: mixers before costs,4,7,5040,0.1335306957605727,1.11e-05,0.00928,2611
+QAOA MaxCut: mixers before costs,5,9,362880,0.1335306957605727,1.6375e-05,1.15931,184897
+XYZ: all X before all Y,3,6,720,0.043075042579086883,1.28e-05,0.000129,49
+XYZ: all X before all Y,4,9,362880,0.05559425802283478,2.115e-05,0.007316,1527
