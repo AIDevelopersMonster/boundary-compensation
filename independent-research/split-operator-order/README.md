@@ -13,12 +13,14 @@ This directory is hosted inside the `boundary-compensation` repository only as a
 
 ## Publication sequence
 
-### Article I — frozen scientific core / publication candidate
+### Article I — frozen scientific core / reviewed publication candidate
 
 **Title:** *Split-Interval Representation of Quantum Operator Order: Descent Obstructions, Order Ultrametrics, and Pair-Reduced Holonomy*  
 **Version:** v0.3.1  
 **Status:** `REVIEWED_CLEAN`  
 **Languages:** English and Russian mirror versions.
+
+The canonical EN/RU PDF and LaTeX files, parity audit, HTML demonstrator and supplementary ZIP are frozen release assets identified by `article-I/RELEASE-CHECKSUMS.txt`. This Git directory retains the publication manifest and the lightweight reproducibility data/script; the reviewed binary/source release package is intended to be attached to the GitHub release and Zenodo record.
 
 Core results:
 
@@ -52,10 +54,8 @@ split-operator-order/
 ├── ROADMAP.md
 ├── article-I/
 │   ├── README.md
-│   ├── manuscript-en.tex
-│   ├── manuscript-ru.tex
-│   ├── interactive-demo.html
-│   ├── figures/
+│   ├── SOURCE-AND-RELEASE-NOTE.md
+│   ├── RELEASE-CHECKSUMS.txt
 │   └── supplementary/
 └── article-II-open-systems/
     ├── README.md
