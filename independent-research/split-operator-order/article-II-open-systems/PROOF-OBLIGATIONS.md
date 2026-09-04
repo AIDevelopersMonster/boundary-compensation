@@ -21,12 +21,13 @@
 - General finite-dimensional rank criterion: universal first-order contextual-loop identifiability iff rank is `(d^2-1)^2`.
 - Complete qubit theorem: one braid plus two backtracks identify all nine dissipative parameters modulo Hamiltonian derivations.
 - Exact minimal Coxeter-face designs for `d=3,4,5`, each saturating `floor(d^2/2)`.
-- Reproducible finite-field builders are now present for `d=3`, `d=4`, and `d=5`; the `d=4` rank-225 result was independently rebuilt after the earlier archival stub was detected.
+- Reproducible finite-field builders are present for `d=3`, `d=4`, and `d=5`; the `d=4` builder has been independently executed and rebuilt the full `256 x 225` matrix with rank `225` modulo `1000033`.
 - Generic open-dense full-rank consequence for the certified low-dimensional templates.
 - All-d Weyl generator-defect theorem and generalized flat-loop tomography of order `Theta(d^2)`.
 - Engineered Coxeter squares realizing arbitrary target first-two edge transports `U,V in SU(d)`.
 - All-d Coxeter tomography with constructive upper bound `3d^2-1`.
-- Improved all-d Coxeter tomography with order-three Clifford anchor and constructive upper bound `2d^2`.
+- Improved all-d Coxeter tomography with an order-three Clifford anchor and constructive upper bound `2d^2`.
+- The order-three Clifford infrastructure has been audited with the even-dimensional caveat made explicit: the theorem uses the existence of a Zauner-type finite-Heisenberg implementer, not a naive odd-dimensional `SL(2,Z_d)` parametrization in every dimension.
 - Exact scalar-count lower bound `L_d^Cox >= floor(d^2/2)`.
 - Therefore the universal constant-factor gap is at most `4`.
 - Numerical lower-bound saturation evidence extends to generic square-only designs for `d=6,7,8`.
@@ -44,9 +45,10 @@
    `su(d+1)=su(d) direct-sum W direct-sum R H`, and prove transversality of genuinely global square faces on that cokernel.
 5. Determine a preserved induction invariant: current evidence suggests even stages should be extension-ready while odd stages may carry a controlled extension defect that is repaired in the next odd-to-even step.
 6. Replace the existential second-anchor construction in the `2d^2` theorem by a publication-clean explicit deterministic family or concise standard theorem citation.
-7. Establish exact finite-field certificates for any retained `d=6,7` lower-bound examples; numerical rank alone is not publication evidence.
-8. Establish conditioning bounds; identifiability and numerical stability remain separate claims.
-9. Audit the full construction against Lindbladian learning, process tomography, quantum-control identifiability, and channel-holonomy literature.
+7. Execute the committed `d=5` builder in a clean environment and record the reproducibility output alongside the already re-run `d=4` certificate.
+8. Establish exact finite-field certificates for any retained `d=6,7` lower-bound examples; numerical rank alone is not publication evidence.
+9. Establish conditioning bounds; identifiability and numerical stability remain separate claims.
+10. Audit the full construction against Lindbladian learning, process tomography, quantum-control identifiability, and channel-holonomy literature.
 
 ## Longer-range analytical obligations
 
@@ -71,4 +73,5 @@ Do not state without proof that:
 - the `2d^2` upper bound is sharp;
 - numerical full rank in dimensions beyond the exact certificates is already a theorem;
 - a stored rank label without a matrix builder is an exact certificate;
+- the even-dimensional Clifford implementation can be treated by the simplified odd-dimensional `SL(2,Z_d)` parametrization without the standard central-extension convention;
 - the construction defines physical gauge or spacetime curvature.
