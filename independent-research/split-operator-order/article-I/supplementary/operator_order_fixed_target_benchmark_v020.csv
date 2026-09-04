@@ -1,0 +1,7 @@
+family,physical_size,gate_count_n,permutation_states_n_factorial,D_U,closed_form_median_seconds,exhaustive_median_seconds,states_popped
+QAOA MaxCut path,2,3,6,0.1335306957605727,1.402e-06,7.161e-06,6
+QAOA MaxCut path,3,5,120,0.1335306957605727,2.564e-06,0.000185999,120
+QAOA MaxCut path,4,7,5040,0.1335306957605727,4.197e-06,0.0143181,5040
+QAOA MaxCut path,5,9,362880,0.1335306957605727,6.52e-06,1.80024,362880
+Heisenberg isotropic,3,6,720,0.06120871905481365,3.275e-06,0.002163552,720
+Heisenberg isotropic,4,9,362880,0.06120871905481365,6.55e-06,1.82700,362880
