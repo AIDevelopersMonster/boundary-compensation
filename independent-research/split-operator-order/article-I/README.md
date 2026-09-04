@@ -4,7 +4,8 @@
 **Version:** v0.3.1  
 **Status:** `REVIEWED_CLEAN`  
 **Author:** Malachevsky, A.A.  
-**ORCID:** 0009-0008-6009-3196
+**ORCID:** 0009-0008-6009-3196  
+**Zenodo DOI:** [10.5281/zenodo.22289201](https://doi.org/10.5281/zenodo.22289201)
 
 ## Canonical publication assets
 
