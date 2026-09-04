@@ -24,22 +24,25 @@
 - Complete qubit theorem: the Article-I braid plus two backtracking loops identify all nine real dissipative parameters modulo Hamiltonian derivations; an exact `9 x 9` minor has determinant `3932160 = 2^18*3*5`.
 - The older six-parameter real-symmetric Kossakowski theorem remains valid only as a restricted bistochastic/unital subclass result.
 - Exact qutrit theorem: four declared Coxeter faces give a `72 x 64` rational measurement matrix of rank `64`, hence identify the complete qutrit dissipative generator modulo Hamiltonian derivations.
-- The qutrit four-face design is information-theoretically minimal among general matrix-valued face designs because `3*18<64`.
-- Exact modular certificate: reduction modulo prime `1000003` has rank `64`, proving full rational column rank.
-- Generic qutrit consequence: for the same four-face template, full rank holds on a nonempty open dense subset of `U(3)^4`.
+- Exact minimal Coxeter-face designs for `d=3,4,5`, each saturating the information-theoretic face-count lower bound.
+- Generic open-dense full-rank consequence for the certified `d=3,4,5` face templates.
+- All-d Weyl generator-defect theorem: the normalized Leibniz defects `B_L(e_1,g)` and `B_L(e_2,g)` for the two generators of `Z_d^2` determine every bounded unital *-preserving generator on `M_d(C)` modulo Hamiltonian derivations.
+- Closed-loop extraction theorem: each Weyl defect `B_L(h,g)` is the difference of a backtracking first-order coefficient and a multiplication-triangle first-order coefficient.
+- All-d explicit flat-loop tomography upper bound: at most `3d^2-1` matrix-valued closed-loop coefficients suffice for dissipative identification modulo Hamiltonian derivations.
+- Combined with the dimension lower bound `ceil((d^2-1)^2/(2d^2))`, generalized matrix-valued flat-loop tomography has optimal asymptotic order `Theta(d^2)` for every finite `d`.
 
 ## Immediate open obligations
 
-1. Integrate the complete qubit and qutrit rank theorems into the main LaTeX manuscript with stable theorem numbering and exact proof appendices.
-2. Determine whether, for every `d`, there exists a universal Coxeter-face template with `O(d^2)` loops attaining full rank `(d^2-1)^2`.
-3. Determine the sharp asymptotic minimum number of face/backtracking loop families needed for generic dissipative identification in `M_d`.
-4. Characterize the kernel of the first-order holonomy measurement operator for a fixed transport design when rank is deficient.
-5. Optimize transport tuples for the smallest singular value of the measurement map; identifiability and numerical conditioning must remain separate claims.
-6. Determine which anchored/open-path observables remove finite-channel ambiguities such as the depolarizing sign obstruction.
-7. Construct the smallest explicit example of loop-defect cancellation with nonzero individual multiplicativity defects.
-8. Determine sufficient conditions under which vanishing of all elementary Coxeter-face reduced holonomies forces multiplicativity on the generated transport algebra.
-9. Audit the loop-defect/context-reduction construction against operator-algebra, Lindbladian-learning, process-tomography, noiseless-subsystem, quantum-error-correction, and channel-holonomy literature.
-10. Decide whether backtracking-only designs have a general rank ceiling; current low-dimensional evidence is dimension-dependent and does not support a universal `d^2-1 backtracks suffice` theorem.
+1. Integrate the complete qubit/qutrit/all-d Weyl rank theorems into the main LaTeX manuscript with stable theorem numbering and exact proof appendices.
+2. Prove or refute the sharper all-d Coxeter conjecture: exactly `ceil((d^2-1)^2/(2d^2))` adjacent-transposition Coxeter faces suffice generically for every `d>=3`.
+3. Close the constant-factor gap between the generalized flat-loop upper bound `3d^2-1` and the universal matrix-valued information lower bound `~d^2/2`.
+4. Determine whether multiplication triangles can be systematically compiled into bounded-length adjacent-transposition contextual loops without losing the Weyl cocycle information.
+5. Characterize the kernel of the first-order holonomy measurement operator for fixed deficient designs.
+6. Optimize transport tuples for the smallest singular value of the measurement map; identifiability and numerical conditioning must remain separate claims.
+7. Determine which anchored/open-path observables remove finite-channel ambiguities such as the depolarizing sign obstruction.
+8. Construct the smallest explicit example of loop-defect cancellation with nonzero individual multiplicativity defects.
+9. Determine sufficient conditions under which vanishing of all elementary Coxeter-face reduced holonomies forces multiplicativity on the generated transport algebra.
+10. Audit the loop-defect/context-reduction construction against operator-algebra, Lindbladian-learning, process-tomography, noiseless-subsystem, quantum-error-correction, and channel-holonomy literature.
 
 ## Longer-range analytical obligations
 
@@ -57,8 +60,8 @@ The partial-context programme must be weakened or closed if:
 
 - proposed curvature quantities depend primarily on arbitrary representation choices rather than the declared reduction;
 - the exact semigroup defect calculus gives no information beyond standard Schwarz defects once applied to nontrivial Coxeter loops;
-- no stable full-rank measurement design exists beyond dimensions `d=2,3`;
-- higher-dimensional full-rank designs require factorially many contextual loops or become generically singular;
+- no stable full-rank Coxeter design exists beyond the certified dimensions `d=3,4,5`;
+- the sharp Coxeter conjecture fails generically in higher dimension;
 - identifiability disappears under small perturbations because the measurement matrix is generically ill-conditioned;
 - no invariant or operationally interpretable quantity survives changes of minimal Stinespring realization;
 - a literature audit finds the complete loop-defect/context-reduction construction already known in an equivalent form, leaving no substantive operator-order specialization.
@@ -74,6 +77,6 @@ Do not state without proof that:
 - reduced order holonomy is a decoherence monotone;
 - the Stinespring complement is a physical environment observable without specifying the dilation model;
 - the qubit/qutrit rank theorems are already experimental tomography protocols;
-- four faces suffice for all dimensions;
-- `d^2-1` backtracking loops universally suffice;
+- the exact Coxeter lower-bound count is proved for all dimensions;
+- the generalized Weyl multiplication loops are the same objects as Article-I adjacent-transposition Coxeter faces;
 - the construction defines physical gauge or spacetime curvature.
