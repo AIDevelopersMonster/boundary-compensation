@@ -145,6 +145,6 @@ Not proved:
 
 The most promising route to Conjecture 4.1 is an induction in `d` that embeds a full-rank `M_d` face design into `M_{d+1}` and adds only `O(d)` new braid faces to resolve the new Kossakowski directions. Since
 
-`N_{d+1}-N_d = 4d^3 + 6d^2 - 2d - 1`,
+`N_{d+1}-N_d = 4d^3 + 6d^2 - 1`,
 
 while each new `(d+1) x (d+1)` face contributes at most `2(d+1)^2` real coordinates, only `O(d)` additional faces are dimensionally required at each induction step. Summing over dimensions would give an `O(d^2)` construction.
