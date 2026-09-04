@@ -20,28 +20,33 @@
 - Strong finite-channel no-go: complete closed-loop holonomy data can fail to identify a UCP channel (depolarizing sign ambiguity).
 - Full bilinear `Gamma_L` determines a bounded generator on `M_d` modulo Hamiltonian derivations.
 - General finite-dimensional rank criterion: a first-order contextual-loop design is universally dissipatively identifiable iff its real measurement map has rank `(d^2-1)^2`.
-- If the rank is deficient, two distinct positive-definite Kossakowski matrices can be chosen in the same measurement fibre; thus rank deficiency is a physical, not merely algebraic, non-identifiability.
+- If the rank is deficient, two distinct positive-definite Kossakowski matrices can be chosen in the same measurement fibre; rank deficiency is therefore physical, not merely algebraic, non-identifiability.
 - Complete qubit theorem: the Article-I braid plus two backtracking loops identify all nine real dissipative parameters modulo Hamiltonian derivations; an exact `9 x 9` minor has determinant `3932160 = 2^18*3*5`.
-- The older six-parameter real-symmetric Kossakowski theorem remains valid only as a restricted bistochastic/unital subclass result.
-- Exact qutrit theorem: four declared Coxeter faces give a `72 x 64` rational measurement matrix of rank `64`, hence identify the complete qutrit dissipative generator modulo Hamiltonian derivations.
-- Exact minimal Coxeter-face designs for `d=3,4,5`, each saturating the information-theoretic face-count lower bound.
+- Exact qutrit theorem: four declared Coxeter faces give full rank `64` and are information-theoretically minimal.
+- Exact minimal Coxeter-face designs for `d=3,4,5`, each saturating the matrix-valued face-count lower bound.
 - Generic open-dense full-rank consequence for the certified `d=3,4,5` face templates.
-- All-d Weyl generator-defect theorem: the normalized Leibniz defects `B_L(e_1,g)` and `B_L(e_2,g)` for the two generators of `Z_d^2` determine every bounded unital *-preserving generator on `M_d(C)` modulo Hamiltonian derivations.
-- Closed-loop extraction theorem: each Weyl defect `B_L(h,g)` is the difference of a backtracking first-order coefficient and a multiplication-triangle first-order coefficient.
-- All-d explicit flat-loop tomography upper bound: at most `3d^2-1` matrix-valued closed-loop coefficients suffice for dissipative identification modulo Hamiltonian derivations.
-- Combined with the dimension lower bound `ceil((d^2-1)^2/(2d^2))`, generalized matrix-valued flat-loop tomography has optimal asymptotic order `Theta(d^2)` for every finite `d`.
+- All-d Weyl generator-defect theorem: two generator-direction defect families determine every bounded unital *-preserving generator on `M_d(C)` modulo Hamiltonian derivations.
+- All-d generalized flat-loop tomography upper bound: at most `3d^2-1` matrix-valued closed-loop coefficients suffice.
+- All-d engineered Coxeter-square lemma: arbitrary target edge transports `U,V in SU(d)` can be realized as the first two contextual transports of an Article-I commuting-transposition square face.
+- All-d backtracking-as-degenerate-braid lemma: every target `U in SU(d)` can be realized as the nontrivial edge transport of an adjacent-swap braid face with the remaining gate equal to the identity, using Gotô commutator surjectivity.
+- Anchored-square quotient-invariance theorem: vanishing backtracking and square defects for two dense anchors makes the generator class modulo derivations invariant under `PSU(d)`.
+- Representation-theoretic reduction theorem: the only `PSU(d)`-fixed quotient direction is the isotropic depolarizing direction; Weyl backtracking removes it.
+- All-d Coxeter tomography upper bound: at most `3d^2-1` adjacent-transposition braid/square face coefficients identify every bounded dissipative generator on `M_d(C)` modulo Hamiltonian derivations.
+- Combined with the dimension lower bound `ceil((d^2-1)^2/(2d^2))`, matrix-valued Coxeter tomography has optimal asymptotic order `Theta(d^2)` for every finite `d`.
 
 ## Immediate open obligations
 
-1. Integrate the complete qubit/qutrit/all-d Weyl rank theorems into the main LaTeX manuscript with stable theorem numbering and exact proof appendices.
-2. Prove or refute the sharper all-d Coxeter conjecture: exactly `ceil((d^2-1)^2/(2d^2))` adjacent-transposition Coxeter faces suffice generically for every `d>=3`.
-3. Close the constant-factor gap between the generalized flat-loop upper bound `3d^2-1` and the universal matrix-valued information lower bound `~d^2/2`.
-4. Determine whether multiplication triangles can be systematically compiled into bounded-length adjacent-transposition contextual loops without losing the Weyl cocycle information.
-5. Characterize the kernel of the first-order holonomy measurement operator for fixed deficient designs.
-6. Optimize transport tuples for the smallest singular value of the measurement map; identifiability and numerical conditioning must remain separate claims.
-7. Determine which anchored/open-path observables remove finite-channel ambiguities such as the depolarizing sign obstruction.
-8. Construct the smallest explicit example of loop-defect cancellation with nonzero individual multiplicativity defects.
-9. Determine sufficient conditions under which vanishing of all elementary Coxeter-face reduced holonomies forces multiplicativity on the generated transport algebra.
+1. Integrate the all-d Coxeter theorem into the main LaTeX manuscript with stable theorem numbering and explicit citations for Gotô commutator surjectivity and dense two-generation of semisimple Lie groups.
+2. Prove or refute the sharper all-d Coxeter conjecture:
+   `L_d^Cox = ceil((d^2-1)^2/(2d^2))`
+   for every `d>=3`.
+3. Close the constant-factor gap between the proved all-d Coxeter upper bound `3d^2-1` and the universal matrix-valued lower bound `~d^2/2`.
+4. Determine whether the exact lower bound can be achieved by square-only designs, braid-only designs, or necessarily mixed Coxeter designs in arbitrary dimension.
+5. Establish explicit conditioning bounds for the all-d anchored construction; identifiability and numerical stability remain distinct claims.
+6. Replace existence-only dense anchors by an explicit deterministic family `S_1(d),S_2(d)` with proved dense generation or an equally strong finite spanning property.
+7. Characterize the kernel of first-order holonomy measurement maps for deficient designs.
+8. Determine which anchored/open-path observables remove finite-channel ambiguities such as the depolarizing sign obstruction.
+9. Construct the smallest explicit example of finite-loop cancellation with nonzero individual multiplicativity defects.
 10. Audit the loop-defect/context-reduction construction against operator-algebra, Lindbladian-learning, process-tomography, noiseless-subsystem, quantum-error-correction, and channel-holonomy literature.
 
 ## Longer-range analytical obligations
@@ -54,17 +59,16 @@
 6. No theorem states that every dissipative semigroup produces nonzero order curvature.
 7. Non-Markovian/process-tensor generalization is deferred until the Markovian bounded theory is closed.
 
-## Falsification criteria
+## Falsification / weakening criteria
 
-The partial-context programme must be weakened or closed if:
+The stronger sharp-count programme must be weakened if:
 
-- proposed curvature quantities depend primarily on arbitrary representation choices rather than the declared reduction;
-- the exact semigroup defect calculus gives no information beyond standard Schwarz defects once applied to nontrivial Coxeter loops;
-- no stable full-rank Coxeter design exists beyond the certified dimensions `d=3,4,5`;
-- the sharp Coxeter conjecture fails generically in higher dimension;
-- identifiability disappears under small perturbations because the measurement matrix is generically ill-conditioned;
-- no invariant or operationally interpretable quantity survives changes of minimal Stinespring realization;
-- a literature audit finds the complete loop-defect/context-reduction construction already known in an equivalent form, leaving no substantive operator-order specialization.
+- the lower-bound-saturating Coxeter conjecture fails in some dimension;
+- all-d full-rank designs exist but require increasingly poor conditioning;
+- the anchored construction cannot be made deterministic without substantial extra structure;
+- literature audit finds the same Coxeter-holonomy inverse problem and its all-d solution already established in equivalent form.
+
+The bounded all-d `Theta(d^2)` Coxeter theorem itself is no longer contingent on the sharp-count conjecture.
 
 ## Claim firewall
 
@@ -77,6 +81,6 @@ Do not state without proof that:
 - reduced order holonomy is a decoherence monotone;
 - the Stinespring complement is a physical environment observable without specifying the dilation model;
 - the qubit/qutrit rank theorems are already experimental tomography protocols;
-- the exact Coxeter lower-bound count is proved for all dimensions;
-- the generalized Weyl multiplication loops are the same objects as Article-I adjacent-transposition Coxeter faces;
+- the exact information-theoretic Coxeter lower-bound count is proved for all dimensions;
+- the upper bound `3d^2-1` is sharp;
 - the construction defines physical gauge or spacetime curvature.
