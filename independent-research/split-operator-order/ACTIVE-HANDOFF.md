@@ -57,8 +57,10 @@ Important proved structure:
 7. Conditional odd-to-even transfer: `ER_d -> ER_(d+1)` for odd `d>=3`, using exactly `d+1` new faces, and the resulting even design is extension-ready.
 8. `d=2` is an unavoidable exception: no two-face minimal design is extension-ready under scalar-one embedding. Therefore the all-dimensional ER programme begins at `d=3`.
 9. The centered tangent compressed dependency determinant is proved nonzero for a suitable finite complete compression in every odd dimension `n>=3`.
-10. The old one-parameter native-tilt route `H -> H+tS` is now proved impossible: the cycle-holonomy Schur multiplier remains an exact kernel vector for every `t`, so all native tilt coefficients along that path vanish identically.
+10. The old one-parameter native-tilt route `H -> H+tS` is proved impossible: the cycle-holonomy Schur multiplier remains an exact kernel vector for every `t`, so all native tilt coefficients along that path vanish identically.
 11. A transverse perturbation of one forbidden reverse-cycle binder entry, `Y_* -> Y_*+sE_(r-1,r)`, detects the holonomy coordinate at order `ts`; at fixed `t!=0` this is first order in `s`.
+12. The finite native-projection coefficient is now proved nonzero for a suitable reverse-cycle index in every odd dimension. Therefore extension-ready minimal designs exist for every odd `n>=3`.
+13. Combining all-odd ER with the proved odd-to-even transfer yields extension-ready minimal designs in every dimension `d>=3` and the sharp research theorem `L_d^Cox=floor(d^2/2)`.
 
 Relevant notes under `article-I/research/`:
 
@@ -70,40 +72,44 @@ Relevant notes under `article-I/research/`:
 - `CENTERED-TANGENT-CYCLE-FACTOR-v0.1.md`
 - `ODD-ER-TRANSVERSALITY-CLOSURE-v0.1.md`
 - `NATIVE-TILT-ORDER-AUDIT-v0.1.md`
-- `ODD-D-EXTENSION-READY-v0.1.md` (audited; old all-odd claim withdrawn)
+- `NATIVE-TILT-CLOSURE-ALL-ODD-ER-v0.1.md`
+- `ODD-D-EXTENSION-READY-v0.1.md` (audited; old all-odd claim withdrawn and superseded by the new centered proof chain)
 
 ## Exact current bottleneck
 
-The compressed row-dependency determinant barrier is CLOSED for every odd `n>=3`.
+The mathematical existence gate for the sharp minimal-design count is CLOSED at research-note level.
 
-The old native tilt scalar `tau_n` along the same `H+tS` path is not merely unproved: it is identically zero to all orders.
+The former final coefficient
 
-The true remaining obstruction is now the finite-compression native projection coefficient
+`kappa_(n,r)(t)=R_t A_(t,r)h_q`
 
-`kappa_(n,r)(t)=R_t A_(t,r) h_q`,
+is proved nonzero for a suitable good compression and reverse-cycle index in every odd `n>=3`.
 
-where:
+The key mechanism is:
 
-- `M_t` is a full-row-rank embedded regular measurement map at fixed `t!=0`;
-- `E(F)=F(I)=R_t M_t(F)` is the uniquely reconstructed native-normalization functional on the rowspace;
-- `h_q` is the surviving cycle-holonomy kernel line;
-- `A_(t,r)` is the derivative produced by the reverse-cycle perturbation `Y_* -> Y_*+sE_(r-1,r)`.
+- each reverse-cycle diagonal spike `d_r` lies in `im M_0` because all finite `H`-anchor row dependencies live on off-diagonal output blocks;
+- a diagonal-block dual-basis coefficient reconstructs a nonzero `F(I)` value for a suitable spike;
+- the singular Schur-complement controlled by invertible `D_n` shows `R_t d_r -> F_r^(0)(I)` as `t->0`;
+- hence `R_t d_r !=0` for sufficiently small nonzero `t`, and the transverse first-order native tilt is nonzero.
 
-The intrinsic Schur/binder calculation is already transverse: `A_(t,r)h_q` contains explicit diagonal spikes of size `-tq`. What remains is to prove that at least one such spike reconstructs to a nonzero `F(I)` value under `R_t`.
+Consequences:
+
+- all odd dimensions admit extension-ready minimal designs;
+- odd-to-even transfer supplies all even dimensions;
+- the lower bound and construction match: `L_d^Cox=floor(d^2/2)` for every `d>=3`.
 
 ## Next permitted attack
 
-Work only on the finite native-projection coefficient `kappa_(n,r)(t)`.
+Do **not** reopen the existence proof under a new name unless an audit finds a concrete gap.
 
-Preferred routes:
+The next phase is publication consolidation/audit of the sharp theorem:
 
-- prove that `R_t` cannot annihilate all reverse-cycle diagonal spike vectors simultaneously, using the exact dimension/sector structure of the native hyperplane;
-- identify a dual row functional whose pairing with one spike is explicitly nonzero;
-- or produce one exact algebraic witness, after which nonvanishing is Zariski-open and can be intersected with the already-proved complete-compression/cycle-pivot locus.
-
-Do not search for second- or higher-order tilt along the old one-parameter path; that route is now proved dead.
-
-Once `kappa_(n,r)(t)!=0` is proved for every odd `n>=3`, all-odd extension-ready existence follows. Combined with the proved odd-to-even transfer and even-to-odd global binding lemma, this closes the sharp all-dimensional equality. Do not claim that equality before `kappa` is closed.
+- audit the complete dependency chain from centered tangent formulas through finite exponential lifting;
+- make the transition from tangent faces to genuine Coxeter square faces explicit and publication-clean;
+- reconcile the older `2d^2` upper-bound text and `PROOF-OBLIGATIONS.md` with the newly closed sharp theorem;
+- state the `d=2` extension-ready exception without confusing it with the `d>=3` sharp count;
+- audit theorem numbering, hypotheses, complex-vs-real rank conventions, and all generic/Zariski-open intersection arguments;
+- only after that promote the result into the Article-II manuscript/publication package.
 
 ## Checkpoint discipline
 
@@ -141,3 +147,15 @@ Repository/branch recovery completed. Existing branch and all recent theorem not
 **Numerical sanity only:** random finite compressions in `n=3,5` showed `||h(s)(I)||` proportional to `|s|` while `s=0` remained at numerical zero.
 
 **Next single obligation:** prove `kappa_(n,r)(t)=R_t A_(t,r)h_q !=0` for at least one reverse-cycle index `r` on a complete-compression/cycle-pivot point, uniformly in every odd `n>=3`.
+
+### 2026-09-05 checkpoint 3
+
+**Result:** native projection CLOSED; all-odd ER CLOSED; sharp all-`d` count obtained at research-note level.
+
+**Exact statement:** on a good finite complete `H`-anchor compression, reverse-cycle diagonal spikes lie in `im M_0`. For a suitable diagonal block, a nonzero dual identity coefficient gives an old-image preimage `F_r^(0)` with `F_r^(0)(I)!=0`. The singular-lift lemma, whose Schur complement is the already-invertible compressed dependency operator `D_n`, proves `R_t d_r -> F_r^(0)(I)` as `t->0`. Therefore `R_t d_r!=0` for small nonzero `t`, so `kappa_(n,r)(t)=-tqR_t d_r!=0`. The transverse perturbation moves the unique non-derivation kernel line out of `F(I)=0`, giving native full rank and extension-readiness in every odd dimension.
+
+**Proof file:** `article-I/research/NATIVE-TILT-CLOSURE-ALL-ODD-ER-v0.1.md`.
+
+**Consequence:** together with the proved odd-to-even transfer and the lower bound, `L_d^Cox=floor(d^2/2)` for all `d>=3` at research-note level.
+
+**Next single obligation:** publication proof audit and manuscript consolidation; do not add new existence machinery unless the audit identifies a specific defect.
