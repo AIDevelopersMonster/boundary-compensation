@@ -1,107 +1,169 @@
 # Article II — Open Systems / Context Reduction
 
-**Working title:** *Context Reduction in Open Quantum Systems: Multiplicativity Defects, Lindblad Order Curvature, and Partial Operator Context*  
-**Current milestone:** `v0.1.0 / ANALYTICAL_CORE_ACTIVE`  
+**Working title:** *Context Reduction in Open Quantum Systems: Multiplicativity Defects, Lindblad Order Holonomy, and Sharp Coxeter Tomography*  
+**Current milestone:** `v0.2.0 / REVIEWED_CLEAN / RENDER_AUDIT_PENDING`  
 **Author:** Malachevsky, A.A.  
 **ORCID:** 0009-0008-6009-3196
 
-This paper is the successor to Article I. It does **not** assume that nonunitarity by itself creates curvature. The central object is the failure of a physically admissible UCP reduction to preserve the multiplicative context required by the exactly flat contextual transport of Article I.
+Article II develops the open-system continuation of the split-operator-order programme. The central mechanism is not nonunitarity by itself, but loss of the multiplicative context required by the exactly flat contextual transport of Article I.
 
-## Core object
+## Publication-consolidation manuscript
 
-For a UCP map `Phi: A -> B`,
+Current manuscript:
 
-`Delta_Phi(X,Y) = Phi(XY) - Phi(X)Phi(Y)`.
+`manuscript-v0.2.0-en.md`
 
-For a contextual loop of unitary transports
+It consolidates the bounded analytical core, the finite-dimensional inverse problem, and the audited sharp Coxeter theorem.
 
-`T_m ... T_1 = I`,
+## Exact open-system core
 
-the reduced loop product is
+For a UCP map `Phi:A->B`,
 
-`H_Phi = Phi(T_m) ... Phi(T_1)`.
+`Delta_Phi(X,Y)=Phi(XY)-Phi(X)Phi(Y)`.
 
-## v0.1.0 proved bounded results
+For a flat contextual loop
 
-The developed manuscript [`manuscript-v0.1.0-en.md`](manuscript-v0.1.0-en.md) now contains:
+`T_m...T_1=I`,
 
-1. **Exact loop-defect decomposition**
+with reduced product
 
-   `H_Phi-I = -sum transported Delta_Phi(T_k,P_{k-1})`.
+`H_Phi=Phi(T_m)...Phi(T_1)`, 
 
-2. **UCP norm certificate** as a corollary of the exact identity.
+the exact loop decomposition is
 
-3. **Multiplicative-domain flatness criterion**.
+`H_Phi-I`
 
-4. **Exact nested-reduction composition law**
+`= -sum_(k=2)^m Phi(T_m)...Phi(T_(k+1)) Delta_Phi(T_k,P_(k-1))`.
 
-   `Delta_{Psi o Phi}=Psi(Delta_Phi)+Delta_Psi(Phi(.),Phi(.))`.
+The developed core also contains:
 
-5. **Layer-resolved context-loss identity** for finite chains of reductions.
+- the UCP norm certificate and multiplicative-domain flatness criterion;
+- exact composition of multiplicativity defects under nested reductions;
+- layer-resolved context-loss decomposition;
+- two-sided backtracking/Schwarz defects;
+- Stinespring leakage formula;
+- exact semigroup evolution and Duhamel representation;
+- bounded GKSL Leibniz defect
 
-6. **Backtracking/Schwarz-defect theorem** and a two-sided unitary test for membership in `MD(Phi)`.
+  `Gamma_L(X,Y)=sum_alpha [V_alpha^*,X][Y,V_alpha]`;
 
-7. **Stinespring squared-leakage formula** for backtracking defects.
+- exact integral representation of reduced Lindblad loop holonomy;
+- explicit dephasing, depolarizing, and amplitude-damping braid-loop formulas.
 
-8. **Exact semigroup evolution equation** for `Delta_t`.
+## Inverse problem
 
-9. **Exact Duhamel representation** of the semigroup multiplicativity defect.
+Closed-loop finite-time holonomy does not identify an arbitrary UCP channel in general. At first order, however, the full bilinear `Gamma_L` determines a bounded finite-dimensional unital *-preserving generator modulo Hamiltonian derivations.
 
-10. **GKSL Leibniz-defect identity** and positive Schwarz-defect production formula.
+For `M_d(C)` the quotient dimension is
 
-11. **Exact integral formula for reduced Lindblad loop holonomy**; the old first-order formula is now only its linearization.
+`N_d=(d^2-1)^2`.
 
-12. **Exact six-edge dephasing calculation** on the contextual braid loop inherited from Article I.
+A matrix-valued Coxeter face supplies at most `2d^2` real coordinates, giving
 
-## Exact dephasing braid-loop result
+`L_d^Cox>=floor(d^2/2)`.
 
-For the Article-I spin triple and the closed path
+## Sharp Coxeter theorem
 
-`123 -> 213 -> 231 -> 321 -> 312 -> 132 -> 123`,
+After adversarial proof audit and two explicit repairs, the lower bound is attained.
 
-under qubit dephasing with coherence factor `eta`,
+Within the declared bounded finite-dimensional first-order matrix-valued Coxeter-face measurement model,
 
-`H_eta = [[eta^4, eta^3(1-eta^2)/2],[-eta^3(1-eta^2)/2,eta^4]]`,
+`L_d^Cox=floor(d^2/2)`
 
-so
+for every `d>=3`.
 
-`||H_eta-I|| = sqrt((1-eta^4)^2 + eta^6(1-eta^2)^2/4)`.
+The proof chain uses:
 
-For `eta=e^{-gamma t}`,
+1. the structural scalar-one restriction quotient and extension-ready criterion;
+2. centered odd-dimensional tangent geometry;
+3. finite complete `H`-anchor compression;
+4. cycle factorization of the compressed dependency determinant;
+5. binder-compatible restricted transversality;
+6. the reverse-cycle transverse native-tilt detector and singular-lift reconstruction;
+7. all-odd extension-ready existence;
+8. the repaired odd-to-even transfer constructed directly in `SL_n(C)`;
+9. `SU(n)` Zariski density and engineered contextual-square realization.
 
-`||H_t-I|| = sqrt(17) gamma t + O(t^2)`.
+The `d=2` obstruction concerns only minimal **extension-readiness** under scalar-one embedding and does not assert failure of native two-face tomography.
 
-Reproducibility files are in [`examples/`](examples/).
+## Audit repairs
 
-## Literature / novelty discipline
+The publication audit found and repaired two genuine proof issues:
 
-Classical infrastructure is explicitly separated from the proposed contribution:
+- ambient Zariski openness did not by itself imply intersection with the reverse-cycle-zero binder subspace;
+- post hoc scalar determinant normalization is not rank-invariant after scalar-one embedding because `diag(cA,1)` is not a scalar multiple of `diag(A,1)`.
 
-- Stinespring dilation is classical;
-- Choi Schwarz inequalities and multiplicative domains are classical;
-- GKSL/Lindblad generator theory is classical;
-- noncommutative carré du champ is classical;
-- quantum-channel multiplicative-domain theory is established.
+Repair notes:
 
-See [`LITERATURE-NOVELTY-AUDIT-v0.1.md`](LITERATURE-NOVELTY-AUDIT-v0.1.md).
+- `../article-I/research/BINDER-COMPATIBLE-TRANSVERSALITY-REPAIR-v0.1.md`;
+- `../article-I/research/ODD-TO-EVEN-TRANSFER-AUDIT-REPAIR-v0.1.md`.
 
-The candidate new synthesis is the coupling of these structures to an exactly flat operator-order connection, including exact loop-defect, nested-reduction, semigroup-integral, and Coxeter-loop formulas. Specialist priority audit remains mandatory before publication.
+Publication audit:
 
-## Immediate next attacks
+- `../article-I/research/SHARP-COXETER-PUBLICATION-AUDIT-2026-09-05.md`.
 
-- full amplitude-damping calculation on the six-edge contextual braid loop;
-- full depolarizing calculation on the same loop;
-- multiplicative-domain classification on the generated transport algebra;
-- cancellation examples and converse-flatness questions;
-- broader operator-algebra / QEC / channel-holonomy novelty search.
+## Literature / novelty boundary
+
+Current targeted audit:
+
+`LITERATURE-NOVELTY-AUDIT-v0.2.md`.
+
+Classical infrastructure is separated explicitly from the programme contribution: Stinespring dilation, Choi Schwarz/multiplicative-domain theory, GKSL/Lindblad generators, noncommutative carre-du-champ methods, and general Lindbladian/Liouvillian tomography are not novelty claims.
+
+The reduced product defect used here is also distinguished from the Jamiołkowski/Uhlmann-type *holonomy for quantum channels* literature.
+
+Publication language remains deliberately narrow: `we derive`, `we prove in the present operator-order setting`, and `the contribution is the coupling of these structures`.
+
+## Reproducibility
+
+The `examples/` directory contains deterministic builders/checks for:
+
+- braid-loop channel formulas;
+- qubit first-order identifiability;
+- exact qutrit rank certification;
+- exact `d=4` finite-field rank certification;
+- exact `d=5` finite-field rank certification.
+
+The `d=5` builder reconstructs the full `600 x 576` matrix modulo `1000033` and certifies rank `576`. The all-dimensional theorem itself is algebraic and does not depend on extrapolating low-dimensional numerical evidence.
+
+## Historical notes
+
+The earlier constructive bounds
+
+`L_d^Cox<=3d^2-1`
+
+and
+
+`L_d^Cox<=2d^2`
+
+remain valid constructions but are no longer the best face-count theorem. Earlier notes describing the sharp count as a conjecture are retained as historical research checkpoints and are superseded by the audited proof chain.
+
+See `LEGACY-STATUS-v0.2.md`.
 
 ## Claim firewall
 
-Do not claim that:
+Do not infer from the current results:
 
-- dissipation automatically produces curvature;
-- `||H-I||` is universally monotone under nested UCP reductions;
-- reduced order holonomy is already a decoherence or entropy-production monotone;
-- this is physical gauge or spacetime curvature.
+- finite-time channel identifiability from closed loops;
+- conditioning or statistical efficiency;
+- robustness to SPAM/noise;
+- universal monotonicity under further CP reductions;
+- equivalence with entropy production, recoverability, capacity loss, or a standard decoherence monotone;
+- infinite-dimensional unbounded-generator results;
+- physical spacetime or gauge curvature.
 
-The resolvent-boundary `R_H(E±i0)` project remains deferred to a later article.
+## Current publication gate
+
+Mathematical existence blockers: none currently identified.
+
+Targeted related-work/claim-boundary audit: complete.
+
+Author and ORCID: verified.
+
+Repository licence: MIT at repository level.
+
+Article-specific Zenodo DOI: not yet assigned.
+
+Final LaTeX/source compilation and PDF visual inspection: pending.
+
+**Current release status:** `REVIEWED_CLEAN`.
