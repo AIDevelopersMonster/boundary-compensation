@@ -7,7 +7,7 @@
 
 ## Rule for future chats
 
-Read this file first, then the cited control notes. Do not reconstruct the programme from chat memory. After every nontrivial theorem, obstruction, audit repair, manuscript promotion, or publication-status change, update this file before continuing.
+Read this file first, then the cited control notes. Do not reconstruct the programme from chat memory. After every nontrivial theorem, obstruction, audit repair, manuscript promotion, source-build change, or publication-status change, update this file before continuing.
 
 ## Article I
 
@@ -19,9 +19,23 @@ Directory:
 
 `article-II-open-systems/`
 
-Current publication-consolidation manuscript:
+Publication-consolidation manuscript:
 
 `article-II-open-systems/manuscript-v0.2.0-en.md`
+
+Current LaTeX publication package:
+
+`article-II-open-systems/publication-v0.2.1/`
+
+with:
+
+- `main.tex`;
+- `sharp-proof-appendix.tex`;
+- `README.md`.
+
+Build workflow:
+
+`.github/workflows/article-ii-publication.yml`.
 
 Working title:
 
@@ -29,7 +43,9 @@ Working title:
 
 Current release level:
 
-`REVIEWED_CLEAN / RENDER_AUDIT_PENDING`.
+`PUBLICATION_READY_PENDING_RENDER_AUDIT`.
+
+This means the mathematical, claim-boundary, manuscript-consolidation, and LaTeX-source gates are currently closed; compiled-PDF and visual-render inspection are still mandatory before `PUBLICATION_READY`.
 
 Primary control files:
 
@@ -87,6 +103,8 @@ The all-dimensional theorem is algebraic; it does not extrapolate from low-dimen
 10. Odd-to-even transfer rebuilt directly in the exact centered scalar-one convention and directly in `SL_n(C)`.
 11. Return to genuine unitary Coxeter faces by `SU(n)` Zariski density and engineered contextual-square realization.
 
+The v0.2.1 LaTeX package now embeds a publication-compressed version of this chain in `sharp-proof-appendix.tex`; the deeper research notes remain the archival derivation layer.
+
 ## Two critical audit repairs
 
 ### Binder-subspace repair
@@ -108,6 +126,8 @@ is not a scalar multiple of
 The old normalization step is withdrawn. The transfer is rebuilt directly in `SL_n(C)` in:
 
 `article-I/research/ODD-TO-EVEN-TRANSFER-AUDIT-REPAIR-v0.1.md`.
+
+The v0.2.1 publication source uses only the repaired determinant-one formulation.
 
 ## `d=2` boundary
 
@@ -131,7 +151,7 @@ Safe wording: `we derive`, `we prove in the present operator-order setting`, and
 
 The repository contains deterministic checks for the braid-loop examples and exact low-dimensional rank certificates.
 
-The `d=5` builder reconstructs a `600 x 576` finite-field matrix modulo `1000033` and certifies rank `576`. It has been independently re-executed during publication consolidation with output:
+The `d=5` builder reconstructs a `600 x 576` finite-field matrix modulo `1000033` and certifies rank `576`. It was independently re-executed during publication consolidation with output:
 
 `prime=1000033 shape=600x576 rank=576`
 
@@ -159,44 +179,63 @@ Repository licence: MIT at repository level.
 
 Article-specific Zenodo DOI: not yet assigned; do not invent one.
 
-Final LaTeX/source compilation: pending.
+Publication LaTeX package: created at `publication-v0.2.1/`.
 
-PDF visual inspection: pending.
-
-A small manuscript preflight item remains: in Theorem 16.1 the even-dimensional face-count line is typographically written as
-
-`(d-1)^2-1 over 2 + d`.
-
-The intended and algebraically correct expression is
+The former Theorem-16 typography defect is corrected in the LaTeX source as
 
 `((d-1)^2-1)/2 + d = d^2/2`.
 
-Correct this in the final source; it does not change the theorem.
+GitHub Actions build workflow: added.
+
+Compiled PDF artifact: not yet inspected in this control session.
+
+PDF visual inspection: pending.
+
+Therefore the release status is exactly:
+
+`PUBLICATION_READY_PENDING_RENDER_AUDIT`.
 
 ## Next permitted attack
 
 Do not reopen the existence proof unless a concrete new mathematical defect is found.
 
-Next phase:
+Next and only publication gate:
 
-1. prepare publication LaTeX/source from `manuscript-v0.2.0-en.md`, applying the small Theorem-16 typography correction;
-2. perform equation/theorem/cross-reference and bibliography formatting audit;
-3. compile PDF and visually inspect it;
-4. only after render audit promote to `PUBLICATION_READY_PENDING_RENDER_AUDIT` / `PUBLICATION_READY` as appropriate;
-5. prepare article-specific Zenodo metadata only when the final version and DOI workflow are ready.
+1. obtain a successful `article-ii-publication` workflow build (or equivalent deterministic LaTeX build);
+2. inspect `main.log` for errors/warnings that affect output;
+3. render every page of `main.pdf` and inspect for clipping, overfull equations, broken glyphs, orphan headings, reference failures, and bibliography defects;
+4. repair any C5 defects in the source and rebuild;
+5. only after a clean visual inspection promote to `PUBLICATION_READY`;
+6. then prepare the article-specific Zenodo metadata/deposit package and assign the DOI through the actual deposit workflow.
 
-## Checkpoint 6 — 2026-09-06
+## Checkpoints
 
-**Result:** Article-II publication consolidation completed at manuscript level.
+### Checkpoint 6 — manuscript consolidation
 
-**New manuscript:** `article-II-open-systems/manuscript-v0.2.0-en.md`.
+**Result:** Article-II publication consolidation completed at Markdown manuscript level.
+
+**Manuscript:** `article-II-open-systems/manuscript-v0.2.0-en.md`.
 
 **Literature audit:** `article-II-open-systems/LITERATURE-NOVELTY-AUDIT-v0.2.md`.
 
 **Legacy-control map:** `article-II-open-systems/LEGACY-STATUS-v0.2.md`.
 
-**README:** promoted to v0.2 publication state.
-
 **Reproducibility:** exact `d=5` finite-field certificate re-run successfully.
 
-**Current release status:** `REVIEWED_CLEAN`; render/source audit remains.
+### Checkpoint 7 — publication source package
+
+**Result:** publication-quality LaTeX source package created.
+
+**Master:** `article-II-open-systems/publication-v0.2.1/main.tex`.
+
+**Sharp-proof appendix:** `article-II-open-systems/publication-v0.2.1/sharp-proof-appendix.tex`.
+
+**Build workflow:** `.github/workflows/article-ii-publication.yml`.
+
+**Formal repair incorporated:** the even-dimensional count is now typeset as
+
+`((d-1)^2-1)/2 + d = d^2/2`.
+
+**Current release status:** `PUBLICATION_READY_PENDING_RENDER_AUDIT`.
+
+**Next single obligation:** compile and visually inspect the v0.2.1 PDF; no further theorem work unless render/source audit exposes a substantive defect.
