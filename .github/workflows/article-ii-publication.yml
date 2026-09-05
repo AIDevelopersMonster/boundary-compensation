@@ -21,17 +21,21 @@ jobs:
       - name: Build PDF
         working-directory: independent-research/split-operator-order/article-II-open-systems/publication-v0.2.1
         run: |
-          latexmk -pdf -interaction=nonstopmode -halt-on-error main.tex
+          latexmk -pdf -interaction=nonstopmode -halt-on-error article.tex
+      - name: LaTeX log gate
+        working-directory: independent-research/split-operator-order/article-II-open-systems/publication-v0.2.1
+        run: |
+          test -s article.pdf
+          ! grep -E 'LaTeX Warning: (Reference|Citation).*undefined|There were undefined references|There were undefined citations|Undefined control sequence|Fatal error' article.log
       - name: Basic PDF preflight
         working-directory: independent-research/split-operator-order/article-II-open-systems/publication-v0.2.1
         run: |
-          test -s main.pdf
-          pdfinfo main.pdf | tee pdfinfo.txt
+          pdfinfo article.pdf | tee pdfinfo.txt
       - name: Upload publication artifact
         uses: actions/upload-artifact@v4
         with:
           name: article-II-v0.2.1-pdf
           path: |
-            independent-research/split-operator-order/article-II-open-systems/publication-v0.2.1/main.pdf
-            independent-research/split-operator-order/article-II-open-systems/publication-v0.2.1/main.log
+            independent-research/split-operator-order/article-II-open-systems/publication-v0.2.1/article.pdf
+            independent-research/split-operator-order/article-II-open-systems/publication-v0.2.1/article.log
             independent-research/split-operator-order/article-II-open-systems/publication-v0.2.1/pdfinfo.txt
