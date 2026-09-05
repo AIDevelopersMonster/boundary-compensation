@@ -56,6 +56,7 @@ Important proved structure:
 6. Global binding lemma: if an **even** `d` design is extension-ready, exactly `d` new global square faces give a sharp minimal full-rank design in `d+1`.
 7. Conditional odd-to-even transfer: `ER_d -> ER_(d+1)` for odd `d>=3`, using exactly `d+1` new faces, and the resulting even design is extension-ready.
 8. `d=2` is an unavoidable exception: no two-face minimal design is extension-ready under scalar-one embedding. Therefore the all-dimensional ER programme begins at `d=3`.
+9. The centered tangent compressed dependency determinant is now proved nonzero for a suitable finite complete compression in every odd dimension `n>=3`.
 
 Relevant notes under `article-I/research/`:
 
@@ -64,28 +65,35 @@ Relevant notes under `article-I/research/`:
 - `D2-EXTENSION-READY-OBSTRUCTION-v0.1.md`
 - `CENTERED-TANGENT-ODD-ER-v0.1.md`
 - `CENTERED-TANGENT-COMPRESSION-AUDIT-v0.1.md`
+- `CENTERED-TANGENT-CYCLE-FACTOR-v0.1.md`
+- `ODD-ER-TRANSVERSALITY-CLOSURE-v0.1.md`
 - `ODD-D-EXTENSION-READY-v0.1.md` (audited; old all-odd claim withdrawn)
 
 ## Exact current bottleneck
 
-The only missing ingredient for the sharp all-`d` theorem is a rigorous source of extension-ready odd stages, beginning with `d=3` and preferably all odd `d` directly.
+The compressed row-dependency determinant barrier is CLOSED for every odd `n>=3`.
 
-The centered tangent route has reduced the all-odd regular-sector problem to two nonvanishing statements:
+The centered tangent route now has exactly one remaining obstruction:
 
-1. compressed row-dependency determinant `det D_n != 0`, where `D_n` has size `n(n-2)`;
-2. native tilt scalar `tau_n != 0` (or the first nonzero higher-order coefficient) for the unique extra kernel line after embedded regular rank is lifted.
+`native tilt scalar tau_n != 0`
 
-Everything before these two determinants in the centered tangent construction is already theorem-level.
+(or the first nonzero higher-order centered coefficient) for the unique non-derivation kernel line left after embedded regular rank is lifted.
+
+At the tangent base the extra line lies in the native hyperplane
+
+`N={F:F(I)=0}`.
+
+The next task is to prove that the finite centered perturbation moves this line transversely out of `N` for some minimal odd-dimensional design.
 
 ## Next permitted attack
 
-Work on the centered tangent compression barrier, preferably by:
+Work only on the native tilt barrier. Preferred routes:
 
-- identifying `D_n` with an explicit incidence / cycle operator; or
-- replacing the determinant computation by a clean transversality/basis-exchange lemma that proves it cannot vanish identically; then
-- compute/prove the native tilt.
+- derive the extra kernel line explicitly in cycle/path coordinates and compute its first variation under the same `H -> H+tS` perturbation;
+- or prove by algebraic transversality that the native hyperplane condition is not identically preserved on the already-open embedded-full-rank locus;
+- if the linear tilt vanishes structurally, identify and prove the first nonzero higher-order coefficient.
 
-A successful odd `ER_3` base plus a theorem producing odd ER stages, or an all-odd ER theorem, closes the parity induction. Do not claim the sharp all-`d` equality before this gate is closed.
+Once native tilt is closed for all odd `n>=3`, all-odd extension-ready existence follows. Combined with the proved odd-to-even transfer and even-to-odd global binding lemma, this closes the sharp all-dimensional equality. Do not claim that equality before native tilt is proved.
 
 ## Checkpoint discipline
 
@@ -99,3 +107,15 @@ For each research step append a short entry below:
 ### 2026-09-05 checkpoint 0
 
 Repository/branch recovery completed. Existing branch and all recent theorem notes were found intact. No reconstruction from the two blocked chats is required; their committed mathematical output survives on GitHub. Current work resumes from the two centered-tangent final determinants above.
+
+### 2026-09-05 checkpoint 1
+
+**Result:** `det D_n` barrier CLOSED for all odd `n>=3`.
+
+**Exact statement:** the cycle-factor reduction plus an explicit symmetric skeleton and finite Zariski-open transversality argument prove existence of a single complete finite `H`-anchor compression with invertible odd-cycle pivot and all non-cycle leading coefficients `theta_e` nonzero. Therefore the compressed dependency operator `D_n` is invertible.
+
+**Proof file:** `article-I/research/ODD-ER-TRANSVERSALITY-CLOSURE-v0.1.md`.
+
+**Supporting structural note:** `article-I/research/CENTERED-TANGENT-CYCLE-FACTOR-v0.1.md`.
+
+**Next single obligation:** prove native tilt `tau_n !=0` (or the first nonzero higher-order coefficient) for the unique extra non-derivation kernel line.
