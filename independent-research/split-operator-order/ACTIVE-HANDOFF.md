@@ -7,160 +7,154 @@
 
 ## Rule for future chats
 
-Read this file first, then the cited active notes. Do not reconstruct the programme from chat memory. After every nontrivial theorem, obstruction, counterexample, or change of target, update this handoff in the same branch before continuing.
+Read this file first, then the cited active notes. Do not reconstruct the programme from chat memory. After every nontrivial theorem, obstruction, counterexample, audit repair, or change of target, update this handoff before continuing.
 
 ## Article I
 
-Publication core is frozen. The post-publication research line now studies sharp first-order Coxeter tomography / extension-ready minimal designs. Do not rewrite the published Article-I core to absorb these later results.
+Publication core is frozen. The post-publication research line studies sharp first-order Coxeter tomography / extension-ready minimal designs. Do not rewrite the published Article-I core to absorb these later results.
 
 ## Article II — open systems / context reduction
 
 Directory: `article-II-open-systems/`.
 
-Bounded analytical core already proved:
+The bounded analytical core is established: exact reduced-loop decomposition by multiplicativity defects; multiplicative-domain flatness; nested reduction law; Stinespring leakage; exact semigroup/Duhamel formulas; GKSL Leibniz defect; exact Lindblad loop-holonomy integral; explicit channel examples; finite-channel loop-only no-go; first-order generator identifiability modulo derivations; qubit and exact `d=3,4,5` certificates; generalized and Coxeter all-d `O(d^2)` constructions.
 
-- exact reduced-loop decomposition by multiplicativity defects;
-- multiplicative-domain flatness criterion;
-- nested-reduction composition law;
-- Stinespring leakage formula;
-- exact semigroup/Duhamel defect formula;
-- GKSL Leibniz defect and exact Lindblad loop-holonomy integral;
-- exact dephasing, depolarizing and amplitude-damping braid-loop formulas;
-- finite-channel closed-loop identifiability no-go;
-- first-order generator identifiability modulo Hamiltonian derivations;
-- full qubit and exact minimal `d=3,4,5` tomography certificates;
-- all-`d` Coxeter tomography upper bounds, currently `L_d^Cox <= 2 d^2` in the publication-controlled notes;
-- structural lower bound `L_d^Cox >= floor(d^2/2)`.
+Primary control file:
 
-Primary control file: `article-II-open-systems/PROOF-OBLIGATIONS.md`.
+`article-II-open-systems/PROOF-OBLIGATIONS.md`.
 
-## Sharp minimal-design programme
+## Sharp minimal-design theorem
 
-Research target:
+The information-theoretic lower bound is
 
-`L_d^Cox = floor(d^2/2)` for every `d>=3`.
+`L_d^Cox >= floor(d^2/2)`.
 
-Important proved structure:
+The sharp existence theorem is now mathematically audit-closed at research-proof level:
 
-1. Embedded old faces factor through `B=M_d(C) direct-sum C`.
-2. Restriction-quotient ceiling:
+`L_d^Cox = floor(d^2/2)`
 
-   `R_res(d)=(d^2-1)(d+1)^2+2`.
+for every `d>=3` in the bounded finite-dimensional first-order Coxeter tomography model.
 
-3. Embedded minimal-design ceiling:
+Key proof chain:
 
-   `rank M_d^up <= (d^2-1)(d+1)^2 + 2*1_(d even)`.
+1. Structural scalar-one restriction ceiling and extension-ready definition.
+2. Global binding lemma for sharp completion.
+3. Correct centered tangent formulas in odd dimension.
+4. Finite complete `H`-anchor compression.
+5. Cycle factorization and `det D_n` reduction.
+6. Binder-compatible transversality repair proving the good locus inside the reverse-cycle-zero subspace actually required later.
+7. Exact no-go for the old one-parameter native tilt.
+8. Transverse reverse-cycle native detector and singular-lift reconstruction.
+9. Native projection nonvanishing and all-odd extension-ready existence.
+10. Audited odd-to-even transfer rebuilt directly in the centered scalar-one convention and directly in `SL_n(C)`.
+11. Return to genuine unitary Coxeter faces through `SU(n)` Zariski density plus the engineered contextual-square realization theorem.
 
-4. Automatic extension-readiness is false.
-5. Local two-level sharp induction is false.
-6. Global binding lemma: if an **even** `d` design is extension-ready, exactly `d` new global square faces give a sharp minimal full-rank design in `d+1`.
-7. Conditional odd-to-even transfer: `ER_d -> ER_(d+1)` for odd `d>=3`, using exactly `d+1` new faces, and the resulting even design is extension-ready — **publication audit still pending on centered-coordinate consistency**.
-8. `d=2` is an unavoidable exception: no two-face minimal design is extension-ready under scalar-one embedding. Therefore the all-dimensional ER programme begins at `d=3`.
-9. The centered tangent compressed dependency determinant is proved nonzero for a suitable finite complete compression in every odd dimension `n>=3`.
-10. The old one-parameter native-tilt route `H -> H+tS` is proved impossible: the cycle-holonomy Schur multiplier remains an exact kernel vector for every `t`, so all native tilt coefficients along that path vanish identically.
-11. A transverse perturbation of one forbidden reverse-cycle binder entry, `Y_* -> Y_*+sE_(r-1,r)`, detects the holonomy coordinate at order `ts`; at fixed `t!=0` this is first order in `s`.
-12. The finite native-projection coefficient is proved nonzero for a suitable reverse-cycle index in every odd dimension. Therefore extension-ready minimal designs exist for every odd `n>=3`.
-13. A publication audit found one genuine parameter-space gap in the odd proof and it has been repaired: the `det D_n` good locus is now proved nonempty **inside the reverse-cycle-zero binder subspace itself**, not merely in the ambient sample space.
-14. The sharp all-`d` equality remains a **research theorem pending transfer audit**, not yet publication-certified.
+## Important audit corrections
 
-Relevant notes under `article-I/research/`:
+### Odd-dimensional parameter-space repair
+
+The previous ambient-space Zariski argument did not by itself imply intersection with the reverse-cycle-zero binder subspace. This was a real C0 gap and is repaired by:
+
+`article-I/research/BINDER-COMPATIBLE-TRANSVERSALITY-REPAIR-v0.1.md`.
+
+### Odd-to-even determinant-normalization repair
+
+The original transfer note used a post hoc scalar determinant-normalization argument. That step is invalid after scalar-one embedding because
+
+`diag(cA,1)`
+
+is not a scalar multiple of
+
+`diag(A,1)`.
+
+The transfer was re-derived and repaired without that step. Carrier and local families are constructed directly in `SL_n(C)` before rank calculation. Repair note:
+
+`article-I/research/ODD-TO-EVEN-TRANSFER-AUDIT-REPAIR-v0.1.md`.
+
+This repair also gives the explicit two-tail local determinant, the determinant-one first binding scale, the determinant-one cross-plane second binding scale, and the graph-binding Schur lift.
+
+## Current theorem/audit status
+
+Mathematical existence blockers: **none currently identified**.
+
+The sharp theorem package has audit status:
+
+`REVIEWABLE_DRAFT`.
+
+It is not yet `PUBLICATION_READY` because bibliography/related-work, manuscript consolidation, theorem/formula numbering, metadata, source compilation, and PDF visual inspection remain.
+
+Publication audit file:
+
+`article-I/research/SHARP-COXETER-PUBLICATION-AUDIT-2026-09-05.md`.
+
+## Relevant notes
 
 - `GLOBAL-BINDING-LEMMA-v0.1.md`
-- `ODD-TO-EVEN-EXTENSION-READY-v0.1.md`
+- `ODD-TO-EVEN-EXTENSION-READY-v0.1.md` — historical proof, superseded at its audited weak points by the repair note
+- `ODD-TO-EVEN-TRANSFER-AUDIT-REPAIR-v0.1.md`
 - `D2-EXTENSION-READY-OBSTRUCTION-v0.1.md`
 - `CENTERED-TANGENT-ODD-ER-v0.1.md`
 - `CENTERED-TANGENT-COMPRESSION-AUDIT-v0.1.md`
 - `CENTERED-TANGENT-CYCLE-FACTOR-v0.1.md`
 - `ODD-ER-TRANSVERSALITY-CLOSURE-v0.1.md`
+- `BINDER-COMPATIBLE-TRANSVERSALITY-REPAIR-v0.1.md`
 - `NATIVE-TILT-ORDER-AUDIT-v0.1.md`
 - `NATIVE-TILT-CLOSURE-ALL-ODD-ER-v0.1.md`
-- `BINDER-COMPATIBLE-TRANSVERSALITY-REPAIR-v0.1.md`
 - `SHARP-COXETER-PUBLICATION-AUDIT-2026-09-05.md`
-- `ODD-D-EXTENSION-READY-v0.1.md` (old all-odd claim withdrawn and superseded by the centered proof chain)
+- `ODD-D-EXTENSION-READY-v0.1.md` — old all-odd claim withdrawn; historical only
 
-## Exact current state
+## `d=2` boundary
 
-### Odd dimensions
+`d=2` remains a low-dimensional exception only for **minimal extension-readiness** under scalar-one embedding: no two-face design reaches the extension-ready restriction ceiling. This does not by itself rule out native two-face tomography.
 
-The odd-dimensional existence proof is now audit-repaired at the identified parameter-space point:
-
-- complete compression;
-- cycle pivot;
-- all `theta_e != 0`;
-- binder genericity with reverse-cycle zeros;
-- nonzero dual identity coefficient;
-
-are simultaneously attainable on the same irreducible restricted parameter space. The native projection closure therefore remains valid.
-
-### All dimensions
-
-The proposed sharp equality
-
-`L_d^Cox=floor(d^2/2)`, `d>=3`,
-
-still depends on the odd-to-even transfer. The transfer note is structurally promising and dimensionally consistent, but publication audit has flagged three unresolved mathematical/hypothesis issues:
-
-1. re-derive the carrier in one exact scalar-one centered coordinate convention;
-2. make the two-tail local/binding reduction explicit rather than relying on “same argument” shorthand;
-3. justify determinant normalization / `SL_n(C)` / `SU(n)` realization without silently using rescaling covariance that may fail for centered formulas.
-
-Until those are closed, do **not** promote the sharp equality into the main Article-II manuscript or `PROOF-OBLIGATIONS.md` as a publication-level theorem.
+The sharp theorem stated above is for `d>=3`.
 
 ## Next permitted attack
 
-Work only on the audit of `ODD-TO-EVEN-EXTENSION-READY-v0.1.md`.
+Do not add new existence machinery unless a later audit identifies a concrete mathematical defect.
 
-Preferred order:
+The next phase is publication consolidation:
 
-- derive all carrier formulas from `D(diag(A,a))=F(A-aI)` with explicit centered variables;
-- verify the five-defect carrier rank in that convention;
-- re-derive the two-tail local and graph-binding coefficients;
-- parameterize directly in `SL_n(C)` or prove the exact normalization covariance needed;
-- then invoke `SU(n)` Zariski density and the engineered contextual-square realization theorem.
+1. prepare a new Article-II manuscript version containing the sharp theorem chain in compact form;
+2. mark older `2d^2`, `3d^2-1`, and “sharp conjecture open” notes as historical/superseded without deleting them;
+3. audit related work and bibliography for the enlarged claim;
+4. verify theorem/formula numbering, real-vs-complex rank conventions, DOI/version/date, ORCID, licence and repository metadata;
+5. compile and visually inspect the final PDF before Zenodo.
 
-Do not add new existence machinery unless this audit produces a real failure.
-
-## Checkpoint discipline
-
-For each research step append a short entry below:
-
-- result/status;
-- exact statement or obstruction;
-- file containing proof/details;
-- next single obligation.
+## Checkpoints
 
 ### 2026-09-05 checkpoint 0
 
-Repository/branch recovery completed. Existing branch and all recent theorem notes were found intact. Current work resumes from the centered-tangent final determinants.
+Repository/branch recovery completed.
 
-### 2026-09-05 checkpoint 1
+### checkpoint 1
 
-**Result:** `det D_n` barrier CLOSED for all odd `n>=3`.
+`det D_n` barrier closed for all odd `n>=3`.
 
-**Proof files:** `CENTERED-TANGENT-CYCLE-FACTOR-v0.1.md`, `ODD-ER-TRANSVERSALITY-CLOSURE-v0.1.md`.
+### checkpoint 2
 
-### 2026-09-05 checkpoint 2
+Old native-tilt path refuted; transverse first-order detector proved.
 
-**Result:** old native-tilt direction refuted; transverse first-order detector proved.
+### checkpoint 3
 
-**Proof file:** `NATIVE-TILT-ORDER-AUDIT-v0.1.md`.
+Native projection closed; all-odd ER obtained at research-note level.
 
-### 2026-09-05 checkpoint 3
+### checkpoint 4
 
-**Result:** native projection CLOSED; all-odd ER CLOSED at research-note level.
+Adversarial publication audit found and repaired the binder-subspace transversality gap. All-d promotion remained blocked pending odd-to-even transfer audit.
 
-**Proof file:** `NATIVE-TILT-CLOSURE-ALL-ODD-ER-v0.1.md`.
+### checkpoint 5
 
-### 2026-09-05 checkpoint 4
+**Result:** odd-to-even transfer audit CLOSED.
 
-**Result:** adversarial publication audit started. One concrete C0 gap in the odd proof was found and repaired.
+**Critical finding:** post hoc scalar determinant normalization in the old transfer proof is invalid in the scalar-one embedded problem.
 
-**Gap:** prior transversality was proved in the ambient sample space, while the native-tilt construction requires the last sample to lie in the reverse-cycle-zero binder subspace. Ambient nonempty open does not imply nonempty intersection with a fixed proper subspace.
+**Repair:** `ODD-TO-EVEN-TRANSFER-AUDIT-REPAIR-v0.1.md` rebuilds the carrier and both binding scales directly in `SL_n(C)`, derives the exact centered scalar-one formulas, and certifies the unitary return through Zariski density plus engineered-square realization.
 
-**Repair:** `BINDER-COMPATIBLE-TRANSVERSALITY-REPAIR-v0.1.md` proves all required odd good-locus conditions simultaneously inside the restricted irreducible affine space.
+**Consequence:** mathematical blockers A1–A4 in the sharp theorem audit are closed. The sharp equality
 
-**Audit file:** `SHARP-COXETER-PUBLICATION-AUDIT-2026-09-05.md`.
+`L_d^Cox=floor(d^2/2)`, `d>=3`,
 
-**Release status:** `BLOCKED_MATHEMATICAL` for the **all-d publication claim**, due to unresolved odd-to-even transfer audit items A2–A4. The odd-dimensional theorem is not blocked by the repaired parameter-space issue.
+is now mathematically audit-supported in the declared model.
 
-**Next single obligation:** re-derive and certify `ODD-TO-EVEN-EXTENSION-READY-v0.1.md` in the exact centered scalar-one convention.
+**Next single obligation:** manuscript consolidation and publication/source audit, not further existence research.
