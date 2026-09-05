@@ -6,170 +6,94 @@
 **ORCID:** 0009-0008-6009-3196
 
 ## Rule for future chats
-
 Read this file first, then the cited control notes. Do not reconstruct the programme from chat memory. After every nontrivial theorem, obstruction, audit repair, manuscript promotion, source-build change, or publication-status change, update this file before continuing.
 
 ## Article I
+The published Article-I core is frozen. Post-publication research established the sharp first-order Coxeter tomography theorem. Do not rewrite the frozen Article-I publication core.
 
-The published Article-I core is frozen. The post-publication research line developed sharp first-order Coxeter tomography / extension-ready minimal designs. Do not rewrite the frozen publication core to absorb these later results.
+## Article II — current state
+Directory: `article-II-open-systems/`.
 
-## Article II — current publication state
+Publication manuscript: `article-II-open-systems/manuscript-v0.2.0-en.md`.
 
-Directory:
+Publication source package: `article-II-open-systems/publication-v0.2.1/` with:
+- `main.tex` — publication master;
+- `sharp-proof-appendix.tex` — publication-compressed sharp-proof chain;
+- `article.tex` — canonical build entrypoint and compatibility shim;
+- `README.md` — release control.
 
-`article-II-open-systems/`
+Workflow: `.github/workflows/article-ii-publication.yml`.
 
-Publication-consolidation manuscript:
+Working title: *Context Reduction in Open Quantum Systems: Multiplicativity Defects, Lindblad Order Holonomy, and Sharp Coxeter Tomography*.
 
-`article-II-open-systems/manuscript-v0.2.0-en.md`
+Current release level: `PUBLICATION_READY_PENDING_RENDER_AUDIT`.
 
-Current LaTeX publication package:
+## Main theorem
+In the bounded finite-dimensional matrix-valued first-order Coxeter-face measurement model,
 
-`article-II-open-systems/publication-v0.2.1/`
+`L_d^Cox=floor(d^2/2)` for every `d>=3`.
 
-with:
-
-- `main.tex`;
-- `sharp-proof-appendix.tex`;
-- `README.md`.
-
-Build workflow:
-
-`.github/workflows/article-ii-publication.yml`.
-
-Working title:
-
-*Context Reduction in Open Quantum Systems: Multiplicativity Defects, Lindblad Order Holonomy, and Sharp Coxeter Tomography*.
-
-Current release level:
-
-`PUBLICATION_READY_PENDING_RENDER_AUDIT`.
-
-This means the mathematical, claim-boundary, manuscript-consolidation, and LaTeX-source gates are currently closed; compiled-PDF and visual-render inspection are still mandatory before `PUBLICATION_READY`.
-
-Primary control files:
-
-- `article-II-open-systems/PROOF-OBLIGATIONS.md`;
-- `article-II-open-systems/LITERATURE-NOVELTY-AUDIT-v0.2.md`;
-- `article-II-open-systems/LEGACY-STATUS-v0.2.md`;
-- `article-I/research/SHARP-COXETER-PUBLICATION-AUDIT-2026-09-05.md`.
-
-## Bounded analytical core
-
-Established results include:
-
-- exact reduced-loop decomposition by multiplicativity defects;
-- UCP norm certificate and multiplicative-domain flatness;
-- exact nested-reduction composition law;
-- Stinespring leakage formula;
-- exact semigroup evolution and Duhamel representation;
-- bounded GKSL Leibniz defect;
-- exact Lindblad loop-holonomy integral;
-- exact dephasing, depolarizing, and amplitude-damping braid-loop examples;
-- finite-time closed-loop channel-identifiability no-go;
-- first-order generator identifiability modulo Hamiltonian derivations;
-- exact qubit, qutrit, `d=4`, and `d=5` certificates.
-
-## Sharp Coxeter theorem
-
-In the declared bounded finite-dimensional matrix-valued first-order Coxeter-face measurement model,
-
-`L_d^Cox=floor(d^2/2)`
-
-for every `d>=3`.
-
-The quotient dimension is
-
-`N_d=(d^2-1)^2`,
-
-and one matrix-valued face supplies at most `2d^2` real coordinates, giving the matching lower bound.
-
-The all-dimensional theorem is algebraic; it does not extrapolate from low-dimensional numerical rank data.
+The quotient dimension is `N_d=(d^2-1)^2`; one matrix-valued face supplies at most `2d^2` real coordinates. The all-dimensional theorem is algebraic and does not extrapolate from low-dimensional numerical ranks.
 
 ## Audited proof chain
-
-1. Structural scalar-one restriction quotient:
-
-   `R_res(d)=(d^2-1)(d+1)^2+2`.
-
+1. Structural scalar-one restriction quotient `R_res(d)=(d^2-1)(d+1)^2+2`.
 2. Extension-ready minimal-design criterion and parity ceiling.
 3. Centered odd-dimensional tangent formulas.
-4. Complete one-anchor regular kernel and finite `H`-anchor compression.
-5. Cycle factorization of the compressed dependency determinant `D_n`.
+4. Complete one-anchor regular kernel and finite H-anchor compression.
+5. Cycle factorization of compressed dependency determinant `D_n`.
 6. Binder-compatible transversality inside the reverse-cycle-zero subspace.
 7. Exact no-go for the old one-parameter native tilt.
-8. Reverse-cycle transverse detector and finite reconstruction coefficient `kappa_(n,r)(t)`.
-9. Nonzero native projection and extension-ready minimal designs in every odd dimension.
-10. Odd-to-even transfer rebuilt directly in the exact centered scalar-one convention and directly in `SL_n(C)`.
+8. Reverse-cycle transverse detector and finite reconstruction coefficient.
+9. Extension-ready minimal designs in every odd dimension.
+10. Odd-to-even transfer rebuilt directly in centered scalar-one coordinates and directly in `SL_n(C)`.
 11. Return to genuine unitary Coxeter faces by `SU(n)` Zariski density and engineered contextual-square realization.
 
-The v0.2.1 LaTeX package now embeds a publication-compressed version of this chain in `sharp-proof-appendix.tex`; the deeper research notes remain the archival derivation layer.
+Critical proof repairs remain recorded in:
+- `article-I/research/BINDER-COMPATIBLE-TRANSVERSALITY-REPAIR-v0.1.md`;
+- `article-I/research/ODD-TO-EVEN-TRANSFER-AUDIT-REPAIR-v0.1.md`.
 
-## Two critical audit repairs
+The invalid post hoc determinant normalization is withdrawn and is not used in the publication source.
 
-### Binder-subspace repair
+## d=2 boundary
+No two-face design is extension-ready under scalar-one embedding `M_2 -> M_3`. This does not prove native two-face tomography impossible. The sharp theorem is intentionally `d>=3`.
 
-The ambient-space Zariski argument did not imply intersection with the proper reverse-cycle-zero binder subspace. This genuine gap is repaired in:
+## Claim firewall
+Do not inflate the result into finite-time arbitrary UCP-channel identifiability, conditioning/noise robustness, universal CP-reduction monotonicity, entropy/decoherence monotones, infinite-dimensional unbounded GKSL results, non-Markovian process-tensor results, or physical spacetime/gauge curvature.
 
-`article-I/research/BINDER-COMPATIBLE-TRANSVERSALITY-REPAIR-v0.1.md`.
-
-### Determinant-normalization repair
-
-The original odd-to-even transfer used post hoc scalar determinant normalization. That is invalid after scalar-one embedding because
-
-`diag(cA,1)`
-
-is not a scalar multiple of
-
-`diag(A,1)`.
-
-The old normalization step is withdrawn. The transfer is rebuilt directly in `SL_n(C)` in:
-
-`article-I/research/ODD-TO-EVEN-TRANSFER-AUDIT-REPAIR-v0.1.md`.
-
-The v0.2.1 publication source uses only the repaired determinant-one formulation.
-
-## `d=2` boundary
-
-No two-face design is extension-ready under scalar-one embedding `M_2 -> M_3`. This is only an extension-readiness obstruction. It does not state that native two-face tomography in `d=2` is impossible.
-
-The sharp theorem is intentionally `d>=3`.
-
-## Literature / novelty boundary
-
-Targeted audit is recorded in:
-
-`article-II-open-systems/LITERATURE-NOVELTY-AUDIT-v0.2.md`.
-
-Standard infrastructure is not claimed as new: Stinespring dilation, Choi Schwarz/multiplicative-domain theory, GKSL/Lindblad generators, noncommutative carre-du-champ methods, and general Lindbladian/Liouvillian learning.
-
-The reduced product defect is explicitly distinguished from Jamiołkowski/Uhlmann-type channel holonomy.
-
-Safe wording: `we derive`, `we prove in the present operator-order setting`, and `the contribution is the coupling of these structures`. Do not use universal priority language such as `first` or `new invariant` without a stronger specialist priority audit.
+Related-work/novelty control: `article-II-open-systems/LITERATURE-NOVELTY-AUDIT-v0.2.md`.
+Legacy status map: `article-II-open-systems/LEGACY-STATUS-v0.2.md`.
+Proof obligations: `article-II-open-systems/PROOF-OBLIGATIONS.md`.
 
 ## Reproducibility
-
-The repository contains deterministic checks for the braid-loop examples and exact low-dimensional rank certificates.
-
-The `d=5` builder reconstructs a `600 x 576` finite-field matrix modulo `1000033` and certifies rank `576`. It was independently re-executed during publication consolidation with output:
+The `d=5` builder was independently re-executed during consolidation:
 
 `prime=1000033 shape=600x576 rank=576`
 
 `CERTIFIED_FULL_COLUMN_RANK_OVER_Q`.
 
-This is a reproducibility check, not part of the all-dimensional proof.
+This is an independent reproducibility check, not part of the all-dimensional proof.
 
-## Historical notes
+## Publication-source audit checkpoint 8 — 2026-09-06
+The first GitHub Actions render attempt failed before producing a PDF. The failure was isolated to a C5 LaTeX source defect, not mathematics:
 
-Older `3d^2-1` and `2d^2` all-dimensional constructions remain valid but are historical upper bounds. Older notes saying the sharp count is open are retained as research history and must not be used as current control statements.
+`! Undefined control sequence.`
 
-See:
+at the single use of `\mathscr D` in `main.tex` because the source did not load a script-font package.
 
-`article-II-open-systems/LEGACY-STATUS-v0.2.md`.
+Repair:
+- added `publication-v0.2.1/article.tex` as the canonical build entrypoint;
+- the entrypoint defines `\mathscr` compatibly as `\mathcal` and inputs `main.tex`;
+- workflow now builds `article.tex` rather than `main.tex`;
+- workflow now includes a log gate rejecting undefined references/citations, undefined control sequences, and fatal errors before artifact upload.
+
+Repair commits:
+- build entrypoint: `75538921b994d8a594b25dfbf10956623f9df404`;
+- workflow/log gate: `26b2e9488b823b225f0c8312e78cb8c6c431c3e5`.
+
+The failed run proves only that the old source did not compile; it does not change any theorem or claim. No compiled PDF has yet passed the render gate in this control session.
 
 ## Current publication gate
-
-Mathematical existence blockers: **none currently identified**.
+Mathematical existence blockers: none currently identified.
 
 Targeted related-work/claim-boundary audit: complete.
 
@@ -177,65 +101,24 @@ Author/ORCID: verified.
 
 Repository licence: MIT at repository level.
 
-Article-specific Zenodo DOI: not yet assigned; do not invent one.
+Article-specific Zenodo DOI: not assigned; do not invent one.
 
-Publication LaTeX package: created at `publication-v0.2.1/`.
+Former even-dimensional typography defect is corrected as `((d-1)^2-1)/2 + d = d^2/2`.
 
-The former Theorem-16 typography defect is corrected in the LaTeX source as
+Source-build defect discovered by CI: repaired as above.
 
-`((d-1)^2-1)/2 + d = d^2/2`.
-
-GitHub Actions build workflow: added.
-
-Compiled PDF artifact: not yet inspected in this control session.
+Compiled PDF artifact after repair: pending successful workflow run.
 
 PDF visual inspection: pending.
 
-Therefore the release status is exactly:
-
-`PUBLICATION_READY_PENDING_RENDER_AUDIT`.
+Therefore status remains exactly `PUBLICATION_READY_PENDING_RENDER_AUDIT`.
 
 ## Next permitted attack
-
-Do not reopen the existence proof unless a concrete new mathematical defect is found.
-
-Next and only publication gate:
-
-1. obtain a successful `article-ii-publication` workflow build (or equivalent deterministic LaTeX build);
-2. inspect `main.log` for errors/warnings that affect output;
-3. render every page of `main.pdf` and inspect for clipping, overfull equations, broken glyphs, orphan headings, reference failures, and bibliography defects;
-4. repair any C5 defects in the source and rebuild;
-5. only after a clean visual inspection promote to `PUBLICATION_READY`;
-6. then prepare the article-specific Zenodo metadata/deposit package and assign the DOI through the actual deposit workflow.
-
-## Checkpoints
-
-### Checkpoint 6 — manuscript consolidation
-
-**Result:** Article-II publication consolidation completed at Markdown manuscript level.
-
-**Manuscript:** `article-II-open-systems/manuscript-v0.2.0-en.md`.
-
-**Literature audit:** `article-II-open-systems/LITERATURE-NOVELTY-AUDIT-v0.2.md`.
-
-**Legacy-control map:** `article-II-open-systems/LEGACY-STATUS-v0.2.md`.
-
-**Reproducibility:** exact `d=5` finite-field certificate re-run successfully.
-
-### Checkpoint 7 — publication source package
-
-**Result:** publication-quality LaTeX source package created.
-
-**Master:** `article-II-open-systems/publication-v0.2.1/main.tex`.
-
-**Sharp-proof appendix:** `article-II-open-systems/publication-v0.2.1/sharp-proof-appendix.tex`.
-
-**Build workflow:** `.github/workflows/article-ii-publication.yml`.
-
-**Formal repair incorporated:** the even-dimensional count is now typeset as
-
-`((d-1)^2-1)/2 + d = d^2/2`.
-
-**Current release status:** `PUBLICATION_READY_PENDING_RENDER_AUDIT`.
-
-**Next single obligation:** compile and visually inspect the v0.2.1 PDF; no further theorem work unless render/source audit exposes a substantive defect.
+Do not reopen theorem existence unless a concrete mathematical defect is found. Next publication gate only:
+1. obtain a successful post-repair `article-ii-publication` workflow build;
+2. inspect `article.log` and `pdfinfo.txt`;
+3. download `article-II-v0.2.1-pdf` artifact;
+4. render every page and inspect clipping, overfull equations, broken glyphs, orphan headings, reference failures, and bibliography layout;
+5. repair any C5 defects and rebuild;
+6. only after clean visual inspection promote to `PUBLICATION_READY`;
+7. then prepare the article-specific Zenodo metadata/deposit package.
