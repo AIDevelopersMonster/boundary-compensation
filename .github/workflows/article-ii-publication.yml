@@ -1,0 +1,37 @@
+name: article-ii-publication
+
+on:
+  push:
+    branches:
+      - research/split-operator-order-article-II-v0.1
+    paths:
+      - 'independent-research/split-operator-order/article-II-open-systems/publication-v0.2.1/**'
+      - '.github/workflows/article-ii-publication.yml'
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install TeX
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y latexmk texlive-latex-base texlive-latex-recommended texlive-latex-extra texlive-fonts-recommended
+      - name: Build PDF
+        working-directory: independent-research/split-operator-order/article-II-open-systems/publication-v0.2.1
+        run: |
+          latexmk -pdf -interaction=nonstopmode -halt-on-error main.tex
+      - name: Basic PDF preflight
+        working-directory: independent-research/split-operator-order/article-II-open-systems/publication-v0.2.1
+        run: |
+          test -s main.pdf
+          pdfinfo main.pdf | tee pdfinfo.txt
+      - name: Upload publication artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: article-II-v0.2.1-pdf
+          path: |
+            independent-research/split-operator-order/article-II-open-systems/publication-v0.2.1/main.pdf
+            independent-research/split-operator-order/article-II-open-systems/publication-v0.2.1/main.log
+            independent-research/split-operator-order/article-II-open-systems/publication-v0.2.1/pdfinfo.txt
