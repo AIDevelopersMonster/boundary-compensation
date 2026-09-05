@@ -8,45 +8,64 @@
 
 ## Audit summary
 
-The odd-dimensional centered-tangent chain has been re-audited through the native-tilt closure. One concrete parameter-space gap was found and repaired in `BINDER-COMPATIBLE-TRANSVERSALITY-REPAIR-v0.1.md`: the previous full-space Zariski-open argument did not by itself imply nonempty intersection with the reverse-cycle-zero binder subspace required later. The repair proves the complete-compression, cycle-pivot, all-`theta_e`, binder-generic, and dual-identity conditions simultaneously on that restricted irreducible affine space.
+The sharp theorem proof chain has now undergone two adversarial repairs.
 
-The remaining publication blocker is the **odd-to-even transfer theorem**. Its argument is structurally strong and dimension counts are consistent, but the current note mixes centered scalar-one language with formulas written in uncentered symbols `C,D,u,v`, and the final passage from the complex witness to genuine unitary Coxeter faces is compressed. Before the sharp all-`d` equality is promoted into the main manuscript, this transfer must be rewritten in one coordinate convention from start to finish and its determinant-normalization / unitary-realization step must be explicitly checked.
+First, the odd-dimensional centered-tangent proof contained a genuine parameter-space gap: nonempty Zariski-open conditions were proved in the full sample space but later intersected with the proper reverse-cycle-zero binder subspace. That gap was repaired by `BINDER-COMPATIBLE-TRANSVERSALITY-REPAIR-v0.1.md`, which proves all required good-locus conditions directly on the restricted irreducible affine space.
+
+Second, the original odd-to-even transfer used centered scalar-one language but compressed several coordinate and determinant-normalization steps. The audit confirmed that the post hoc scalar-rescaling argument is invalid after scalar-one embedding: `diag(cA,1)` is not a scalar multiple of `diag(A,1)`. The transfer has therefore been re-derived from the exact normalized coordinate and rebuilt directly in `SL_n(C)` in `ODD-TO-EVEN-TRANSFER-AUDIT-REPAIR-v0.1.md`. No post hoc determinant normalization is used.
+
+The mathematical existence blockers A1–A4 are now closed at research-proof level. The remaining work is manuscript consolidation, source support, numbering, metadata, and render audit.
 
 ## Mandatory findings
 
-| ID | Severity | Location | Problem | Why it matters | Minimal repair | Claim-set effect |
+| ID | Severity | Location | Problem | Why it matters | Repair / disposition | Claim-set effect |
 |---|---|---|---|---|---|---|
-| A1 | C0 | `NATIVE-TILT-CLOSURE-ALL-ODD-ER-v0.1.md`, intersection step | Full-space nonempty Zariski-open conditions were intersected with a proper reverse-cycle-zero binder subspace without a separate nonemptiness proof. | A dense open subset of the ambient affine space may miss a fixed proper linear subspace. | **REPAIRED** by `BINDER-COMPATIBLE-TRANSVERSALITY-REPAIR-v0.1.md`, which proves nonemptiness on the restricted irreducible parameter space. | none after repair |
-| A2 | C1 | `ODD-TO-EVEN-EXTENSION-READY-v0.1.md`, Sections 4–8 | The carrier proof says it is using centered coordinates, but several formulas are expressed as `F(CD)-F(C)D-CF(D)` and `phi(CD)-phi(C)-phi(D)` while the actual scalar-one embedding depends on centered differences against the tail scalar. The note needs one explicit declaration of what `C,D` denote in each formula and a derivation from the normalized block coordinate `D(diag(A,a))=F(A-aI)`. | This is exactly the coordinate issue that invalidated the earlier odd-dimensional draft. Publication cannot rely on an implicit convention here. | Re-derive the carrier formulas directly from the scalar-one block embedding and state the centered variables explicitly. Verify all `T_+`, `T_-`, `s_ab^±`, `Delta_nn`, `Delta_NN` formulas in that convention. | clarifies; may narrow if a formula changes |
-| A3 | C1 | `ODD-TO-EVEN-EXTENSION-READY-v0.1.md`, Sections 9–11 | “The same entrywise determinant argument” and the first/second binding-scale formulas are imported from earlier local/global lemmas but not re-derived for the two-dimensional scalar tail. | The transfer theorem depends on these exact relative-kernel and Schur-coefficient statements. A publication proof needs either a formal reduction lemma or an explicit calculation. | Add a typed reduction lemma mapping the two-tail variables to the earlier local-kernel calculation, then give the two short coefficient computations. | clarifies |
-| A4 | C1 | `ODD-TO-EVEN-EXTENSION-READY-v0.1.md`, Section 13 | The proof moves from a complexified witness to `SU(n)` by Zariski density and then invokes the engineered-square theorem. The determinant-normalization step is stated but not checked against the centered scalar-one measurement formulas. | Scalar rescaling is harmless for the uncentered Leibniz defect, but the centered embedded formulas contain `A-I`, `B-I` terms; publication must show the selected maximal minor is a regular function on the chosen `SL_n` parameterization and that the normalization used does not alter the claimed rank locus. | Parameterize the carrier/local faces directly in `SL_n(C)` (or prove the exact rank covariance under the normalization actually used), then invoke `SU(n)` Zariski density and the engineered contextual-square lemma from `ALL-D-COXETER-OD2-v0.1.md`. | clarifies / unknown until checked |
-| A5 | C2 | `ACTIVE-HANDOFF.md`, `NATIVE-TILT-CLOSURE-ALL-ODD-ER-v0.1.md` | The sharp equality is currently labeled a research theorem before the odd-to-even transfer receives the centered-coordinate audit above. | Research-note status is acceptable internally, but manuscript promotion would overstate the audited state. | Keep equality marked `RESEARCH_THEOREM_PENDING_TRANSFER_AUDIT`; do not update the main manuscript or `PROOF-OBLIGATIONS.md` to “proved all-d” until A2–A4 are closed. | narrows presentation only |
-| A6 | C5 | `article-II-open-systems/PROOF-OBLIGATIONS.md`, `OPTIMAL-COXETER-DESIGNS-v0.1.md`, older upper-bound notes | Control files still say the sharp all-`d` conjecture is open and the best all-`d` upper bound is `2d^2`. | Once the proof audit passes these will become contradictory publication metadata. | Update only after A2–A4 close; retain history by marking older notes superseded rather than deleting them. | none |
-| A7 | C5 | Main Article-II manuscript | The current manuscript v0.1.0 does not contain the sharp minimal-design theorem chain and still has analytical-core status. | A theorem of this size needs a dedicated theorem section, dependency statement, and related-work boundary rather than a silent insertion. | After proof audit, prepare a new manuscript version with a compact theorem chain and appendices/research-note references. | none |
+| A1 | C0 | odd native-tilt intersection step | Ambient nonempty Zariski-open conditions were intersected with a proper binder subspace without proving restricted nonemptiness. | Ambient density does not imply intersection with a fixed proper subspace. | **CLOSED.** `BINDER-COMPATIBLE-TRANSVERSALITY-REPAIR-v0.1.md` proves complete compression, cycle pivot, all `theta_e`, binder genericity and dual-identity nonvanishing directly on the reverse-cycle-zero irreducible space. | none |
+| A2 | C1 | old odd-to-even carrier, Sections 4–8 | Centered scalar-one and uncentered symbols were mixed. | This was the same failure mode that invalidated the earlier all-odd draft. | **CLOSED.** `ODD-TO-EVEN-TRANSFER-AUDIT-REPAIR-v0.1.md` derives the master branch formula from `D(diag(X,a))=F(X-aI)` and re-derives the carrier and scalar directions in that convention. | clarifies |
+| A3 | C1 | old odd-to-even local/binding reduction | Two-tail reduction and two perturbation scales were imported by “same argument” shorthand. | The parity transfer depends on the exact exceptional kernel and Schur coefficients. | **CLOSED.** The repair note gives the typed two-tail determinant, exact first-scale determinant-one perturbation, exact second-scale determinant-one cross-plane perturbation, and graph binding. | clarifies |
+| A4 | C1/C0 | old odd-to-even unitary return | Post hoc scalar determinant normalization was treated as rank harmless after scalar-one embedding. | That covariance is false in the embedded centered problem. | **CLOSED BY REPLACEMENT.** The rescaling step is withdrawn. Carrier and local families are parameterized directly in `SL_n(C)` before rank calculation; only then is `SU(n)` Zariski density invoked, followed by engineered-square realization. | clarifies |
+| A5 | C2 | control wording | Sharp equality was called a research theorem before transfer audit. | Publication wording had to stay below the audited claim ceiling. | **CLOSED mathematically.** The theorem may now be promoted in the research control plane; manuscript promotion still waits for formal/source audit. | expands presentation to audited theorem |
+| A6 | C5 | `PROOF-OBLIGATIONS.md`, older optimal/upper-bound notes | Older control files still describe the sharp count as open. | They now contradict the audited proof chain. | **OPEN FORMAL REPAIR.** Update control files and mark older bounds/conjecture sections superseded, without deleting historical notes. | none |
+| A7 | C5/C4 | main Article-II manuscript and references | Main manuscript does not yet contain the sharp theorem chain; bibliography/related-work boundary has not been re-audited for this larger claim. | Publication package must expose dependencies and distinguish new theorem from standard infrastructure. | **OPEN PUBLICATION TASK.** Prepare a new manuscript version with compact theorem chain and appendices/research-note dependency map, then audit bibliography and metadata. | none |
 
-## Odd-dimensional chain status
+## Mathematical chain accepted after audit
 
-The following components are presently accepted after audit:
+The following components are accepted at research-proof level:
 
-- correct scalar-one centered tangent formulas;
-- complete one-anchor regular kernel;
-- finite complete `H`-anchor compression;
-- cycle-factor reduction of `D_n`;
-- all-odd nonvanishing of `D_n` **on the binder-compatible restricted parameter space**, after the new repair note;
-- exact no-go for the old one-parameter native tilt;
-- first-order reverse-cycle holonomy detector;
-- singular-lift reconstruction argument;
-- nonzero native projection coefficient and all-odd extension-ready existence.
+1. scalar-one centered tangent formulas for the four embedded sectors;
+2. complete one-anchor regular kernel and finite complete `H`-anchor compression;
+3. cycle-factor reduction and binder-compatible nonvanishing of `D_n` for every odd `n>=3`;
+4. exact no-go for the old one-parameter native tilt;
+5. reverse-cycle first-order holonomy detector;
+6. singular-lift reconstruction and nonzero native-projection coefficient;
+7. extension-ready minimal designs in every odd dimension `n>=3`;
+8. corrected odd-to-even extension-ready transfer, built directly in `SL_n(C)` with explicit two-tail local and graph-binding reductions;
+9. return to genuine unitary Coxeter faces via `SU(n)` Zariski density plus the engineered contextual-square realization theorem;
+10. the information-theoretic lower bound `L_d^Cox>=floor(d^2/2)`.
 
-The low-dimensional `d=2` obstruction is logically separate and correctly states only failure of **extension-readiness**, not failure of native two-face tomography.
+Therefore, within the declared finite-dimensional first-order Coxeter tomography model,
+
+`L_d^Cox=floor(d^2/2)`
+
+is mathematically supported for every `d>=3`.
+
+The `d=2` obstruction remains only an obstruction to **extension-readiness** of two-face designs under scalar-one embedding; it is not a statement that native two-face tomography in `d=2` is impossible.
+
+## Publication boundary
+
+The sharp theorem does not imply conditioning, noise robustness, finite-time UCP-channel identifiability, monotonicity of reduced curvature under arbitrary CP reductions, or any physical spacetime/gauge-curvature interpretation.
+
+Older `2d^2` and `3d^2-1` constructions remain valid historical upper bounds and independent constructive designs; they are no longer the best face-count theorem.
 
 ## Release gate
 
-Unresolved blocking issues: A2, A3, A4.
+Unresolved blocking mathematical issues: **none currently identified**.
 
-Equations/theorems changed in this audit: no existing theorem text rewritten; one new repair theorem added in `BINDER-COMPATIBLE-TRANSVERSALITY-REPAIR-v0.1.md`.
+Unresolved publication issues: A6, A7; full related-work/bibliography audit; source compilation and PDF visual inspection.
 
-Claim set changed: **no** for the odd-dimensional result after repair; **all-d promotion remains conditional on transfer audit**.
+Equations/theorems changed: the odd-to-even transfer proof was replaced by a centered determinant-one repair; the old scalar-normalization justification is withdrawn.
+
+Claim set changed: **yes**, from `RESEARCH_THEOREM_PENDING_TRANSFER_AUDIT` to mathematically audited sharp theorem in the declared model.
 
 Bibliography verified: partial.
 
@@ -56,8 +75,8 @@ Source compiled: not supplied.
 
 PDF visually inspected: not supplied.
 
-**Release status:** `BLOCKED_MATHEMATICAL`
+**Release status:** `REVIEWABLE_DRAFT`
 
 ## Next single obligation
 
-Re-derive and audit `ODD-TO-EVEN-EXTENSION-READY-v0.1.md` entirely in the corrected scalar-one centered coordinate convention. Do not work on new existence machinery until that transfer theorem is either certified or repaired.
+Reconcile the Article-II control files and prepare a publication-clean theorem section in a new manuscript version. Then run bibliography/related-work, numbering, metadata, source compilation and PDF render audit before any Zenodo release.
