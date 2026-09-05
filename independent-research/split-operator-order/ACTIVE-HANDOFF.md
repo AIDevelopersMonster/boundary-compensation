@@ -56,7 +56,9 @@ Important proved structure:
 6. Global binding lemma: if an **even** `d` design is extension-ready, exactly `d` new global square faces give a sharp minimal full-rank design in `d+1`.
 7. Conditional odd-to-even transfer: `ER_d -> ER_(d+1)` for odd `d>=3`, using exactly `d+1` new faces, and the resulting even design is extension-ready.
 8. `d=2` is an unavoidable exception: no two-face minimal design is extension-ready under scalar-one embedding. Therefore the all-dimensional ER programme begins at `d=3`.
-9. The centered tangent compressed dependency determinant is now proved nonzero for a suitable finite complete compression in every odd dimension `n>=3`.
+9. The centered tangent compressed dependency determinant is proved nonzero for a suitable finite complete compression in every odd dimension `n>=3`.
+10. The old one-parameter native-tilt route `H -> H+tS` is now proved impossible: the cycle-holonomy Schur multiplier remains an exact kernel vector for every `t`, so all native tilt coefficients along that path vanish identically.
+11. A transverse perturbation of one forbidden reverse-cycle binder entry, `Y_* -> Y_*+sE_(r-1,r)`, detects the holonomy coordinate at order `ts`; at fixed `t!=0` this is first order in `s`.
 
 Relevant notes under `article-I/research/`:
 
@@ -67,33 +69,41 @@ Relevant notes under `article-I/research/`:
 - `CENTERED-TANGENT-COMPRESSION-AUDIT-v0.1.md`
 - `CENTERED-TANGENT-CYCLE-FACTOR-v0.1.md`
 - `ODD-ER-TRANSVERSALITY-CLOSURE-v0.1.md`
+- `NATIVE-TILT-ORDER-AUDIT-v0.1.md`
 - `ODD-D-EXTENSION-READY-v0.1.md` (audited; old all-odd claim withdrawn)
 
 ## Exact current bottleneck
 
 The compressed row-dependency determinant barrier is CLOSED for every odd `n>=3`.
 
-The centered tangent route now has exactly one remaining obstruction:
+The old native tilt scalar `tau_n` along the same `H+tS` path is not merely unproved: it is identically zero to all orders.
 
-`native tilt scalar tau_n != 0`
+The true remaining obstruction is now the finite-compression native projection coefficient
 
-(or the first nonzero higher-order centered coefficient) for the unique non-derivation kernel line left after embedded regular rank is lifted.
+`kappa_(n,r)(t)=R_t A_(t,r) h_q`,
 
-At the tangent base the extra line lies in the native hyperplane
+where:
 
-`N={F:F(I)=0}`.
+- `M_t` is a full-row-rank embedded regular measurement map at fixed `t!=0`;
+- `E(F)=F(I)=R_t M_t(F)` is the uniquely reconstructed native-normalization functional on the rowspace;
+- `h_q` is the surviving cycle-holonomy kernel line;
+- `A_(t,r)` is the derivative produced by the reverse-cycle perturbation `Y_* -> Y_*+sE_(r-1,r)`.
 
-The next task is to prove that the finite centered perturbation moves this line transversely out of `N` for some minimal odd-dimensional design.
+The intrinsic Schur/binder calculation is already transverse: `A_(t,r)h_q` contains explicit diagonal spikes of size `-tq`. What remains is to prove that at least one such spike reconstructs to a nonzero `F(I)` value under `R_t`.
 
 ## Next permitted attack
 
-Work only on the native tilt barrier. Preferred routes:
+Work only on the finite native-projection coefficient `kappa_(n,r)(t)`.
 
-- derive the extra kernel line explicitly in cycle/path coordinates and compute its first variation under the same `H -> H+tS` perturbation;
-- or prove by algebraic transversality that the native hyperplane condition is not identically preserved on the already-open embedded-full-rank locus;
-- if the linear tilt vanishes structurally, identify and prove the first nonzero higher-order coefficient.
+Preferred routes:
 
-Once native tilt is closed for all odd `n>=3`, all-odd extension-ready existence follows. Combined with the proved odd-to-even transfer and even-to-odd global binding lemma, this closes the sharp all-dimensional equality. Do not claim that equality before native tilt is proved.
+- prove that `R_t` cannot annihilate all reverse-cycle diagonal spike vectors simultaneously, using the exact dimension/sector structure of the native hyperplane;
+- identify a dual row functional whose pairing with one spike is explicitly nonzero;
+- or produce one exact algebraic witness, after which nonvanishing is Zariski-open and can be intersected with the already-proved complete-compression/cycle-pivot locus.
+
+Do not search for second- or higher-order tilt along the old one-parameter path; that route is now proved dead.
+
+Once `kappa_(n,r)(t)!=0` is proved for every odd `n>=3`, all-odd extension-ready existence follows. Combined with the proved odd-to-even transfer and even-to-odd global binding lemma, this closes the sharp all-dimensional equality. Do not claim that equality before `kappa` is closed.
 
 ## Checkpoint discipline
 
@@ -118,4 +128,16 @@ Repository/branch recovery completed. Existing branch and all recent theorem not
 
 **Supporting structural note:** `article-I/research/CENTERED-TANGENT-CYCLE-FACTOR-v0.1.md`.
 
-**Next single obligation:** prove native tilt `tau_n !=0` (or the first nonzero higher-order coefficient) for the unique extra non-derivation kernel line.
+**Next single obligation:** audit the native tilt variation.
+
+### 2026-09-05 checkpoint 2
+
+**Result:** old native-tilt direction refuted; transverse first-order detector proved.
+
+**Exact statement:** for the old family with only `H -> H+tS`, the path-additive cycle-holonomy Schur multiplier `h_q` satisfies every face equation exactly for every `t`; hence the non-derivation kernel line is constant and `h_q(I)=0`, so all old `tau_n` coefficients vanish. If one also perturbs a reverse-cycle binder entry `Y_* -> Y_*+sE_(r-1,r)`, then the holonomy line produces diagonal defects `-tsq` in the two paired branches. At fixed `t!=0`, holonomy is therefore activated linearly in `s`.
+
+**Proof file:** `article-I/research/NATIVE-TILT-ORDER-AUDIT-v0.1.md`.
+
+**Numerical sanity only:** random finite compressions in `n=3,5` showed `||h(s)(I)||` proportional to `|s|` while `s=0` remained at numerical zero.
+
+**Next single obligation:** prove `kappa_(n,r)(t)=R_t A_(t,r)h_q !=0` for at least one reverse-cycle index `r` on a complete-compression/cycle-pivot point, uniformly in every odd `n>=3`.
