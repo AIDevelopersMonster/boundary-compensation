@@ -1,0 +1,304 @@
+\section{Odd-dimensional extension-ready proof details}\label{app:odd-proof}
+
+This appendix records the proof chain behind \cref{thm:all-odd-er} in a publication-compressed form. The detailed research derivations remain archived in the branch control notes cited in the repository handoff.
+
+\subsection{Centered scalar-one tangent reduction}
+Let $n\ge3$ be odd and let a normalized scalar-one block restriction be represented by a complex-linear map $F:M_n(\mathbb C)\to M_N(\mathbb C)$ through
+\[
+D(\diag(X,a))=F(X-aI_n).
+\]
+For $A_\varepsilon=e^{\varepsilon X}$ and $B_\varepsilon=e^{\varepsilon Y}$ with $X,Y\in\mathfrak{sl}_n(\mathbb C)$, write $G(A)=F(A-I_n)$. Expanding to second order gives the four sector defects displayed in \eqref{eq:centered-reg}--\eqref{eq:centered-scalar}. In particular, the paired inverse branch has the reversed ordered tangent pair $(Y,X)$.
+
+The scalar, left-module and right-module sectors admit explicit lower-bound-sized witnesses; their maximal-rank loci are nonempty Zariski-open subsets of the irreducible tangent parameter space. Hence they can be imposed simultaneously with the regular-sector conditions below.
+
+\subsection{Complete $H$-anchor kernel}
+Fix a traceless diagonal matrix
+\[
+H=\diag(h_0,\dots,h_{n-1})
+\]
+with pairwise distinct eigenvalues. Consider
+\[
+\delta_F(X,Y):=F(XY)-F(X)Y-XF(Y).
+\]
+If
+\[
+\delta_F(H,Y)=\delta_F(Y,H)=0
+\]
+for every traceless $Y$, then subtracting a uniquely determined off-diagonal inner derivation reduces to the normalization $F(H)=0$. The equations with $Y=E_{pq}$, $p\ne q$, then force
+\[
+F(E_{pq})=c_{pq}E_{pq},
+\]
+while the equations with powers of $H$ force $F$ to vanish on the diagonal algebra. Therefore
+\begin{equation}\label{eq:H-kernel}
+F=\ad_{K_{\mathrm{off}}}+S_c,
+\end{equation}
+where $S_c$ is an arbitrary off-diagonal Schur multiplier. The kernel dimension is $2n(n-1)$.
+
+Modulo diagonal inner derivations, gradient families $c_{pq}=k_p-k_q$ are quotiented out. Thus the Schur quotient has dimension $(n-1)^2$.
+
+\subsection{Cyclic binder and path additivity}
+Let
+\[
+S=\sum_i E_{i+1,i},
+\]
+with cyclic indices, and choose a traceless binder sample $Y_*$ whose reverse-cycle entries $(Y_*)_{i,i+1}$ vanish while all other off-diagonal entries are nonzero. On the Schur multiplier part, impose
+\[
+\delta_{S_c}(S,Y_*)=\delta_{S_c}(Y_*,S)=0.
+\]
+Writing $a_i=c_{i+1,i}$, the off-diagonal recurrences imply
+\begin{equation}\label{eq:path-additive-app}
+c_{rs}=a_s+a_{s+1}+\cdots+a_{r-1}
+\end{equation}
+along the positive cyclic path. The solution family has dimension $n$. The subspace $\sum_i a_i=0$ is exactly the diagonal-derivation family; the remaining quotient is one-dimensional and is measured by
+\[
+q:=\sum_i a_i.
+\]
+
+\subsection{Finite complete-anchor compression}
+Let
+\[
+L=\frac{n^2-1}{2}.
+\]
+For one output block $(a,b)$ and one traceless sample $Y$, the paired $H$-anchor rows, after separating the $F(H)$ columns, are represented on
+\[
+Q=M_n(\mathbb C)/\mathbb C H
+\]
+by
+\[
+T_a(Y)=[(H-h_aI)Y],\qquad R_b(Y)=[Y(H-h_bI)].
+\]
+For $a=b$ their joint span has dimension $n^2-1$; for $a\ne b$ it has dimension $n^2-2$, with unique invisible direction $E_{ab}$. A mixed-diagonal/projective-ratio pairing construction supplies, for each block, an $L$-tuple reaching the block maximum. Nonvanishing of the corresponding minors is Zariski open. Since the parameter space $(\mathfrak{sl}_n)^L$ is irreducible and there are finitely many blocks, one common tuple realizes all maxima simultaneously. Restoring the $F(H)$ columns gives
+\begin{equation}\label{eq:rH}
+r_H=n^4-2n^2+2n.
+\end{equation}
+The sampled row-dependency space therefore has dimension
+\begin{equation}\label{eq:left-null}
+(2Ln^2)-r_H=n(n-2).
+\end{equation}
+
+\subsection{Cycle factorization of the compressed dependency operator}
+Perturb only the first anchor of the last paired face,
+\[
+H\longmapsto H+tS.
+\]
+Let $M(t)$ be the resulting regular measurement matrix and $K_H=\ker M(0)$. Projection of $M'(0)$ from the Schur defect quotient of $K_H$ to the left-nullspace of $M(0)$ gives a square operator $D_n$ of size $n(n-2)$.
+
+For each off-diagonal output block $(a,b)$, the local one-dimensional dependency produces an edge row
+\[
+\rho_{ab}(z)=-(A_{ab})_{ab}z_a-(B_{ab})_{ab}z_b
+\]
+on $z=\diag F(H)$. Choose the positive cycle $C=\{(s+1,s)\}$. On the symmetric skeleton the cycle rows are proportional to
+\[
+z_{s+1}+z_s.
+\]
+Because $n$ is odd, the corresponding unsigned incidence matrix is invertible; in unit normalization its determinant has absolute value $2$.
+
+After eliminating the cycle dependencies, $D_n$ becomes triangular in path-defect coordinates
+\[
+u_{rs}=c_{rs}-\sum_{j=s}^{r-1}a_j
+\]
+indexed by non-cycle directed edges. The diagonal coefficient for $e=(r,s)$ is
+\begin{equation}\label{eq:theta}
+\theta_e=\lambda_{e,+}(Y_*)_{r-1,s}+\lambda_{e,-}(Y_*)_{r,s+1}.
+\end{equation}
+Hence, under the cycle pivot,
+\[
+\det D_n\ne0
+\quad\Longleftrightarrow\quad
+\theta_e\ne0\text{ for every non-cycle }e.
+\]
+
+\subsection{Binder-compatible transversality}
+The last sample must remain in the reverse-cycle-zero affine subspace
+\[
+V_0=\{Y\in\mathfrak{sl}_n:(Y)_{i,i+1}=0\ \forall i\},
+\]
+so the full parameter space is
+\[
+X_0=(\mathfrak{sl}_n)^{L-1}\times V_0.
+\]
+This is irreducible. Complete compression is nonempty Zariski open on $X_0$: for diagonal blocks one uses a reserved identity/off-diagonal two-plane, while off-diagonal blocks use a reserved visible matrix unit. The odd-cycle pivot is likewise a nonempty open condition on $X_0$.
+
+For a non-cycle edge $e=(r,s)$, $E_{sr}\in V_0$. Choosing the last sample $Y_L=E_{sr}$ makes the local dependency coefficients nonzero; perturbing inside $V_0$ by $E_{r-1,s}$ or $E_{r,s+1}$ activates \eqref{eq:theta}. Thus each condition $\theta_e\ne0$ is a nonempty Zariski-open condition on $X_0$. Binder genericity and the nonzero dual-identity condition below are also nonempty open conditions. Their finite intersection is therefore nonempty.
+
+\subsection{Why the old native tilt fails}
+Let $h_q$ be the path-additive Schur representative with $q\ne0$. It lies in the complete $H$-anchor kernel and also satisfies the binder equations, so
+\[
+\delta_{h_q}(H+tS,Y_*)=\delta_{h_q}(Y_*,H+tS)=0
+\]
+for every $t$. Therefore the old one-parameter path leaves $h_q$ in the kernel identically. Since $h_q(I)=0$, no native rank lift is possible along that path alone.
+
+\subsection{Transverse reverse-cycle detector}
+Fix $r$ and put
+\[
+Z_r=E_{r-1,r}.
+\]
+Perturb the last binder sample by $Y_*\mapsto Y_*+sZ_r$. Direct evaluation on the path-additive Schur multiplier gives
+\begin{equation}\label{eq:reverse-spikes}
+\delta_{h_q}(S,Z_r)=-qE_{rr},\qquad
+\delta_{h_q}(Z_r,S)=-qE_{r-1,r-1}.
+\end{equation}
+Thus at fixed $t\ne0$ the non-derivation line is detected linearly in $s$ through a diagonal data spike $d_r$.
+
+\subsection{Dual identity coefficient and singular reconstruction}
+At $t=0$, every diagonal data spike lies in $\operatorname{im}M(0)$ because the global left dependencies are supported only through off-diagonal output-block dependencies. Choose a preimage $F_r^{(0)}$ with
+\[
+M(0)F_r^{(0)}=d_r.
+\]
+The value $F_r^{(0)}(I)$ is independent of the preimage because the complete $H$-anchor kernel vanishes on $I$.
+
+For a diagonal output block $a$, the $2L=n^2-1$ vectors
+\[
+\{T_a(Y_i),R_a(Y_i)\}_{i=1}^{L}
+\]
+form a basis of $Q$. Expanding $[I]$ in that basis defines coefficients $c_{a,i,\pm}$. A reserved-two-directions witness shows that, on the same reverse-cycle-zero parameter space, one can achieve
+\begin{equation}\label{eq:dual-nonzero}
+c_{a,L,+}\ne0.
+\end{equation}
+For the corresponding spike, $(F_a^{(0)}(I))_{aa}=c_{a,L,+}$, hence $F_a^{(0)}(I)\ne0$.
+
+Now write
+\[
+M(t)=M(0)+tN.
+\]
+Because $\det D_n\ne0$, one may split
+\[
+K_H=K_t\oplus K_c,
+\]
+where $K_t=\Der(M_n)\oplus\mathbb C h_q$ and $\dim K_c=n(n-2)$, and the projected map $\pi_C N|_{K_c}$ onto a complement of $\operatorname{im}M(0)$ is an isomorphism. A block Schur-complement solution of
+\[
+M(t)F(t)=d_r
+\]
+then remains bounded as $t\to0$ and satisfies
+\begin{equation}\label{eq:reconstruction-limit}
+R_t d_r=F(t)(I)\longrightarrow F_r^{(0)}(I)\ne0.
+\end{equation}
+Combining \eqref{eq:reverse-spikes} and \eqref{eq:reconstruction-limit}, the native projection coefficient
+\[
+\kappa_{n,r}(t)=-tqR_t d_r
+\]
+is nonzero for sufficiently small $t\ne0$. Hence a sufficiently small transverse $s$ moves the unique non-derivation kernel line out of $F(I)=0$, while the embedded maximal rank persists by openness. This completes the odd-dimensional extension-ready theorem.
+
+\section{Odd-to-even determinant-one transfer details}\label{app:transfer-proof}
+Let $d\ge3$ be odd, $n=d+1$, $N=d+2$, and assume an extension-ready minimal design in dimension $d$. Inside $M_N$ define
+\[
+C_d=M_d(\mathbb C)\oplus\mathbb C I_2,
+\qquad
+B_n=M_n(\mathbb C)\oplus\mathbb C.
+\]
+A normalized relative map on $B_n$ is represented by $F:M_n\to M_N$ via
+\[
+D(\diag(X,a))=F(X-aI_n).
+\]
+Write
+\[
+x_j=E_{j,n},\quad y_j=E_{n,j},\quad e=E_{nn},
+\]
+and
+\[
+P_j=F(x_j),\quad Q_j=F(y_j),\quad R=F(e).
+\]
+The relative Hamiltonian gauge is three-dimensional.
+
+\subsection{Exact centered carrier}
+Parameterize the block Levi subgroup of $\SL_n(\mathbb C)$ directly by
+\[
+A_C=\diag(C,u),\quad u=(\det C)^{-1},
+\qquad
+B_D=\diag(D,v),\quad v=(\det D)^{-1},
+\]
+with $C,D\in GL_d(\mathbb C)$. Their scalar-one embeddings in $M_N$ are
+\[
+\widetilde A=\diag(C,u,1),\qquad
+\widetilde B=\diag(D,v,1).
+\]
+The exact centered branch operator is
+\begin{equation}\label{eq:centered-master-app}
+K_F(A,B)
+=F(AB-I)-F(A-I)\widetilde B-\widetilde A F(B-I).
+\end{equation}
+On the pure relative variable $R$ this becomes
+\begin{align}
+T_+(R)&=(uv-1)R-(u-1)R\widetilde B-(v-1)\widetilde A R,\label{eq:carrier-plus}\\
+T_-(R)&=(u^{-1}v^{-1}-1)R-(v^{-1}-1)R\widetilde A^{-1}
+-(u^{-1}-1)\widetilde B^{-1}R.\label{eq:carrier-minus}
+\end{align}
+Both annihilate $E_{nN}$ and $E_{Nn}$. On a generic diagonal Levi pair all other output matrix-unit coefficients of $T_+$ are nonzero Laurent polynomials. Hence the carrier has $R$-rank $N^2-2$ and kernel exactly $\Span\{E_{nN},E_{Nn}\}$.
+
+The old odd extension-ready design is short of the doubly embedded restriction quotient by exactly five coordinates: one regular coordinate and four scalar coordinates. The regular survival and four scalar-survival conditions are nonempty Zariski-open conditions inside the same irreducible determinant-one Levi parameter space. Their intersection with the generic $R$-rank locus is nonempty. Therefore one determinant-one carrier repairs all five old missing coordinates and leaves only the two $R$-gauge directions.
+
+\subsection{Two-tail local reduction}
+Choose
+\[
+\Lambda=\diag(\lambda_1,\dots,\lambda_d,1)\in\SL_n(\mathbb C)
+\]
+with the old eigenvalues on the nonempty multiplicative-Sidon-tail locus: $\lambda_i\ne0,1$ and, except for the duplicated tail eigenvalues, the equation $\lambda_r\lambda_s=\lambda_j$ has only the intended tail solutions.
+
+For each $j\le d$, choose $U_j\in\SL_n(\mathbb C)$ equal to the identity outside $\Span\{e_j,e_n\}$ and to $\begin{psmallmatrix}1&1\\1&2\end{psmallmatrix}$ on that plane. After the carrier has reduced $R=rE_{nN}+sE_{Nn}$, the local paired equations on one output entry are
+\begin{align}
+K^+_{rs}&=(1-\lambda_s)(p_{rs}+R_{rs})+(\lambda_j-\lambda_s)q_{rs},\label{eq:local-plus}\\
+K^-_{rs}&=(\lambda_r^{-1}-\lambda_j^{-1})p_{rs}
++(\lambda_r^{-1}-1)q_{rs}.\label{eq:local-minus}
+\end{align}
+The $2\times2$ determinant on $(p,q)$ is
+\begin{equation}\label{eq:two-tail-det}
+-\frac{(\lambda_j-1)(\lambda_j-\lambda_r\lambda_s)}{\lambda_j\lambda_r}.
+\end{equation}
+Thus the common local kernel is exactly
+\begin{equation}\label{eq:two-tail-kernel}
+P_j=\alpha_jE_{j,n}+\beta_jE_{j,N},\qquad
+Q_j=\gamma_jE_{n,j}+\delta_jE_{N,j}.
+\end{equation}
+
+\subsection{First determinant-one binding scale}
+Fix $\ell_j\ne j$. Let $\mu=1+\varepsilon$ and let $D_j(\varepsilon)$ be diagonal with entries $\mu$ at $n$, $\mu^{-1}$ at $\ell_j$, and $1$ elsewhere. Then $\det D_j(\varepsilon)=1$ and
+\[
+B_j(\varepsilon)=\Lambda D_j(\varepsilon)\in\SL_n(\mathbb C).
+\]
+Substitution into \eqref{eq:centered-master-app} at the exceptional tail positions gives exactly
+\begin{equation}\label{eq:first-binding}
+K^+_{jN}=(\mu-1)(\beta_j-r),\qquad
+K^-_{Nj}=(1-\mu^{-1})(\delta_j-s).
+\end{equation}
+Hence for small nonzero $\varepsilon$,
+\[
+\beta_j=r,\qquad \delta_j=s.
+\]
+The remaining scalar kernel coordinates are $\alpha_j,\gamma_j,r,s$.
+
+\subsection{Second determinant-one binding scale}
+For an edge $\{j,k\}$ choose $\ell_{jk}\notin\{j,k\}$, possible because $d\ge3$. Put
+\[
+K_{kn}=E_{k,n}+E_{n,k}
+\]
+and let $C_{jk}(t)$ be diagonal with entry $(1-t^2)^{-1}$ at $\ell_{jk}$ and $1$ elsewhere. Then
+\[
+P_{jk}(t)=(I+tK_{kn})C_{jk}(t)\in\SL_n(\mathbb C),
+\]
+because $\det(I+tK_{kn})=1-t^2$. The compensating coordinate is outside the three-coordinate block $\Span\{e_j,e_k,e_n\}$, so the second-order Schur calculation is identical there to the global-binding computation. The two nonzero reduced coefficients are scalar multiples of
+\begin{equation}\label{eq:edge-bindings}
+\alpha_j+\gamma_k,\qquad
+\alpha_k+\gamma_j.
+\end{equation}
+
+Choose a connected non-bipartite graph on the old indices, for instance a triangle $1$--$2$--$3$--$1$ together with edges $1$--$j$ for $j\ge4$. Setting $a_j=\alpha_j$ and $b_j=-\gamma_j$, the edge equations become $a_j=b_k$, $a_k=b_j$. Connectivity and the odd cycle force
+\[
+\alpha_1=\cdots=\alpha_d=q,\qquad
+\gamma_1=\cdots=\gamma_d=-q.
+\]
+Together with $r,s$, the residual kernel is exactly three-dimensional, matching the relative Hamiltonian gauge.
+
+The first-scale and second-scale minors occur at orders $\varepsilon$ and $t^2$, respectively. In adapted Schur coordinates a maximal minor has nonzero leading monomial
+\[
+C\,\varepsilon^{2d}t^{2(2d-1)},\qquad C\ne0.
+\]
+Hence one determinant-one choice of the same $d$ local faces resolves the whole relative quotient modulo gauge.
+
+\subsection{Face count and unitary return}
+The old odd ER design has $(d^2-1)/2$ faces. Adding one carrier and $d$ local/binding faces gives
+\begin{equation}\label{eq:transfer-count}
+\frac{d^2-1}{2}+d+1=\frac{(d+1)^2}{2}.
+\end{equation}
+The resulting even design attains the extension-ready ceiling.
+
+All witnesses above lie in $\SL_n(\mathbb C)$ before rank calculation. A selected maximal minor is a nonzero regular/rational function on an open chart of the product of these $\SL_n$ parameter spaces. The compact real form $\SU(n)$ is Zariski dense in $\SL_n(\mathbb C)$, so the same minor is nonzero at some unitary determinant-one tuple. The engineered contextual-square realization theorem then realizes each ordered pair of target transports as the first two edge transports of an actual adjacent-transposition Coxeter square. This proves \cref{thm:odd-even} in the genuine unitary Coxeter geometry.
