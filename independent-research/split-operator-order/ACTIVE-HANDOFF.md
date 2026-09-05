@@ -26,7 +26,7 @@ Workflow: `.github/workflows/article-ii-publication.yml`.
 
 Working title: *Context Reduction in Open Quantum Systems: Multiplicativity Defects, Lindblad Order Holonomy, and Sharp Coxeter Tomography*.
 
-Current release level: `PUBLICATION_READY_PENDING_RENDER_AUDIT`.
+Current release level: `PUBLICATION_READY`.
 
 ## Main theorem
 In the bounded finite-dimensional matrix-valued first-order Coxeter-face measurement model,
@@ -74,23 +74,37 @@ The `d=5` builder was independently re-executed during consolidation:
 This is an independent reproducibility check, not part of the all-dimensional proof.
 
 ## Publication-source audit checkpoint 8 — 2026-09-06
-The first GitHub Actions render attempt failed before producing a PDF. The failure was isolated to a C5 LaTeX source defect, not mathematics:
-
-`! Undefined control sequence.`
-
-at the single use of `\mathscr D` in `main.tex` because the source did not load a script-font package.
+The first GitHub Actions render attempt failed before producing a PDF because of a C5 LaTeX source defect: the single `\mathscr D` use lacked a script-font definition. Mathematics was unaffected.
 
 Repair:
-- added `publication-v0.2.1/article.tex` as the canonical build entrypoint;
-- the entrypoint defines `\mathscr` compatibly as `\mathcal` and inputs `main.tex`;
-- workflow now builds `article.tex` rather than `main.tex`;
-- workflow now includes a log gate rejecting undefined references/citations, undefined control sequences, and fatal errors before artifact upload.
+- `publication-v0.2.1/article.tex` became the canonical build entrypoint;
+- it defines `\mathscr` compatibly as `\mathcal` and inputs `main.tex`;
+- workflow builds `article.tex`;
+- workflow log gate rejects undefined references/citations, undefined control sequences, and fatal errors.
 
 Repair commits:
 - build entrypoint: `75538921b994d8a594b25dfbf10956623f9df404`;
 - workflow/log gate: `26b2e9488b823b225f0c8312e78cb8c6c431c3e5`.
 
-The failed run proves only that the old source did not compile; it does not change any theorem or claim. No compiled PDF has yet passed the render gate in this control session.
+## Publication render audit checkpoint 9 — 2026-09-06
+Post-repair workflow run `33995974451` completed successfully: build, LaTeX log gate, pdfinfo preflight, and artifact upload all passed.
+
+Artifact:
+- name `article-II-v0.2.1-pdf`;
+- id `9978084171`;
+- workflow head `26b2e9488b823b225f0c8312e78cb8c6c431c3e5`;
+- SHA-256 digest `d474fa8cc1ab94aa7bf6a184d647fb2536597780ebbfbc693b4456aafc4c7488`.
+
+PDF audit:
+- 16 pages, PDF 1.5, unencrypted, openable, text-based;
+- final log has no undefined references/citations, undefined control sequence, fatal error, overfull box, or underfull box warnings;
+- all 16 pages rendered to PNG and inspected as a full montage;
+- title page, appendix transition, and final bibliography/repository page additionally inspected at full-page resolution;
+- no clipping, overlap, black boxes, broken glyphs, equation truncation, or bibliography-layout blocker found.
+
+Two nonfatal hyperref bookmark warnings remain from math shifts in one appendix subsection title. They do not alter visible page rendering or mathematical content and are classified C6/nonblocking.
+
+Publication README promotion commit: `a45c1ea4588f164411f6d308567828d40997bc41`.
 
 ## Current publication gate
 Mathematical existence blockers: none currently identified.
@@ -105,20 +119,11 @@ Article-specific Zenodo DOI: not assigned; do not invent one.
 
 Former even-dimensional typography defect is corrected as `((d-1)^2-1)/2 + d = d^2/2`.
 
-Source-build defect discovered by CI: repaired as above.
+Source compilation: passed.
 
-Compiled PDF artifact after repair: pending successful workflow run.
+PDF visual inspection: passed.
 
-PDF visual inspection: pending.
-
-Therefore status remains exactly `PUBLICATION_READY_PENDING_RENDER_AUDIT`.
+Current release state: `PUBLICATION_READY`.
 
 ## Next permitted attack
-Do not reopen theorem existence unless a concrete mathematical defect is found. Next publication gate only:
-1. obtain a successful post-repair `article-ii-publication` workflow build;
-2. inspect `article.log` and `pdfinfo.txt`;
-3. download `article-II-v0.2.1-pdf` artifact;
-4. render every page and inspect clipping, overfull equations, broken glyphs, orphan headings, reference failures, and bibliography layout;
-5. repair any C5 defects and rebuild;
-6. only after clean visual inspection promote to `PUBLICATION_READY`;
-7. then prepare the article-specific Zenodo metadata/deposit package.
+Do not reopen theorem existence unless a concrete mathematical defect is found. The next publication action is the article-specific Zenodo deposit package: finalize title/abstract/keywords/version/license/related identifiers, deposit the audited PDF and source bundle, record the assigned DOI in repository metadata, and only then update citation records. Conditioning/noise robustness remains a separate future research problem.
