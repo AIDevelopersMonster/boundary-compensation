@@ -29,14 +29,14 @@ Bounded analytical core already proved:
 - finite-channel closed-loop identifiability no-go;
 - first-order generator identifiability modulo Hamiltonian derivations;
 - full qubit and exact minimal `d=3,4,5` tomography certificates;
-- all-`d` Coxeter tomography upper bounds, currently `L_d^Cox <= 2 d^2`;
+- all-`d` Coxeter tomography upper bounds, currently `L_d^Cox <= 2 d^2` in the publication-controlled notes;
 - structural lower bound `L_d^Cox >= floor(d^2/2)`.
 
 Primary control file: `article-II-open-systems/PROOF-OBLIGATIONS.md`.
 
 ## Sharp minimal-design programme
 
-Target:
+Research target:
 
 `L_d^Cox = floor(d^2/2)` for every `d>=3`.
 
@@ -54,13 +54,14 @@ Important proved structure:
 4. Automatic extension-readiness is false.
 5. Local two-level sharp induction is false.
 6. Global binding lemma: if an **even** `d` design is extension-ready, exactly `d` new global square faces give a sharp minimal full-rank design in `d+1`.
-7. Conditional odd-to-even transfer: `ER_d -> ER_(d+1)` for odd `d>=3`, using exactly `d+1` new faces, and the resulting even design is extension-ready.
+7. Conditional odd-to-even transfer: `ER_d -> ER_(d+1)` for odd `d>=3`, using exactly `d+1` new faces, and the resulting even design is extension-ready — **publication audit still pending on centered-coordinate consistency**.
 8. `d=2` is an unavoidable exception: no two-face minimal design is extension-ready under scalar-one embedding. Therefore the all-dimensional ER programme begins at `d=3`.
 9. The centered tangent compressed dependency determinant is proved nonzero for a suitable finite complete compression in every odd dimension `n>=3`.
 10. The old one-parameter native-tilt route `H -> H+tS` is proved impossible: the cycle-holonomy Schur multiplier remains an exact kernel vector for every `t`, so all native tilt coefficients along that path vanish identically.
 11. A transverse perturbation of one forbidden reverse-cycle binder entry, `Y_* -> Y_*+sE_(r-1,r)`, detects the holonomy coordinate at order `ts`; at fixed `t!=0` this is first order in `s`.
-12. The finite native-projection coefficient is now proved nonzero for a suitable reverse-cycle index in every odd dimension. Therefore extension-ready minimal designs exist for every odd `n>=3`.
-13. Combining all-odd ER with the proved odd-to-even transfer yields extension-ready minimal designs in every dimension `d>=3` and the sharp research theorem `L_d^Cox=floor(d^2/2)`.
+12. The finite native-projection coefficient is proved nonzero for a suitable reverse-cycle index in every odd dimension. Therefore extension-ready minimal designs exist for every odd `n>=3`.
+13. A publication audit found one genuine parameter-space gap in the odd proof and it has been repaired: the `det D_n` good locus is now proved nonempty **inside the reverse-cycle-zero binder subspace itself**, not merely in the ambient sample space.
+14. The sharp all-`d` equality remains a **research theorem pending transfer audit**, not yet publication-certified.
 
 Relevant notes under `article-I/research/`:
 
@@ -73,43 +74,51 @@ Relevant notes under `article-I/research/`:
 - `ODD-ER-TRANSVERSALITY-CLOSURE-v0.1.md`
 - `NATIVE-TILT-ORDER-AUDIT-v0.1.md`
 - `NATIVE-TILT-CLOSURE-ALL-ODD-ER-v0.1.md`
-- `ODD-D-EXTENSION-READY-v0.1.md` (audited; old all-odd claim withdrawn and superseded by the new centered proof chain)
+- `BINDER-COMPATIBLE-TRANSVERSALITY-REPAIR-v0.1.md`
+- `SHARP-COXETER-PUBLICATION-AUDIT-2026-09-05.md`
+- `ODD-D-EXTENSION-READY-v0.1.md` (old all-odd claim withdrawn and superseded by the centered proof chain)
 
-## Exact current bottleneck
+## Exact current state
 
-The mathematical existence gate for the sharp minimal-design count is CLOSED at research-note level.
+### Odd dimensions
 
-The former final coefficient
+The odd-dimensional existence proof is now audit-repaired at the identified parameter-space point:
 
-`kappa_(n,r)(t)=R_t A_(t,r)h_q`
+- complete compression;
+- cycle pivot;
+- all `theta_e != 0`;
+- binder genericity with reverse-cycle zeros;
+- nonzero dual identity coefficient;
 
-is proved nonzero for a suitable good compression and reverse-cycle index in every odd `n>=3`.
+are simultaneously attainable on the same irreducible restricted parameter space. The native projection closure therefore remains valid.
 
-The key mechanism is:
+### All dimensions
 
-- each reverse-cycle diagonal spike `d_r` lies in `im M_0` because all finite `H`-anchor row dependencies live on off-diagonal output blocks;
-- a diagonal-block dual-basis coefficient reconstructs a nonzero `F(I)` value for a suitable spike;
-- the singular Schur-complement controlled by invertible `D_n` shows `R_t d_r -> F_r^(0)(I)` as `t->0`;
-- hence `R_t d_r !=0` for sufficiently small nonzero `t`, and the transverse first-order native tilt is nonzero.
+The proposed sharp equality
 
-Consequences:
+`L_d^Cox=floor(d^2/2)`, `d>=3`,
 
-- all odd dimensions admit extension-ready minimal designs;
-- odd-to-even transfer supplies all even dimensions;
-- the lower bound and construction match: `L_d^Cox=floor(d^2/2)` for every `d>=3`.
+still depends on the odd-to-even transfer. The transfer note is structurally promising and dimensionally consistent, but publication audit has flagged three unresolved mathematical/hypothesis issues:
+
+1. re-derive the carrier in one exact scalar-one centered coordinate convention;
+2. make the two-tail local/binding reduction explicit rather than relying on “same argument” shorthand;
+3. justify determinant normalization / `SL_n(C)` / `SU(n)` realization without silently using rescaling covariance that may fail for centered formulas.
+
+Until those are closed, do **not** promote the sharp equality into the main Article-II manuscript or `PROOF-OBLIGATIONS.md` as a publication-level theorem.
 
 ## Next permitted attack
 
-Do **not** reopen the existence proof under a new name unless an audit finds a concrete gap.
+Work only on the audit of `ODD-TO-EVEN-EXTENSION-READY-v0.1.md`.
 
-The next phase is publication consolidation/audit of the sharp theorem:
+Preferred order:
 
-- audit the complete dependency chain from centered tangent formulas through finite exponential lifting;
-- make the transition from tangent faces to genuine Coxeter square faces explicit and publication-clean;
-- reconcile the older `2d^2` upper-bound text and `PROOF-OBLIGATIONS.md` with the newly closed sharp theorem;
-- state the `d=2` extension-ready exception without confusing it with the `d>=3` sharp count;
-- audit theorem numbering, hypotheses, complex-vs-real rank conventions, and all generic/Zariski-open intersection arguments;
-- only after that promote the result into the Article-II manuscript/publication package.
+- derive all carrier formulas from `D(diag(A,a))=F(A-aI)` with explicit centered variables;
+- verify the five-defect carrier rank in that convention;
+- re-derive the two-tail local and graph-binding coefficients;
+- parameterize directly in `SL_n(C)` or prove the exact normalization covariance needed;
+- then invoke `SU(n)` Zariski density and the engineered contextual-square realization theorem.
+
+Do not add new existence machinery unless this audit produces a real failure.
 
 ## Checkpoint discipline
 
@@ -122,40 +131,36 @@ For each research step append a short entry below:
 
 ### 2026-09-05 checkpoint 0
 
-Repository/branch recovery completed. Existing branch and all recent theorem notes were found intact. No reconstruction from the two blocked chats is required; their committed mathematical output survives on GitHub. Current work resumes from the two centered-tangent final determinants above.
+Repository/branch recovery completed. Existing branch and all recent theorem notes were found intact. Current work resumes from the centered-tangent final determinants.
 
 ### 2026-09-05 checkpoint 1
 
 **Result:** `det D_n` barrier CLOSED for all odd `n>=3`.
 
-**Exact statement:** the cycle-factor reduction plus an explicit symmetric skeleton and finite Zariski-open transversality argument prove existence of a single complete finite `H`-anchor compression with invertible odd-cycle pivot and all non-cycle leading coefficients `theta_e` nonzero. Therefore the compressed dependency operator `D_n` is invertible.
-
-**Proof file:** `article-I/research/ODD-ER-TRANSVERSALITY-CLOSURE-v0.1.md`.
-
-**Supporting structural note:** `article-I/research/CENTERED-TANGENT-CYCLE-FACTOR-v0.1.md`.
-
-**Next single obligation:** audit the native tilt variation.
+**Proof files:** `CENTERED-TANGENT-CYCLE-FACTOR-v0.1.md`, `ODD-ER-TRANSVERSALITY-CLOSURE-v0.1.md`.
 
 ### 2026-09-05 checkpoint 2
 
 **Result:** old native-tilt direction refuted; transverse first-order detector proved.
 
-**Exact statement:** for the old family with only `H -> H+tS`, the path-additive cycle-holonomy Schur multiplier `h_q` satisfies every face equation exactly for every `t`; hence the non-derivation kernel line is constant and `h_q(I)=0`, so all old `tau_n` coefficients vanish. If one also perturbs a reverse-cycle binder entry `Y_* -> Y_*+sE_(r-1,r)`, then the holonomy line produces diagonal defects `-tsq` in the two paired branches. At fixed `t!=0`, holonomy is therefore activated linearly in `s`.
-
-**Proof file:** `article-I/research/NATIVE-TILT-ORDER-AUDIT-v0.1.md`.
-
-**Numerical sanity only:** random finite compressions in `n=3,5` showed `||h(s)(I)||` proportional to `|s|` while `s=0` remained at numerical zero.
-
-**Next single obligation:** prove `kappa_(n,r)(t)=R_t A_(t,r)h_q !=0` for at least one reverse-cycle index `r` on a complete-compression/cycle-pivot point, uniformly in every odd `n>=3`.
+**Proof file:** `NATIVE-TILT-ORDER-AUDIT-v0.1.md`.
 
 ### 2026-09-05 checkpoint 3
 
-**Result:** native projection CLOSED; all-odd ER CLOSED; sharp all-`d` count obtained at research-note level.
+**Result:** native projection CLOSED; all-odd ER CLOSED at research-note level.
 
-**Exact statement:** on a good finite complete `H`-anchor compression, reverse-cycle diagonal spikes lie in `im M_0`. For a suitable diagonal block, a nonzero dual identity coefficient gives an old-image preimage `F_r^(0)` with `F_r^(0)(I)!=0`. The singular-lift lemma, whose Schur complement is the already-invertible compressed dependency operator `D_n`, proves `R_t d_r -> F_r^(0)(I)` as `t->0`. Therefore `R_t d_r!=0` for small nonzero `t`, so `kappa_(n,r)(t)=-tqR_t d_r!=0`. The transverse perturbation moves the unique non-derivation kernel line out of `F(I)=0`, giving native full rank and extension-readiness in every odd dimension.
+**Proof file:** `NATIVE-TILT-CLOSURE-ALL-ODD-ER-v0.1.md`.
 
-**Proof file:** `article-I/research/NATIVE-TILT-CLOSURE-ALL-ODD-ER-v0.1.md`.
+### 2026-09-05 checkpoint 4
 
-**Consequence:** together with the proved odd-to-even transfer and the lower bound, `L_d^Cox=floor(d^2/2)` for all `d>=3` at research-note level.
+**Result:** adversarial publication audit started. One concrete C0 gap in the odd proof was found and repaired.
 
-**Next single obligation:** publication proof audit and manuscript consolidation; do not add new existence machinery unless the audit identifies a specific defect.
+**Gap:** prior transversality was proved in the ambient sample space, while the native-tilt construction requires the last sample to lie in the reverse-cycle-zero binder subspace. Ambient nonempty open does not imply nonempty intersection with a fixed proper subspace.
+
+**Repair:** `BINDER-COMPATIBLE-TRANSVERSALITY-REPAIR-v0.1.md` proves all required odd good-locus conditions simultaneously inside the restricted irreducible affine space.
+
+**Audit file:** `SHARP-COXETER-PUBLICATION-AUDIT-2026-09-05.md`.
+
+**Release status:** `BLOCKED_MATHEMATICAL` for the **all-d publication claim**, due to unresolved odd-to-even transfer audit items A2–A4. The odd-dimensional theorem is not blocked by the repaired parameter-space issue.
+
+**Next single obligation:** re-derive and certify `ODD-TO-EVEN-EXTENSION-READY-v0.1.md` in the exact centered scalar-one convention.
