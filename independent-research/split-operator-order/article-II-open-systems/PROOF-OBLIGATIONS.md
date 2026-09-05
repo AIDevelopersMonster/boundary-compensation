@@ -21,7 +21,7 @@
 - General finite-dimensional rank criterion: universal first-order contextual-loop identifiability iff rank is `(d^2-1)^2`.
 - Complete qubit theorem: one braid plus two backtracks identify all nine dissipative parameters modulo Hamiltonian derivations.
 - Exact minimal Coxeter-face designs for `d=3,4,5`, each saturating `floor(d^2/2)`.
-- Reproducible finite-field builders are present for `d=3`, `d=4`, and `d=5`; the `d=4` builder has been independently executed and rebuilt the full `256 x 225` matrix with rank `225` modulo `1000033`.
+- Reproducible finite-field builders are present for `d=3`, `d=4`, and `d=5`; the `d=5` builder has been independently re-executed and rebuilt the full `600 x 576` matrix with rank `576` modulo `1000033`.
 - Generic open-dense full-rank consequence for the certified low-dimensional templates.
 - All-d Weyl generator-defect theorem and generalized flat-loop tomography of order `Theta(d^2)`.
 - Engineered Coxeter squares realizing arbitrary target first-two edge transports `U,V in SU(d)`.
@@ -29,31 +29,47 @@
 - Exact scalar-count lower bound `L_d^Cox >= floor(d^2/2)`.
 - Block-extension audit: automatic extension-readiness is false.
 - Local-plane sharp induction is false.
-- Structural embedded-rank theorem: every old-face family embedded through `M_d direct-sum C subset M_(d+1)` factors through the normalized restriction quotient, with ceiling `(d^2-1)(d+1)^2 + 2*1_(d even)`.
-- Exact parity-dependent deficiency whenever that ceiling is attained.
-- Global binding lemma: an extension-ready even stage admits sharp minimal completion to the next odd native-full stage.
-- Binder-compatible centered tangent theorem: for every odd `n>=3`, the finite compressed dependency determinant `D_n` is invertible on the reverse-cycle-zero parameter space actually used by the native-tilt proof.
-- Native-tilt closure: a transverse reverse-cycle perturbation moves the unique non-derivation kernel line out of `F(I)=0`, yielding extension-ready minimal designs in every odd `n>=3`.
-- Repaired odd-to-even transfer: for every odd `d>=3`, `ER_d -> ER_(d+1)` using exactly `d+1` new faces. The proof is carried out directly in the centered scalar-one convention and directly in `SL_(d+1)(C)`; the earlier post hoc scalar determinant-normalization argument is withdrawn.
+- Structural embedded-rank theorem with scalar-one ceiling `(d^2-1)(d+1)^2 + 2*1_(d even)`.
+- Global binding lemma for sharp completion.
+- Binder-compatible centered tangent theorem for every odd `n>=3`.
+- Native-tilt closure and extension-ready minimal designs in every odd dimension.
+- Repaired odd-to-even transfer carried out directly in centered scalar-one coordinates and directly in `SL_(d+1)(C)`.
 - Therefore extension-ready minimal Coxeter designs exist in every dimension `d>=3`.
-- Consequently the sharp first-order Coxeter face count is
+- Consequently
 
   `L_d^Cox = floor(d^2/2)`
 
-  for every `d>=3` in the bounded finite-dimensional model of this programme.
+  for every `d>=3` in the bounded finite-dimensional matrix-valued first-order Coxeter-face model.
+
+## Publication consolidation completed
+
+The sharp theorem chain has been consolidated into:
+
+- `manuscript-v0.2.0-en.md` — publication-consolidation manuscript;
+- `publication-v0.2.1/main.tex` — numbered LaTeX publication master;
+- `publication-v0.2.1/sharp-proof-appendix.tex` — publication-compressed sharp-proof chain;
+- `LITERATURE-NOVELTY-AUDIT-v0.2.md` — targeted source/claim-boundary audit;
+- `LEGACY-STATUS-v0.2.md` — historical-result control map.
+
+The former typography defect in the even-dimensional face-count proof has been corrected in the LaTeX source to
+
+`((d-1)^2-1)/2 + d = d^2/2`.
+
+A deterministic GitHub Actions LaTeX build workflow is present at
+
+`.github/workflows/article-ii-publication.yml`.
 
 ## Immediate open obligations
 
-The sharp existence/count problem is closed. The remaining immediate obligations are publication and robustness tasks:
+The existence/count proof problem is closed. Only publication/render and longer-range robustness obligations remain:
 
-1. Consolidate the sharp theorem chain into a publication-clean Article-II manuscript version with explicit dependency map and theorem numbering.
-2. Mark older `2d^2`, `3d^2-1`, and “sharp conjecture open” notes as historical/superseded in their status text without deleting them.
-3. Audit the full sharp construction against Lindbladian learning, process tomography, quantum-control identifiability, and channel-holonomy literature.
-4. Verify all bibliography entries, DOI/version/date metadata, ORCID, licence, and repository links.
-5. Compile the final source and visually inspect the PDF.
-6. Execute the committed `d=5` builder in a clean environment and record reproducibility output alongside the already re-run `d=4` certificate.
-7. Establish exact finite-field certificates for retained `d=6,7` examples only if they remain in the publication package as independent computational illustrations; they are no longer needed for the all-d existence theorem.
-8. Establish conditioning/noise bounds. Identifiability and numerical stability remain separate claims.
+1. Obtain a clean compiled PDF from the v0.2.1 LaTeX package.
+2. Inspect the LaTeX log for output-affecting warnings/errors.
+3. Visually inspect every PDF page for clipping, overfull equations, broken glyphs, orphan headings, bad references, and bibliography defects.
+4. Repair any C5 source/render defects and rebuild.
+5. After a clean render audit, promote the paper to `PUBLICATION_READY`.
+6. Prepare the article-specific Zenodo metadata/deposit package only after the final rendered version is frozen; do not invent a DOI beforehand.
+7. Establish conditioning/noise/sample-complexity bounds only as a separate later research problem.
 
 ## Longer-range analytical obligations
 
@@ -76,6 +92,7 @@ Do not state without proof that:
 - the structural embedded-rank ceiling is automatically attained by every minimal design;
 - local two-level square faces alone suffice for sharp induction;
 - the sharp face-count theorem implies good conditioning or noise robustness;
+- the sharp Coxeter count is a universal lower bound for arbitrary process tomography or arbitrary Lindbladian-learning protocols;
 - numerical full rank is required for the all-d theorem beyond the exact proof chain;
 - the even-dimensional Clifford implementation can be treated by the simplified odd-dimensional `SL(2,Z_d)` parametrization without the standard central-extension convention;
 - the construction defines physical gauge or spacetime curvature.
@@ -89,4 +106,6 @@ The publication-proof control chain is:
 - `article-I/research/ODD-TO-EVEN-TRANSFER-AUDIT-REPAIR-v0.1.md`;
 - `article-I/research/SHARP-COXETER-PUBLICATION-AUDIT-2026-09-05.md`.
 
-Current audit release status for the theorem package: `REVIEWABLE_DRAFT` pending manuscript/source/bibliography/render consolidation.
+Current release status for the theorem/publication package:
+
+`PUBLICATION_READY_PENDING_RENDER_AUDIT`.
