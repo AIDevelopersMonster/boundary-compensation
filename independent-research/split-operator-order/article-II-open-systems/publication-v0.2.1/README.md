@@ -4,7 +4,8 @@
 **Author:** Malachevsky, A.A.  
 **ORCID:** 0009-0008-6009-3196  
 **Date:** 2026-09-06  
-**Status:** `PUBLICATION_READY`
+**Status:** `PUBLISHED`  
+**Zenodo DOI:** https://doi.org/10.5281/zenodo.22421827
 
 ## Files
 
@@ -64,7 +65,10 @@ PDF preflight:
 
 The log contains only two nonfatal `hyperref` bookmark warnings caused by math shifts in an appendix subsection title. They do not affect page rendering or mathematical content and are classified C6/nonblocking for this release.
 
-## Release gate
+## Publication record
+
+Zenodo DOI: **10.5281/zenodo.22421827**  
+Canonical DOI URL: https://doi.org/10.5281/zenodo.22421827
 
 Mathematical proof audit: complete at the current theorem level.
 
@@ -74,6 +78,4 @@ Author/ORCID/repository metadata: checked.
 
 Source compilation and PDF visual audit: complete.
 
-Article-specific DOI: not assigned; do not invent one before Zenodo deposit.
-
-**Release decision:** `PUBLICATION_READY`.
+**Release decision:** `PUBLISHED`.
