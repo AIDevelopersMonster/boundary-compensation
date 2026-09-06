@@ -13,37 +13,39 @@ This directory is hosted inside the `boundary-compensation` repository only as a
 
 ## Publication sequence
 
-### Article I — frozen scientific core / reviewed publication candidate
+### Article I — published
 
 **Title:** *Split-Interval Representation of Quantum Operator Order: Descent Obstructions, Order Ultrametrics, and Pair-Reduced Holonomy*  
 **Version:** v0.3.1  
-**Status:** `REVIEWED_CLEAN`  
+**DOI:** https://doi.org/10.5281/zenodo.22289201  
 **Languages:** English and Russian mirror versions.
-
-The canonical EN/RU PDF and LaTeX files, parity audit, HTML demonstrator and supplementary ZIP are frozen release assets identified by `article-I/RELEASE-CHECKSUMS.txt`. This Git directory retains the publication manifest and the lightweight reproducibility data/script; the reviewed binary/source release package is intended to be attached to the GitHub release and Zenodo record.
-
-Core results:
-
-1. split-interval descent obstruction;
-2. exact identity `d_desc(A,B) = 1/2 ||[A,B]||`;
-3. commutator-weighted minimax geometry on permutation space;
-4. closed inversion-set formula for unitary tuples;
-5. threshold filtration and exact precedence-reordering criterion;
-6. simultaneous reduced-path optimality for all `l^p` costs;
-7. additive and multiplicative oriented lifts;
-8. exact contextual flatness versus pair-reduced holonomy;
-9. first possible nonzero pair-reduced curvature term at fourth order;
-10. QAOA / Heisenberg-XYZ computational demonstrations.
 
 See [`article-I/`](article-I/).
 
-### Article II — active manuscript seed
+### Article II — published
 
-**Working title:** *Context Reduction in Open Quantum Systems: Multiplicativity Defects, Lindblad Order Curvature, and Partial Operator Context*.
+**Title:** *Context Reduction in Open Quantum Systems: Multiplicativity Defects, Lindblad Order Holonomy, and Sharp Coxeter Tomography*  
+**DOI:** https://doi.org/10.5281/zenodo.22421827
 
-The second article asks what survives when the flat contextual transport of Article I is passed through UCP/CP reductions rather than exact unitary context. The bounded setting already yields a rigorous multiplicativity-defect bound, a multiplicative-domain flatness criterion, a Stinespring defect formula, and a first-order Lindblad reduced-holonomy formula. Infinite-dimensional/domain questions, partial-context hierarchies, monotonicity, and numerical channel examples remain open obligations.
+Article II develops the UCP/CP context-reduction layer and proves the sharp first-order Coxeter face count in its declared finite-dimensional model.
 
 See [`article-II-open-systems/`](article-II-open-systems/).
+
+### Perspective bridge — published
+
+**Title:** *Choosing the Road: From Contextual Flatness to Measurable Context Loss in Open Quantum Systems*  
+**Subtitle:** *A Mathematical-Physics Perspective between Articles I–II and Stable Coxeter Tomography*  
+**DOI:** https://doi.org/10.5281/zenodo.22442536
+
+This perspective separates proved mathematics from physical interpretation and explicit research targets, and sets the next operational problem: stable/robust Coxeter tomography.
+
+See [`perspective-bridge-I/`](perspective-bridge-I/).
+
+### Article III — active research
+
+The active problem is the normalized stability layer for Coxeter tomography: lower frame bounds, smallest singular values, condition numbers, and the possible redundancy gap between algebraic minimality and operational stability.
+
+See [`article-II-open-systems/ARTICLE-III-NORMALIZED-FRAME-FORMULATION-v0.1.md`](article-II-open-systems/ARTICLE-III-NORMALIZED-FRAME-FORMULATION-v0.1.md).
 
 ## Repository layout
 
@@ -53,17 +55,10 @@ split-operator-order/
 ├── AUTHOR-METADATA.md
 ├── ROADMAP.md
 ├── article-I/
-│   ├── README.md
-│   ├── SOURCE-AND-RELEASE-NOTE.md
-│   ├── RELEASE-CHECKSUMS.txt
-│   └── supplementary/
-└── article-II-open-systems/
-    ├── README.md
-    ├── manuscript-seed-en.md
-    ├── manuscript-seed-ru.md
-    └── PROOF-OBLIGATIONS.md
+├── article-II-open-systems/
+└── perspective-bridge-I/
 ```
 
 ## Publication rule
 
-Article I is scientifically frozen except for genuine corrections, metadata, or publication-format changes. New open-system/context-reduction mathematics belongs to Article II rather than being appended to Article I.
+Article I and Article II are frozen except for genuine corrections, errata, metadata, or publication-format changes. New stability/conditioning mathematics belongs to Article III research notes; interpretive extensions belong to the Perspective line unless promoted by new theorems.
