@@ -8,15 +8,15 @@
 ## Rule for future chats
 Read this file first, then the cited control notes. Do not reconstruct the programme from chat memory. After every nontrivial theorem, obstruction, audit repair, manuscript promotion, source-build change, or publication-status change, update this file before continuing.
 
-## Article I
-The published Article-I core is frozen. Post-publication research established the sharp first-order Coxeter tomography theorem. Do not rewrite the frozen Article-I publication core.
+## Article I — published / frozen
+Title: *Split-Interval Representation of Quantum Operator Order: Descent Obstructions, Order Ultrametrics, and Pair-Reduced Holonomy*.
 
 **Zenodo DOI:** `10.5281/zenodo.22289201`.
 
-## Article II — published
-Directory: `article-II-open-systems/`.
+Do not rewrite the frozen Article-I publication core except for genuine errata or metadata corrections.
 
-Publication source package: `article-II-open-systems/publication-v0.2.1/`.
+## Article II — published / frozen
+Directory: `article-II-open-systems/`.
 
 Title: *Context Reduction in Open Quantum Systems: Multiplicativity Defects, Lindblad Order Holonomy, and Sharp Coxeter Tomography*.
 
@@ -24,32 +24,16 @@ Title: *Context Reduction in Open Quantum Systems: Multiplicativity Defects, Lin
 **Canonical URL:** https://doi.org/10.5281/zenodo.22421827  
 **Publication status:** `PUBLISHED`.
 
-The audited publication package contains `main.tex`, `sharp-proof-appendix.tex`, canonical build entrypoint `article.tex`, and release-control `README.md`. Workflow: `.github/workflows/article-ii-publication.yml`.
-
-## Main theorem
-In the bounded finite-dimensional matrix-valued first-order Coxeter-face measurement model,
+Main theorem in the declared bounded finite-dimensional matrix-valued first-order Coxeter-face model:
 
 `L_d^Cox=floor(d^2/2)` for every `d>=3`.
 
-The quotient dimension is `N_d=(d^2-1)^2`; one matrix-valued face supplies at most `2d^2` real coordinates. The theorem is algebraic and does not extrapolate from low-dimensional numerical ranks.
+The quotient dimension is `N_d=(d^2-1)^2`. The result is algebraic and does not extrapolate from low-dimensional numerical ranks.
 
-## Audited proof chain
-1. Structural scalar-one restriction quotient `R_res(d)=(d^2-1)(d+1)^2+2`.
-2. Extension-ready minimal-design criterion and parity ceiling.
-3. Centered odd-dimensional tangent formulas.
-4. Complete one-anchor regular kernel and finite H-anchor compression.
-5. Cycle factorization of compressed dependency determinant `D_n`.
-6. Binder-compatible transversality inside the reverse-cycle-zero subspace.
-7. Exact no-go for the old one-parameter native tilt.
-8. Reverse-cycle transverse detector and finite reconstruction coefficient.
-9. Extension-ready minimal designs in every odd dimension.
-10. Odd-to-even transfer rebuilt directly in centered scalar-one coordinates and directly in `SL_n(C)`.
-11. Return to genuine unitary Coxeter faces by `SU(n)` Zariski density and engineered contextual-square realization.
+Critical proof repairs remain recorded in:
 
-Critical proof repairs remain recorded in `article-I/research/BINDER-COMPATIBLE-TRANSVERSALITY-REPAIR-v0.1.md` and `article-I/research/ODD-TO-EVEN-TRANSFER-AUDIT-REPAIR-v0.1.md`. The invalid post hoc determinant normalization is withdrawn and is not used in the publication source.
-
-## d=2 boundary
-No two-face design is extension-ready under scalar-one embedding `M_2 -> M_3`. This does not prove native two-face tomography impossible. The sharp theorem is intentionally `d>=3`.
+- `article-I/research/BINDER-COMPATIBLE-TRANSVERSALITY-REPAIR-v0.1.md`;
+- `article-I/research/ODD-TO-EVEN-TRANSFER-AUDIT-REPAIR-v0.1.md`.
 
 ## Perspective bridge — published
 Directory: `perspective-bridge-I/`.
@@ -62,28 +46,29 @@ Subtitle: *A Mathematical-Physics Perspective between Articles I–II and Stable
 **Canonical URL:** https://doi.org/10.5281/zenodo.22442536  
 **Publication status:** `PUBLISHED`.
 
-The post-audit Perspective separates proved mathematics, supported interpretation, and explicit research targets. Its long-range programme remains interrogative:
+Long-range programme remains interrogative:
 
 `context loss -> stable loop observables -> environmental information -> effective geometry?`
 
 Do not promote the question mark into a physical-curvature claim.
 
 ## Article III — active research
-The strict next problem is stable/robust Coxeter tomography.
+The active front is stable/robust Coxeter tomography.
 
 Primary control notes:
 
-- `article-II-open-systems/ARTICLE-III-NORMALIZED-FRAME-FORMULATION-v0.1.md` — normalized Hilbert/frame formulation;
-- `article-II-open-systems/ARTICLE-III-FIRST-CONDITIONING-EXPERIMENT-v0.1.md` — first real singular-value experiment.
+- `article-II-open-systems/ARTICLE-III-NORMALIZED-FRAME-FORMULATION-v0.1.md`;
+- `article-II-open-systems/ARTICLE-III-FIRST-CONDITIONING-EXPERIMENT-v0.1.md`;
+- `article-II-open-systems/ARTICLE-III-GRAM-SPECTRUM-THEOREM-v0.1.md`.
 
 ### Normalized frame layer
-Let `Q_d` be the dissipative quotient with real dimension `(d^2-1)^2`. For a design `D`, the normalized measurement operator is
+For a design `D`, the normalized first-order measurement operator is
 
 `M_D: Q_d -> direct_sum_f M_d`,
 
 with averaged normalized Hilbert-Schmidt output metric. The frame operator is
 
-`S_D = M_D^* M_D = (1/L) sum_f C_f^* C_f`.
+`S_D=(1/L) sum_f C_f^* C_f`.
 
 Define
 
@@ -97,91 +82,130 @@ Proved invariances:
 
 - orthonormal coordinate invariance;
 - unitary conjugation invariance;
-- exact replication invariance `S_{rD}=S_D`;
+- replication invariance `S_{rD}=S_D`;
 - `A_D>0` iff `M_D` is injective iff rank is `(d^2-1)^2`.
 
-Thus Article II solved the binary wall `A_D=0` versus `A_D>0`; Article III studies the size and scaling of `A_D` and `kappa`.
+Thus Article II solved only the binary wall `A_D=0` versus `A_D>0`; Article III studies quantitative stable injectivity.
 
 ### First conditioning experiment
-The Article-II real/complex builders were reconstructed rather than reading metric information from modular certificates.
-
-For an orthonormal traceless-Hermitian basis and Hermitian Kossakowski coordinates, the induced domain Gram form was numerically identified as
-
-`G_d(C,D)=Tr(CD)+Tr(C)Tr(D)+(1/2) tau(K_C^0 K_D^0)`.
-
-Its spectrum was found to machine precision for `d=2,3,4,5` as
-
-`spec(G_d)={1,d^2/2,d^2}`
-
-with multiplicities
-
-`d^4-3d^2+1`, `d^2-1`, `1`.
-
-This is now the next analytic theorem target; it is numerical evidence until proved.
-
-Baseline normalized conditioning data:
+Baseline normalized conditioning:
 
 - `d=3`, four-face Article-II design: `sigma_min≈0.1217388`, `kappa≈37.78097`, `A≈0.0148203`;
 - `d=4`, eight-face Article-II design: `sigma_min≈0.05355124`, `kappa≈81.25384`, `A≈0.00286774`;
 - `d=5`, twelve-square Article-II design: `sigma_min≈0.03978665`, `kappa≈121.74003`, `A≈0.00158298`.
 
-No asymptotic conclusion is licensed from three points.
+No asymptotic theorem follows from these three points.
 
 Inside a fixed 72-face Coxeter pool:
 
-- `d=3`: local/random sharp redesign improved `kappa` from about `37.78` to about `21.52` in the best sampled four-face design;
-- `d=4`: one sharp face exchange improved `kappa` from about `81.25` to about `56.45`.
+- `d=3`: sampled sharp redesign improved `kappa` from about `37.78` to about `21.52`;
+- `d=4`: one sharp exchange improved `kappa` from about `81.25` to about `56.45`.
 
-Hence the Article-II rank witnesses are not conditioning-optimal even at small dimension.
+Genuine oversampling with averaged output normalization produced strong preliminary improvement:
 
-Genuine geometric oversampling, with averaged output normalization so duplication gives no gain, produced strong preliminary improvements:
+- `d=3`: `L=4`, `A≈0.03585`, `kappa≈26.16` -> `L=7`, `A≈0.33024`, `kappa≈7.37`;
+- `d=4`: `L=8`, `A≈0.005592`, `kappa≈56.45` -> `L=11`, `A≈0.031720`, `kappa≈23.99`.
 
-- `d=3`: from `L=4`, `A≈0.03585`, `kappa≈26.16`, to `L=7`, `A≈0.33024`, `kappa≈7.37`;
-- `d=4`: from `L=8`, `A≈0.005592`, `kappa≈56.45`, to `L=11`, `A≈0.031720`, `kappa≈23.99`.
+This is numerical evidence for a possible robustness/redundancy gap, not a theorem.
 
-This is first numerical evidence for a possible robustness/redundancy gap, not a theorem.
+## New theorem checkpoint — exact Kossakowski Gram spectrum
+Commit: `0f795d766c04b9c9440f9e40d5762ecb96cebbee`.
 
-### Immediate next hit
-Prove the exact Gram-spectrum theorem
+The numerical Gram-spectrum pattern is now proved for every `d>=2`.
 
-`spec(G_d)={1,d^2/2,d^2}`
+Let `q=d^2-1`, let `F_a` be any Hermitian traceless basis orthonormal for `tau(XY)=Tr(XY)/d`, and let `C in Herm(q)` parametrize the canonical dissipative Kossakowski section. Define
+
+`K_C=sum_ab C_ab F_a F_b`,
+
+`T(C)=K_C-Tr(C) I`.
+
+The induced quotient Gram form is exactly
+
+`G_d(C,D)=Tr(CD)+Tr(C)Tr(D)+(1/2) tau(T(C)T(D))`.
+
+The Kossakowski section is exactly orthogonal to the Hamiltonian derivation sector in the normalized superoperator Hilbert geometry; no further numerical quotient projection is needed.
+
+The key multiplication-map identity is
+
+`T T^* = (d^2-2) I`
+
+on traceless Hermitian matrices.
+
+Hence `Herm(q)` splits orthogonally into:
+
+- scalar sector `S_d = R I_q`, dimension `1`;
+- canonical adjoint sector `A_d=im T^*`, dimension `d^2-1`;
+- residual sector `R_d=ker T intersect {Tr C=0}`, dimension `d^4-3d^2+1`.
+
+On these sectors the Gram operator has eigenvalues
+
+`1`, `d^2/2`, `d^2`, respectively. Therefore
+
+`spec(G_d)={1, d^2/2, d^2}`
 
 with multiplicities
 
-`d^4-3d^2+1`, `d^2-1`, `1`,
+`d^4-3d^2+1`, `d^2-1`, `1`.
 
-preferably by decomposing `Herm(su(d))` under the adjoint `SU(d)` action and identifying the scalar, adjoint, and orthogonal sectors of `C -> K_C^0`.
+This is now theorem-level, not numerical evidence.
 
-After this proof, construct dimension-scalable normalized face pools and test whether sharp designs admit polynomial conditioning or whether a provable redundancy barrier appears.
+Exact projectors:
+
+`P_s(C)=Tr(C)/(d^2-1) I`,
+
+`P_a=(d^2-2)^(-1) T^* T`,
+
+`P_r=I-P_s-P_a`.
+
+Closed-form whitening:
+
+`G_d^(-1/2)=P_r+(sqrt(2)/d) P_a+(1/d) P_s`.
+
+Thus all future conditioning experiments can avoid numerical diagonalization of the domain Gram matrix.
+
+The raw Kossakowski-coordinate distortion is exactly `d` in norm, so any worse scaling after exact whitening belongs to the measurement design rather than to unresolved domain-coordinate geometry.
+
+### Immediate next hit
+The domain-normalization barrier is closed. The next strict problem is measurement-side:
+
+`after exact whitening, what lower frame bounds are achievable by sharp and oversampled Coxeter designs?`
+
+Priority sequence:
+
+1. replace numerical Gram eigendecomposition in all small-d scripts by the exact projector whitening formula;
+2. re-run d=3,4,5 regression and verify agreement with previous normalized spectra;
+3. construct dimension-scalable unitary face pools;
+4. test whether best sharp `kappa_d` is polynomially bounded;
+5. if not, seek a theorem-level redundancy barrier / lower bound for `L_d^rob(epsilon)`.
+
+The independent face-resource normalization question remains open for comparisons across different loop lengths/control costs. Equal-face weighting is mathematically defined for the present fixed finite pools, but is not yet claimed to be the unique physical resource model.
 
 ## Claim firewall
-Do not inflate the current results into finite-time arbitrary UCP-channel identifiability, universal CP-reduction monotonicity, entropy/decoherence monotones, infinite-dimensional unbounded GKSL results, established physical spacetime/gauge curvature, process-tensor results, asymptotic conditioning theorems, or experimental/sample-complexity optimality.
+Do not inflate current results into:
+
+- finite-time arbitrary UCP-channel identifiability;
+- universal CP-reduction monotonicity;
+- entropy/decoherence monotones;
+- infinite-dimensional unbounded GKSL results;
+- established spacetime/gauge curvature;
+- process-tensor/non-Markovian results;
+- asymptotic conditioning theorems;
+- statistical/sample-complexity optimality;
+- experimentally canonical loop-cost normalization.
 
 ## Reproducibility
-The `d=5` builder was independently re-executed during Article-II consolidation:
+Article-II exact rank certificate remains:
 
 `prime=1000033 shape=600x576 rank=576`
 
 `CERTIFIED_FULL_COLUMN_RANK_OVER_Q`.
 
-The new Article-III metric experiments reconstruct the real/complex matrices and explicitly do not infer singular values from finite-field residues.
+Metric claims must come from real/complex normalized operators, never from finite-field residues.
 
-## Publication audit
-Successful audited Article-II workflow run: `33995974451` at head `26b2e9488b823b225f0c8312e78cb8c6c431c3e5`.
-
-Artifact:
-- `article-II-v0.2.1-pdf`;
-- id `9978084171`;
-- SHA-256 `d474fa8cc1ab94aa7bf6a184d647fb2536597780ebbfbc693b4456aafc4c7488`.
-
-PDF audit: 16 pages, PDF 1.5, text-based, unencrypted; no visible publication blocker.
-
-## Current branch status
-Published sequence is now:
-
+## Current sequence
 1. Article I — DOI `10.5281/zenodo.22289201`;
 2. Article II — DOI `10.5281/zenodo.22421827`;
 3. Perspective bridge — DOI `10.5281/zenodo.22442536`;
-4. Article III — active normalized stability/conditioning research.
+4. Article III — active stability/conditioning research; exact domain Gram-spectrum theorem proved.
 
-Do not reopen Article-I/II theorem existence unless a concrete defect is found. The active mathematical front is Article III.
+Do not reopen Article-I/II theorem existence unless a concrete defect is found. The active mathematical front is Article III measurement-side stability and redundancy.
