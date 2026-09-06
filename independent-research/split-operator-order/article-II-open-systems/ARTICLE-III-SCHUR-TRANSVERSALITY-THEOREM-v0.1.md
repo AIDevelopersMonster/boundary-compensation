@@ -1,0 +1,472 @@
+# Article III — Schur Transversality for Robust Support-Frame Extension
+
+**Author:** Malachevsky, A.A. / Малачевский А.А.  
+**ORCID:** 0009-0008-6009-3196  
+**Date:** 2026-09-06  
+**Status:** `PROVED / EXACT EXTENSION CRITERION / ROBUSTNESS BOTTLENECK IDENTIFIED`
+
+## 0. Purpose
+
+The polar support-frame census shows that rank completion and stable completion are different events. A new face may kill the final algebraic kernel while producing a very small lower frame bound.
+
+This note gives an exact finite-dimensional criterion for when a new normalized support operator removes the current blind subspace, and it isolates the quantitative obstruction in a Schur complement.
+
+The result is abstract Hilbert-space linear algebra. Its Coxeter significance comes from applying it to the successive normalized support projectors of Article III.
+
+---
+
+## 1. Setup
+
+Let \(\mathcal H\) be a finite-dimensional real Hilbert space and let
+
+\[
+A\ge0
+\]
+
+be the accumulated unaveraged frame operator of an existing design.
+
+Let
+
+\[
+K=\ker A,
+\qquad
+K^\perp=\overline{\operatorname{ran}A}.
+\]
+
+Because the space is finite-dimensional,
+
+\[
+\mathcal H=K\oplus K^\perp.
+\]
+
+Write the restriction
+
+\[
+A_+=A|_{K^\perp}>0.
+\]
+
+Let \(R\ge0\) be the positive operator contributed by one new face. In Article III's polar support normalization,
+
+\[
+R=\frac{P_f}{r_f},
+\]
+
+where \(P_f\) is the support projector of the face and \(r_f=\operatorname{rank}P_f\).
+
+Relative to \(K\oplus K^\perp\), write
+
+\[
+R=
+\begin{pmatrix}
+R_{00} & R_{01}\\
+R_{10} & R_{11}
+\end{pmatrix}.
+\tag{1.1}
+\]
+
+Then
+
+\[
+A+R
+=
+\begin{pmatrix}
+R_{00} & R_{01}\\
+R_{10} & A_++R_{11}
+\end{pmatrix}.
+\tag{1.2}
+\]
+
+Set
+
+\[
+D=A_++R_{11}.
+\tag{1.3}
+\]
+
+Since \(A_+>0\) and \(R_{11}\ge0\), one has
+
+\[
+D>0.
+\]
+
+---
+
+## 2. Effective transversality operator
+
+Define the Schur transversality operator on the current blind space \(K\) by
+
+\[
+\boxed{
+\Sigma_A(R)
+=
+R_{00}-R_{01}D^{-1}R_{10}.
+}
+\tag{2.1}
+\]
+
+The first term \(R_{00}\) is the raw action of the new face on the current kernel. The second term subtracts the part that can leak into already measured directions and return through the weakly conditioned complement.
+
+Thus \(\Sigma_A(R)\) is the **effective**, not merely raw, transversal action of the new face on the current blind sector.
+
+---
+
+## 3. Exact Schur-complement factorization
+
+### Theorem 3.1 — exact extension factorization
+
+With the notation above,
+
+\[
+\boxed{
+A+R
+=
+L
+\begin{pmatrix}
+\Sigma_A(R) & 0\\
+0 & D
+\end{pmatrix}
+L^*,
+}
+\tag{3.1}
+\]
+
+where
+
+\[
+L=
+\begin{pmatrix}
+I_K & R_{01}D^{-1}\\
+0 & I_{K^\perp}
+\end{pmatrix}.
+\tag{3.2}
+\]
+
+#### Proof
+
+Multiply the right-hand side. First,
+
+\[
+L
+\begin{pmatrix}
+\Sigma & 0\\
+0 & D
+\end{pmatrix}
+=
+\begin{pmatrix}
+\Sigma & R_{01}\\
+0 & D
+\end{pmatrix}.
+\]
+
+Since
+
+\[
+L^*=
+\begin{pmatrix}
+I_K & 0\\
+D^{-1}R_{10} & I_{K^\perp}
+\end{pmatrix},
+\]
+
+the product is
+
+\[
+\begin{pmatrix}
+\Sigma+R_{01}D^{-1}R_{10} & R_{01}\\
+R_{10} & D
+\end{pmatrix}.
+\]
+
+By definition (2.1), the upper-left block is \(R_{00}\), while \(D=A_++R_{11}\). This is exactly (1.2). \(\square\)
+
+---
+
+## 4. Algebraic completion criterion
+
+### Corollary 4.1 — exact kernel-killing criterion
+
+\[
+\boxed{
+A+R>0
+\iff
+\Sigma_A(R)>0\text{ on }K.
+}
+\tag{4.1}
+\]
+
+#### Proof
+
+The triangular operator \(L\) is invertible and \(D>0\). By the congruence factorization (3.1), \(A+R\) is positive definite exactly when both diagonal blocks are positive definite. Since \(D>0\) automatically, the only condition is \(\Sigma_A(R)>0\). \(\square\)
+
+This criterion is stronger than checking only
+
+\[
+R_{00}>0.
+\]
+
+Raw coverage of the current kernel is necessary but not, by itself, the correct quantitative robustness statistic.
+
+---
+
+## 5. Quantitative lower-frame bound
+
+Define
+
+\[
+\theta_A(R)=\lambda_{\min}(\Sigma_A(R)),
+\tag{5.1}
+\]
+
+and
+
+\[
+\gamma_A(R)=\lambda_{\min}(D).
+\tag{5.2}
+\]
+
+Let
+
+\[
+\chi_A(R)=\|L^{-1}\|^2.
+\tag{5.3}
+\]
+
+### Theorem 5.1 — Schur lower bound
+
+If \(\theta_A(R)>0\), then
+
+\[
+\boxed{
+\lambda_{\min}(A+R)
+\ge
+\frac{\min\{\theta_A(R),\gamma_A(R)\}}
+{\chi_A(R)}.
+}
+\tag{5.4}
+\]
+
+#### Proof
+
+Let
+
+\[
+B=\operatorname{diag}(\Sigma_A(R),D).
+\]
+
+Then by (3.1),
+
+\[
+A+R=LBL^*.
+\]
+
+For every unit vector \(x\),
+
+\[
+\langle x,(A+R)x\rangle
+=
+\langle L^*x,B L^*x\rangle
+\ge
+\lambda_{\min}(B)\|L^*x\|^2.
+\]
+
+Since
+
+\[
+\|L^*x\|\ge \sigma_{\min}(L)\|x\|
+=\|L^{-1}\|^{-1},
+\]
+
+we obtain (5.4). \(\square\)
+
+For an averaged design with \(j+1\) faces, the frame operator is
+
+\[
+S_{j+1}=\frac{A+R}{j+1},
+\]
+
+so
+
+\[
+\boxed{
+\lambda_{\min}(S_{j+1})
+\ge
+\frac1{j+1}
+\frac{\min\{\theta_A(R),\gamma_A(R)\}}
+{\chi_A(R)}.
+}
+\tag{5.5}
+\]
+
+---
+
+## 6. Raw kernel coverage versus effective transversality
+
+For a polar support face
+
+\[
+R=P/r,
+\]
+
+the raw kernel block is
+
+\[
+R_{00}=\frac1r P_K P P_K|_K.
+\tag{6.1}
+\]
+
+Hence the raw coverage coefficient is
+
+\[
+\alpha_A(P)
+=
+\lambda_{\min}(P_KPP_K|_K).
+\tag{6.2}
+\]
+
+If \(K\) is one-dimensional, generated by a unit vector \(v\), then
+
+\[
+\alpha_A(P)=\|Pv\|^2.
+\tag{6.3}
+\]
+
+But the effective coefficient is
+
+\[
+\theta_A(P/r)
+=
+\lambda_{\min}
+\left[
+\frac1rP_KPP_K
+-
+R_{01}(A_++R_{11})^{-1}R_{10}
+\right].
+\tag{6.4}
+\]
+
+Therefore a face can have substantial raw overlap with the last blind direction while still producing a much smaller stable completion because of coupling to weakly measured directions in \(K^\perp\).
+
+This is the precise algebraic mechanism behind the new numerical wall.
+
+---
+
+## 7. Relation to the kernel profile
+
+For a sequence of normalized support faces \(R_1,\ldots,R_L\), define
+
+\[
+A_j=\sum_{k=1}^jR_k,
+\qquad
+K_j=\ker A_j.
+\tag{7.1}
+\]
+
+Since every \(R_k\ge0\),
+
+\[
+\boxed{
+K_j
+=
+\bigcap_{k=1}^j\ker R_k
+=
+\bigcap_{k=1}^j\ker C_{f_k}.
+}
+\tag{7.2}
+\]
+
+Thus the sequence
+
+\[
+\dim K_1\ge\dim K_2\ge\cdots\ge\dim K_L
+\tag{7.3}
+\]
+
+is exactly the algebraic blind-subspace profile.
+
+Rank tomography records only whether
+
+\[
+K_L=\{0\}.
+\]
+
+Stable tomography requires, in addition, quantitative control of the Schur transversality coefficients when each blind sector is removed.
+
+This gives the refined hierarchy
+
+\[
+\boxed{
+\text{rank completion}
+\to
+\text{kernel transversality}
+\to
+\text{spectral conditioning}.
+}
+\tag{7.4}
+\]
+
+---
+
+## 8. Article-III consequence
+
+The correct local robustness datum for adding a face is not merely its rank and not merely its principal angle to the current kernel.
+
+It is the triple
+
+\[
+\boxed{
+\left(
+\theta_A(R),
+\gamma_A(R),
+\chi_A(R)
+\right),
+}
+\tag{8.1}
+\]
+
+where:
+
+- \(\theta_A(R)\) measures effective transversal killing of the current blind sector;
+- \(\gamma_A(R)\) measures the weakest already-observed direction after including the new face's complement block;
+- \(\chi_A(R)\) measures coupling distortion between the blind and observed sectors.
+
+A dimension-scalable robust Coxeter construction should therefore control these quantities along an extension sequence, not merely certify final full rank.
+
+---
+
+## 9. New theorem target
+
+A sufficient route to a polynomially stable design is now explicit.
+
+If one can construct a sharp or mildly oversampled face ordering such that for every kernel-killing step
+
+\[
+\theta_{A_j}(R_{j+1})\ge d^{-O(1)},
+\]
+
+\[
+\gamma_{A_j}(R_{j+1})\ge d^{-O(1)},
+\]
+
+and
+
+\[
+\chi_{A_j}(R_{j+1})\le d^{O(1)},
+\]
+
+then the corresponding lower frame bounds remain polynomially controlled.
+
+Conversely, a proof that every sharp Coxeter extension sequence contains a step with superpolynomially small effective transversality would establish a genuine stable-minimality obstruction.
+
+This is now the strongest structural formulation of the Article-III barrier.
+
+---
+
+## 10. Claim firewall
+
+The theorem is exact finite-dimensional linear algebra, but no asymptotic Coxeter bound has yet been proved. In particular this note does not prove:
+
+- that sharp Coxeter designs necessarily contain exponentially small Schur transversality;
+- that oversampling always repairs such a bottleneck;
+- optimality of any ordering of a fixed design;
+- physical noise/sample-complexity bounds;
+- a non-Markovian or process-tensor extension.
